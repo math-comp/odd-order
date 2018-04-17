@@ -7,7 +7,7 @@ From mathcomp
 Require Import finset prime fingroup automorphism action gproduct gfunctor.
 From mathcomp
 Require Import center commutator pgroup gseries nilpotent sylow abelian maximal.
-From mathcomp
+From odd_order
 Require Import BGsection1 BGsection5 BGsection6 BGsection7.
 
 (******************************************************************************)

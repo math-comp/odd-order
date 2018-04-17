@@ -12,7 +12,9 @@ Require Import center commutator zmodp cyclic pgroup nilpotent hall frobenius.
 From mathcomp
 Require Import matrix mxalgebra mxrepresentation vector ssrnum algC classfun.
 From mathcomp
-Require Import character inertia vcharacter PFsection1 PFsection2 PFsection3.
+Require Import character inertia vcharacter.
+From odd_order
+Require Import PFsection1 PFsection2 PFsection3.
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 4: The Dade isometry of a certain     *)

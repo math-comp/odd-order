@@ -11,7 +11,7 @@ From mathcomp
 Require Import sylow gseries nilpotent abelian maximal.
 From mathcomp
 Require Import matrix mxalgebra mxrepresentation mxabelem.
-From mathcomp
+From odd_order
 Require Import BGsection1 BGsection2.
 
 (******************************************************************************)

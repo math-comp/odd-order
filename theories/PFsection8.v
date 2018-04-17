@@ -13,15 +13,15 @@ From mathcomp
 Require Import sylow hall abelian maximal frobenius.
 From mathcomp
 Require Import matrix mxalgebra mxrepresentation vector.
-From mathcomp
+From odd_order
 Require Import BGsection1 BGsection3 BGsection7 BGsection10.
-From mathcomp
+From odd_order
 Require Import BGsection14 BGsection15 BGsection16.
 From mathcomp
 Require ssrnum.
 From mathcomp
 Require Import algC classfun character inertia vcharacter.
-From mathcomp
+From odd_order
 Require Import PFsection1 PFsection2 PFsection3 PFsection4 PFsection5.
 
 (******************************************************************************)

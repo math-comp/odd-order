@@ -15,7 +15,7 @@ From mathcomp
 Require Import ssrnum rat algC algnum classfun character.
 From mathcomp
 Require Import integral_char inertia vcharacter.
-From mathcomp
+From odd_order
 Require Import PFsection1 PFsection2.
 
 (******************************************************************************)

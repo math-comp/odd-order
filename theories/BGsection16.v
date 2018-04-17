@@ -9,11 +9,11 @@ From mathcomp
 Require Import action gproduct gfunctor pgroup cyclic center commutator.
 From mathcomp
 Require Import gseries nilpotent sylow abelian maximal hall frobenius.
-From mathcomp
+From odd_order
 Require Import BGsection1 BGsection2 BGsection3 BGsection4 BGsection5.
-From mathcomp
+From odd_order
 Require Import BGsection6 BGsection7 BGsection9 BGsection10 BGsection12.
-From mathcomp
+From odd_order
 Require Import BGsection13 BGsection14 BGsection15.
 
 (******************************************************************************)

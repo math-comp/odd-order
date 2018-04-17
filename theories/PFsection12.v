@@ -15,19 +15,19 @@ From mathcomp
 Require Import matrix mxalgebra mxpoly mxrepresentation mxabelem vector.
 From mathcomp
 Require Import falgebra fieldext finfield.
-From mathcomp
+From odd_order
 Require Import BGsection1 BGsection2 BGsection3 BGsection4 BGsection7.
-From mathcomp
+From odd_order
 Require Import BGsection14 BGsection15 BGsection16.
 From mathcomp
 Require Import ssrnum ssrint algC cyclotomic algnum.
 From mathcomp
 Require Import classfun character inertia vcharacter.
-From mathcomp
+From odd_order
 Require Import PFsection1 PFsection2 PFsection3 PFsection4 PFsection5.
-From mathcomp
+From odd_order
 Require Import PFsection6 PFsection7 PFsection8 PFsection9 PFsection10.
-From mathcomp
+From odd_order
 Require Import PFsection11.
 
 Set Implicit Arguments.

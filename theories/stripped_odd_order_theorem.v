@@ -5,7 +5,7 @@ From mathcomp
 Require ssrbool ssrfun eqtype ssrnat fintype finset fingroup.
 From mathcomp
 Require morphism quotient action gfunctor gproduct commutator gseries nilpotent.
-From mathcomp
+From odd_order
 Require PFsection14.
 
 (******************************************************************************)

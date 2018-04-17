@@ -9,9 +9,9 @@ From mathcomp
 Require Import gproduct gfunctor pgroup center commutator gseries nilpotent.
 From mathcomp
 Require Import sylow abelian maximal hall.
-From mathcomp
+From odd_order
 Require Import BGsection1 BGsection4 BGsection5 BGsection6.
-From mathcomp
+From odd_order
 Require Import BGsection7 BGsection8.
 
 (******************************************************************************)

@@ -11,9 +11,9 @@ From mathcomp
 Require Import gseries nilpotent sylow abelian maximal hall frobenius.
 From mathcomp
 Require Import ssralg ssrnum ssrint rat.
-From mathcomp
+From odd_order
 Require Import BGsection1 BGsection3 BGsection4 BGsection5 BGsection6.
-From mathcomp
+From odd_order
 Require Import BGsection7 BGsection9 BGsection10 BGsection12 BGsection13.
 
 (******************************************************************************)

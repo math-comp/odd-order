@@ -9,7 +9,7 @@ From mathcomp
 Require Import gfunctor cyclic pgroup center commutator gseries nilpotent.
 From mathcomp
 Require Import sylow abelian maximal hall.
-From mathcomp
+From odd_order
 Require Import BGsection1 BGsection6.
 
 (******************************************************************************)

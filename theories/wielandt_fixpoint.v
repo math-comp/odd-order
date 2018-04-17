@@ -12,7 +12,9 @@ Require Import gproduct zmodp cyclic center pgroup gseries nilpotent sylow.
 From mathcomp
 Require Import finalg finmodule abelian frobenius maximal extremal hall.
 From mathcomp
-Require Import matrix mxalgebra mxrepresentation mxabelem BGsection1.
+Require Import matrix mxalgebra mxrepresentation mxabelem.
+From odd_order
+Require Import BGsection1.
 
 (******************************************************************************)
 (*   This file provides the proof of the Wielandt fixpoint order formula,     *)

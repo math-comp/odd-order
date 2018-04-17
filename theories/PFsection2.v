@@ -12,7 +12,9 @@ Require Import gfunctor gproduct cyclic pgroup frobenius ssrnum.
 From mathcomp
 Require Import matrix mxalgebra mxrepresentation vector algC classfun character.
 From mathcomp
-Require Import inertia vcharacter PFsection1.
+Require Import inertia vcharacter.
+From odd_order
+Require Import PFsection1.
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 2: the Dade isometry                  *)

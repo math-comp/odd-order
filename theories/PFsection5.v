@@ -13,7 +13,7 @@ From mathcomp
 Require Import matrix mxalgebra mxrepresentation vector ssrint.
 From mathcomp
 Require Import ssrnum algC classfun character inertia vcharacter.
-From mathcomp
+From odd_order
 Require Import PFsection1 PFsection2 PFsection3 PFsection4.
 
 (******************************************************************************)

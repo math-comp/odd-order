@@ -9,7 +9,7 @@ From mathcomp
 Require Import quotient cyclic gfunctor pgroup gproduct center commutator.
 From mathcomp
 Require Import gseries nilpotent sylow abelian maximal hall.
-From mathcomp
+From odd_order
 Require Import BGsection1 BGsection4.
 
 (******************************************************************************)

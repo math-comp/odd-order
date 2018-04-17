@@ -13,19 +13,19 @@ From mathcomp
 Require Import pgroup sylow hall abelian maximal frobenius.
 From mathcomp
 Require Import matrix mxalgebra mxrepresentation mxabelem vector.
-From mathcomp
+From odd_order
 Require Import BGsection1 BGsection3 BGsection7.
-From mathcomp
+From odd_order
 Require Import BGsection14 BGsection15 BGsection16.
 From mathcomp
 Require Import ssrnum rat algC cyclotomic algnum.
 From mathcomp
 Require Import classfun character integral_char inertia vcharacter.
-From mathcomp
+From odd_order
 Require Import PFsection1 PFsection2 PFsection3 PFsection4.
-From mathcomp
+From odd_order
 Require Import PFsection5 PFsection6 PFsection7 PFsection8 PFsection9.
-From mathcomp
+From odd_order
 Require Import PFsection10 PFsection11 PFsection12.
 
 (******************************************************************************)

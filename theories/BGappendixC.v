@@ -9,7 +9,7 @@ From mathcomp
 Require Import fingroup morphism quotient automorphism action finalg zmodp.
 From mathcomp
 Require Import gfunctor gproduct cyclic commutator pgroup abelian frobenius.
-From mathcomp
+From odd_order
 Require Import BGsection1.
 From mathcomp
 Require Import matrix mxalgebra mxabelem vector falgebra fieldext galois.

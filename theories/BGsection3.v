@@ -12,9 +12,9 @@ Require Import zmodp cyclic gfunctor center pgroup gseries nilpotent sylow.
 From mathcomp
 Require Import finmodule abelian frobenius maximal extremal hall.
 From mathcomp
-Require Import matrix mxalgebra mxrepresentation mxabelem wielandt_fixpoint.
-From mathcomp
-Require Import BGsection1 BGsection2.
+Require Import matrix mxalgebra mxrepresentation mxabelem.
+From odd_order
+Require Import wielandt_fixpoint BGsection1 BGsection2.
 
 (******************************************************************************)
 (*   This file covers the material in B & G, Section 3.                       *)

@@ -15,7 +15,7 @@ From mathcomp
 Require Import matrix mxalgebra mxrepresentation vector ssrnum algC algnum.
 From mathcomp
 Require Import classfun character inertia vcharacter integral_char.
-From mathcomp
+From odd_order
 Require Import PFsection1 PFsection2 PFsection3 PFsection4 PFsection5.
 
 (******************************************************************************)

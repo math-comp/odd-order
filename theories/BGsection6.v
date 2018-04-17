@@ -9,7 +9,7 @@ From mathcomp
 Require Import cyclic center commutator pgroup nilpotent sylow abelian hall.
 From mathcomp
 Require Import maximal.
-From mathcomp
+From odd_order
 Require Import BGsection1 BGappendixAB.
 
 (******************************************************************************)

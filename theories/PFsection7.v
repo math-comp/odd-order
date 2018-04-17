@@ -10,10 +10,12 @@ Require Import fingroup morphism perm automorphism quotient action zmodp.
 From mathcomp
 Require Import gfunctor gproduct cyclic pgroup commutator nilpotent frobenius.
 From mathcomp
-Require Import matrix mxalgebra mxrepresentation BGsection3 vector.
+Require Import matrix mxalgebra mxrepresentation.
+From odd_order
+Require Import BGsection3.
 From mathcomp
-Require Import ssrnum algC classfun character inertia vcharacter.
-From mathcomp
+Require Import vector ssrnum algC classfun character inertia vcharacter.
+From odd_order
 Require Import PFsection1 PFsection2 PFsection4 PFsection5 PFsection6.
 
 (******************************************************************************)
