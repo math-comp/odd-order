@@ -27,7 +27,7 @@ install:
 - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
 - opam config var root
 - opam repo add coq-released http://coq.inria.fr/opam/released
-- opam install -j ${NJOBS} -y coq-mathcomp.${MC_VERSION}
+- opam install -j ${NJOBS} -y coq-math-comp.${MC_VERSION}
 - opam list
 
 script:
