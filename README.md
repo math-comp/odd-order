@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/math-comp/odd_order.svg?branch=master)](https://travis-ci.org/math-comp/odd_order)
+[![Build Status](https://travis-ci.org/math-comp/odd_order.svg?branch=master)](https://travis-ci.org/math-comp/odd-order)
 
 # The Odd Order Theorem
 The repository contains a [mechanization](https://hal.archives-ouvertes.fr/hal-00816699/) of 
