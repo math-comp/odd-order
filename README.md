@@ -3,10 +3,10 @@
 # The Odd Order Theorem
 The repository contains a [mechanization](https://hal.archives-ouvertes.fr/hal-00816699/) of 
 the [Odd Order Theorem](https://en.wikipedia.org/wiki/Feit%E2%80%93Thompson_theorem) (Feit - Thompson, 1963), 
-a landmark result of finite group theory, which utilizes the library extensively.
+a landmark result of finite group theory.
 
 The formal proof is based on the [Mathematical Components](https://github.com/math-comp/math-comp)
-libraries for the Coq proof assistant.
+library for the [Coq](https://coq.inria.fr) proof assistant.
 
 ## Installation
 
