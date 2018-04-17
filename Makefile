@@ -9,10 +9,10 @@ KNOWNFILES   := Makefile _CoqProject
 .DEFAULT_GOAL := invoke-coqmakefile
 
 Makefile.coq: Makefile _CoqProject
- $(COQBIN)coq_makefile -f _CoqProject -o Makefile.coq
+	$(COQBIN)coq_makefile -f _CoqProject -o Makefile.coq
 
 invoke-coqmakefile: Makefile.coq
- $(MAKE) --no-print-directory -f Makefile.coq $(filter-out $(KNOWNTARGETS),$(MAKECMDGOALS))
+	$(MAKE) --no-print-directory -f Makefile.coq $(filter-out $(KNOWNTARGETS),$(MAKECMDGOALS))
 
 .PHONY: invoke-coqmakefile $(KNOWNFILES)
 
@@ -22,4 +22,4 @@ invoke-coqmakefile: Makefile.coq
 
 # This should be the last rule, to handle any targets not declared above
 %: invoke-coqmakefile
- @true
+	@true
