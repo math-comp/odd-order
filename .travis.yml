@@ -36,7 +36,7 @@ jobs:
       - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
       - opam install -j ${NJOBS} -v -y coq-mathcomp-character.${MC_VERSION}
       - opam pin add coq-mathcomp-character ${MC_VERSION}
-    - state: odd-order
+    - stage: odd-order
       script:
       - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
       - make -j ${NJOBS}
