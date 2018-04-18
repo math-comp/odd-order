@@ -22,6 +22,7 @@ env:
 install:
 - mkdir -p ~/opam/
 - opam init -j ${NJOBS} --root=~/opam/${COMPILER}-{$MC_VERSION} --compiler=${COMPILER} -n -y
+- eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
 - opam repo add coq-released http://coq.inria.fr/opam/released
 
 jobs:
