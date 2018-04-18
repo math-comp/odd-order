@@ -17,7 +17,7 @@ env:
   - NJOBS=2
   # system is == 4.02.3
   matrix:
-  - COMPILER="system" MC_VERSION="1.6.4" COQ_VERSION="8.7.2"
+  - COMPILER="system" MC_VERSION="dev" COQ_VERSION="8.7.2"
 
 jobs:
   include:
@@ -28,6 +28,7 @@ jobs:
       - opam init -j ${NJOBS} --root=~/opam/${COMPILER}-{$MC_VERSION} --compiler=${COMPILER} -n -y
       - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
       - opam repo add coq-released http://coq.inria.fr/opam/released
+      - opam repo add coq-released http://coq.inria.fr/opam/extra-dev
     - stage: coq
       script:
       - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
