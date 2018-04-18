@@ -28,7 +28,7 @@ jobs:
       - opam init -j ${NJOBS} --root=~/opam/${COMPILER}-{$MC_VERSION} --compiler=${COMPILER} -n -y
       - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
       - opam repo add coq-released http://coq.inria.fr/opam/released
-      - opam repo add coq-released http://coq.inria.fr/opam/extra-dev
+      - opam repo add coq-extra http://coq.inria.fr/opam/extra-dev
     - stage: coq
       script:
       - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
@@ -38,7 +38,6 @@ jobs:
       script:
       - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
       - opam install -j ${NJOBS} -v -y coq-mathcomp-character.${MC_VERSION}
-      - opam pin add coq-mathcomp-character ${MC_VERSION}
     - stage: odd-order
       script:
       - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
