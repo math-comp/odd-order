@@ -16,20 +16,27 @@ env:
   global:
   - NJOBS=2
   # system is == 4.02.3
-  - COMPILER="system"
-  # Main test targets
   matrix:
-  - MC_VERSION="1.6.4"
+  - COMPILER="system" MC_VERSION="1.6.4" COQ_VERSION="8.7.2"
 
 install:
 - mkdir -p ~/opam/
 - opam init -j ${NJOBS} --root=~/opam/${COMPILER}-{$MC_VERSION} --compiler=${COMPILER} -n -y
-- eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
-- opam config var root
 - opam repo add coq-released http://coq.inria.fr/opam/released
-- opam install -j ${NJOBS} -v -y coq-mathcomp-character.${MC_VERSION}
-- opam list
 
-script:
-- eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
-- make -j ${NJOBS}
+jobs:
+  include:
+    - stage: coq
+      script:
+      - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
+      - opam install coq ${COQ_VERSION}
+      - opam pin add coq ${COQ_VERSION}
+    - stage: math-comp
+      script:
+      - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
+      - opam install -j ${NJOBS} -v -y coq-mathcomp-character.${MC_VERSION}
+      - opam pin add coq-mathcomp-character ${MC_VERSION}
+    - state: odd-order
+      script:
+      - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
+      - make -j ${NJOBS}
