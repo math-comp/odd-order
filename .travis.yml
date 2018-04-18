@@ -30,7 +30,7 @@ jobs:
     - stage: coq
       script:
       - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
-      - opam install coq.${COQ_VERSION}
+      - opam install -j ${NJOBS} -v -y coq.${COQ_VERSION}
       - opam pin add coq ${COQ_VERSION}
     - stage: math-comp
       script:
