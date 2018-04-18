@@ -24,6 +24,7 @@ jobs:
     - stage: opam
       script:
       - mkdir -p ~/opam/
+      - rm -rf ~/opam/${COMPILER}-{$MC_VERSION}
       - opam init -j ${NJOBS} --root=~/opam/${COMPILER}-{$MC_VERSION} --compiler=${COMPILER} -n -y
       - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
       - opam repo add coq-released http://coq.inria.fr/opam/released
