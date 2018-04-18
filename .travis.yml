@@ -19,14 +19,14 @@ env:
   matrix:
   - COMPILER="system" MC_VERSION="1.6.4" COQ_VERSION="8.7.2"
 
-install:
-- mkdir -p ~/opam/
-- opam init -j ${NJOBS} --root=~/opam/${COMPILER}-{$MC_VERSION} --compiler=${COMPILER} -n -y
-- eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
-- opam repo add coq-released http://coq.inria.fr/opam/released
-
 jobs:
   include:
+    - stage: opam
+      script:
+      - mkdir -p ~/opam/
+      - opam init -j ${NJOBS} --root=~/opam/${COMPILER}-{$MC_VERSION} --compiler=${COMPILER} -n -y
+      - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
+      - opam repo add coq-released http://coq.inria.fr/opam/released
     - stage: coq
       script:
       - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env)
