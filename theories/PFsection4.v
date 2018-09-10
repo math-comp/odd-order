@@ -10,7 +10,7 @@ Require Import morphism perm automorphism quotient action gfunctor gproduct.
 From mathcomp
 Require Import center commutator zmodp cyclic pgroup nilpotent hall frobenius.
 From mathcomp
-Require Import matrix mxalgebra mxrepresentation vector ssrnum algC classfun.
+Require Import matrix mxalgebra mxrepresentation vector ssrnum algC forms classfun.
 From mathcomp
 Require Import character inertia vcharacter.
 From odd_order
@@ -75,6 +75,9 @@ Section Four_1_to_2.
 
 Variable gT : finGroupType.
 
+Notation orthonormal := (orthonormal [hermitian of @cfdot _ _]).
+Notation orthonormal_cat := (orthonormal_cat [dot of @cfdot _ _]).
+
 Lemma vchar_pairs_orthonormal (X : {group gT}) (a b c d : 'CF(X)) u v :
     {subset (a :: b) <= 'Z[irr X]} /\ {subset (c :: d) <= 'Z[irr X]} ->
     orthonormal (a :: b) && orthonormal (c :: d) ->
@@ -96,9 +99,9 @@ wlog suff: a b c d u v Za Zb Zc Zd o_ab o_cd r_u r_v nz_u nz_v o_abcd ab1 cd1 /
   have vc_sym (e f : 'CF(X)) : ((e - f) 1%g == 0) = ((f - e) 1%g == 0).
     by rewrite -opprB cfunE oppr_eq0.
   have ab_sym e: ('[b - a, e] == 0) = ('[a - b, e] == 0).
-    by rewrite -opprB cfdotNl oppr_eq0.
+    by rewrite -opprB linearNl oppr_eq0.
   rewrite (IH b a c d u v) // 1?osym2 1?vc_sym ?ab_sym //=.
-  rewrite -oppr_eq0 -cfdotNr opprB in o_abcd.
+  rewrite -oppr_eq0 -linearNr opprB in o_abcd.
   by rewrite (IH a b d c v u) ?(IH b a d c v u) // 1?osym2 1?vc_sym ?ab_sym.
 apply: contraLR cd1 => nz_ac.
 have [/orthonormal2P[ab0 a1 b1] /orthonormal2P[cd0 c1 d1]] := (o_ab, o_cd).
@@ -106,13 +109,13 @@ have [ea [ia def_a]] := vchar_norm1P Za a1.
 have{nz_ac} [e defc]: exists e : bool, c = (-1) ^+ e *: a.
   have [ec [ic def_c]] := vchar_norm1P Zc c1; exists (ec (+) ea).
   move: nz_ac; rewrite def_a def_c scalerA; rewrite -signr_addb addbK.
-  rewrite cfdotZl cfdotZr cfdot_irr mulrA mulrC mulf_eq0.
+  rewrite linearZ /= linearZl_LR /= cfdot_irr mulrA mulrC mulf_eq0.
   by have [-> // | _]:= ia =P ic; rewrite eqxx.
 have def_vbd: v * '[b, d]_X = - ((-1) ^+ e * u).
-  apply/eqP; have:= o_abcd; rewrite cfdotDl cfdotNl !raddfB /=.
-  rewrite defc !cfdotZr a1 (cfdotC b) ab0 rmorph0 mulr1.
+  apply/eqP; have:= o_abcd; rewrite linearDl linearNl !raddfB /=.
+  rewrite defc !linearZ /= a1 (cfdotC b) ab0 rmorph0 mulr1.
   rewrite -[a]scale1r -{2}[1]/((-1) ^+ false) -(addbb e) signr_addb -scalerA.
-  rewrite -defc cfdotZl cd0 !mulr0 opprK addrA !subr0 mulrC addrC addr_eq0.
+  rewrite -defc linearZl_LR /= cd0 ![_ *: _]mulr0 !mulr0 opprK addrA !subr0 mulrC addrC addr_eq0.
   by rewrite rmorph_sign !conj_Creal.
 have nz_bd: '[b, d] != 0.
   move/esym/eqP: def_vbd; apply: contraTneq => ->.
@@ -120,9 +123,9 @@ have nz_bd: '[b, d] != 0.
 have{nz_bd} defd: d = '[b, d] *: b.
   move: nz_bd; have [eb [ib ->]] := vchar_norm1P Zb b1.
   have [ed [id ->]] := vchar_norm1P Zd d1.
-  rewrite scalerA cfdotZl cfdotZr rmorph_sign mulrA cfdot_irr.
+  rewrite scalerA linearZ /= linearZl_LR /=rmorph_sign mulrA cfdot_irr.
   have [-> _ | _] := ib =P id; last by rewrite !mulr0 eqxx.
-  by rewrite mulr1 mulrAC -!signr_addb addbb.
+  by rewrite mulr1 -mulrA -!signr_addb addbb; case:ed.
 rewrite defd scalerA def_vbd scaleNr opprK defc scalerA mulrC -raddfD cfunE.
 rewrite !mulf_neq0 ?signr_eq0 // -(subrK a b) -opprB addrCA 2!cfunE.
 rewrite (eqP ab1) oppr0 add0r cfunE -mulr2n -mulr_natl mulf_eq0 pnatr_eq0.
@@ -306,7 +309,8 @@ have /fin_all_exists2[dmu injl_mu Ddmu] j:
     move/(zchar_subset irrSj)/(zchar_onS (setDS W (sub1G W2))).
     by rewrite !zcharD1E cfInd1 // mulf_eq0 orbC => /andP[/cfInd_vchar-> // ->].
   case/vchar_isometry_base=> // [|||i|mu Umu [d Ddmu]]; first by rewrite NirrW1.
-  + rewrite orthonormal_free // (sub_orthonormal irrSj) ?irr_orthonormal //.
+  + rewrite (@orthonormal_free _ _ [dot of @cfdot _ _]) // (sub_orthonormal irrSj) 
+    ?irr_orthonormal //.
     by apply/injectiveP=> i1 i2 /irr_inj/dprod_Iirr_inj[].
   + by move=> _ /mapP[i _ ->]; rewrite Sj0 !lin_char1.
   + by rewrite nth_mktuple Sj0 V2ew.
@@ -323,19 +327,20 @@ have{injl_mu} inj_Imu: injective Imu.
   have [-> /injl_mu-> // | j2'1 /eqP/negPf[] /=] := eqVneq j1 j2.
   apply/(can_inj oddb)/eqP; rewrite -eqC_nat -cfdot_irr -!/(mu _ _) mulr0n.
   have oIew_j12 i k: '['Ind[L] (ew_ i j1), 'Ind[L] (ew_ k j2)] = 0.
-    by rewrite isoV2 // cfdotBl !cfdotBr !cfdot_w (negPf j2'1) !andbF !subr0.
+    by rewrite isoV2 // linearBl !linearBr /= !cfdot_w (negPf j2'1) !andbF !subr0.
   have defSd i j k: mu i j - mu k j = d j *: ('Ind (ew_ i j) - 'Ind (ew_ k j)).
     by rewrite !Ddmu -scalerBr signrZK opprB addrA subrK.
   have Sd1 i j k: (mu i j - mu k j) 1%g == 0.
     by rewrite defSd !(cfunE, cfInd1) ?lin_char1 // !subrr mulr0.
-  have exS i j: {k | {subset S i j k <= 'Z[irr L]} & orthonormal (S i j k)}.
+  have exS i j: {k | {subset S i j k <= 'Z[irr L]} & orthonormal [dot of @cfdot _ _]  (S i j k)}.
     have:= w1gt1; rewrite -nirrW1 (cardD1 i) => /card_gt0P/sigW[k /andP[i'k _]].
     exists k; first by apply/allP; rewrite /= !irr_vchar.
     apply/andP; rewrite /= !cfdot_irr !eqxx !andbT /=.
     by rewrite (inj_eq (injl_mu j)) mulrb ifN_eqC.
   have [[k1 ZS1 o1S1] [k2 ZS2 o1S2]] := (exS i1 j1, exS i2 j2).
   rewrite (orthonormal_vchar_diff_ortho (conj ZS1 ZS2)) ?o1S1 ?Sd1 ?andbT //.
-  by rewrite !defSd cfdotZl cfdotZr cfdotBl !cfdotBr !oIew_j12 !subrr !mulr0.
+  by rewrite !defSd linearZ /= linearZl_LR /= linearBl /= !linearBr /= !oIew_j12 !subrr 
+   [_ *: _]mulr0 mulr0.
 pose V2base := [tuple of [seq ew_ ij.1 ij.2 | ij in predX (predC1 0) predT]].
 have V2basis: basis_of 'CF(W, W :\: W2) V2base.
   suffices V2free: free V2base.
@@ -345,20 +350,21 @@ have V2basis: basis_of 'CF(W, W :\: W2) V2base.
     by apply/span_subvP=> _ /mapP[ij _ ->].
   apply/freeP=> /= z zV2e0 k.
   move Dk: (enum_val k) (enum_valP k) => [i j] /andP[/= nz_i _].
-  rewrite -(cfdot0l (w_ i j)) -{}zV2e0 cfdot_suml (bigD1 k) //= cfdotZl.
-  rewrite nth_image Dk cfdotBl !cfdot_w !eqxx eq_sym (negPf nz_i) subr0 mulr1.
+have -> : 0 = '[0,(w_ i j)] by rewrite linear0l.
+  rewrite -{}zV2e0 linear_suml (bigD1 k) //= linearZl_LR /=.
+  rewrite nth_image Dk linearBl /= !cfdot_w !eqxx eq_sym (negPf nz_i) subr0 [_ *: _]mulr1.
   rewrite big1 ?addr0 // => k1; rewrite -(inj_eq enum_val_inj) {}Dk nth_image.
   case: (enum_val k1) => /= i1 j1 ij'ij1.
-  rewrite cfdotZl cfdotBl !cfdot_dprod_irr [_ && _](negPf ij'ij1).
-  by rewrite eq_sym (negPf nz_i) subr0 mulr0.
+  rewrite linearZl_LR /= linearBl /=  !cfdot_dprod_irr [_ && _](negPf ij'ij1).
+  by rewrite eq_sym (negPf nz_i) subr0 [_ *: _]mulr0.
 have nsV2W: W :\: W2 <| W by rewrite -sub_abelian_normal ?subsetDl.
 pose muW k := let: ij := inv_dprod_Iirr defW k in d ij.2 *: mu ij.1 ij.2.
 have inW := codomP (dprod_Iirr_onto defW _).
 have ImuW k1 k2: '[muW k1, muW k2] = (k1 == k2)%:R.
   have [[[i1 j1] -> {k1}] [[i2 j2] -> {k2}]] := (inW k1, inW k2).
-  rewrite cfdotZl cfdotZr !dprod_IirrK (can_eq (dprod_IirrK _)) /= rmorph_sign.
+  rewrite linearZ /= linearZl_LR /=  !dprod_IirrK (can_eq (dprod_IirrK _)) /= rmorph_sign.
   rewrite cfdot_irr (inj_eq inj_Imu (_, _) (_, _)) -/(d _).
-  by case: eqP => [[_ ->] | _]; rewrite ?signrMK ?mulr0.
+  by case: eqP => [[_ ->] | _]; rewrite ?signrMK ?[_ *:_]mulr0 ?mulr0.
 have [k|muV2 mu'V2] := equiv_restrict_compl_ortho sWL nsV2W V2basis ImuW.
   rewrite nth_image; case: (enum_val k) (enum_valP k) => /= i j /andP[/= nzi _].
   pose inWj i1 := dprod_Iirr defW (i1, j); rewrite (bigD1 (inWj 0)) //=.
@@ -366,7 +372,7 @@ have [k|muV2 mu'V2] := equiv_restrict_compl_ortho sWL nsV2W V2basis ImuW.
   rewrite /= big1 ?addr0 => [|k1 /andP[]]; last first.
     rewrite !(eq_sym k1); have [[i1 j1] -> {k1}] := inW k1.
     rewrite !(can_eq (dprod_IirrK _)) => ij1'i ij1'0.
-    by rewrite cfdotBl !cfdot_w !mulrb !ifN // subrr scale0r.
+    by rewrite linearBl /= !cfdot_w !mulrb !ifN // subrr scale0r.
   rewrite /muW !dprod_IirrK /= addrC !cfdotBl !cfdot_w !eqxx /= !andbT.
   by rewrite eq_sym (negPf nzi) subr0 add0r scaleNr !scale1r -scalerBr.
 have Dsigma i j: sigma (w_ i j) = d j *: mu i j.
@@ -383,7 +389,7 @@ split=> [[i1 j1] [i2 j2] | i j | i j | i j x V2x | k mu2p'k].
 - by rewrite -Dmu -Dd -Dsigma.
 - by rewrite cfunE -muV2 // /muW dprod_IirrK Dd cfunE signrMK -Dmu.
 apply: mu'V2 => k1; have [[i j] ->{k1}] := inW k1.
-apply: contraNeq mu2p'k; rewrite cfdotZr rmorph_sign mulf_eq0 signr_eq0 /=.
+apply: contraNeq mu2p'k; rewrite linearZ /= rmorph_sign mulf_eq0 signr_eq0 /=.
 rewrite /mu Dmu dprod_IirrK -irr_consttE constt_irr inE /= => /eqP <-.
 exact: codom_f.
 Qed.
@@ -453,14 +459,14 @@ Qed.
 
 Lemma cfdot_prTIirr_red i j k : '[mu2_ i j, mu_ k] = (j == k)%:R.
 Proof.
-rewrite cfdot_sumr (bigD1 i) // cfdot_prTIirr eqxx /=.
+rewrite linear_sumr (bigD1 i) //= cfdot_prTIirr eqxx /=.
 rewrite big1 ?addr0 // => i1 neq_i1i.
 by rewrite cfdot_prTIirr eq_sym (negPf neq_i1i).
 Qed.
 
 Lemma cfdot_prTIred j1 j2 : '[mu_ j1, mu_ j2] = ((j1 == j2) * w1)%:R.
 Proof.
-rewrite cfdot_suml (eq_bigr _ (fun i _ => cfdot_prTIirr_red i _ _)) sumr_const.
+rewrite linear_suml (eq_bigr _ (fun i _ => cfdot_prTIirr_red i _ _)) sumr_const.
 by rewrite mulrnA card_Iirr_cyclic.
 Qed.
 
@@ -581,8 +587,8 @@ pose psi := 'Ind 'chi_k - mu_ j; have Npsi: psi \is a character.
     rewrite rmorph_nat -natrB ?Cnat_nat // eqxx lt0n -eqC_nat -Da.
     by rewrite -irr_consttE constt_Ind_Res Dl cfRes_prTIirr_eq0.
   rewrite negb_exists => /forallP muj'l.
-  rewrite cfdot_suml big1 ?subr0 // => i _.
-  rewrite cfdot_irr -(inj_eq irr_inj) mulrb ifN_eqC ?muj'l //.
+  rewrite linear_suml big1 ?subr0 // => i _.
+  rewrite /= cfdot_irr -(inj_eq irr_inj) mulrb ifN_eqC ?muj'l //.
 have ub_mu_1: mu_ j 1%g <= 'Ind[L] 'chi_k 1%g ?= iff ('Ind 'chi_k == mu_ j).
   rewrite -subr_eq0 -/psi (canRL (subrK _) (erefl psi)) cfunE -lerif_subLR.
   by rewrite subrr -char1_eq0 // eq_sym; apply: lerif_eq; rewrite char1_ge0.
@@ -679,8 +685,8 @@ have [k] := constt_cfRes_irr K ell; rewrite -constt_Ind_Res => kLell.
 have [[j Dk] | [/irrP/sig_eqW[l1 DkL] chi'k]] := prTIres_irr_cases k.
   have [i /=/eqP <- | mu2j'l] := pickP (fun i => mu2_ i j == phi).
     by left; exists i, j.
-  case/eqP: kLell; rewrite Dk cfInd_prTIres cfdot_suml big1 // => i _.
-  by rewrite cfdot_irr -(inj_eq irr_inj) mu2j'l.
+  case/eqP: kLell; rewrite Dk cfInd_prTIres linear_suml big1 // => i _.
+  by rewrite /= cfdot_irr -(inj_eq irr_inj) mu2j'l.
 right; exists k; last by move: kLell; rewrite DkL constt_irr inE => /eqP <-.
 apply/codomP=> [[j Dk]]; have/negP[] := prTIred_not_irr j.
 by rewrite -cfInd_prTIres -Dk DkL mem_irr.
@@ -881,7 +887,7 @@ have Zmu2: dmu2 \in 'Z[irr L, A0].
   by rewrite zchar_split rpredB ?irr_vchar ?prDade_sub_TIirr_on.
 apply: eq_signed_sub_cTIiso => // [||x Vx].
 - exact: zcharW (Ztau _ Zmu2).
-- rewrite Itau // cfnormBd ?cfnorm_irr // (cfdot_prTIirr ptiWL).
+- rewrite Itau // hnormBd /= ?cfnorm_irr //= (cfdot_prTIirr ptiWL).
   by rewrite (negPf k'j) andbF.
 have V2x: x \in W :\: W2 by rewrite (subsetP _ x Vx) // setDS ?subsetUr.
 rewrite !(cfunE, Dade_id) ?(cycTIiso_restrict _ _ Vx) //; last first.
@@ -894,6 +900,8 @@ Proof.
 rewrite subDset setUC -subDset setDE setCK setIC -(dprod_modr defW sW2K).
 by rewrite coprime_TIg // dprod1g subsetUr.
 Qed.
+
+Notation pairwise_orthogonal := (pairwise_orthogonal [hermitian of @cfdot _ _]).
 
 (* This is Peterfalvi (4.9).                                                  *)
 (* We have added the "obvious" fact that calT is pairwise orthogonal, since   *)
@@ -917,7 +925,7 @@ have oo_mu: pairwise_orthogonal (codom mu_).
   apply/pairwise_orthogonalP; split=> [|_ _ /codomP[j1 ->] /codomP[j2 ->]].
     apply/andP; split; last by apply/injectiveP; apply: prTIred_inj.
     by apply/codomP=> [[i /esym/eqP/idPn[]]]; apply: prTIred_neq0.
-  by rewrite cfdot_prTIred; case: (j1 =P j2) => // -> /eqP.
+  by rewrite /= cfdot_prTIred; case: (j1 =P j2) => // -> /eqP.
 have real'T: ~~ has cfReal calT.
   by apply/hasPn=> _ /imageP[j /andP[nzj _] ->]; apply: prTIred_not_real.
 have ccT: cfConjC_closed calT.
@@ -944,8 +952,8 @@ have f1mu j: f1 (mu_ j) = f0 j.
 have iso_f1: {in codom mu_, isometry f1, to 'Z[irr G]}.
   split=> [_ _ /codomP[j1 ->] /codomP[j2 ->] | _ /codomP[j ->]]; last first.
     by rewrite f1mu rpredZsign rpred_sum // => i _; apply: cycTIiso_vchar.
-  rewrite !f1mu cfdotZl cfdotZr rmorph_sign signrMK !cfdot_suml.
-  apply: eq_bigr => i1 _; rewrite !cfdot_sumr; apply: eq_bigr => i2 _.
+  rewrite !f1mu linearZl_LR /=  linearZ /= rmorph_sign signrMK !linear_suml /=.
+  apply: eq_bigr => i1 _; rewrite !linear_sumr /=; apply: eq_bigr => i2 _.
   by rewrite cfdot_cycTIiso cfdot_prTIirr.
 have [tau1 Dtau1 Itau1] := Zisometry_of_iso (orthogonal_free oo_mu) iso_f1.
 exists tau1 => [j|]; first by rewrite Dtau1 ?codom_f ?f1mu.

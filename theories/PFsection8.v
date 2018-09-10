@@ -20,7 +20,7 @@ Require Import BGsection14 BGsection15 BGsection16.
 From mathcomp
 Require ssrnum.
 From mathcomp
-Require Import algC classfun character inertia vcharacter.
+Require Import algC forms classfun character inertia vcharacter.
 From odd_order
 Require Import PFsection1 PFsection2 PFsection3 PFsection4 PFsection5.
 
@@ -105,6 +105,13 @@ Variable gT : minSimpleOddGroupType.
 Local Notation G := (TheMinSimpleOddGroup gT).
 Implicit Types (p q : nat) (x y z : gT) (A B : {set gT}).
 Implicit Types H K L M N P Q R S T U V W : {group gT}.
+
+Notation pairwise_orthogonal := (pairwise_orthogonal [hermitian of @cfdot _ _]).
+Notation orthogonal := (orthogonal [hermitian of @cfdot _ _]).
+Notation orthonormal := (orthonormal [hermitian of @cfdot _ _]).
+Notation  orthonormalP := (orthonormalP [dot of @cfdot _ _]).
+Notation orthogonal_split  := (orthogonal_split [dot of @cfdot _ _]).
+
 
 (* Peterfalvi, Definition (8.1) is covered by BGsection16.of_typeF. *)
 
@@ -850,7 +857,7 @@ Lemma coherent_ortho_cycTIiso calS1 (tau1 : {additive 'CF(M) -> 'CF(G)}) :
 Proof.
 move=> ccsS1S cohS1 chi i j S1chi chi_irr; have [_ sS1S _] := ccsS1S.
 have [e /mem_subseq Re ->] := mem_coherent_sum_subseq scohS ccsS1S cohS1 S1chi.
-rewrite cfdot_suml big1_seq // => xi /Re; apply: orthoPr.
+rewrite linear_suml big1_seq // => xi /Re; apply: orthoPr.
 by apply: FTtypeP_base_ortho (mem_irr _); rewrite !inE sS1S.
 Qed.
 
@@ -874,7 +881,7 @@ have Dmu := coherent_prDade_TIred FT_prDade_hyp ccsS1S irrS1 cohS1.
 rewrite -/mu_ -/d in Dmu; pose mu_sum d1 k1 := (-1) ^+ d1 *: (\sum_i eta_ i k1).
 have mu_sumK (d1 d2 : bool) k1 k2:
   ('[mu_sum d1 k1, (-1) ^+ d2 *: eta_ 0 k2] > 0) = (d1 == d2) && (k1 == k2).
-- rewrite cfdotZl cfdotZr rmorph_sign mulrA -signr_addb cfdot_suml.
+- rewrite linearZl_LR  linearZr_LR /= rmorph_sign [_ *:( _ * _)]mulrA  -signr_addb linear_suml /=.
   rewrite (bigD1 0) //= cfdot_cycTIiso !eqxx big1 => [|i nz_i]; last first.
     by rewrite cfdot_cycTIiso (negPf nz_i).
   rewrite addr0 /= andbC; case: (k1 == k2); rewrite ?mulr0 ?ltrr //=.
