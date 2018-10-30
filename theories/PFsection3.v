@@ -577,7 +577,7 @@ Arguments sat_cases [m th] k [cl].
 
 Definition unsat_cases_hyp th0 kvs tO cl :=
   let: (k, _) := head (2, 0) kvs in let thk_ := ext_cl th0 cl k in
-  let th's := [seq unwrap (thk_ v) | v <- lit_vals & (v \notin unzip2 kvs)] in
+  let th's := [seq unwrap (thk_ v) | v <- lit_vals & v \notin unzip2 kvs] in
   let add hyp kv :=
     let: (_, v) := kv in let: Wrap th := thk_ v in hyp /\ unsat th in
   foldl add (wf_ext_cl cl k (th_dim th0) && all (predC tO) th's) kvs.
