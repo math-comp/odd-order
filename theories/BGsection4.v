@@ -396,7 +396,7 @@ elim: n => // n IHn in gT R pR dimR1 *; rewrite ltnS => leRn.
 apply/forall_inP/idPn; rewrite negb_forall_in.
 case/existsP/ex_mingroup=> T /mingroupP[/andP[nsTR dimRb1] minT].
 have [sTR nTR] := andP nsTR; have pT: p.-group T := pgroupS sTR pR.
-pose card_iso_Ohm := card_isog (gFisog [igFun of Ohm 1] _).
+pose card_iso_Ohm := card_isog (gFisog [igFun of @Ohm 1] _).
 have ntT: T :!=: 1; last have p_pr: prime p by have [] := pgroup_pdiv pT ntT.
   apply: contraNneq dimRb1 => ->.
   by rewrite -(card_iso_Ohm _ _ _ _ (quotient1_isog R)).
