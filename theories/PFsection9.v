@@ -1321,7 +1321,7 @@ have Part_a s: s \in X_ H0 -> exists r, 'chi_s = 'Ind[HU, HC] 'chi_r.
     by rewrite (sub_cfker_constt_Res_irr sHCr) // ?normal_norm.
   have{Ks'H} Kr'H: ~~ (H \subset cfker 'chi_r).
     by rewrite (sub_cfker_constt_Res_irr sHCr) ?joing_subl // ?normal_norm.
-  have [|s1 Ds1] := irrP _ (irr_IndHC r _); first by rewrite !inE Kr'H.
+  have /irr_IndHC/irrP[s1 Ds1]: r \in Iirr_kerD HC H H0 by rewrite !inE Kr'H.
   rewrite -constt_Ind_Res Ds1 constt_irr inE in sHCr.
   by rewrite (eqP sHCr) -Ds1; exists r.
 have [nH0HC nH0C'] := (normal_norm nsH0HC, subset_trans (der_sub 1 _) nH0C).
@@ -1358,7 +1358,7 @@ have C1: C :=: 1%g.
     rewrite -subsetIidl -cfker_Res ?joing_subl ?irr_char // mod_IirrE //.
     rewrite cfResMod ?joing_subl // sub_cfker_mod // dprod_IirrE.
     by rewrite cfDprodKl ?lin_char1 // subGcfker -irr_eq1.
-  have [|s Ds] := irrP _ (irr_IndHC r _); first by rewrite !inE Kr'H.
+  have /irr_IndHC/irrP[s Ds]: r \in Iirr_kerD HC H H0 by rewrite !inE Kr'H.
   have Ks'H: s \notin Iirr_ker HU H.
     by rewrite inE -Ds sub_cfker_Ind_irr ?normal_norm.
   exists ('Ind 'chi_s).
