@@ -15,9 +15,8 @@ addons:
 env:
   global:
   - NJOBS=2
-  # system is == 4.02.3
   matrix:
-  - COMPILER="system" MC_VERSION="dev" COQ_VERSION="8.7.2"
+  - COMPILER="4.05.0" MC_VERSION="dev" COQ_VERSION="8.7.2"
 
 jobs:
   include:
