@@ -311,8 +311,8 @@ have /fin_all_exists2[dmu injl_mu Ddmu] j:
   + by move=> _ /mapP[i _ ->]; rewrite Sj0 !lin_char1.
   + by rewrite nth_mktuple Sj0 V2ew.
   exists (d, [ffun i => tnth mu i]) => [|i].
-    apply/injectiveP; congr (uniq _): Umu.
-    by rewrite (eq_map (ffunE _)) map_tnth_enum.
+    apply/injectiveP; congr (uniq _): Umu; rewrite -[LHS]map_tnth_enum.
+    by apply/eq_map=> i; rewrite ffunE.
   by rewrite -scalerBr /= !ffunE !(tnth_nth 0 mu) -Ddmu nth_mktuple Sj0.
 pose Imu ij := (dmu ij.2).2 ij.1; pose mu i j := 'chi_(Imu (i, j)).
 pose d j : algC := (-1) ^+ (dmu j).1.
