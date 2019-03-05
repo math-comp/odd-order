@@ -765,7 +765,7 @@ have lt_nth ri si i: (nth ri si i < ri)%N -> (i < size si)%N.
 case: s => [si sj sk] /= sym12 Uth2 m m_th1; case/and3P: (m_th1) sym12.
 case: th_bbox (th_bboxP (bbox_refl (th_bbox th1))) => ri rj rijP.
 case/andP=> /= leri lerj lerk _ /and4P[Ssi Ssj /andP[Usk /allP/=lesrk] sym12].
-have{Ssi} /SsP/(_ leri)[ltIi uIi szIi] := Ssi.
+have{Ssi}-/SsP/(_ leri)[ltIi uIi szIi] := Ssi.
 have{Ssj SsP} /SsP/(_ lerj)[ltIj uIj szIj] := Ssj.
 pose smL ij := m (nth ri (I_ si m.1) ij.1, nth rj (I_ sj m.2) ij.2)%N.
 pose smR := [seq m`_k | k <- sk].

@@ -9,3 +9,4 @@
 *.o
 Make*.coq
 Make*.coq.bak
+Make*.coq.conf

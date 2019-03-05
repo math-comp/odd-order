@@ -922,7 +922,7 @@ have /vlineP[a Dgz]: val (g z) \in 1%VS.
   rewrite Fermat's_little_theorem dimv1 card_Fp //=.
   by rewrite -[(p ^ 1)%N]prednK ?prime_gt0 // exprS -val_unitX gz_p1_eq1 mulr1.
 apply/is_scalar_mxP; exists a; apply/row_matrixP=> i.
-apply: (can_inj ((MatrixGenField.in_genK irrE cErEy) _)).
+apply: (can_inj (fun w => MatrixGenField.in_genK irrE cErEy w)).
 rewrite !rowE mul_mx_scalar MatrixGenField.in_genZ MatrixGenField.in_genJ //.
 rewrite -val_g // Dgz mul_mx_scalar; congr (_ *: _).
 rewrite -(natr_Zp a) scaler_nat.

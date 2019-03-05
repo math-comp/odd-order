@@ -568,9 +568,8 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
   have inv0: (inv 0 = 0)%R by rewrite /inv insubF ?eqxx.
   have mulV: GRing.Field.axiom inv.
     by move=> a nz_a; rewrite /inv insubT /= (f_invF (mulI (exist _ _ _))).
-  pose Funit := FieldUnitMixin mulV inv0.
-  pose FringUcl := @GRing.ComUnitRing.Class _ (GRing.ComRing.class Fring) Funit.
-  have Ffield := @FieldMixin (GRing.ComUnitRing.Pack FringUcl nat) _ mulV inv0.
+  pose FunitRing := UnitRingType Fring (FieldUnitMixin mulV inv0).
+  have Ffield := @FieldMixin [comUnitRingType of FunitRing] inv mulV inv0.
   pose F := FieldType (IdomainType _ (FieldIdomainMixin Ffield)) Ffield.
   by exists [finFieldType of F], (AddRMorphism outRM); first exists inF.
 pose in_uF (a : F) : {unit F} := insubd (1 : {unit F}) a.
@@ -1322,7 +1321,7 @@ have Part_a s: s \in X_ H0 -> exists r, 'chi_s = 'Ind[HU, HC] 'chi_r.
     by rewrite (sub_cfker_constt_Res_irr sHCr) // ?normal_norm.
   have{Ks'H} Kr'H: ~~ (H \subset cfker 'chi_r).
     by rewrite (sub_cfker_constt_Res_irr sHCr) ?joing_subl // ?normal_norm.
-  have [|s1 Ds1] := irrP _ (irr_IndHC r _); first by rewrite !inE Kr'H.
+  have /irr_IndHC/irrP[s1 Ds1]: r \in Iirr_kerD HC H H0 by rewrite !inE Kr'H.
   rewrite -constt_Ind_Res Ds1 constt_irr inE in sHCr.
   by rewrite (eqP sHCr) -Ds1; exists r.
 have [nH0HC nH0C'] := (normal_norm nsH0HC, subset_trans (der_sub 1 _) nH0C).
@@ -1359,7 +1358,7 @@ have C1: C :=: 1%g.
     rewrite -subsetIidl -cfker_Res ?joing_subl ?irr_char // mod_IirrE //.
     rewrite cfResMod ?joing_subl // sub_cfker_mod // dprod_IirrE.
     by rewrite cfDprodKl ?lin_char1 // subGcfker -irr_eq1.
-  have [|s Ds] := irrP _ (irr_IndHC r _); first by rewrite !inE Kr'H.
+  have /irr_IndHC/irrP[s Ds]: r \in Iirr_kerD HC H H0 by rewrite !inE Kr'H.
   have Ks'H: s \notin Iirr_ker HU H.
     by rewrite inE -Ds sub_cfker_Ind_irr ?normal_norm.
   exists ('Ind 'chi_s).
