@@ -34,3 +34,7 @@ theories/stripped_odd_order_theorem.v
 theories/wielandt_fixpoint.v
 
 -R theories odd_order
+
+-arg -w -arg -projection-no-head-constant
+-arg -w -arg -redundant-canonical-projection
+-arg -w -arg -notation-overridden
