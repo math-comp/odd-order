@@ -29,7 +29,7 @@ Variables (gT : finGroupType) (p q : nat) (H P P0 U Q : {group gT}).
 Let nU := ((p ^ q).-1 %/ p.-1)%N.
 
 (* External statement of the finite field assumption. *)
-CoInductive finFieldImage : Prop :=
+Variant finFieldImage : Prop :=
   FinFieldImage (F : finFieldType) (sigma : {morphism P >-> F}) of
      isom P [set: F] sigma & sigma @*^-1 <[1 : F]> = P0
    & exists2 sigmaU : {morphism U >-> {unit F}},

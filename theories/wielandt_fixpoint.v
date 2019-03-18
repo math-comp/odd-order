@@ -229,7 +229,7 @@ apply/subsetP=> _ /morphimP[y Dy Yy ->].
 by rewrite inE /= -act_f // morphimEsub // mem_imset // (acts_act actsXY).
 Qed.
 
-CoInductive is_iso_quotient_homocyclic_sdprod gT (V G : {group gT}) m : Prop := 
+Variant is_iso_quotient_homocyclic_sdprod gT (V G : {group gT}) m : Prop :=
   IsoQuotientHomocyclicSdprod wT (W D G1 : {group wT}) (f : {morphism D >-> gT})
    of homocyclic W & #|W| = (#|V| ^ m)%N
     & 'ker f = 'Mho^1(W) & f @* W = V & f @* G1 = G & W ><| G1 = D.
