@@ -160,7 +160,7 @@ Definition of_typeV defW :=
 
 End Ptypes.
 
-CoInductive exists_typeP (spec : forall U W W1 W2, W1 \x W2 = W -> Prop) : Prop
+Variant exists_typeP (spec : forall U W W1 W2, W1 \x W2 = W -> Prop) : Prop
   := FTtypeP_Spec (U W W1 W2 : {group gT}) defW of spec U W W1 W2 defW.
 
 Definition FTtype_spec i M :=

@@ -272,7 +272,7 @@ Let u c xi mu := uc c xi mu * ('[xi, mu] - xi 1%g * mu 1%g / (e * h)).
 
 (* This is Peterfalvi (7.7); it is stated using a bespoke concrete Prop so as *)
 (* to encapsulate the coefficient definitions given above.                    *)
-CoInductive is_invDade_seqInd_sum : Prop :=
+Variant is_invDade_seqInd_sum : Prop :=
   InvDadeSeqIndSum (c := c) (u := u c) of
    (*a*) {in A, forall x, (chi^\rho) x = \sum_(xi <- S) (c xi)^* / '[xi] * xi x}
  & (*b*) '[chi^\rho] = \sum_(xi <- S) \sum_(mu <- S) u xi mu.

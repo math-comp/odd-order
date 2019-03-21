@@ -281,7 +281,7 @@ Arguments th_dimP [th bk].
 
 (* Theory and clause lookup. *)
 
-CoInductive get_spec T (P : T -> Prop) (Q : Prop) : option T -> Prop :=
+Variant get_spec T (P : T -> Prop) (Q : Prop) : option T -> Prop :=
   | GetSome x of P x : get_spec P Q (Some x)
   | GetNone of Q     : get_spec P Q None.
 
@@ -368,7 +368,7 @@ Definition sub_match th1 th2 :=
 Definition wf_consider ij th (ri := (th_bbox th).1) :=
   (ij.1 < 2 + ((2 < ri) || sub_match th (tr_th th)).*2)%N && (ij.2 < 2)%N.
 
-CoInductive sym := Sym (si : seq nat) (sj : seq nat) (sk : seq nat).
+Variant sym := Sym (si : seq nat) (sj : seq nat) (sk : seq nat).
 
 Definition sym_match s th1 th2 :=
   let: Sym si sj sk := s in let: (ri, rj, rk) := (th_bbox th1, th_dim th1) in
