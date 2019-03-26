@@ -12,7 +12,7 @@ Require Import poly cyclic pgroup nilpotent matrix mxalgebra mxrepresentation.
 From mathcomp
 Require Import vector falgebra fieldext ssrnum algC rat algnum galois.
 From mathcomp
-Require Import classfun character inertia integral_char vcharacter.
+Require Import forms classfun character inertia integral_char vcharacter.
 From mathcomp
 Require ssrint.
 
@@ -109,7 +109,7 @@ have F0 (j : 'I_m) :
    (\sum_i '[Phi`_j, 'chi_i] * (d i)^* == '['Ind Phi`_j, mu])
       = ('[Phi`_j, D] == 0).
   rewrite raddfB raddf_sum /= Frobenius_reciprocity subr_eq0 eq_sym.
-  by congr (_ == _); apply: eq_bigr=> i _; rewrite cfdotZr mulrC.
+  by congr (_ == _); apply: eq_bigr=> i _; rewrite linearZ mulrC.
 split=> [HH j | HH].
   by apply/eqP; rewrite F0; apply/eqP; apply: cfdot_complement.
 have{F0} F1 (j : 'I_m) : '[Phi`_j, D]_H = 0.
@@ -117,8 +117,8 @@ have{F0} F1 (j : 'I_m) : '[Phi`_j, D]_H = 0.
 have: (D \in 'CF(H))%VS by rewrite memvf.
 rewrite -(cfun_complement nsAH) => /memv_addP[f Cf [g Cg defD]].
 have: '[f, f + g] = 0.
-  rewrite -defD (coord_basis BPhi Cf) cfdot_suml.
-  by rewrite big1 // => i _; rewrite cfdotZl F1 mulr0.
+  rewrite -defD (coord_basis BPhi Cf) linear_suml.
+  by rewrite big1 // => i _; rewrite linearZl_LR /= F1 [_*:_]mulr0.
 rewrite raddfD /= {1}(cfdot_complement Cf Cg) addr0 => /eqP.
 by rewrite cfnorm_eq0 defD => /eqP->; rewrite add0r.
 Qed.
@@ -135,13 +135,13 @@ move=> HsG nsAH /equiv_restrict_compl Phi_A Mo IP; split=> [/= i | mu Cmu x Ax].
   have->: 'chi[H]_i = \sum_j (j == i)%:R *: 'chi_j.
     rewrite (bigD1 i) //= eqxx scale1r big1 ?addr0 // => j /negPf->.
     by rewrite scale0r.
-  apply/Phi_A=> // j; rewrite IP cfdot_suml.
-  by apply: eq_bigr=> k _; rewrite cfdotZl rmorph_nat Mo.
+  apply/Phi_A=> // j; rewrite IP linear_suml.
+  by apply: eq_bigr=> k _; rewrite linearZl_LR /=  rmorph_nat Mo.
 transitivity ((\sum_j 0 *: 'chi[H]_j) x); last first.
   by rewrite sum_cfunE big1 // => j _; rewrite cfunE mul0r.
 move: x Ax; apply/Phi_A=> // j.
-rewrite -mulr_suml rmorph0 mulr0 IP cfdot_suml big1 // => k _.
-by rewrite cfdotZl [d in _ * d]cfdotC Cmu rmorph0 mulr0.
+rewrite -mulr_suml rmorph0 mulr0 IP linear_suml big1 // => k _.
+by rewrite linearZl_LR /= [d in _ *: d] cfdotC   Cmu rmorph0 [_ *: _]mulr0.
 Qed.
 
 Let vchar_isometry_base3 f f' : 
@@ -176,7 +176,7 @@ Let vchar_isometry_base4 (eps : bool) i j k n m :
 Proof.
 move=> /= Hjk; wlog ->: eps n m / eps = false.
   case: eps; last exact; move/(_ false m n)=> IH nm_ji nm_ki.
-  by apply: IH; rewrite // -opprB cfdotNl (nm_ji, nm_ki) opprK.
+  by apply: IH; rewrite // -opprB linearNl /= (nm_ji, nm_ki) opprK.
 rewrite !cfdotBl !cfdotBr !cfdot_irr !opprB addrAC addrA.
 do 2!move/(canRL (subrK _)); rewrite -(natrD _ 1) -!natrD.
 move/(can_inj natCK); case: (m == i) => //.
@@ -184,6 +184,7 @@ case: eqP => // ->; case: (j == i) => // _.
 rewrite subr0 add0r => /(canRL (subrK _)); rewrite -(natrD _ 1).
 by move/(can_inj natCK); rewrite (negbTE Hjk).
 Qed.
+
 
 (* This is Peterfalvi (1.4). *)
 Lemma vchar_isometry_base m L (Chi : m.-tuple 'CF(H)) 
@@ -212,10 +213,10 @@ have DF i j : F i j =  F i 0 - F j 0 by rewrite /F opprB addrA subrK.
 have ZF i j: F i j \in 'Z[Chi, L].
   by rewrite zchar_split rpredB ?mem_zchar // DF memvB // /F !chiE.
 have htau2 i j: i != j -> '[tau (F i j)] = 2%:R.
-  rewrite iso_tau // cfnormB -cfdotC !dot_chi !eqxx eq_sym => /negbTE->.
+  rewrite iso_tau // hnormB -hermC /= !dot_chi !eqxx eq_sym => /negbTE->.
   by rewrite -!natrD subr0.
 have htau1 i j: j != 0 -> j != i -> i != 0 -> '[tau (F i 0), tau (F j 0)] = 1.
-  rewrite iso_tau // cfdotBl !cfdotBr opprB !dot_chi !(eq_sym j).
+  rewrite iso_tau // linearBl !linearBr opprB /= !dot_chi !(eq_sym j).
   by do 3!move/negbTE->; rewrite !subr0 add0r.
 have [m0 | nz_m] := boolP (m == 0%N).
   rewrite -2!eqSS eq_sym in m0; move: (htau2 1 0 isT).
@@ -240,8 +241,8 @@ have muP i:
   have [-> | neq_i2] := eqVneq i i2; first by exists k2; rewrite // -eq20.
   have:= @vchar_isometry_base4 (~~ e) k0 k1 k2 k k' nek12.
   have ZdK u v w: '[u, v - w]_G = (-1) ^+ (~~ e) * '[u, d *: (w - v)].
-    rewrite cfdotZr rmorph_sign mulrA -signr_addb addNb addbb mulN1r.
-    by rewrite -cfdotNr opprB.
+    rewrite linearZ /= rmorph_sign mulrA -signr_addb addNb addbb mulN1r.
+    by rewrite -linearNr opprB.
   rewrite -eqFkk' ZdK -eq10 {}ZdK -eq20 !htau1 //; try by rewrite eq_sym.
   move/(_ (mulr1 _) (mulr1 _)); rewrite /d eqFkk'.
   by case e => /eqP <-; [exists k | exists k']; rewrite ?scaler_sign ?opprB.
@@ -285,8 +286,8 @@ Lemma cfnorm_Ind_irr t :
   H <| G -> '['Ind[G] 'chi[H]_t] = #|'I_G['chi_t] : H|%:R.
 Proof.
 set r := _%:R => HnG; have HsG := normal_sub HnG.
-rewrite -Frobenius_reciprocity cfResInd_sum_cfclass //= cfdotZr rmorph_nat -/r.
-rewrite reindex_cfclass // cfdot_sumr (bigD1 t) ?cfclass_refl //= cfnorm_irr.
+rewrite -Frobenius_reciprocity cfResInd_sum_cfclass //= linearZ /= rmorph_nat -/r.
+rewrite reindex_cfclass // linear_sumr (bigD1 t) ?cfclass_refl //= cfnorm_irr.
 rewrite big1 ?addr0 ?mulr1 // => j /andP[_ /negbTE].
 by rewrite eq_sym cfdot_irr => ->.
 Qed.
@@ -306,8 +307,8 @@ Lemma cfclass_Ind_cases t1 t2 : H <| G ->
    else '['Ind[G] 'chi_t1, 'Ind[G] 'chi_t2] = 0.
 Proof.
 move=> nsHG; have [/cfclass_Ind-> // | not_ch1Gt2] := ifPn.
-rewrite -Frobenius_reciprocity cfResInd_sum_cfclass // cfdotZr rmorph_nat.
-rewrite cfdot_sumr reindex_cfclass // big1 ?mulr0 // => j; rewrite cfdot_irr.
+rewrite -Frobenius_reciprocity cfResInd_sum_cfclass // linearZ /= rmorph_nat.
+rewrite linear_sumr reindex_cfclass // big1 ?mulr0 // => j; rewrite /= cfdot_irr.
 case: eqP => // <- /idPn[]; apply: contra not_ch1Gt2 => /cfclassP[y Gy ->].
 by apply/cfclassP; exists y^-1%g; rewrite ?groupV ?cfConjgK.
 Qed.
@@ -508,9 +509,9 @@ have psiHG: 'Ind ('Res[H] psi1) = \sum_j 'chi_(LtoT j).
 have imLtoT: {subset calA <= codom LtoT}.
   move=> t At; apply/codomP/exists_eqP.
   have{At}: t \in irr_constt ('Ind ('Res[H] 'chi_t1)).
-    by rewrite Dpsi1H linearZ irr_consttE cfdotZl mulf_neq0.
+    by rewrite Dpsi1H linearZ irr_consttE linearZl_LR mulf_neq0.
   apply: contraR; rewrite negb_exists => /forallP imL't.
-  by rewrite psiHG cfdot_suml big1 // => j _; rewrite cfdot_irr mulrb ifN_eqC.
+  by rewrite psiHG linear_suml big1 //= => j _; rewrite cfdot_irr mulrb ifN_eqC.
 have De_ t: t \in calA -> e_ t = e.
   case/imLtoT/codomP=> j ->; rewrite /e_ LtoTE /e -!cfdot_Res_r rmorphM /=.
   by rewrite cfRes_sub_ker ?cfker_mod // mulr_algl lin_char1 ?scale1r.

@@ -10,7 +10,7 @@ Require Import fingroup morphism perm automorphism quotient action zmodp.
 From mathcomp
 Require Import gfunctor gproduct cyclic pgroup frobenius ssrnum.
 From mathcomp
-Require Import matrix mxalgebra mxrepresentation vector algC classfun character.
+Require Import matrix mxalgebra mxrepresentation vector algC forms classfun character.
 From mathcomp
 Require Import inertia vcharacter.
 From odd_order
@@ -315,7 +315,8 @@ Qed.
 Section AutomorphismCFun.
 
 Variable u : {rmorphism algC -> algC}.
-Local Notation "alpha ^u" := (cfAut u alpha).
+Local Notation "alpha ^u" := (cfAut u alpha)(at level 10).
+
 
 Lemma Dade_aut alpha : (alpha^u)^\tau = (alpha^\tau)^u.
 Proof.
