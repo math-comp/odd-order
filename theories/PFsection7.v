@@ -783,7 +783,7 @@ have{betaP def_beta1} /cfnormDd->: '[Gamma1, X] = 0.
   apply/eqP; rewrite cfdotZr cfdotBl mulf_eq0; apply/pred2P; right.
   rewrite cfdot_suml (bigD1 i) ?big1 //= => [|j /andP[_ neq_j]]; last first.
     by rewrite cfdotZl o_phi_nu ?mulr0.
-  rewrite cfdotZl cfproj_sum_orthogonal ?seqInd_orthogonal //; last exact: Inu.
+  rewrite cfdotZl (cfproj_sum_orthogonal (Inu i)) ?seqInd_orthogonal //.
   rewrite n1S // divr1 mulr1 addr0 mulrC -(canLR (addKr _) def_beta1).
   rewrite !(cfdotDl, cfdotNl) cfdotZl o_nu ?o_phi_nu ?Sr 1?eq_sym // mulr0.
   have[[/orthoPr oSnui_1 _ _] _ _] := betaP i; rewrite -/(S i) in oSnui_1.
@@ -796,7 +796,7 @@ have{betaP def_beta1} /cfnormDd->: '[Gamma1, X] = 0.
 rewrite -subr_ge0 cfdot_sumr -addrA -sumrB addr_ge0 ?cfnorm_ge0 //.
 rewrite sumr_ge0 // => i Bi; have [neq_i ci1_0] := setIdP Bi.
 have n_phi: '[phi i] = (h_ i - 1) / e_ i.
-  rewrite cfnorm_sum_orthogonal ?seqInd_orthogonal //; last exact: Inu.
+  rewrite (cfnorm_sum_orthogonal (Inu i)) ?seqInd_orthogonal //.
   rewrite -[_ - 1](mulKf (nze i)) -sum_seqIndC1_square // -/(S i) mulrAC.
   rewrite -invfM mulrC mulr_suml; apply: eq_big_seq => _ /irrS/irrP[t ->].
   rewrite cfnorm_irr !divr1 mulr1 -expr2 -exprVn -exprMn.

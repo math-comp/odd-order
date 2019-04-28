@@ -1921,7 +1921,7 @@ have GammaReal: cfReal Gamma.
   by rewrite -Dtau ?A0beta ?defGamma ?aut_Iirr_eq0.
 split=> // X Y defXY oXY oYeta; pose a := '[Gamma, eta01].
 have Za: a \in Cint.
-  rewrite Cint_cfdot_vchar ?(rpredB, rpredD, rpred1, cycTIiso_vchar) //.
+  rewrite Cint_cfdot_vchar 1?rpredD ?rpredB ?rpred1 ?cycTIiso_vchar //.
   by rewrite Dtau ?A0beta // !(cfInd_vchar, rpredB) ?rpred1 ?irr_vchar.
 have{oYeta} oYeta j: '[Y, eta_ 0 j] = 0.
   by rewrite (orthoPl oYeta) ?map_f ?mem_irr.
