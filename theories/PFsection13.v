@@ -490,7 +490,7 @@ pose calH1 := rem zeta1 (rem zeta0 (filter [mem calS1] calH)).
 pose calH2 := filter [predC calS1] calH.
 have DcalH: perm_eq calH (zeta0 :: zeta1 :: calH1 ++ calH2).
   rewrite -(perm_filterC [mem calS1]) -!cat_cons perm_cat2r.
-  rewrite (perm_eqlP (@perm_to_rem _ zeta0 _ _)) ?mem_filter /= ?S1zeta0 //.
+  rewrite (permPl (@perm_to_rem _ zeta0 _ _)) ?mem_filter /= ?S1zeta0 //.
   rewrite perm_cons perm_to_rem // mem_rem_uniq ?filter_uniq ?seqInd_uniq //.
   by rewrite !inE mem_filter /= eq_sym zeta1'0 S1zeta1 sS1H.
 have{DcalH} [a_ _ Dchi _] := invDade_seqInd_sum ddH chi DcalH.

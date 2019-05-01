@@ -538,8 +538,8 @@ have irrK'K: mx_absolutely_irreducible rK'K.
     exact: joing_subl.
   have eq_sK': #|[set: sK'K]| = #|[set: sK'G']|.
     rewrite !cardsT !cardE -!(size_map (fun i => socle_val i)).
-    apply: perm_eq_size.
-    rewrite uniq_perm_eq 1?(map_inj_uniq val_inj) 1?enum_uniq // => V.
+    apply: perm_size.
+    rewrite uniq_perm 1?(map_inj_uniq val_inj) 1?enum_uniq // => V.
     apply/mapP/mapP=> [] [i _ ->{V}].
       exists (PackSocle (component_socle sK'G' (socle_simple i))).
         by rewrite mem_enum.

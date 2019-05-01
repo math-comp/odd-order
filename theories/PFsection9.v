@@ -809,7 +809,7 @@ have s_muC_mu: {subset filter redM (S_ H0C) <= mu_}.
   move=> phi; rewrite /= !mem_filter => /andP[->]; apply: seqIndS.
   by rewrite setSD // Iirr_kerS ?joing_subl.
 have UmuC: uniq (filter redM (S_ H0C)) by rewrite filter_uniq ?seqInd_uniq.
-have [|Dmu _] := leq_size_perm UmuC s_muC_mu; last first.
+have [|_ Dmu] := uniq_min_size UmuC s_muC_mu; last first.
   by split=> // phi; rewrite -Dmu mem_filter => /andP[].
 have [nsH0C_M _ _ _] := nsH0xx_M.
 have sCHU := subset_trans sCU sUHU; have sCM := subset_trans sCHU sHUM.
@@ -1052,7 +1052,7 @@ have sz_Smu: size Smu = p.-1.
   by rewrite size_map -cardE card_in_imset // cardC1 card_Iirr_abelian ?oH1.
 have [sz_mu s_mu_H0C] := nb_redM_H0.
 have Dmu: Smu =i mu_.
-  by have [|//] := leq_size_perm uSmu sSmu_mu; rewrite sz_mu sz_Smu.
+  by have [|//] := uniq_min_size uSmu sSmu_mu; rewrite sz_mu sz_Smu.
 split=> {Part_a part_a}//.
 - split=> // phi mu_phi; have S_HOC_phi := s_mu_H0C _ mu_phi.
   move: mu_phi; rewrite -Dmu => /imageP[_ /imsetP[i nz_i ->]].
@@ -1549,7 +1549,7 @@ suff [chi]: exists2 chi, chi \in S3 & coherent (chi :: chi^* :: S2)%CF M^# tau.
     apply/allP; rewrite /= !inE cfConjCK !eqxx orbT /=.
     by apply/allP=> psi /ccS2; rewrite !inE orbA orbC => ->.
   apply: leq_trans leS3nS; rewrite ltnNge; apply: contra S2'chi.
-  case/leq_size_perm=> [|psi|/(_ chi)]; first by rewrite filter_uniq.
+  case/uniq_min_size=> [|psi|_ /(_ chi)]; first by rewrite filter_uniq.
     by rewrite !mem_filter !inE orbA negb_or -andbA => /andP[].
   by rewrite !mem_filter !inE eqxx S0chi !andbT => /esym/negbFE.
 (* This is step (9.11.1). *) clear nS IHnS leS3nS.
@@ -1624,9 +1624,9 @@ without loss [[eqS12 irrS1 H0C_S1] [Da_p defC] [S3qu ne_qa_qu] [oS1 oS1ua]]:
   have lbS1'2: sumnS S1' <= sumnS S2 ?= iff ~~ has [predC S1'] S2.
     have Ds2: perm_eq S2 (S1' ++ filter [predC S1'] S2).
       rewrite -(perm_filterC (mem S1')) perm_cat2r.
-      rewrite uniq_perm_eq ?filter_uniq // => psi.
+      rewrite uniq_perm ?filter_uniq // => psi.
       by rewrite mem_filter andb_idr //= mem_filter => /andP[_ /sS12].
-    rewrite [sumnS S2](eq_big_perm _ Ds2) big_cat /= -/(sumnS S1') big_filter.
+    rewrite [sumnS S2](perm_big _ Ds2) big_cat /= -/(sumnS S1') big_filter.
     rewrite -all_predC -big_all_cond !(big_tnth _ _ S2) big_andE.
     rewrite -{1}[_ S1']addr0 mono_lerif; last exact: ler_add2l.
     set sumS2' := \sum_(i | _) _; rewrite -[0]/(sumS2' *+ 0) -sumrMnl.

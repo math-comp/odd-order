@@ -1022,7 +1022,7 @@ have{lt1d} [defS szS1 Dd Ddel Dn]:
   rewrite natrD addrK eqxx => /andP[/eqP Dd /nilP S3nil].
   have uS12: uniq (S1 ++ S2).
     by rewrite cat_uniq seqInd_uniq uS2 andbT; apply/hasPn.
-  rewrite uniq_perm_eq ?seqInd_uniq {uS12}// => [|xi]; last first.
+  rewrite uniq_perm ?seqInd_uniq {uS12}// => [|xi]; last first.
     apply/idP/idP; apply: allP xi; last by rewrite all_cat !(introT allP _).
     by rewrite -(canLR negbK (has_predC _ _)) has_filter -/S3 S3nil.
   have: (w1 %| d%:R - delta)%C.
@@ -1041,7 +1041,7 @@ have [tau1 cohS1]: coherent S1 M^# tau.
 have [[Itau1 Ztau1] Dtau1] := cohS1.
 have o1S1tau: orthonormal (map tau1 S1) by apply: map_orthonormal.
 have S1zeta: zeta \in S1.
-  by have:= Szeta; rewrite (perm_eq_mem defS) mem_cat => /orP[//|/redS2/negP].
+  by have:= Szeta; rewrite (perm_mem defS) mem_cat => /orP[//|/redS2/negP].
 (* This is the main part of step 10.10.3; as the definition of alpha_ remains *)
 (* valid we do not need to reprove alpha_on.                                  *)
 have Dalpha i (al_ij := alpha_ i j) :
@@ -1136,7 +1136,7 @@ case=> _ _ ccS2 _ _ [tau2 Dtau2 cohS2].
 have{cohS2} cohS2: coherent_with S2 M^# tau tau2 by apply: cohS2.
 have sS20: cfConjC_subset S2 calS0.
   by split=> // xi /sS2S Sxi; have [_ ->] := sSS0.
-rewrite perm_eq_sym perm_catC in defS; apply: perm_eq_coherent defS _.
+rewrite perm_sym perm_catC in defS; apply: perm_coherent defS _.
 suffices: (mu_ j - d%:R *: zeta)^\tau = tau2 (mu_ j) - tau1 (d%:R *: zeta).
   apply: (bridge_coherent scohS0 sS20 cohS2 sS10 cohS1) => [phi|].
     by apply: contraL => /S1'2.

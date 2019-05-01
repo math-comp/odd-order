@@ -296,12 +296,12 @@ have: perm_eq (Y ++ [::]) calX by rewrite cats0.
 have: {in Y & [::], forall xi1 xi2, d xi1 <= d xi2}%N by [].
 elim: {Y}_.+1 {-2}Y [::] (ltnSn (size Y)) => // m IHm Y X' leYm leYX' defX ccY.
 have sYX: {subset Y <= calX}.
-  by move=> xi Yxi; rewrite -(perm_eq_mem defX) mem_cat Yxi.
+  by move=> xi Yxi; rewrite -(perm_mem defX) mem_cat Yxi.
 have sX'X: {subset X' <= calX}.
-  by move=> xi X'xi; rewrite -(perm_eq_mem defX) mem_cat X'xi orbT.
+  by move=> xi X'xi; rewrite -(perm_mem defX) mem_cat X'xi orbT.
 have uniqY: uniq Y.
   have: uniq calX := seqInd_uniq L _.
-  by rewrite -(perm_eq_uniq defX) cat_uniq => /and3P[].
+  by rewrite -(perm_uniq defX) cat_uniq => /and3P[].
 have sYS: {subset Y <= calS} by move=> xi /sYX/seqInd_sub->.
 case homoY: (constant [seq xi 1%g | xi : 'CF(L) <- Y]).
   exact: uniform_degree_coherence (subset_subcoherent scohS _) homoY.
@@ -325,9 +325,9 @@ have ccY': cfConjC_closed Y'.
   move=> xi; rewrite !(inE, mem_rem_uniq) ?rem_uniq //.
   by rewrite !(inv_eq (@cfConjCK _ _)) cfConjCK => /and3P[-> -> /ccY->].
 have Xchi := sYX _ Ychi; have defY: perm_eq [:: chi, chi^*%CF & Y'] Y.
-  rewrite (perm_eqrP (perm_to_rem Ychi)) perm_cons perm_eq_sym perm_to_rem //.
+  rewrite (permPr (perm_to_rem Ychi)) perm_cons perm_sym perm_to_rem //.
   by rewrite mem_rem_uniq ?inE ?ccY // (seqInd_conjC_neq _ _ _ Xchi).
-apply: perm_eq_coherent (defY) _.
+apply: perm_coherent (defY) _.
 have d_chic: d chi^*%CF = d chi.
   by rewrite /d cfunE conj_Cnat // (Cnat_seqInd1 Xchi).
 have /and3P[uniqY' Y'xi1 notY'chi]: [&& uniq Y', xi1 \in Y' & chi \notin Y'].
@@ -337,12 +337,12 @@ have sY'Y: {subset Y' <= Y} by move=> xi /mem_rem/mem_rem.
 have sccY'S: cfConjC_subset Y' calS by split=> // xi /sY'Y/sYS.
 apply: (extend_coherent scohS _ Y'xi1); rewrite ?sYS {sccY'S notY'chi}//.
 have{defX} defX: perm_eq (Y' ++ X'') calX.
-  by rewrite (perm_catCA Y' [::_; _]) catA -(perm_eqrP defX) perm_cat2r.
+  by rewrite (perm_catCA Y' [::_; _]) catA -(permPr defX) perm_cat2r.
 have{d_chic} le_chi_X'': {in X'', forall xi, d chi <= d xi}%N.
   by move=> xi /or3P[/eqP-> | /eqP-> | /leYX'->] //; rewrite d_chic.
 rewrite !Ndg ?sYX // dvdC_nat dvdn_pmul2l // dvdn_exp2l 1?ltnW //; split=> //.
   apply: IHm defX ccY' => [|xi xi' /sY'Y/leYchi-le_xi_chi /le_chi_X''].
-    by rewrite -ltnS // (leq_trans _ leYm) // -(perm_eq_size defY) ltnW.
+    by rewrite -ltnS // (leq_trans _ leYm) // -(perm_size defY) ltnW.
   exact: leq_trans.
 have p_gt0 n: (0 < p ^ n)%N by rewrite expn_gt0 prime_gt0.
 rewrite -!natrM; apply: (@ltr_le_trans _ (e ^ 2 * (p ^ d chi) ^ 2)%:R).
@@ -373,7 +373,7 @@ rewrite -expnM Gauss_dvd ?coprime_expl ?coprime_expr {coep}// dvdn_mulr //=.
 have /dvdn_addl <-: p ^ (d chi * 2) %| e ^ 2 * sum_p2d X''.
   rewrite big_distrr big_seq dvdn_sum //= => xi /le_chi_X'' le_chi_xi.
   by rewrite dvdn_mull // dvdn_exp2l ?leq_pmul2r.
-rewrite -mulnDr -big_cat (eq_big_perm _ defX) -(natCK (e ^ 2 * _)) /=.
+rewrite -mulnDr -big_cat (perm_big _ defX) -(natCK (e ^ 2 * _)) /=.
 rewrite -def_sum_xi1 // /sum_xi1 sum_seqIndD_square ?normal1 ?sub1G //.
 rewrite indexg1 -(natrB _ (cardG_gt0 Z)) -natrM natCK.
 rewrite -(Lagrange_index sKL sZK) mulnAC dvdn_mull //.
@@ -835,9 +835,9 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
       by rewrite linearZ mod_IirrE // cfMod1.
     transitivity (\sum_(xi <- X) xi 1%g *: xi).
       by apply: eq_big_seq => xi Xxi; rewrite scalerA mulrC -def_d.
-    rewrite (eq_big_perm [seq 'chi_i | i in [predC kerZ]]).
+    rewrite (perm_big [seq 'chi_i | i in [predC kerZ]]).
       by rewrite big_map big_filter.
-    apply: uniq_perm_eq => // [|xi].
+    apply: uniq_perm => // [|xi].
       by rewrite (map_inj_uniq irr_inj) ?enum_uniq.
     rewrite defX; apply/andP/imageP=> [[/irrP[i ->]] | [i]]; first by exists i.
     by move=> kerZ'i ->; rewrite mem_irr.
@@ -892,8 +892,8 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
     have defY: perm_eq Y (eta1 :: eta1^*)%CF.
       have uYeta: uniq (eta1 :: eta1^*)%CF.
         by rewrite /= inE eq_sym (hasPn nrS) ?sYS.
-      rewrite perm_eq_sym uniq_perm_eq //.
-      have [|//]:= leq_size_perm uYeta _ szY2.
+      rewrite perm_sym uniq_perm //.
+      have [|//]:= uniq_min_size uYeta _ szY2.
       by apply/allP; rewrite /= Yeta1 ccY.
     have memYtau1c: {subset [seq tau1 eta^* | eta <- Y]%CF <= map tau1 Y}.
       by move=> _ /mapP[eta Yeta ->]; rewrite /= map_f ?ccY.
@@ -902,7 +902,7 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
       by apply/orthogonalP=> phi psi ? /memYtau1c; apply: (orthogonalP o_tauXY).
     - rewrite (map_comp -%R) orthogonal_oppr.
       by apply/orthoPl=> psi /memYtau1c; apply: (orthoPl oX1tauY).
-    rewrite tau_psi1 (eq_big_perm _ defY) Db q1 /= mul1r big_cons big_seq1.
+    rewrite tau_psi1 (perm_big _ defY) Db q1 /= mul1r big_cons big_seq1.
     by rewrite scalerDr addrA subrK -scalerN opprK.
   have [[Itau1 Ztau1] Dtau1] := cohY.
   have n1X1: '[X1] = 1.
@@ -1069,7 +1069,7 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
         rewrite rem_filter // !big_filter; apply/eq_bigr => eta /negPf->.
         by rewrite subr0 Cint_normK.
       rewrite big_const_seq count_predT // -Monoid.iteropE -[LHS]mulr_natl.
-      by rewrite /m (perm_eq_size (perm_to_rem Yeta1)) /= mulrSr addrK.
+      by rewrite /m (perm_size (perm_to_rem Yeta1)) /= mulrSr addrK.
     have [x_eq0 | [x_eq1 szY2]] := m_ub2_lt2 x Zx ub_xm.
       left; rewrite /Y1 x_eq0 (big_rem eta1) //= eqxx sub0r scaleN1r.
       rewrite big_seq big1 ?addr0 ?opprK => // eta.
@@ -1077,11 +1077,11 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
     have eta1'2: eta1^*%CF != eta1 by apply: seqInd_conjC_neq Yeta1.
     have defY: perm_eq Y (eta1 :: eta1^*%CF).
       have uY2: uniq (eta1 :: eta1^*%CF) by rewrite /= inE eq_sym eta1'2.
-      rewrite perm_eq_sym uniq_perm_eq //.
+      rewrite perm_sym uniq_perm //.
       have sY2Y: {subset (eta1 :: eta1^*%CF) <= Y}.
         by apply/allP; rewrite /= cfAut_seqInd ?Yeta1.
-      by have [|//]:= leq_size_perm uY2 sY2Y; rewrite szY2.
-    right; split=> //; congr (- _); rewrite (eq_big_perm _ defY) /= x_eq1.
+      by have [|//]:= uniq_min_size uY2 sY2Y; rewrite szY2.
+    right; split=> //; congr (- _); rewrite (perm_big _ defY) /= x_eq1.
     rewrite big_cons big_seq1 eqxx (negPf eta1'2) subrr scale0r add0r subr0.
     by rewrite scale1r.
   have normY1: '[Y1] = 1.
@@ -1271,8 +1271,8 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
   pose Y2 := eta1 :: eta1^*%CF; suffices: xi \in Y2.
     rewrite opprK !inE (negPf eta1'xi) /= => /eqP->.
     by rewrite !oYY ?ccY // !mulrb eqxx ifN_eqC ?(hasPn nrS) ?sYS ?addr0.
-  have /leq_size_perm: {subset Y2 <= Y} by apply/allP; rewrite /= Yeta1 ccY.
-  by case=> [||->]; rewrite ?szY2 //= inE eq_sym (hasPn nrS) ?sYS.
+  have /uniq_min_size: {subset Y2 <= Y} by apply/allP; rewrite /= Yeta1 ccY.
+  by case=> [||_ ->]; rewrite ?szY2 //= inE eq_sym (hasPn nrS) ?sYS.
 pose S1 := [::] ++ X ++ Y; set S2 := [::] in S1; rewrite -[X ++ Y]/S1 in cohXY.
 have ccsS1S: cfConjC_subset S1 S.
   rewrite /S1 /=; split; first by rewrite cat_uniq uX uY andbT; apply/hasPn.

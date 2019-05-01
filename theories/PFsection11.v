@@ -674,7 +674,7 @@ Let memSred : Sred =i Smu.
 Proof.
 have [szSred _ memSred _] := typeP_reducible_core_Ind maxM MtypeP notMtype5.
 have uSred: uniq Sred by apply: filter_uniq (seqInd_uniq _ _).
-suffices{uSred}: (size Smu <= size Sred)%N by case/leq_size_perm.
+suffices{uSred}: (size Smu <= size Sred)%N by case/uniq_min_size.
 by rewrite szSred def_p size_map -cardE cardC1 nirrW2.
 Qed.
 
@@ -949,8 +949,8 @@ without loss tau2muj: tau2 coh_tau2 / tau2 (mu_ j) = eta_col j; last first.
   case: FTtype34_noncoherence; rewrite H0_1 -joinGE join1G.
   have uS12: uniq (S2 ++ S1).
     by rewrite cat_uniq ?seqInd_uniq ?andbT //=; apply/hasPn.
-  have /perm_eq_coherent: perm_eq (S2 ++ S1) (S_ C); last apply.
-    apply: uniq_perm_eq; rewrite ?seqInd_uniq // => xi; rewrite mem_cat.
+  have /perm_coherent: perm_eq (S2 ++ S1) (S_ C); last apply.
+    apply: uniq_perm; rewrite ?seqInd_uniq // => xi; rewrite mem_cat.
     apply/idP/idP=> [/orP | /seqIndP[i /setDP[kCi k'HUi] ->]].
       by case; apply/seqIndS/Iirr_kerDS; rewrite ?joing_subr.
     by rewrite !mem_seqInd // inE orbC inE kCi k'HUi andbT orbN.
