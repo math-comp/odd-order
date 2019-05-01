@@ -280,9 +280,9 @@ Variant is_invDade_seqInd_sum : Prop :=
 Lemma invDade_seqInd_sum : perm_eq calT (xi0 :: S) -> is_invDade_seqInd_sum.
 Proof.
 move=> defT; pose chi0 := \sum_(xi <- S) (c xi)^* / '[xi] *: xi.
-have Txi0: xi0 \in calT by rewrite (perm_eq_mem defT) mem_head.
+have Txi0: xi0 \in calT by rewrite (perm_mem defT) mem_head.
 have sST : {subset S <= calT}.
-  by move=> xi Sxi; rewrite (perm_eq_mem defT) mem_behead.
+  by move=> xi Sxi; rewrite (perm_mem defT) mem_behead.
 have nz_xi01 : xi0 1%g != 0 by apply: seqInd1_neq0 Txi0.
 have part_a: {in A, chi^\rho =1 chi0}.
   pose phi := (chi^\rho - chi0) * '1_A.
@@ -304,7 +304,7 @@ have part_a: {in A, chi^\rho =1 chi0}.
     by apply/seqIndP; exists i; rewrite ?inE.
   have{Tphi} [z def_phi _] := free_span (seqInd_free nsHL _) Tphi.
   have {phi def_phi phi1} ->: phi = \sum_(xi <- S) z xi *: psi xi.
-    rewrite def_phi (eq_big_perm _ defT) !big_cons /= 2!cfunE in phi1 *.
+    rewrite def_phi (perm_big _ defT) !big_cons /= 2!cfunE in phi1 *.
     rewrite (canRL (mulfK nz_xi01) (canRL (addrK _) phi1)) add0r addrC mulNr.
     rewrite sum_cfunE mulr_suml scaleNr scaler_suml -sumrB.
     by apply: eq_bigr => xi _; rewrite cfunE -mulrA -scalerA -scalerBr.
@@ -364,8 +364,8 @@ have defZS: 'Z[calS, L^#] =i 'Z[calS, A] by apply: zcharD1_seqInd.
 have S1P xi: xi \in S1 -> xi != zeta /\ xi \in calS.
   by rewrite mem_rem_uniq // => /andP[].
 have defT: perm_eql calT [:: Ind1H, zeta & S1].
-  apply/perm_eqlP; have Tind1: Ind1H \in calT := seqIndT_Ind1 H L.
-  by rewrite (perm_eqlP (perm_to_rem Tind1)) perm_cons -seqIndC1_rem.
+  apply/permPl; have Tind1: Ind1H \in calT := seqIndT_Ind1 H L.
+  by rewrite (permPl (perm_to_rem Tind1)) perm_cons -seqIndC1_rem.
 have mu_vchar: mu \in 'Z[irr L, A] := cfInd1_sub_lin_vchar nsHL Szeta zeta1.
 have beta_vchar: beta \in 'Z[irr G] by apply: Dade_vchar.
 have [mu_on beta_on] := (zchar_on mu_vchar, zchar_on beta_vchar).
@@ -411,7 +411,7 @@ have{def_a} def_a: {in calS, forall xi, a_ (nu xi) = '[beta, nu xi] / '[xi]}.
 pose a := '[beta, nu zeta] + 1; have Z1 := Cint1.
 have{Z1} Za: a \in Cint by rewrite rpredD ?Cint_cfdot_vchar // ZnuS.
 have {a_ def_a defX} defX: X = - nu zeta + a *: sumSnu.
-  rewrite linear_sum defX big_map !(eq_big_perm _ defS) !big_cons /= addrCA.
+  rewrite linear_sum defX big_map !(perm_big _ defS) !big_cons /= addrCA.
   rewrite def_a // Nzeta1 !divr1 zeta1 divff // scalerDl !scale1r addrA.
   rewrite addrK; congr (_ + _); apply: eq_big_seq => xi /S1P[neq_xi Sxi].
   rewrite def_a // scalerA mulrA mulrDl mul1r; congr (_ / _ *: _).
