@@ -528,10 +528,10 @@ move=> /zchar_subset sS12 [Itau1 Dtau1].
 by split=> [|xi /sS12/Dtau1//]; apply: sub_iso_to Itau1.
 Qed.
 
-Lemma perm_eq_coherent S1 S2 A tau:
+Lemma perm_coherent S1 S2 A tau:
   perm_eq S1 S2 -> coherent S1 A tau -> coherent S2 A tau.
 Proof.
-by move=> eqS12; apply: subset_coherent => phi; rewrite (perm_eq_mem eqS12).
+by move=> eqS12; apply: subset_coherent => phi; rewrite (perm_mem eqS12).
 Qed.
 
 Lemma dual_coherence S tau R nu :
@@ -604,7 +604,7 @@ have{S'0} nzd: d != 0 by rewrite char1_eq0 ?N_S ?(memPn S'0).
 pose S1 := eta1 :: [seq eta - eta1 *+ a eta | eta <- rem eta1 S].
 have sS_ZS1: {subset S <= 'Z[S1]}; last apply: (subgen_coherent sS_ZS1).
   have Zeta1: eta1 \in 'Z[S1] by rewrite mem_zchar ?mem_head.
-  apply/allP; rewrite (eq_all_r (perm_eq_mem (perm_to_rem Seta1))) /= Zeta1.
+  apply/allP; rewrite (eq_all_r (perm_mem (perm_to_rem Seta1))) /= Zeta1.
   apply/allP=> eta Seta; rewrite -(rpredBr eta (rpredMn (a eta) Zeta1)).
   exact/mem_zchar/mem_behead/map_f.
 have{sS_ZS1} freeS1: free S1.
@@ -1096,7 +1096,7 @@ have oS2: pairwise_orthogonal S2 by have [] := subset_subcoherent sS20.
 have nz_chi: chi != 0 by rewrite eq_sym; have [/norP[]] := andP oS2.
 have o_chi_chic: '[chi, chi^*] = 0 by have [_ /andP[/andP[/eqP]]] := and3P oS2.
 have def_XXc: X - Xc = tau (chi - chi^*%CF).
-  by rewrite opprK defX -big_cat sumR; apply: eq_big_perm.
+  by rewrite opprK defX -big_cat sumR; apply: perm_big.
 have oXXc: '[X, Xc] = 0.
   have /span_orthogonal o_e_ec: orthogonal e ec.
     by move: o1R; rewrite -(eq_orthonormal defR) orthonormal_cat => /and3P[].
@@ -1338,7 +1338,7 @@ have eqRchi: perm_eq (R chi1) (E ++ Ec).
   exact/free_uniq/orthonormal_free.
 have /and3P[oE _ oEEc]: [&& orthonormal E, orthonormal Ec & orthogonal E Ec].
   by rewrite (eq_orthonormal eqRchi) orthonormal_cat in oRchi.
-rewrite defRchi (eq_big_perm _ eqRchi) big_cat -defX cfdotDr nX defX !big_seq.
+rewrite defRchi (perm_big _ eqRchi) big_cat -defX cfdotDr nX defX !big_seq.
 by rewrite (span_orthogonal oEEc) ?addr0 ?rpred_sum //; apply: memv_span.
 Qed.
 

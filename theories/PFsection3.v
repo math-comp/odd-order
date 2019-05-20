@@ -516,7 +516,7 @@ have [-> | [dk Ydk] _ /eqP sz_kvs] := set_0Vmem (dirr_constt Y).
   by rewrite big_set0 ltrr.
 have Dks: ks =i iota 0 (size m).
   have: {subset ks <= iota 0 (size m)} by move=> k /lt_ks; rewrite mem_iota.
-  by case/leq_size_perm=> //; rewrite size_iota size_map sz_kvs.
+  by case/uniq_min_size; rewrite // size_iota size_map sz_kvs.
 suffices o_dk_m: orthogonal (dchi dk) m.
   exists dk; rewrite // dirr_consttE defX cfdotDl cfdot_suml.
   rewrite big1_seq ?add0r -?dirr_consttE // => xi /sAm CFxi.
@@ -759,7 +759,7 @@ have SsP mi si ri (Ii := I_ si mi):
     move=> i; rewrite mem_cat mem_filter orb_andr orbN mem_iota.
     by apply: orb_idl => /ltsi/leq_trans->.
   split=> // [i|]; first by rewrite defIi mem_iota.
-  by rewrite (perm_eq_size (uniq_perm_eq _ _ defIi)) ?size_iota.
+  by rewrite (perm_size (uniq_perm _ _ defIi)) ?size_iota.
 have lt_nth ri si i: (nth ri si i < ri)%N -> (i < size si)%N.
   by rewrite !ltnNge; apply: contra => le_si; rewrite nth_default.
 case: s => [si sj sk] /= sym12 Uth2 m m_th1; case/and3P: (m_th1) sym12.
