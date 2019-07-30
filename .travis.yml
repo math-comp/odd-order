@@ -1,43 +1,42 @@
 dist: trusty
 sudo: required
-language: c
-cache:
-  apt: true
-  directories:
-  - $HOME/opam
-addons:
-  apt:
-    sources:
-    - avsm
-    packages:
-    - opam
-    - aspcud
+language: generic
+
+services:
+  - docker
+
 env:
   global:
   - NJOBS=2
+  - CONTRIB_NAME="coq-mathcomp-odd-order"
   matrix:
-  - COMPILER="4.05.0" MC_VERSION="dev" COQ_VERSION="8.7.2"
+  - COQ_IMAGE="mathcomp/mathcomp-dev:coq-8.7"
+  - COQ_IMAGE="mathcomp/mathcomp-dev:coq-8.8"
+  - COQ_IMAGE="mathcomp/mathcomp-dev:coq-8.9"
+  - COQ_IMAGE="mathcomp/mathcomp-dev:coq-dev"
 
-jobs:
-  include:
-    - stage: opam
-      script:
-      - mkdir -p ~/opam/
-      - rm -rf ~/opam/${COMPILER}-{$MC_VERSION}
-      - opam init -j ${NJOBS} --root=~/opam/${COMPILER}-{$MC_VERSION} --compiler=${COMPILER} -n -y
-      - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env --set-root)
-      - opam repo add coq-released http://coq.inria.fr/opam/released
-      - opam repo add coq-extra http://coq.inria.fr/opam/extra-dev
-    - stage: coq
-      script:
-      - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env --set-root)
-      - opam install -j ${NJOBS} -v -y coq.${COQ_VERSION}
-      - opam pin add coq ${COQ_VERSION}
-    - stage: math-comp
-      script:
-      - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env --set-root)
-      - opam install -j ${NJOBS} -v -y coq-mathcomp-character.${MC_VERSION}
-    - stage: odd-order
-      script:
-      - eval $(opam config --root=~/opam/${COMPILER}-{$MC_VERSION} env --set-root)
-      - make -j ${NJOBS}
+install: |
+  # Prepare the COQ container
+  docker pull ${COQ_IMAGE}
+  docker run -d -i --init --name=COQ -v ${TRAVIS_BUILD_DIR}:/home/coq/${CONTRIB_NAME} -w /home/coq/${CONTRIB_NAME} ${COQ_IMAGE}
+  docker exec COQ /bin/bash --login -c "
+    export PS4='+ \e[33;1m(\$0 @ line \$LINENO) \$\e[0m '
+    set -ex
+    opam pin add ${CONTRIB_NAME} . -y -n -k path
+    # opam install ${CONTRIB_NAME} -y -j ${NJOBS} --deps-only  # already OK
+    opam config list; opam repo list; opam list
+    " install
+
+script:
+- echo -e "${ANSI_YELLOW}Building ${CONTRIB_NAME}...${ANSI_RESET}" && echo -en 'travis_fold:start:script\\r'
+- |
+  docker exec COQ /bin/bash --login -c "
+    export PS4='+ \e[33;1m(\$0 @ line \$LINENO) \$\e[0m '
+    set -ex
+    sudo chown -R coq:coq /home/coq/${CONTRIB_NAME}
+    opam install ${CONTRIB_NAME} -v -y -j ${NJOBS}
+    " script
+- echo -en 'travis_fold:end:script\\r'
+
+after_script:
+- docker stop COQ
