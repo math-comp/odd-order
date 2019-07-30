@@ -14,5 +14,5 @@ If you already have OPAM installed:
 
 ```
 opam repo add coq-released https://coq.inria.fr/opam/released
-opam install coq-odd_order
+opam install coq-mathcomp-odd-order
 ```
