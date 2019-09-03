@@ -2,9 +2,9 @@
 (* Distributed under the terms of CeCILL-B.                                  *)
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice.
+Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
 From mathcomp
-Require Import fintype tuple finfun bigop prime ssralg finset fingroup morphism.
+Require Import tuple finfun bigop prime order ssralg finset fingroup morphism.
 From mathcomp
 Require Import perm automorphism quotient action zmodp finalg center commutator.
 From mathcomp
@@ -24,7 +24,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope GRing.Theory Num.Theory.
+Import GroupScope Order.TTheory GRing.Theory Num.Theory.
 Local Open Scope ring_scope.
 
 Local Notation algCF := [fieldType of algC].
@@ -83,7 +83,7 @@ have{regHg}: sum_norm2 gT G g <= sum_norm2 _ (G / H)%G (coset H g).
     exact/subset_leq_card/quotient_subcent1.
   by apply/quotient_isog; rewrite ?subIset 1?normal_norm // setICA regHg setIg1.
 rewrite /sum_norm2 (bigID kerH) ?sum_norm_irr_quo //= -ler_subr_addl subrr.
-rewrite ler_eqVlt psumr_eq0 ?ler_gtF ?sumr_ge0 // orbF => /allP/(_ t)/implyP.
+rewrite le_eqVlt psumr_eq0 ?le_gtF ?sumr_ge0 // orbF => /allP/(_ t)/implyP.
 by rewrite mem_index_enum kerH't expf_eq0 normr_eq0.
 Qed.
 
@@ -579,7 +579,7 @@ have I1B: 'chi_i1 1%g ^+ 2 <= #|C : D|%:R.
   case: (irr1_bound i2)=> HH _; move: HH.
   have ->: 'chi_i2 1%g = 'chi_i1 1%g.
     by rewrite quo_IirrE // -(coset_id (group1 B)) cfQuoE.
-  move/ler_trans; apply.
+  move/le_trans; apply.
   rewrite ler_nat // -(index_quotient_eq CBsH) ?normal_norm //.
   rewrite -(@leq_pmul2l #|'Z('chi_i2)%CF|) ?cardG_gt0 ?cfcenter_sub //.
   rewrite Lagrange ?quotientS ?cfcenter_sub //.
@@ -588,8 +588,8 @@ have I1B: 'chi_i1 1%g ^+ 2 <= #|C : D|%:R.
   rewrite mulnC leq_pmul2l ?cardG_gt0 // subset_leq_card //.
   exact: subset_trans QsZ ZsC.
 have IC': 'Ind[G] 'chi_i1 \is a character := cfInd_char G (irr_char i1).
-move: (char1_ge_constt IC' CIr); rewrite cfInd1 //= => /ler_trans-> //.
-have chi1_1_ge0: 0 <= 'chi_i1 1%g by rewrite ltrW ?irr1_gt0.
+move: (char1_ge_constt IC' CIr); rewrite cfInd1 //= => /le_trans-> //.
+have chi1_1_ge0: 0 <= 'chi_i1 1%g by rewrite ltW ?irr1_gt0.
 rewrite ler_pmul2l ?gt0CiG //.
 by rewrite -(@ler_pexpn2r _ 2) -?topredE /= ?sqrtC_ge0 ?ler0n ?sqrtCK.
 Qed.

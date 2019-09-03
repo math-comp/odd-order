@@ -2,9 +2,9 @@
 (* Distributed under the terms of CeCILL-B.                                  *)
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq div path fintype.
+Require Import ssrbool ssrfun eqtype ssrnat seq div path fintype bigop order.
 From mathcomp
-Require Import bigop finset prime fingroup morphism perm automorphism quotient.
+Require Import finset prime fingroup morphism perm automorphism quotient.
 From mathcomp
 Require Import action gproduct gfunctor pgroup cyclic center commutator.
 From mathcomp
@@ -75,7 +75,7 @@ Unset Printing Implicit Defensive.
 
 Local Open Scope ring_scope.
 Local Open Scope nat_scope.
-Import GRing.Theory Num.Theory GroupScope.
+Import GRing.Theory Order.TTheory Num.Theory GroupScope.
 
 Section Definitons.
 
@@ -1682,7 +1682,7 @@ have [Mi MXi P2maxMi]: exists2 Mi, Mi \in MX & Mi \in 'M_'P2.
     exact: mem_sigma_cover_decomposition (Msigma_ell1 maxMi Mis_x) xR1.
   rewrite -(eqnP tiPG) big_setU1 ?big_imset //= natrD natr_sum.
   suffices: (g <= #|TG|%:R + \sum_(i in MX) ((k_ i)^-1 - (z *+ 2)^-1) * g)%R.
-    by move/ler_trans->; rewrite // ler_add2l ler_sum.
+    by move/le_trans->; rewrite // ler_add2l ler_sum.
   rewrite -big_distrl /= oTG -/g -mulrDl big_split /= sumr_const.
   rewrite addrA subrK -(mulr_natl _ 2) -[_ *+ _]mulr_natl invfM mulrN.
   rewrite mulrA -addrA -mulrBl -{1}(mul1r g) ler_wpmul2r ?ler0n //.
@@ -1791,7 +1791,7 @@ have oTGgt_g2: (g / 2%:R < #|TG|%:R)%R.
   have{le_pdiv} hm_pdiv := hm_inc _ _ (le_pdiv _).
   have hm_ge0 u: (0 <= hm u)%R.
     by case: u => // u; rewrite subr_ge0 invf_le1 ?ltr0Sn ?(ler_nat _ 1).
-  do 2![rewrite mulrC (ltr_le_trans _ (ler_wpmul2r (hm_ge0 _) (hm_pdiv _))) //].
+  do 2![rewrite mulrC (lt_le_trans _ (ler_wpmul2r (hm_ge0 _) (hm_pdiv _))) //].
   set p := pdiv #|K|; set q := pdiv #|Ks|.
   have [odd_p odd_q]: odd p /\ odd q.
     by split; apply: dvdn_odd (pdiv_dvd _) (mFT_odd _).
@@ -1805,7 +1805,7 @@ have oTGgt_g2: (g / 2%:R < #|TG|%:R)%R.
     case/negP: (pgroupP sM'K _ p_pr (pdiv_dvd _)); rewrite eqpq.
     exact: pgroupP sMKs _ q_pr (pdiv_dvd _).
   have p_gt2: 2 < p by rewrite odd_geq.
-  apply: ltr_le_trans (isT : lhs < hm 3 * hm 5)%R _.
+  apply: lt_le_trans (isT : lhs < hm 3 * hm 5)%R _.
   by rewrite ler_pmul ?hm_inc ?hm_ge0 //= odd_geq ?(leq_trans _ ltpq).
 have defZhat: Z :\: (K :|: Ks) = T.
   rewrite /T cover_imset big_setU1 //= defMNX big_set1 defKs_star Ks0.
@@ -1877,13 +1877,13 @@ pose Ls := 'C_(H`_\sigma)(L); pose S := (L <*> Ls) :\: (L :|: Ls).
 have{IHn} oSGgt_g2: (g / 2%:R < #|class_support S G|%:R)%R.
   have [|nTG_leS] := ltnP #|class_support S G| nTG.
     by case/IHn=> // Sstar _ [_ _ _ _ [[_ _ -> //]]].
-  apply: ltr_le_trans oTGgt_g2 _; rewrite ler_nat /TG -defZhat.
+  apply: lt_le_trans oTGgt_g2 _; rewrite ler_nat /TG -defZhat.
   exact: leq_trans leTGn nTG_leS.
 have{oSGgt_g2 oTGgt_g2} meetST: ~~ [disjoint TG & class_support S G].
   rewrite -leq_card_setU; apply: contraTneq (leqnn #|G|) => tiTGS.
   rewrite -ltnNge -(ltr_nat [realFieldType of rat]) -/g.
   rewrite -{1}[g](@divfK _ 2%:R) // mulr_natr.
-  apply: ltr_le_trans (ltr_add oTGgt_g2 oSGgt_g2) _.
+  apply: lt_le_trans (ltr_add oTGgt_g2 oSGgt_g2) _.
   by rewrite -natrD -tiTGS ler_nat cardsT max_card.
 have{meetST} [x Tx [a Sx]]: exists2 x, x \in T & exists a, x \in S :^ a.
   have [_ /andP[/imset2P[x a1 Tx _ ->]]] := pred0Pn meetST.

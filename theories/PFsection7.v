@@ -2,9 +2,9 @@
 (* Distributed under the terms of CeCILL-B.                                  *)
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice.
+Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
 From mathcomp
-Require Import fintype tuple finfun bigop prime ssralg poly finset center.
+Require Import tuple finfun bigop order prime ssralg poly finset center.
 From mathcomp
 Require Import fingroup morphism perm automorphism quotient action zmodp.
 From mathcomp
@@ -31,7 +31,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope GRing.Theory Num.Theory.
+Import GroupScope Order.TTheory GRing.Theory Num.Theory.
 Local Open Scope ring_scope.
 
 Reserved Notation "alpha ^\rho" (at level 2, format "alpha ^\rho").
@@ -475,10 +475,10 @@ split=> // [ | chi /irrP[t def_chi] o_chiSnu].
   have{h1ge0} u_ge0: 0 <= u by rewrite -Lu pmulr_rge0 in h1ge0.
   have [a_le0 | ] := boolP (a <= 0).
     by rewrite -mulrN -sqrrN addr_ge0 ?(u_ge0, mulr_ge0) ?oppr_ge0 ?ler0n.
-  rewrite -real_ltrNge ?Creal_Cint // ltr_def => /andP[].
+  rewrite -real_ltNge ?Creal_Cint // lt_def => /andP[].
   move/(norm_Cint_ge1 Za)=> a_ge1 a_ge0; rewrite mulrA -mulrBl.
   rewrite (normr_idP _) // -(@mulVf _ 2%:R) ?pnatr_eq0 // in a_ge1.
-  rewrite mulr_ge0 // subr_ge0 (ler_trans _ (ler_wpmul2l u_ge0 a_ge1)) // mulrA.
+  rewrite mulr_ge0 // subr_ge0 (le_trans _ (ler_wpmul2l u_ge0 a_ge1)) // mulrA.
   by rewrite ler_wpmul2r ?ler0n // -(ler_pmul2l L_gt0) mulrA Lu -eh mulfK.
 have Zchi: chi \in 'Z[irr G] by rewrite def_chi irr_vchar.
 have def_chi0: {in A, chi^\rho =1 (fun _ => '[beta, chi])}.
@@ -709,7 +709,8 @@ have eh i: e_ i * h_ i = #|L i|%:R by rewrite -natrM mulnC Lagrange.
 have def_h1 i: h_ i - 1 = #|A i|%:R.
   by rewrite /h_ (cardsD1 1%g) group1 addnC natrD addrK.
 have [i1 min_i1]: {i1 | forall i, i != i1 -> h_ i1 + 2%:R <= h_ i}.
-  exists [arg min_(i < Ordinal k_ge2) #|H i|]; case: arg_minP => // i1 _ min_i1.
+  exists [arg min_(i < Ordinal k_ge2) #|H i|].
+  case: fintype.arg_minP => // i1 _ min_i1.
   have oddH i: #|H i| = #|H i|./2.*2.+1.
     by rewrite -{1}[#|H i|]odd_double_half (oddSg (sHL i)).
   move=> i neq_i; rewrite -natrD ler_nat (oddH i) oddH addn2 -doubleS ltnS.
@@ -735,12 +736,12 @@ case/(_ lt_e_h2)=> min_rho1 maxGamma _ {lt_e_h2}.
 pose calB := [set i | (i != i1) && (c i i1 == 0)].
 pose sumB := \sum_(i in calB) (h_ i - 1) / (e_ i * h_ i).
 suffices{min_rho1} sumB_max: sumB <= (e - 1) / (h + 2%:R).
-  rewrite -subr_ge0 opprB addrCA -opprB subr_ge0; apply: ler_trans sumB_max.
+  rewrite -subr_ge0 opprB addrCA -opprB subr_ge0; apply: le_trans sumB_max.
   rewrite -subr_ge0 opprB addrCA -(opprB _ sumB) subr_ge0.
   have Zchi1: chi i1 \in 'Z[irr G] by rewrite Znu ?seqInd_zcharW ?Sr.
   have [eps [t def_chi1]] := vchar_norm1P Zchi1 (n1Snu i1 'chi_(r i1) (Sr i1)).
   pose sumG0 := \sum_(g in G0) `|'chi_t g| ^+ 2.
-  apply: (@ler_trans _ ((#|G0|%:R - sumG0) / #|G|%:R)); last first.
+  apply: (le_trans (y := (#|G0|%:R - sumG0) / #|G|%:R)); last first.
     rewrite ler_pmul2r ?invr_gt0 ?gt0CG // ler_add2l ler_opp2.
     rewrite [sumG0](bigD1 1%g) /=; last first.
       rewrite !inE group1 andbT; apply/bigcupP=> [[i _]].
@@ -750,13 +751,14 @@ suffices{min_rho1} sumB_max: sumB <= (e - 1) / (h + 2%:R).
     have Zchit1: 'chi_t 1%g \in Cint by rewrite CintE Cnat_irr1.
     by rewrite expr_ge1 ?normr_ge0 // norm_Cint_ge1 ?irr1_neq0.
   pose ea i : algC := #|(H i)^#|%:R / #|L i|%:R.
-  apply: (@ler_trans _ (\sum_i ('[rho i 'chi_t] - ea i))); last first.
+  apply: (le_trans (y := \sum_i ('[rho i 'chi_t] - ea i))); last first.
     rewrite -subr_ge0 -opprB oppr_ge0 -mulNr opprB addrC mulrC.
     by rewrite /sumG0 defG0 Dade_cover_inequality ?cfnorm_irr.
   rewrite (bigID (mem calB)) /= addrC ler_add //.
     rewrite -subr_ge0 opprK -big_split sumr_ge0 //= => i _.
     by rewrite def_h1 eh subrK cfnorm_ge0.
-  rewrite (bigD1 i1) ?inE ?eqxx ?andbF //= -ler_subl_addl (@ler_trans _ 0) //.
+  rewrite (bigD1 i1) ?inE ?eqxx ?andbF //= -ler_subl_addl.
+  rewrite (le_trans (y := 0)) //.
     rewrite opprB /ea -def_h1 -eh -/h -/e addrA subrK subr_le0.
     by rewrite -(cfnorm_sign eps) -linearZ -def_chi1.
   rewrite sumr_ge0 // => i; rewrite inE /c andbC => /andP[neq_i].
@@ -767,7 +769,7 @@ suffices{min_rho1} sumB_max: sumB <= (e - 1) / (h + 2%:R).
   rewrite -[ea i]mulr1 /ea ler_wpmul2l ?mulr_ge0 ?invr_ge0 ?ler0n //.
   by rewrite -/(tau i) -/(beta i) sqr_Cint_ge1 ?Cint_cfdot_vchar_irr.
 rewrite -(mulfK nzh2 sumB) -{2 3}natrD ler_wpmul2r ?invr_ge0 ?ler0n //.
-apply: ler_trans maxGamma; rewrite mulr_suml.
+apply: le_trans maxGamma; rewrite mulr_suml.
 pose phi i : 'CF(G) := \sum_(xi <- S i) xi 1%g / e_ i / '[xi] *: nu i xi.
 have o_phi_nu i j xi: i != j -> xi \in S j -> '[phi i, nu j xi] = 0.
   move/o_nu=> o_ij Sxi; rewrite cfdot_suml big1_seq //= => pi Spi.
@@ -800,11 +802,11 @@ have n_phi: '[phi i] = (h_ i - 1) / e_ i.
   rewrite -[_ - 1](mulKf (nze i)) -sum_seqIndC1_square // -/(S i) mulrAC.
   rewrite -invfM mulrC mulr_suml; apply: eq_big_seq => _ /irrS/irrP[t ->].
   rewrite cfnorm_irr !divr1 mulr1 -expr2 -exprVn -exprMn.
-  by rewrite (normr_idP _) // mulr_ge0 ?invr_ge0 ?ler0n // ltrW ?irr1_gt0.
+  by rewrite (normr_idP _) // mulr_ge0 ?invr_ge0 ?ler0n // ltW ?irr1_gt0.
 rewrite subr_ge0 cfdotZr cfdot_suml (bigD1 i) //=.
 rewrite big1 ?addr0 => [|j /andP[_ ne_j]]; last by rewrite cfdotZl o_phi ?mulr0.
 rewrite cfdotZl invfM 2!mulrA -n_phi -[_ * _]mulrA mulrC.
-rewrite ler_wpmul2r ?cfnorm_ge0 // (@ler_trans _ 1) //.
+rewrite ler_wpmul2r ?cfnorm_ge0 // (le_trans (y := 1)) //.
   by rewrite -{2}(mulVf (nzh i)) ler_wpmul2l ?invr_ge0 ?ler0n ?min_i1.
 rewrite mulrC -normCK expr_ge1 ?normr_ge0 // norm_Cint_ge1 //.
   rewrite Cint_cfdot_vchar ?Znu ?seqInd_zcharW ?Sr //.
@@ -818,7 +820,7 @@ Theorem no_coherent_Frobenius_partition : G0 != 1%G.
 Proof.
 have [i] := coherent_Frobenius_bound; apply: contraTneq => ->.
 have [] := e_bounds i; set e := e_ i; set h := h_ i => e_gt1 le_e_h2.
-rewrite cards1 subrr mul0r ltr_geF // pmulr_rgt0 ?subr_gt0 // ltr_paddl //.
+rewrite cards1 subrr mul0r lt_geF // pmulr_rgt0 ?subr_gt0 // ltr_paddl //.
   rewrite ?(mulr_ge0, invr_ge0) ?ler0n // addrAC subr_ge0.
   by rewrite -[_ - 1](@divfK _ 2%:R) ?pnatr_eq0 // mulrC ler_wpmul2r ?ler0n.
 by rewrite -natrD addnC ?(pmulr_rgt0, invr_gt0) ?ltr0n.

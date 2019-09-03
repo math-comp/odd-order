@@ -2,9 +2,9 @@
 (* Distributed under the terms of CeCILL-B.                                  *)
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice.
+Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
 From mathcomp
-Require Import fintype tuple finfun bigop prime ssralg poly finset center.
+Require Import tuple finfun bigop order prime ssralg poly finset center.
 From mathcomp
 Require Import fingroup morphism perm automorphism quotient action zmodp.
 From mathcomp
@@ -53,7 +53,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope GRing.Theory Num.Theory.
+Import GroupScope Order.TTheory GRing.Theory Num.Theory.
 Local Open Scope ring_scope.
 
 (* Results about the set of induced irreducible characters *)
@@ -346,7 +346,7 @@ Lemma seqIndD_nonempty : H <| K -> M <| K -> M \proper H -> {phi | phi \in S}.
 Proof.
 move=> nsHK nsMK /andP[sMH ltMH]; pose X := Iirr_kerD H M.
 suffices: \sum_(i in X) 'chi_i 1%g ^+ 2 > 0.
-  have [->|[i Xi]] := set_0Vmem X; first by rewrite big_set0 ltrr.
+  have [->|[i Xi]] := set_0Vmem X; first by rewrite big_set0 ltxx.
   by exists ('Ind 'chi_i); apply/seqIndP; exists i.
 by rewrite sum_Iirr_kerD_square ?mulr_gt0 ?gt0CiG ?subr_gt0 // ltr1n indexg_gt1.
 Qed.
@@ -910,7 +910,7 @@ have nchi: '[chi] = \sum_(xi <- R chi) a xi.
   by rewrite ochi_psi ochic_psi (oSS chi^*%CF) // !subr0 -cfdotC.
 have normX: '[X1] <= '[X] ?= iff (X == X1).
   rewrite -[in '[X]](subrK X1 X) -subr_eq0 cfnormDd.
-    by rewrite -lerif_subLR subrr -cfnorm_eq0 eq_sym; apply/lerif_eq/cfnorm_ge0.
+    by rewrite -leif_subLR subrr -cfnorm_eq0 eq_sym; apply/leif_eq/cfnorm_ge0.
   rewrite defX1 cfdot_sumr big1_seq // => xi Rxi.
   rewrite cfdotZr cfdotBl cfproj_sum_orthonormal // -{2}dotS00R // defXY.
   by rewrite cfdotBl (orthoPl oYR) // subr0 subrr mulr0.
@@ -920,10 +920,10 @@ have leXa xi: a xi <= `|a xi| ^+ 2 ?= iff is01a xi.
   rewrite eq_sym -subr_eq0 -[lhs in _ - lhs]mulr1 -mulrBr mulf_eq0 subr_eq0.
   by rewrite /is01a; case a_xi_0: (a xi == 0).
 have{nchi normX} part_a: '[chi] <= '[X] ?= iff all is01a (R chi) && (X == X1).
-  apply: lerif_trans normX; rewrite nchi defX1 cfnorm_sum_orthonormal //.
-  by rewrite -big_all !(big_tnth _ _ (R chi)) big_andE; apply: lerif_sum.
-split=> [|/lerif_eq part_b]; first by case: part_a.
-have [_ /esym] := lerif_add part_a part_b; rewrite -!cfnormBd // -defXY.
+  apply: leif_trans normX; rewrite nchi defX1 cfnorm_sum_orthonormal //.
+  by rewrite -big_all !(big_tnth _ _ (R chi)) big_andE; apply: leif_sum.
+split=> [|/leif_eq part_b]; first by case: part_a.
+have [_ /esym] := leif_add part_a part_b; rewrite -!cfnormBd // -defXY.
 rewrite Itau1 ?mem_zchar ?mem_head // eqxx => /andP[a_eq /eqP->].
 split=> //; first by apply/esym/eqP; rewrite part_a.
 have{a_eq} [/allP a01 /eqP->] := andP a_eq; rewrite defX1.
@@ -1204,16 +1204,16 @@ rewrite {}defY cfnormDd; last first.
 rewrite -cfnormN opprB cfnormB !cfnormZ !Cint_normK // addrAC ler_subl_addl.
 rewrite cfdotZl cfdotZr cfnorm_sum_orthogonal ?cfproj_sum_orthogonal ?map_f //.
 rewrite a_xi1 Itau1 ?Z_S1 // addrAC ler_add2r !(divfK, mulrA) ?nz_nS1 //.
-rewrite !conj_Cint ?rpredM // => /ler_gtF-lb_2_lam_a.
+rewrite !conj_Cint ?rpredM // => /le_gtF-lb_2_lam_a.
 suffices lam0: lam = 0; last apply: contraFeq lb_2_lam_a => nz_lam.
   suffices ->: Z = 0 by rewrite lam0 scale0r subrK.
   by apply: contraFeq lb_2_lam_a; rewrite -cfnorm_gt0 lam0 expr0n !mul0r !add0r.
 rewrite ltr_paddr ?cfnorm_ge0 // -mulr2n -mulr_natl mulrCA.
 have xi11_gt0: xi1 1%g > 0 by rewrite char1_gt0 ?N_S ?sS1S -?cfnorm_eq0 ?nz_nS1.
 have a_gt0: a > 0 by rewrite -(ltr_pmul2r xi11_gt0) mul0r -chi1 char1_gt0.
-apply: ler_lt_trans (_ : lam ^+ 2 * (2%:R * a) < _).
+apply: le_lt_trans (_ : lam ^+ 2 * (2%:R * a) < _).
   by rewrite ler_pmul2r ?mulr_gt0 ?ltr0n ?Cint_ler_sqr.
-rewrite ltr_pmul2l ?(ltr_le_trans ltr01) ?sqr_Cint_ge1 {lam Zlam nz_lam}//.
+rewrite ltr_pmul2l ?(lt_le_trans ltr01) ?sqr_Cint_ge1 {lam Zlam nz_lam}//.
 rewrite -(ltr_pmul2r xi11_gt0) -mulrA -chi1 -(ltr_pmul2r xi11_gt0).
 congr (_ < _): ub_chi1; rewrite -mulrA -expr2 mulr_suml big_map.
 apply/eq_big_seq=> xi S1xi; rewrite a_E // Itau1 ?mem_zchar //.
@@ -1294,7 +1294,7 @@ have haveX xi: xi \in S2 chi1 -> exists2 X, Xspec X & Xi_spec X xi.
   have{eqX1} [|nX n_xi defX] := eqX1; first by rewrite ler_paddr ?cfnorm_ge0.
   exists X => //; split; last by rewrite eqXY1 cfdotBr oXY1 subr0.
   suffices Y0: Y = 0 by rewrite eqXY1 eqX1Y Y0 subr0 opprB addrC subrK.
-  apply/eqP; rewrite -cfnorm_eq0 lerif_le ?cfnorm_ge0 //.
+  apply/eqP; rewrite -cfnorm_eq0 leif_le ?cfnorm_ge0 //.
   by rewrite -(ler_add2l '[X1]) addr0 n_xi.
 pose XDspec X := {in S2 chi1, forall xi, '[X, D xi] = N%:R}.
 have [X [RchiX nX defX] XD_N]: exists2 X, Xspec X & XDspec X.
@@ -1537,7 +1537,7 @@ have{Dtau1} Dtau1 j: 'chi_j \in calS -> exists t, tau1 'chi_j = eps *: 'chi_t.
     have [f [t ->]] := Dtau1 j Sxj.
     have [-> | neq_f_eps] := eqVneq f e; first by exists t.
     rewrite scalerA -signr_addb scaler_sign addbC -negb_eqb neq_f_eps.
-    by rewrite cfunE oppr_ge0 ltr_geF ?irr1_gt0.
+    by rewrite cfunE oppr_ge0 lt_geF ?irr1_gt0.
   rewrite -(pmulr_rge0 _ (irr1_gt0 i)) cfunE mulrCA.
   have: tau1 (mu j) 1%g == 0 by rewrite tau1_tau ?ZAmu ?Dade1.
   rewrite raddfB 2?raddfZ_Cnat ?Cnat_irr1 // !cfunE subr_eq0 => /eqP <-.

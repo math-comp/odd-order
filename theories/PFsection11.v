@@ -2,9 +2,9 @@
 (* Distributed under the terms of CeCILL-B.                                  *)
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice.
+Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
 From mathcomp
-Require Import fintype tuple finfun bigop prime ssralg poly finset center.
+Require Import tuple finfun bigop order prime ssralg poly finset center.
 From mathcomp
 Require Import fingroup morphism perm automorphism quotient action finalg zmodp.
 From mathcomp
@@ -31,7 +31,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope GRing.Theory FinRing.Theory Num.Theory.
+Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory.
 
 Section Eleven.
 
@@ -901,12 +901,12 @@ have tau_alpha i: tau (alpha_ i j) = eta_ i j - eta_ i 0 - n *: zeta1.
     have S1gt0: (0 < size S1)%N by case: (S1) S1zeta.
     have: n * b ^+ 2 <= n *+ 3.
       have: 2%:R + n <= n *+ 3 by rewrite addrC ler_add2l ler_muln2r Dn ler1n.
-      apply: ler_trans; rewrite sqrrB1 -mulr_natr -mulrBr mulrDr mulrA mulr1.
+      apply: le_trans; rewrite sqrrB1 -mulr_natr -mulrBr mulrDr mulrA mulr1.
       rewrite ler_add2r -(ler_add2r (n ^+ 2 + '[X])) !addrA -nY -cfnormDd //.
       by rewrite -Dphi norm_FTtype345_bridge ?S1_1 // ler_addl cfnorm_ge0.
     have Zb: b \in Cint by rewrite rpredB ?rpred1 ?Za.
     have nz_b: b != 0 by rewrite subr_eq0 (memPn _ a a_even) ?(dvdC_nat 2 1).
-    rewrite eqr_le sqr_Cint_ge1 {nz_b}//= andbT -Cint_normK // Dn -mulrnA.
+    rewrite eq_le sqr_Cint_ge1 {nz_b}//= andbT -Cint_normK // Dn -mulrnA.
     have /CnatP[m ->] := Cnat_norm_Cint Zb; rewrite -natrX -natrM leC_nat.
     by rewrite leq_pmul2l // lern1 -ltnS (ltn_sqr m 2) (leq_sqr m 1).
   have{nY Da} defX: X = eta_ i j - eta_ i 0. (* Last part of (11.8.2). *)
@@ -1095,9 +1095,9 @@ have bridgeS1: {in S1, forall zeta, eq_proj_eta (tau (bridge0 zeta)) eta0row}.
   have a2_ge0 i j: 0 <= a_ i j ^+ 2 by rewrite -realEsqr Creal_Cint.
   have a11_0: a11 = 0.
     have: ('[X] < (2 * q.-1)%:R).
-      rewrite (ler_lt_trans normX_le_q) // ltC_nat -subn1 mulnBr ltn_subRL.
+      rewrite (le_lt_trans normX_le_q) // ltC_nat -subn1 mulnBr ltn_subRL.
       by rewrite !mul2n -!addnn ltn_add2r odd_prime_gt2 ?mFT_odd.
-    apply: contraTeq => nz_a11; rewrite ler_gtF // normX ler_paddl //.
+    apply: contraTeq => nz_a11; rewrite le_gtF // normX ler_paddl //.
       by rewrite !mulr_natl ?addr_ge0 ?ler01 ?mulrn_wge0 ?a2_ge0.
     rewrite -mulr_natl -natrM ?ler_pmul ?natr_ge0 ?sqr_Cint_ge1 ?Za //.
     by rewrite leC_nat leq_mul // -subn1 ltn_subRL odd_prime_gt2 ?mFT_odd.
@@ -1109,9 +1109,9 @@ have bridgeS1: {in S1, forall zeta, eq_proj_eta (tau (bridge0 zeta)) eta0row}.
   have a10_0: a10 = 0.
     apply: contraNeq (FTtype34_not_ortho_cycTIiso S1zeta) => nz_a10.
     have a01_0: a01 = 0.
-      apply: contraTeq normX_le_q => nz_a01; rewrite normX ltr_geF //.
+      apply: contraTeq normX_le_q => nz_a01; rewrite normX lt_geF //.
       rewrite ltr_spaddr 1?mulr_gt0 ?ltr0n -?subn1 ?subn_gt0 ?prime_gt1 //.
-        by rewrite ltr_def sqrf_eq0 nz_a01 a2_ge0.
+        by rewrite lt_def sqrf_eq0 nz_a01 a2_ge0.
       rewrite -ler_subl_addl -(natrB _ (prime_gt0 pr_q)) subn1 -mulr_natl.
       by rewrite ler_wpmul2l ?ler0n // sqr_Cint_ge1 ?Za.
     suffices <-: X = eta_col 0 by rewrite Dchi /eq_proj_eta addrC addKr.

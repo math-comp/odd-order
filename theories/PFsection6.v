@@ -2,9 +2,9 @@
 (* Distributed under the terms of CeCILL-B.                                  *)
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice.
+Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
 From mathcomp
-Require Import fintype tuple finfun bigop prime ssralg poly finset center.
+Require Import tuple finfun bigop order prime ssralg poly finset center.
 From mathcomp
 Require Import fingroup morphism perm automorphism quotient action zmodp.
 From mathcomp
@@ -33,7 +33,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope GRing.Theory Num.Theory.
+Import GroupScope Order.TTheory GRing.Theory Num.Theory.
 Local Open Scope ring_scope.
 
 (* The main section *)
@@ -89,7 +89,7 @@ move=> [nsAL nsBL nsCL nsDL] [ltAK sBD sDC sCK sDbZC] cohA.
 have sBC := subset_trans sBD sDC; have sBK := subset_trans sBC sCK.
 have [sAK nsBK] := (proper_sub ltAK, normalS sBK sKL nsBL).
 have{sBC} [nsAK nsBC] := (normalS sAK sKL nsAL, normalS sBC sCK nsBK).
-rewrite real_lerNgt ?rpredB ?ger0_real ?mulr_ge0 ?sqrtC_ge0 ?ler0n ?ler01 //.
+rewrite real_leNgt ?rpredB ?ger0_real ?mulr_ge0 ?sqrtC_ge0 ?ler0n ?ler01 //.
 apply/unless_contra; rewrite negbK -(Lagrange_index sKL sCK) natrM => lb_KA.
 pose S2 : seq 'CF(L) := [::]; pose S1 := S2 ++ S A; rewrite -[S A]/S1 in cohA.
 have ccsS1S: cfConjC_subset S1 calS by apply: seqInd_conjC_subset1.
@@ -109,7 +109,7 @@ rewrite {phi}phi1 cfInd1 // dvdC_mulr //; last by rewrite CintE Cnat_irr1.
 split; rewrite // big_cat sum_seqIndD_square // big_seq ltr_paddl //=.
   apply/sumr_ge0=> xi S2xi; rewrite divr_ge0 ?cfnorm_ge0 ?exprn_ge0 //.
   by rewrite Cnat_ge0 // (Cnat_seqInd1 (sS1S _ _)) // mem_cat S2xi.
-rewrite mulrC ltr_pmul2l ?gt0CiG //; apply: ler_lt_trans lb_KA.
+rewrite mulrC ltr_pmul2l ?gt0CiG //; apply: le_lt_trans lb_KA.
 by rewrite -!mulrA !ler_wpmul2l ?ler0n // (irr1_bound_quo nsBC).
 Qed.
 
@@ -154,18 +154,18 @@ have sAbZH: (A / B \subset 'Z(H / B))%g.
 have ltAH: A \proper H.
   by rewrite properEneq sAH (contraTneq _ lbHA) // => ->; rewrite indexgg addn1.
 set x : algC := sqrtC #|H : A|%:R.
-have [nz_x x_gt0]: x != 0 /\ 0 < x by rewrite gtr_eqF sqrtC_gt0 gt0CiG.
+have [nz_x x_gt0]: x != 0 /\ 0 < x by rewrite gt_eqF sqrtC_gt0 gt0CiG.
 without loss{cohA} ubKA: / #|K : A|%:R - 1 <= 2%:R * #|L : H|%:R * x.
   have [sAK ltAK] := (subset_trans sAH sHK, proper_sub_trans ltAH sHK).
   exact: coherent_seqIndD_bound id.
 suffices{lbHA}: (x - x^-1) ^+ 2 <= (2 * #|L : K|)%:R ^+ 2.
-  rewrite ltr_geF // sqrrB divff // sqrtCK ltr_spaddr ?exprn_gt0 ?invr_gt0 //.
+  rewrite lt_geF // sqrrB divff // sqrtCK ltr_spaddr ?exprn_gt0 ?invr_gt0 //.
   by rewrite ler_subr_addr -natrX -natrD ler_nat expnMn addnS lbHA.
 rewrite ler_pexpn2r ?unfold_in /= ?ler0n //; last first.
   by rewrite subr_ge0 -div1r ler_pdivr_mulr // -expr2 sqrtCK ler1n.
 rewrite -(ler_pmul2l x_gt0) -(ler_pmul2l (gt0CiG K H)) 2!mulrBr -expr2 sqrtCK.
 rewrite !mulrA mulfK // mulrAC natrM mulrCA -2!natrM [in _ * x]mulnC.
-by rewrite !Lagrange_index // (ler_trans _ ubKA) // ler_add2l ler_opp2 ler1n.
+by rewrite !Lagrange_index // (le_trans _ ubKA) // ler_add2l ler_opp2 ler1n.
 Qed.
 
 (* This is the statement of Peterfalvi, Hypothesis (6.4). *)
@@ -313,7 +313,8 @@ have Ndg: {in calX, forall xi : 'CF(L), xi 1%g = (e * p ^ d xi)%:R}.
 have [chi Ychi leYchi]: {chi | chi \in Y & {in Y, forall xi, d xi <= d chi}%N}.
   have [/eqP/nilP Y0 | ntY] := posnP (size Y); first by rewrite Y0 in homoY.
   pose i := [arg max_(i > Ordinal ntY) d Y`_i].
-  exists Y`_i; [exact: mem_nth | rewrite {}/i; case: arg_maxP => //= i _ max_i].
+  exists Y`_i; first exact: mem_nth.
+  rewrite {}/i; case: fintype.arg_maxP => //= i _ max_i.
   by move=> _ /(nthP 0)[j ltj <-]; apply: (max_i (Ordinal ltj)).
 have{homoY} /hasP[xi1 Yxi1 lt_xi1_chi]: has (fun xi => d xi < d chi)%N Y.
   apply: contraFT homoY => geYchi; apply: (@all_pred1_constant _ (chi 1%g)).
@@ -345,7 +346,7 @@ rewrite !Ndg ?sYX // dvdC_nat dvdn_pmul2l // dvdn_exp2l 1?ltnW //; split=> //.
     by rewrite -ltnS // (leq_trans _ leYm) // -(perm_size defY) ltnW.
   exact: leq_trans.
 have p_gt0 n: (0 < p ^ n)%N by rewrite expn_gt0 prime_gt0.
-rewrite -!natrM; apply: (@ltr_le_trans _ (e ^ 2 * (p ^ d chi) ^ 2)%:R).
+rewrite -!natrM; apply: (lt_le_trans (y := (e ^ 2 * (p ^ d chi) ^ 2)%:R)).
   rewrite ltr_nat -expnMn -mulnn mulnAC !mulnA 2?ltn_pmul2r //.
   rewrite -mulnA mulnCA ltn_pmul2l // -(subnK lt_xi1_chi) addnS expnS.
   rewrite expnD mulnA ltn_pmul2r // -(muln1 3) leq_mul //.
@@ -379,7 +380,7 @@ rewrite indexg1 -(natrB _ (cardG_gt0 Z)) -natrM natCK.
 rewrite -(Lagrange_index sKL sZK) mulnAC dvdn_mull //.
 have /p_natP[k defKZ]: p.-nat #|K : Z| by rewrite (pnat_dvd (dvdn_indexg K Z)).
 rewrite defKZ dvdn_exp2l // -(leq_exp2l _ _ (prime_gt1 p_pr)) -{k}defKZ.
-rewrite -leC_nat expnM natrX -d_r ?(ler_trans (irr1_bound r).1) //.
+rewrite -leC_nat expnM natrX -d_r ?(le_trans (irr1_bound r).1) //.
 rewrite ler_nat dvdn_leq ?indexgS ?(subset_trans sZ_ZK) //=.
 by rewrite -cap_cfcenter_irr bigcap_inf.
 Qed.
@@ -720,7 +721,7 @@ have m_ub2_lt2 a: a \in Cint -> m_ub2 a < 2%:R -> a = 0 \/ a = 1 /\ size Y = 2.
   have ntY: (1 < size Y)%N by apply: seqInd_nontrivial Yeta1.
   have m1_ge1: 1 <= m - 1 by rewrite ler_subr_addr (ler_nat _ 2).
   have a1: a = 1.
-    apply: contraFeq (ltr_geF ub_a); rewrite -subr_eq0 /m_ub2 => nz_a1.
+    apply: contraFeq (lt_geF ub_a); rewrite -subr_eq0 /m_ub2 => nz_a1.
     by rewrite ler_add ?(mulr_ege1 m1_ge1) // sqr_Cint_ge1 ?rpredB.
   rewrite /m_ub2 a1 subrr expr0n add0r expr1n mulr1 in ub_a.
   rewrite ltr_subl_addr -mulrSr ltr_nat ltnS in ub_a.
@@ -760,7 +761,7 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
     have [_ /seqIndP[i0 IXi0 _]]: {phi | phi \in X}.
       by apply: seqIndD_nonempty; rewrite ?normal1 ?proper1G.
     pose xi1 := 'Ind[L] 'chi_[arg min_(i < i0 in Iirr_kerD H Z 1%G) e i].
-    case: arg_minP => {i0 IXi0}//= i1 IXi1 min_i1 in xi1.
+    case: fintype.arg_minP => {i0 IXi0}//= i1 IXi1 min_i1 in xi1.
     exists xi1 => [|_ /seqIndP[i IXi ->]]; first by apply/seqIndP; exists i1.
     rewrite !cfInd1 // !De -!natrM dvdC_nat dvdn_pmul2l //.
     by rewrite dvdn_Pexp2l ?min_i1 ?prime_gt1.
@@ -875,11 +876,11 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
     by rewrite oYYt ?map_f // eqxx mulr1 rmorphM conjCK aut_Cnat ?aut_Cint.
   have{norm_tau_psi1} mq2_lt2: m_ub2 q < 2%:R.
     suffices a2_gt1: a ^+ 2 > 1.
-      have /ltr_pmul2l <-: a ^+ 2 > 0 by apply: ltr_trans a2_gt1.
+      have /ltr_pmul2l <-: a ^+ 2 > 0 by apply: lt_trans a2_gt1.
       rewrite -(ltr_add2l '[X1]) -norm_tau_psi1 ltr_paddl ?cfnorm_ge0 //.
       by rewrite Itau // mulr_natr norm_psi1 ltr_add2r.
     suffices a_neq1: a != 1.
-      rewrite expr_gt1 ?Cnat_ge0 // ltr_neqAle eq_sym a_neq1.
+      rewrite expr_gt1 ?Cnat_ge0 // lt_neqAle eq_sym a_neq1.
       by rewrite -(norm_Cnat Na) norm_Cint_ge1 ?Cint_Cnat.
     have /seqIndP[i1 /setDP[_ not_kerH'i1] Dxi1] := Xxi1.
     apply: contraNneq not_kerH'i1 => a_eq1; rewrite inE (subset_trans sZH') //.
@@ -1059,7 +1060,7 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
     have{ub_norm_gamma} ub_xm: m_ub2 x < 2%:R.
       have: '[Y1] < 2%:R.
         rewrite -2!(ltr_pmul2l (gt0CiG H Z)) -!natrM mulnA muln2.
-        apply: ler_lt_trans ub_norm_gamma; rewrite Dgamma cfnormBd.
+        apply: le_lt_trans ub_norm_gamma; rewrite Dgamma cfnormBd.
           by rewrite cfnormZ normCK rmorph_nat mulrA -subr_ge0 addrK cfnorm_ge0.
         rewrite (span_orthogonal oX1Y) ?memv_span1 ?rpredZ // rpredN big_seq.
         by apply/rpred_sum => eta Yeta; rewrite rpredZ ?memv_span ?map_f.
@@ -1210,9 +1211,9 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
       by rewrite subr0 (span_orthogonal (oRY i _)) ?conjC0 ?rpredZ // memv_span.
     have leba i: i \in rp -> b i <= a_ i.
       move=> rp_i; have ai_gt0: a_ i > 0 by rewrite -Da_ ?irr1_gt0.
-      rewrite (ler_trans (real_ler_norm (Rb i _))) //.
-      rewrite -(@ler_pexpn2r _ 2) ?qualifE ?(ltrW ai_gt0) ?norm_ger0 //.
-      apply: ler_trans (_ : '[b i *: Y1 - Z1 i] <= _).
+      rewrite (le_trans (real_ler_norm (Rb i _))) //.
+      rewrite -(@ler_pexpn2r _ 2) ?qualifE ?(ltW ai_gt0) ?norm_ger0 //.
+      apply: le_trans (_ : '[b i *: Y1 - Z1 i] <= _).
         rewrite cfnormBd; last by rewrite cfdotZl cfdotC oZY1 ?conjC0 ?mulr0.
         by rewrite cfnormZ normY1 mulr1 ler_addl cfnorm_ge0.
       rewrite -(ler_add2l '[X1 i]) -cfnormBd; last first.
@@ -1308,7 +1309,7 @@ suffices ubW1: (#|W1|.*2 ^ 2 <= #|H : Z| * (#|Z| - 1) ^ 2)%N.
   have chi1_ge0: 0 <= 'chi_i 1%g by rewrite char1_ge0 ?irr_char.
   rewrite Dpsi cfInd1 // -oW1 -(@ler_pexpn2r _ 2) ?rpredM ?rpred_nat //.
   rewrite -natrX expnMn mulnAC natrM mulrA -natrM exprMn -natrX mul2n.
-  rewrite ler_pmul ?ler0n ?exprn_ge0 ?(ler_trans (irr1_bound i)) ?ler_nat //.
+  rewrite ler_pmul ?ler0n ?exprn_ge0 ?(le_trans (irr1_bound i)) ?ler_nat //.
   rewrite dvdn_leq ?indexgS ?(subset_trans sZZH) //=.
   by rewrite -cap_cfcenter_irr bigcap_inf.
 have nZW1 := subset_trans sW1L nZL.
