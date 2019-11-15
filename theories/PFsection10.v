@@ -763,7 +763,7 @@ have ub_G1: #|G1|%:R / #|G|%:R <= #|H|%:R / #|S|%:R + #|V|%:R / #|W|%:R :> algC.
   rewrite ler_pdivr_mulr ?ltr0n ?cardG_gt0 // mulrC mulrDr !mulrA.
   rewrite ![_ * _ / _]mulrAC -!natf_indexg ?subsetT //= -!natrM -natrD ler_nat.
   apply: leq_trans (subset_leq_card sG1_HVG) _.
-  rewrite cardsU (leq_trans (leq_subr _ _)) //.
+  rewrite cardsU (leq_trans (leq_subl _ _)) //.
   have unifJG B C: C \in B :^: G -> #|C| = #|B|.
     by case/imsetP=> z _ ->; rewrite cardJg.
   have oTI := card_uniform_partition (unifJG _) (partition_class_support _ _).
