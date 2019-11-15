@@ -171,7 +171,7 @@ have ->: (u * q)%:R^-1 = #|S|%:R^-1 * #|P|%:R :> algC.
 have [_ _] := FTtypeII_ker_TI maxS Stype2; rewrite FTsupp1_type2 // => tiP1.
 rewrite {tiP1}(card_support_normedTI tiP1) natrM natf_indexg ?subsetT //.
 rewrite mulrCA mulKf ?neq0CG // mulrC ler_pmul2l ?invr_gt0 ?gt0CG // leC_nat.
-by rewrite cardsDS ?sub1G ?leq_subr.
+by rewrite cardsDS ?sub1G ?leq_subl.
 Qed.
 
 Hypotheses (maxNU_L : L \in 'M('N(U))) (phi1 : phi 1%g = e%:R).
@@ -709,7 +709,7 @@ rewrite -mulnA leq_mul // mulnA mulnCA mulnC leq_mul // -bin_sub ?leqW //.
 rewrite -(leq_pmul2r (fact_gt0 (q.+1 - i))) -mulnA bin_ffact mulnC subSn //.
 rewrite ffactnS /= -!mulnA leq_mul //=; elim: {i leiq}(q - i)%N => //= i IHi.
 rewrite ffactnSr expnSr mulnACA expnS factS (mulnACA n) mulnC leq_mul //.
-by rewrite leq_mul // (leq_trans (leq_subr _ _)).
+by rewrite leq_mul // (leq_trans (leq_subl _ _)).
 Qed.
 
 (* This is Peterfalvi (14.8)(b). *)

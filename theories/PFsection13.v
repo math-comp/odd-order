@@ -1203,7 +1203,7 @@ have lb_m r b d: test r.+2 b d -> (q >= r.+2)%N -> m > b%:R / d%:R.
     by rewrite leC_nat -ltnS (ltn_predK qgt2).
   rewrite -(ltn_predK pgt2) expnSr natrM invfM mulrA.
   rewrite ler_pdivr_mulr ?gt0CG // mulrAC mul1r -subn1.
-  rewrite ler_pmul ?invr_ge0 ?ler0n ?leC_nat ?leq_subr //.
+  rewrite ler_pmul ?invr_ge0 ?ler0n ?leC_nat ?leq_subl //.
   rewrite lef_pinv ?qualifE ?ltr0n ?leC_nat ?expn_gt0 ?(prime_gt0 pr_q) //.
   apply: leq_trans (_ : q ^ 2 <= _)%N; first by rewrite leq_exp2r.
   by rewrite -(subnKC qgt2) leq_pexp2l // -subn1 ltn_subRL.
