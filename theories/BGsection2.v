@@ -539,7 +539,7 @@ case: (leqP k j.+1) => [ | lt_j1_k].
 case: (leqP h.-1 (k - j)) => [le_h1_kj | lt_kj_h1].
   have k_h1: k = h.-1.
     apply/eqP; rewrite eqn_leq -ltnS (prednK h_gt0) lt_kh.
-    exact: leq_trans (leq_subl j k).
+    exact: leq_trans (leq_subr j k).
   have j0: j = 0%N.
     apply/eqP; rewrite -leqn0 -(leq_add2l k) -{2}(subnK (ltnW lt_jk)).
     by rewrite addn0 leq_add2r {1}k_h1.
