@@ -2,9 +2,9 @@
 (* Distributed under the terms of CeCILL-B.                                  *)
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
-Require Import ssrbool ssrfun eqtype choice ssrnat seq div fintype.
+Require Import ssrbool ssrfun eqtype choice ssrnat seq div fintype tuple finfun.
 From mathcomp
-Require Import tuple finfun bigop ssralg finset prime binomial poly polydiv.
+Require Import bigop order ssralg finset prime binomial poly polydiv.
 From mathcomp
 Require Import fingroup morphism quotient automorphism action finalg zmodp.
 From mathcomp
@@ -20,7 +20,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope GRing.Theory FinRing.Theory Num.Theory.
+Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory.
 Local Open Scope ring_scope.
 
 Section AppendixC.
@@ -357,28 +357,28 @@ have [q_gt4 | q_le4] := ltnP 4 q.
     by apply: ler_sum => i _; rewrite normCK; case: ifP; rewrite ?mul_conjC_ge0.
   have sqrtP_gt0: 0 < sqrtC #|P|%:R :> algC by rewrite sqrtC_gt0 ?gt0CG.
   have{De ub_linH'}:
-    `|(#|P| * e)%:R - #|U|%:R ^+ 2| <= #|P|%:R * sqrtC #|P|%:R :> algC.
+    `|(#|P| * e)%:R - #|U|%:R ^+ 2 : algC| <= #|P|%:R * sqrtC #|P|%:R.
     rewrite natrM De mulrCA mulrA divfK ?neq0CG // (bigID linH) /= sum_linH.
     rewrite mulrDr addrC addKr mulrC mulr_suml /chi_s2.
-    rewrite (ler_trans (ler_norm_sum _ _ _)) // -ler_pdivr_mulr // mulr_suml.
-    apply: ler_trans (ub_linH' 1%N isT); apply: ler_sum => i linH'i.
+    rewrite (le_trans (ler_norm_sum _ _ _)) // -ler_pdivr_mulr // mulr_suml.
+    apply: le_trans (ub_linH' 1%N isT); apply: ler_sum => i linH'i.
     rewrite ler_pdivr_mulr // degU ?divfK ?neq0CG //.
     rewrite normrM -normrX norm_conjC ler_wpmul2l ?normr_ge0 //.
-    rewrite -ler_sqr ?qualifE ?normr_ge0 ?(@ltrW _ 0) // sqrtCK.
-    apply: ler_trans (ub_linH' 2 isT); rewrite (bigD1 i) ?ler_paddr //=.
+    rewrite -ler_sqr ?qualifE ?normr_ge0 ?(ltW (x := 0)) // ?sqrtCK.
+    apply: le_trans (ub_linH' 2 isT); rewrite (bigD1 i) ?ler_paddr //=.
     by apply: sumr_ge0 => i1 _; rewrite exprn_ge0 ?normr_ge0.
   rewrite natrM real_ler_distl ?rpredB ?rpredM ?rpred_nat // => /andP[lb_Pe _].
-  rewrite -ltC_nat -(ltr_pmul2l (gt0CG P)) {lb_Pe}(ltr_le_trans _ lb_Pe) //.
-  rewrite ltr_subr_addl (@ler_lt_trans _ ((p ^ q.-1)%:R ^+ 2)) //; last first.
+  rewrite -ltC_nat -(ltr_pmul2l (gt0CG P)) {lb_Pe}(lt_le_trans _ lb_Pe) //.
+  rewrite ltr_subr_addl (le_lt_trans (y := (p ^ q.-1)%:R ^+ 2)) //; last first.
     rewrite -!natrX ltC_nat ltn_sqr oU ltn_divRL ?dvdn_pred_predX //.
     rewrite -(subnKC qgt1) /= -!subn1 mulnBr muln1 -expnSr.
     by rewrite ltn_sub2l ?(ltn_exp2l 0) // prime_gt1.
   rewrite -mulrDr -natrX -expnM muln2 -subn1 doubleB -addnn -addnBA // subn2.
   rewrite expnD natrM -oP ler_wpmul2l ?ler0n //.
-  apply: ler_trans (_ : 2%:R * sqrtC #|P|%:R <= _).
-    rewrite mulrDl mul1r ler_add2l -(@expr_ge1 _ 2) ?(ltrW sqrtP_gt0) // sqrtCK.
+  apply: le_trans (_ : 2%:R * sqrtC #|P|%:R <= _).
+    rewrite mulrDl mul1r ler_add2l -(@expr_ge1 _ 2) ?(ltW sqrtP_gt0) // sqrtCK.
     by rewrite oP natrX expr_ge1 ?ler0n ?ler1n.
-  rewrite -ler_sqr ?rpredM ?rpred_nat ?qualifE ?(ltrW sqrtP_gt0) //.
+  rewrite -ler_sqr ?rpredM ?rpred_nat ?qualifE ?(ltW sqrtP_gt0) //.
   rewrite exprMn sqrtCK -!natrX -natrM leC_nat -expnM muln2 oP.
   rewrite -(subnKC q_gt4) doubleS (expnS p _.*2.+1) -(subnKC pgt4) leq_mul //.
   by rewrite ?leq_exp2l // !doubleS !ltnS -addnn leq_addl.

@@ -2,9 +2,9 @@
 (* Distributed under the terms of CeCILL-B.                                  *)
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice.
+Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
 From mathcomp
-Require Import fintype tuple finfun bigop prime ssralg poly finset fingroup.
+Require Import tuple finfun bigop order prime ssralg poly finset fingroup.
 From mathcomp
 Require Import morphism perm automorphism quotient action gfunctor gproduct.
 From mathcomp
@@ -66,7 +66,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope GRing.Theory Num.Theory.
+Import GroupScope Order.TTheory GRing.Theory Num.Theory.
 Local Open Scope ring_scope.
 
 Section Four_1_to_2.
@@ -569,10 +569,10 @@ have [k chi_j_k]: {k | k \in irr_constt chi_j} := constt_cfRes_irr K _.
 have Nchi_j: chi_j \is a character by rewrite cfRes_char ?irr_char.
 have lb_mu_1: w1%:R * 'chi_k 1%g <= mu_ j 1%g ?= iff (chi_j == 'chi_k).
   have [chi' Nchi' Dchi_j] := constt_charP _ Nchi_j chi_j_k.
-  rewrite prTIred_1 (mono_lerif (ler_pmul2l (gt0CG W1))).
+  rewrite prTIred_1 (mono_leif (ler_pmul2l (gt0CG W1))).
   rewrite -subr_eq0 Dchi_j addrC addKr -(canLR (addrK _) Dchi_j) !cfunE.
-  rewrite lerif_subLR addrC -lerif_subLR cfRes1 subrr -char1_eq0 // eq_sym.
-  by apply: lerif_eq; rewrite char1_ge0.
+  rewrite leif_subLR addrC -leif_subLR cfRes1 subrr -char1_eq0 // eq_sym.
+  by apply: leif_eq; rewrite char1_ge0.
 pose psi := 'Ind 'chi_k - mu_ j; have Npsi: psi \is a character.
   apply/forallP=> l; rewrite coord_cfdot cfdotBl; set a := '['Ind _, _].
   have Na: a \in Cnat by rewrite Cnat_cfdot_char_irr ?cfInd_char ?irr_char.
@@ -584,9 +584,9 @@ pose psi := 'Ind 'chi_k - mu_ j; have Npsi: psi \is a character.
   rewrite cfdot_suml big1 ?subr0 // => i _.
   rewrite cfdot_irr -(inj_eq irr_inj) mulrb ifN_eqC ?muj'l //.
 have ub_mu_1: mu_ j 1%g <= 'Ind[L] 'chi_k 1%g ?= iff ('Ind 'chi_k == mu_ j).
-  rewrite -subr_eq0 -/psi (canRL (subrK _) (erefl psi)) cfunE -lerif_subLR.
-  by rewrite subrr -char1_eq0 // eq_sym; apply: lerif_eq; rewrite char1_ge0.
-have [_ /esym] := lerif_trans lb_mu_1 ub_mu_1; rewrite cfInd1 //.
+  rewrite -subr_eq0 -/psi (canRL (subrK _) (erefl psi)) cfunE -leif_subLR.
+  by rewrite subrr -char1_eq0 // eq_sym; apply: leif_eq; rewrite char1_ge0.
+have [_ /esym] := leif_trans lb_mu_1 ub_mu_1; rewrite cfInd1 //.
 by rewrite -(index_sdprod defL) eqxx => /andP[/eqP-> /eqP <-]; rewrite irrK.
 Qed.
 

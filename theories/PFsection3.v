@@ -2,9 +2,9 @@
 (* Distributed under the terms of CeCILL-B.                                  *)
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice.
+Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
 From mathcomp
-Require Import fintype tuple finfun bigop prime ssralg matrix poly finset.
+Require Import tuple finfun bigop order prime ssralg matrix poly finset.
 From mathcomp
 Require Import fingroup morphism perm automorphism quotient action finalg zmodp.
 From mathcomp
@@ -63,7 +63,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope GRing.Theory Num.Theory.
+Import GroupScope Order.TTheory GRing.Theory Num.Theory.
 Local Open Scope ring_scope.
 
 Section Definitions.
@@ -500,7 +500,7 @@ rewrite -leC_nat -ltC_nat -eqC_nat /=.
 have <-: '[beta] = 3%:R by rewrite Dm // /dot_ref !eqxx.
 have <-: '[X] = norm%:R.
   rewrite {}defX {}/norm cfnorm_sum_orthonormal // {o1Aij oYij sAm}/Aij.
-  transitivity (\sum_(kv <- kvs) `|kv.2%:~R| ^+ 2 : algC).
+  transitivity (\sum_(kv <- kvs) `|kv.2%:~R : algC| ^+ 2).
     by rewrite !big_map; apply: eq_big_seq => kv /clP[_ /eqP->].
   rewrite unlock /=; elim: (kvs) => //= [[k v] kvs' ->].
   by rewrite -intr_norm -natrX -natrD.
@@ -513,7 +513,7 @@ have Z_X: X \in 'Z[irr G].
 rewrite -ltr_subl_addl subrr cnorm_dconstt; last first.
   by rewrite -[Y](addKr X) -defXY addrC rpredB.
 have [-> | [dk Ydk] _ /eqP sz_kvs] := set_0Vmem (dirr_constt Y).
-  by rewrite big_set0 ltrr.
+  by rewrite big_set0 ltxx.
 have Dks: ks =i iota 0 (size m).
   have: {subset ks <= iota 0 (size m)} by move=> k /lt_ks; rewrite mem_iota.
   by case/uniq_min_size; rewrite // size_iota size_map sz_kvs.
@@ -525,7 +525,7 @@ apply/orthoPl=> _ /(nthP 0)[k ltk <-]; have [Um o_m] := orthonormalP o1m.
 have Z1k: m`_k \in dirr G by rewrite dirrE ZmR ?o_m ?eqxx ?mem_nth.
 apply: contraTeq Ydk => /eqP; rewrite dirr_consttE cfdot_dirr ?dirr_dchi //.
 have oYm: '[Y, m`_k] = 0 by rewrite (orthoPl oYij) ?map_f // Dks mem_iota.
-by do 2?case: eqP => [-> | _]; rewrite // ?cfdotNr oYm ?oppr0 ltrr.
+by do 2?case: eqP => [-> | _]; rewrite // ?cfdotNr oYm ?oppr0 ltxx.
 Qed.
 
 Lemma norm_cl_eq3 m th cl :
@@ -606,7 +606,8 @@ Lemma O ij12 : is_sat_test (sat_test Otest ij12).
 Proof.
 apply: sat_testP => m th [ij1 kvs1] [ij2 kvs2] /= m_th th_cl1 th_cl2.
 set cl1eq := _ == 3; set cl2eq := _ == 3; have [_ _ Dm] := LmodelP m.
-pose goal s1 s2 := cl2eq ==> (`|s1 - (dot_ref ij1 ij2)%:~R| <= s2%:R :> algC).
+pose goal (s1 : algCnum) s2 :=
+  cl2eq ==> (`|s1 - (dot_ref ij1 ij2)%:~R| <= s2%:R).
 set kvs := kvs2; set s1 := 0; set s2 := {2}0%N; have thP := satP m_th.
 have{thP} [[wf_cl1 _ cl1P] [wf_cl2 _ cl2P]] := (thP _ th_cl1, thP _ th_cl2).
 have: goal (s1%:~R + '[m ij1, eval_cl m kvs]) (if cl1eq then 0%N else s2).
@@ -624,8 +625,8 @@ move=> gl12; apply: IHkvs; case: ifP gl12 => [/(norm_cl_eq3 m_th th_cl1)->|_].
   have [[ltk1 _] [/orthonormalP[Um oom] _]] := (cl1P _ kvs1_kv1, RmodelP m).
   rewrite -!scaler_int cfdotZl cfdotZr oom ?mem_nth ?nth_uniq // mulrb.
   by rewrite ifN ?mulr0 //; apply: contraNneq kvs1'k => <-; apply: map_f.
-rewrite /goal -(ler_add2r 1) -mulrSr; case: (cl2eq) => //; apply: ler_trans.
-set s := '[_, _]; rewrite -[_ + _](addrK s) (ler_trans (ler_norm_sub _ _)) //.
+rewrite /goal -(ler_add2r 1) -mulrSr; case: (cl2eq) => //; apply: le_trans.
+set s := '[_, _]; rewrite -[_ + _](addrK s) (le_trans (ler_norm_sub _ _)) //.
 rewrite 2![_ + s]addrAC addrA ler_add2l {}/s -scaler_int cfdotZr rmorph_int.
 have [|v1 _] := sat_cases k m_th th_cl1; first exact/andP.
 have [th1 -> /= [th1_cl1 _] m_th1] := ext_clP k v1 th_cl1.
@@ -1582,9 +1583,9 @@ move=> Zphi ub_phi; apply: leq_trans (_ : #|dirr_constt phi| <= n)%N.
   rewrite {1}[phi]cfun_sum_dconstt // -sum1_card.
   elim/big_rec2: _ => [|/= i n1 phi1 _]; first by rewrite cycTI_NC_0.
   by apply: cycTI_NC_add; rewrite cycTI_NC_scale ?cycTI_NC_dchi.
-rewrite -leC_nat (ler_trans _ ub_phi) ?cnorm_dconstt // -sumr_const.
+rewrite -leC_nat (le_trans _ ub_phi) ?cnorm_dconstt // -sumr_const.
 apply: ler_sum => i phi_i; rewrite sqr_Cint_ge1 ?Cint_Cnat ?Cnat_dirr //.
-by rewrite gtr_eqF -?dirr_consttE.
+by rewrite gt_eqF -?dirr_consttE.
 Qed.
 
 (* This is PeterFalvi (3.8). *)
@@ -1691,8 +1692,8 @@ set Irho := dirr_constt _ in oIrho Drho.
 suffices /eqP eqIrho: Irho == Iphi by rewrite Drho eqIrho -Dphi signrZK.
 have psi_phi'_lt0 di: di \in Irho :\: Iphi -> '[psi, dchi di] < 0.
   case/setDP=> rho_di phi'di; rewrite cfdotBl subr_lt0.
-  move: rho_di; rewrite dirr_consttE; apply: ler_lt_trans.
-  rewrite real_lerNgt -?dirr_consttE ?real0 ?Creal_Cint //.
+  move: rho_di; rewrite dirr_consttE; apply: le_lt_trans.
+  rewrite real_leNgt -?dirr_consttE ?real0 ?Creal_Cint //.
   by rewrite Cint_cfdot_vchar ?dchi_vchar.
 have NCpsi: (NC psi < 2 * minn w1 w2)%N.
   suffices NCpsi4: (NC psi <= 2 + 2)%N.
@@ -1719,13 +1720,13 @@ have{dot_dk1 dot_dk2} [s [k Dk1 rho_k2]]:
   by rewrite Dk1 addrK in dot_dk2.
 rewrite -Dk1 rhoIdE cfdotZr rmorph_sign in psi_k1_lt0.
 have psi_k1_neq0: '[psi, eta_ i k.1] != 0.
-  by rewrite -(can_eq (signrMK s)) mulr0 ltr_eqF.
+  by rewrite -(can_eq (signrMK s)) mulr0 lt_eqF.
 set dk2 := rhoId _ in rho_k2.
 have NCk2'_le1 (dI : {set _}):
   dk2 \in dI -> #|dI| = 2%N -> (NC (\sum_(dk in dI :\ dk2) dchi dk)%R <= 1)%N.
 - rewrite (cardsD1 dk2) => -> /eqP/cards1P[dk ->].
   by rewrite big_set1 cycTI_NC_dirr ?dirr_dchi.
-suffices /psi_phi'_lt0/ltr_geF/idP[]: dk2 \in Irho :\: Iphi.
+suffices /psi_phi'_lt0/lt_geF/idP[]: dk2 \in Irho :\: Iphi.
   rewrite rhoIdE cfdotZr signrN rmorphN mulNr oppr_ge0 rmorph_sign.
   have := small_cycTI_NC psiV0 NCpsi psi_k1_neq0.
   by case=> // ->; rewrite mulrCA nmulr_lle0 ?ler0n.
