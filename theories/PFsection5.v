@@ -263,7 +263,7 @@ End Beta.
 
 End SeqInd.
 
-Arguments seqIndP [calX phi].
+Arguments seqIndP {calX phi}.
 
 Lemma seqIndS (calX calY : {set Iirr K}) :
  calX \subset calY -> {subset seqInd calX <= seqInd calY}.
@@ -443,8 +443,8 @@ Proof. by rewrite sum_seqIndD_square ?normal1 ?sub1G // indexg1. Qed.
 
 End InducedIrrs.
 
-Arguments seqIndP [gT K L calX phi].
-Arguments seqIndC1P [gT K L phi].
+Arguments seqIndP {gT K L calX phi}.
+Arguments seqIndC1P {gT K L phi}.
 
 Section Five.
 

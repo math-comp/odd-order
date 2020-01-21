@@ -260,7 +260,7 @@ suffices ->: sub_bbox (th_bbox th) bb = all in_bb th by apply: allP.
 elim: th => [|[[i j] _] th] //=; case: (th_bbox th) => ri rj /=.
 by rewrite /sub_bbox /= !geq_max andbACA => ->.
 Qed.
-Arguments th_bboxP [th bb].
+Arguments th_bboxP {th bb}.
 
 Fixpoint th_dim th : nat :=
   if th is (_, kvs) :: th1 then
@@ -277,7 +277,7 @@ suffices ->: (th_dim th <= bk)%N = all in_bk th.
 elim: th => // [[_ kvs] th /= <-]; elim: kvs => //= kv kvs.
 by rewrite -andbA geq_max => ->.
 Qed.
-Arguments th_dimP [th bk].
+Arguments th_dimP {th bk}.
 
 (* Theory and clause lookup. *)
 
@@ -468,7 +468,7 @@ split; first by apply/th_bboxP=> cl /thP[].
   by apply/th_dimP=> cl /thP[_ _ clP] kv /clP[].
 by apply/allP=> cl /thP[_ Ucl clP]; rewrite /sat_cl Ucl; apply/allP=> kv /clP[].
 Qed.
-Arguments satP [m th].
+Arguments satP {m th}.
 
 (* Reflexion of the dot product. *)
 
@@ -798,7 +798,7 @@ Proof. by case: find_sym => // s; apply: unsat_match. Qed.
 
 End Interpretation.
 
-Arguments satP [gT G m th].
+Arguments satP {gT G m th}.
 Arguments unsat [gT G].
 Arguments sat_cases [gT G m th] k [cl].
 Arguments unsat_cases [gT G th] ij kvs [tO].
