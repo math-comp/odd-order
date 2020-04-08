@@ -574,7 +574,7 @@ have{a_gt1 a_dv_p1} defU1: U1 :=: [set: 'rV_2].
   rewrite cardsT card_matrix card_ord Zp_cast // leq_sqr -/p.
   apply: dvdn_leq; first by rewrite -(subnKC pgt2).
   rewrite -divn2 -(@Gauss_dvdl a _ 2) ?divnK //.
-    by rewrite dvdn2 -subn1 odd_sub ?odd_gt0 ?mFT_odd.
+    by rewrite dvdn2 -subn1 oddB ?odd_gt0 ?mFT_odd.
   by rewrite coprimen2 (dvdn_odd (dvdn_indexg U _)) ?mFT_odd.
 have [r pr_r r_r_U] := rank_witness U.
 have [R0 sylR0] := Sylow_exists r U; have [sR0U rR0 _] := and3P sylR0.
@@ -915,7 +915,7 @@ have{regKW2} [lb_k lb_k1e_v]: (2 * p * v < k /\ v.-1 %/ p < k.-1 %/ e)%N.
       by rewrite -(ltn_pmul2r (cardG_gt0 V)) -Dk mul1n proper_card.
     have x_gt0 := ltnW x_gt1; rewrite -(prednK x_gt0) ltnS -subn1.
     rewrite dvdn_leq ?subn_gt0 // -mul2n Gauss_dvd ?coprime2n ?mFT_odd //.
-    rewrite dvdn2 odd_sub // (dvdn_odd _ (mFT_odd K)) -/k ?Dk ?dvdn_mulr //=.
+    rewrite dvdn2 oddB // (dvdn_odd _ (mFT_odd K)) -/k ?Dk ?dvdn_mulr //=.
     rewrite -eqn_mod_dvd // -[x]muln1 -modnMmr.
     have nVW2: W2 \subset 'N(V) by have [_ []] := TtypeP.
     have /eqP{1} <-: (v == 1 %[mod p]).
@@ -1145,7 +1145,7 @@ have{n nmodq Dx} lb_x: (q + q.+1 * p <= x)%N.
   rewrite (divn_eq n q) nmodq (modn_small (ltnW qgt2)) addn1 in Dx.
   rewrite Dx leq_add2l leq_mul // ltnS leq_pmull // lt0n.
   have: odd x by rewrite (dvdn_odd (dvdn_indexg _ _)) ?mFT_odd.
-  by rewrite Dx odd_add odd_mul !mFT_odd; apply: contraNneq => ->.
+  by rewrite Dx oddD odd_mul !mFT_odd; apply: contraNneq => ->.
 have lb_h: (p ^ q < h)%N.
   rewrite (@leq_trans (p * nU)) //; last first.
     rewrite -DnU oH mulnA mulnC leq_mul // (leq_trans _ lb_x) //.

@@ -72,7 +72,7 @@ Qed.
 Let mem_calI i : i \in calX -> 'chi_i \in calI.
 Proof. by move=> i_Iirr; apply/imageP; exists i. Qed.
 
-Lemma FTtype1_irrP i : 
+Lemma FTtype1_irrP i :
   reflect (exists2 chi, chi \in calS & i \in S_ chi) (i \in calX).
 Proof.
 have [sHL nHL] := andP nsHL; rewrite !inE sub1G andbT.
@@ -247,14 +247,14 @@ Local Notation Rgen := FTtype1_subcoherent.
 (* This is Peterfalvi (12.3) *)
 Lemma FTtype1_seqInd_ortho L1 L2 (maxL1 : L1 \in 'M) (maxL2 : L2 \in 'M)
     (L1type1 : FTtype L1 == 1%N) (L2type1 : FTtype L2 == 1%N)
-    (H1 := L1`_\F%G) (H2 := L2`_\F%G) 
-    (calS1 := seqIndD H1 L1 H1 1) (calS2 := seqIndD H2 L2 H2 1) 
-    (R1 := sval (Rgen maxL1 L1type1)) (R2 := sval (Rgen maxL2 L2type1)) : 
+    (H1 := L1`_\F%G) (H2 := L2`_\F%G)
+    (calS1 := seqIndD H1 L1 H1 1) (calS2 := seqIndD H2 L2 H2 1)
+    (R1 := sval (Rgen maxL1 L1type1)) (R2 := sval (Rgen maxL2 L2type1)) :
     gval L2 \notin L1 :^: G ->
   {in calS1 & calS2, forall chi1 chi2, orthogonal (R1 chi1) (R2 chi2)}.
 Proof.
 move=> notL1G_L2; without loss{notL1G_L2} disjointA1A:
-     L1 L2 maxL1 maxL2 L1type1 L2type1 @H1 @H2 @calS1 @calS2 @R1 @R2 / 
+     L1 L2 maxL1 maxL2 L1type1 L2type1 @H1 @H2 @calS1 @calS2 @R1 @R2 /
   [disjoint 'A1~(L2) & 'A~(L1)].
 - move=> IH_L; have [_ _] := FT_Dade_support_disjoint maxL1 maxL2 notL1G_L2.
   by case=> /IH_L-oS12 chi1 chi2 *; first rewrite orthogonal_sym; apply: oS12.
@@ -335,7 +335,7 @@ Let R := sval (Rgen maxL Ltype1).
 Let S_ (chi : 'CF(L)) := [set i in irr_constt chi].
 
 (* This is Peterfalvi (12.4). *)
-Lemma FTtype1_ortho_constant (psi : 'CF(G)) x : 
+Lemma FTtype1_ortho_constant (psi : 'CF(G)) x :
     {in calS, forall phi, orthogonal psi (R phi)} -> x \in L :\: H ->
   {in x *: H, forall y, psi y = psi x}%g.
 Proof.
@@ -351,7 +351,7 @@ have dot_irr xi j : xi \in calS -> j \in S_ xi -> '['chi_j, xi] = 1.
     by rewrite big_filter; have [] := FTtype1_seqInd_facts maxL Ltype1 xi_calS.
   rewrite (bigD1_seq j) ?mem_enum ?enum_uniq //= cfdotDr cfdot_sumr cfnorm_irr.
   by rewrite big1 ?addr0 // => k i'k; rewrite cfdot_irr eq_sym (negPf i'k).
-have {dot_irr} supp12B y xi j1 j2 : xi \in calS -> j1 \in S_ xi -> 
+have {dot_irr} supp12B y xi j1 j2 : xi \in calS -> j1 \in S_ xi ->
   j2 \in S_ xi ->  y \notin ('A(L) :\: H^#) -> ('chi_j1 - 'chi_j2) y = 0.
 - move=> calS_xi Sj1 Sj2 yADHn.
   have [xiD xi_cst sup_xi] := FTtype1_seqInd_facts maxL Ltype1 calS_xi.
@@ -425,7 +425,7 @@ by rewrite -subr_eq0 -cfdotBr (oResD xi) /S_ -?defA.
 Qed.
 
 (* This is Peterfalvi (12.5) *)
-Lemma FtypeI_invDade_ortho_constant (psi : 'CF(G)) : 
+Lemma FtypeI_invDade_ortho_constant (psi : 'CF(G)) :
     {in calS, forall phi, orthogonal psi (R phi)} ->
   {in H :\: H' &, forall x y, rho psi x = rho psi y}.
 Proof.
@@ -497,7 +497,7 @@ Qed.
 End Twelve_4_5.
 
 Hypothesis frobL : [Frobenius L with kernel H].
-  
+
 Lemma FT_Frobenius_type1 : FTtype L == 1%N.
 Proof.
 have [E /Frobenius_of_typeF LtypeF] := existsP frobL.
@@ -699,7 +699,7 @@ suffices [b dv_q_bp]: exists b : bool, q %| (b.*2 + p).-1.
   rewrite -ltn_double (@leq_ltn_trans (p + b.*2).-1) //; last first.
     by rewrite -!addnn -(subnKC pgt2) prednK // leq_add2l; case: (b).
   rewrite -(subnKC pgt2) dvdn_leq // -mul2n Gauss_dvd ?coprime2n // -{1}subn1.
-  by rewrite dvdn2 odd_sub // subnKC // odd_add odd_p odd_double addnC.
+  by rewrite dvdn2 oddB // subnKC // oddD odd_p odd_double addnC.
 have [// | [cHH rankH] | [/(_ p piHp)Udvp1 _]] := LtypeI; last first.
   exists false; apply: dvdn_trans Udvp1.
   by have:= piUq; rewrite mem_primes => /and3P[].
@@ -1020,7 +1020,7 @@ have ub_e: e%:R <= (p%:R + 1) / 2%:R :> algC.
     by have [_ /orP[]] := Ecyclic_le_p; [exists false | exists true].
   rewrite -ltnS (@leq_trans (b.*2 + p)) //; last first.
     by rewrite (leq_add2r p _ 2) (leq_double _ 1) leq_b1.
-  rewrite dvdn_double_ltn ?mFT_odd //; first by rewrite odd_add odd_double.
+  rewrite dvdn_double_ltn ?mFT_odd //; first by rewrite oddD odd_double.
   by rewrite -(subnKC pgt2) !addnS.
 have lb_h: p%:R ^+ 2 <= h%:R :> algC.
   rewrite -natrX leC_nat dvdn_leq ?pfactor_dvdn ?cardG_gt0 //.
@@ -1189,7 +1189,7 @@ have lb_psiM: '[rhoM psi] >= #|K :\: K'|%:R / #|M|%:R * e.-1%:R ^+ 2.
     by have [_ /orP[]] := Ecyclic_le_p; [exists false | exists true].
   apply: (@leq_trans (b.*2 + p)); last first.
     by rewrite (leq_add2r p _ 2) (leq_double b 1) leq_b1.
-  rewrite dvdn_double_ltn ?odd_add ?mFT_odd ?odd_double //.
+  rewrite dvdn_double_ltn ?oddD ?mFT_odd ?odd_double //.
   by rewrite addnC -(subnKC pgt2).
 have irrS: {subset calS <= irr L} by have [] := FT_Frobenius_coherence maxL.
 have lb_psiL: '[rhoL psi] >= 1 - e%:R / #|H|%:R.

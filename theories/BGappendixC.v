@@ -139,7 +139,7 @@ Qed.
 Let odd_q : odd q.
 Proof.
 apply: contraR not_dvd_q_p1 => /prime_oddPn-> //.
-by rewrite -subn1 dvdn2 odd_sub ?odd_p.
+by rewrite -subn1 dvdn2 oddB ?odd_p.
 Qed.
 
 Let qgt2 : (2 < q)%N. Proof. by rewrite odd_prime_gt2. Qed.

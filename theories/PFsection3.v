@@ -1589,8 +1589,8 @@ by rewrite gt_eqF -?dirr_consttE.
 Qed.
 
 (* This is PeterFalvi (3.8). *)
-Lemma small_cycTI_NC phi i0 j0 (a0 := '[phi, eta_ i0 j0]) : 
-    {in V, forall x, phi x = 0} -> (NC phi < 2 * minn w1 w2)%N -> a0 != 0 ->    
+Lemma small_cycTI_NC phi i0 j0 (a0 := '[phi, eta_ i0 j0]) :
+    {in V, forall x, phi x = 0} -> (NC phi < 2 * minn w1 w2)%N -> a0 != 0 ->
      (forall i j, '[phi, eta_ i j] = (j == j0)%:R * a0)
   \/ (forall i j, '[phi, eta_ i j] = (i == i0)%:R * a0).
 Proof.
@@ -1600,7 +1600,7 @@ have{phiV_0} Da i2 j2 i1 j1 : a i1 j1 = a i1 j2 + a i2 j1 - a i2 j2.
   by rewrite cycTIiso_cfdot_exchange ?addrK.
 have ubA2: ~~ (w2 + w1 <= #|A| + 2)%N.
   rewrite addnC addn2 -ltnS (contra _ ubA) //; apply: (@leq_trans _ _.+3).
-  rewrite odd_geq /= ?odd_add ?oddW1 ?oddW2 // mul2n -addn_min_max -addnn.
+  rewrite odd_geq /= ?oddD ?oddW1 ?oddW2 // mul2n -addn_min_max -addnn.
   by rewrite uphalf_double leq_add2l gtn_min !leq_max !ltnn orbF -neq_ltn.
 (* This is step (3.8.1). *)
 have Za i1 i2 j1 j2 : a i1 j2 == 0 -> a i2 j1 == 0 -> a i1 j1 == 0.
@@ -1656,7 +1656,7 @@ by rewrite -oL0 lbA // => ij; rewrite !inE; apply/andP=> [[/eqP-> /idPn]].
 Qed.
 
 (* A weaker version of PeterFalvi (3.8). *)
-Lemma cycTI_NC_minn (phi : 'CF(G)) : 
+Lemma cycTI_NC_minn (phi : 'CF(G)) :
     {in V, forall x, phi x = 0} -> (0 < NC phi < 2 * minn w1 w2)%N ->
   (minn w1 w2 <= NC phi)%N.
 Proof.
