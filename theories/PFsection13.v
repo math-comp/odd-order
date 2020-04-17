@@ -1283,7 +1283,7 @@ have regCW1: semiregular C W1.
   by move=> _ y /regUW1 regUx; rewrite setIAC regUx setI1g.
 have{regCW1} dv_2q_c1: q.*2 %| c.-1.
   rewrite -(subnKC c_gt1) -mul2n Gauss_dvd ?coprime2n ?dvdn2 ?mFT_odd //=.
-  rewrite odd_sub ?mFT_odd -?subSn // subn2 regular_norm_dvd_pred //.
+  rewrite oddB ?mFT_odd -?subSn // subn2 regular_norm_dvd_pred //.
   have /mulG_sub[_ sW1S] := sdprodW defS.
   apply: normsI; first by have [_ []] := StypeP.
   by rewrite (subset_trans sW1S) ?norms_cent ?gFnorm.
@@ -2129,7 +2129,7 @@ have{odd_bSphi_bLeta} xor_bS_bL: bS (+) bL.
   have:= eqCmod_trans odd_bSphi_bLeta (eqCmodD DbS DbL).
   rewrite -natrD eqCmod_sym -(eqCmodDr _ 1) -mulrSr => xor_bS_bL.
   have:= eqCmod_trans xor_bS_bL (eqCmodm0 _); rewrite /eqCmod subr0.
-  by rewrite (dvdC_nat 2 _.+1) dvdn2 /= negbK odd_add !oddb; case: (_ (+) _).
+  by rewrite (dvdC_nat 2 _.+1) dvdn2 /= negbK oddD !oddb; case: (_ (+) _).
 have ?: (0 != 1 %[mod 2])%C by rewrite eqCmod_sym /eqCmod subr0 (dvdC_nat 2 1).
 case is_c1: bS; [left | right].
   rewrite is_c1 in DbS; split=> //.

@@ -36,7 +36,7 @@ Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory.
 Section Eleven.
 
 (* This is Peterfalvi (11.1). *)
-Lemma lbound_expn_odd_prime p q : 
+Lemma lbound_expn_odd_prime p q :
    odd p -> odd q -> prime p -> prime q -> p != q -> 4 * q ^ 2 + 1 < p ^ q.
 Proof.
 move=> odd_p odd_q pr_p pr_q p_neq_q.
@@ -269,7 +269,7 @@ suffices /dvdnP[k Dk]: 2 * q %| #|HC : M^`(2)|.-1.
   apply: contraTeq ubHC; rewrite -leqNgt eqEsubset sM''_HC -indexg_gt1 addn1.
   by rewrite -[#|_:_|]prednK // {}Dk !ltnS muln_gt0 => /andP[/leq_pmull->].
 rewrite Gauss_dvd; last by rewrite coprime2n mFT_odd.
-rewrite dvdn2 -subn1 odd_sub // addbT negbK subn1.
+rewrite dvdn2 -subn1 oddB // addbT negbK subn1.
 rewrite -card_quotient; last by rewrite (subset_trans sHC_HU) // (der_norm 1).
 have Dq: q = #|W1 / M^`(2)|%g.
   apply/card_isog/quotient_isog; first by rewrite (subset_trans sW1M) ?gFnorm.

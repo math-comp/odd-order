@@ -1082,7 +1082,7 @@ split=> {Part_a part_a}//.
     exists (theta f %% H0)%CF; first by rewrite cfMod_lin_char.
     by rewrite Ds  cfIirrE ?irrXtheta //= cfIndInd.
   suffices /(congr1 odd): u = (p.-1 ^ q.-1)%N.
-    rewrite odd_exp -(subnKC (prime_gt1 pr_q)) /= -subn1 odd_sub ?prime_gt0 //.
+    rewrite odd_exp -(subnKC (prime_gt1 pr_q)) /= -subn1 oddB ?prime_gt0 //.
     by rewrite -oH1 (oddSg sH1H) ?quotient_odd // mFT_odd.
   have p1_gt0: (0 < p.-1)%N by rewrite -(subnKC (prime_gt1 p_pr)).
   apply/eqP; rewrite -(eqn_pmul2r p1_gt0) -expnSr prednK ?prime_gt0 //.

@@ -450,7 +450,7 @@ suffices: n ^+ 2 < n + 1.
   have{d_dv_M} d_odd: odd d by apply: dvdn_odd (mFT_odd M); rewrite -dvdC_nat.
   have: (2 %| n * w1%:R)%C.
     rewrite divfK ?neq0CG // -signrN signrE addrA -(natrD _ d 1).
-    by rewrite rpredB // dvdC_nat dvdn2 ?odd_double // odd_add d_odd.
+    by rewrite rpredB // dvdC_nat dvdn2 ?odd_double // oddD d_odd.
   rewrite -(truncCK Nn) -mulrSr -natrM -natrX ltC_nat (dvdC_nat 2) pnatr_eq0.
   rewrite dvdn2 odd_mul mFT_odd; case: (truncC n) => [|[|n1]] // _ /idPn[].
   by rewrite -leqNgt (ltn_exp2l 1).
