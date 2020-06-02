@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+  # to enable later (along with mathcomp/mathcomp-dev):
+  # schedule:
+  # # test master every day at 05:00 UTC
+  # # (mathcomp/mathcomp-dev is rebuilt every day at 04:00 Paris time)
+  # - cron: '0 5 * * *'
+
+jobs:
+  build:
+    # the OS must be GNU/Linux to be able to use the docker-coq-action
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - mathcomp/mathcomp:1.10.0-coq-8.7
+          - mathcomp/mathcomp:1.10.0-coq-8.8
+          - mathcomp/mathcomp:1.10.0-coq-8.9
+          - mathcomp/mathcomp:1.10.0-coq-8.10
+          - mathcomp/mathcomp:1.10.0-coq-8.11
+          # to enable later:
+          # - mathcomp/mathcomp:1.11.0-coq-8.10
+          # - mathcomp/mathcomp:1.11.0-coq-8.11
+          # - mathcomp/mathcomp:1.11.0-coq-dev
+          # - mathcomp/mathcomp-dev:coq-8.10
+          # - mathcomp/mathcomp-dev:coq-8.11
+          # - mathcomp/mathcomp-dev:coq-dev
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v2
+    - uses: coq-community/docker-coq-action@v1
+      with:
+        opam_file: 'opam'
+        custom_image: ${{ matrix.image }}
