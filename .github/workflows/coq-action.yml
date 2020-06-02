@@ -20,18 +20,12 @@ jobs:
     strategy:
       matrix:
         image:
-          - mathcomp/mathcomp:1.10.0-coq-8.7
-          - mathcomp/mathcomp:1.10.0-coq-8.8
-          - mathcomp/mathcomp:1.10.0-coq-8.9
-          - mathcomp/mathcomp:1.10.0-coq-8.10
-          - mathcomp/mathcomp:1.10.0-coq-8.11
-          # to enable later:
-          # - mathcomp/mathcomp:1.11.0-coq-8.10
-          # - mathcomp/mathcomp:1.11.0-coq-8.11
-          # - mathcomp/mathcomp:1.11.0-coq-dev
-          # - mathcomp/mathcomp-dev:coq-8.10
-          # - mathcomp/mathcomp-dev:coq-8.11
-          # - mathcomp/mathcomp-dev:coq-dev
+          - mathcomp/mathcomp:1.11.0-coq-8.10
+          - mathcomp/mathcomp:1.11.0-coq-8.11
+          - mathcomp/mathcomp:1.11.0-coq-dev
+          - mathcomp/mathcomp-dev:coq-8.10
+          - mathcomp/mathcomp-dev:coq-8.11
+          - mathcomp/mathcomp-dev:coq-dev
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
