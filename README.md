@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/math-comp/odd_order.svg?branch=master)](https://travis-ci.org/math-comp/odd-order)
+[![CI](https://github.com/math-comp/odd-order/workflows/CI/badge.svg?branch=master)](https://github.com/math-comp/odd-order/actions?query=workflow%3ACI)
 
 # The Odd Order Theorem
 The repository contains a [mechanization](https://hal.archives-ouvertes.fr/hal-00816699/) of 
@@ -14,5 +14,5 @@ If you already have OPAM installed:
 
 ```
 opam repo add coq-released https://coq.inria.fr/opam/released
-opam install coq-odd_order
+opam install coq-mathcomp-odd-order
 ```
