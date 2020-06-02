@@ -8,10 +8,10 @@ on:
     branches:
       - '**'
   # to enable later (along with mathcomp/mathcomp-dev):
-  # schedule:
-  # # test master every day at 05:00 UTC
-  # # (mathcomp/mathcomp-dev is rebuilt every day at 04:00 Paris time)
-  # - cron: '0 5 * * *'
+  schedule:
+  # test master every day at 05:00 UTC
+  # (mathcomp/mathcomp-dev is rebuilt every day at 04:00 Paris time)
+  - cron: '0 5 * * *'
 
 jobs:
   build:
