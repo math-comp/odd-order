@@ -7,7 +7,6 @@ on:
   pull_request:
     branches:
       - '**'
-  # to enable later (along with mathcomp/mathcomp-dev):
   schedule:
   # test master every day at 05:00 UTC
   # (mathcomp/mathcomp-dev is rebuilt every day at 04:00 Paris time)
@@ -28,8 +27,8 @@ jobs:
           - mathcomp/mathcomp-dev:coq-dev
       fail-fast: false
     steps:
-    - uses: actions/checkout@v2
-    - uses: coq-community/docker-coq-action@v1
-      with:
-        opam_file: 'coq-mathcomp-odd-order.opam'
-        custom_image: ${{ matrix.image }}
+      - uses: actions/checkout@v2
+      - uses: coq-community/docker-coq-action@v1
+        with:
+          opam_file: 'coq-mathcomp-odd-order.opam'
+          custom_image: ${{ matrix.image }}
