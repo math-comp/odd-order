@@ -1606,4 +1606,4 @@ End DadeAut.
 End Five.
 
 Arguments coherent_prDade_TIred
-  [gT G H L K W W1 W2 S0 A A0 k tau1 defW].
+  [gT G H L K W W1 W2 S0 A A0 k tau1 defW] : rename.
