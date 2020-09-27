@@ -21,9 +21,11 @@ jobs:
         image:
           - mathcomp/mathcomp:1.11.0-coq-8.10
           - mathcomp/mathcomp:1.11.0-coq-8.11
-          - mathcomp/mathcomp:1.11.0-coq-dev
+          - mathcomp/mathcomp:1.11.0-coq-8.11
+          - mathcomp/mathcomp:1.11.0-coq-8.12
           - mathcomp/mathcomp-dev:coq-8.10
           - mathcomp/mathcomp-dev:coq-8.11
+          - mathcomp/mathcomp-dev:coq-8.12
           - mathcomp/mathcomp-dev:coq-dev
       fail-fast: false
     steps:
