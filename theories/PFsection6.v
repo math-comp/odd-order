@@ -722,7 +722,7 @@ have m_ub2_lt2 a: a \in Cint -> m_ub2 a < 2%:R -> a = 0 \/ a = 1 /\ size Y = 2%N
   have m1_ge1: 1 <= m - 1 by rewrite ler_subr_addr (ler_nat _ 2).
   have a1: a = 1.
     apply: contraFeq (lt_geF ub_a); rewrite -subr_eq0 /m_ub2 => nz_a1.
-    by rewrite ler_add ?(mulr_ege1 m1_ge1) // sqr_Cint_ge1 ?rpredB.
+    by rewrite ler_add ?(mulr_ege1 m1_ge1) // sqr_Cint_ge1 ?rpredB /=.
   rewrite /m_ub2 a1 subrr expr0n add0r expr1n mulr1 in ub_a.
   rewrite ltr_subl_addr -mulrSr ltr_nat ltnS in ub_a.
   by split; last apply/anti_leq/andP.
@@ -999,7 +999,7 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
       by rewrite -Epsi1 !cfunE -mulrBr rpredMsign psi1Z.
     pose x1 := '[eta1, 'Res psi1]; pose x := x0 + 1 - x1.
     have Zx: x \in Cint.
-      rewrite rpredB ?rpredD // Cint_cfdot_vchar // ?(seqInd_vcharW Yeta1) //.
+      rewrite rpredB ?rpredD //= Cint_cfdot_vchar // ?(seqInd_vcharW Yeta1) //.
       by rewrite cfRes_vchar // Ztau1 ?seqInd_zcharW.
     pose Y1 := - \sum_(eta <- Y) (x - (eta == eta1)%:R) *: tau1 eta.
     have IndZfacts i: i != 0 ->
