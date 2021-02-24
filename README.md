@@ -1,7 +1,7 @@
 [![CI](https://github.com/math-comp/odd-order/workflows/CI/badge.svg?branch=master)](https://github.com/math-comp/odd-order/actions?query=workflow%3ACI)
 
-# The Odd Order Theorem
-The repository contains a [mechanization](https://hal.archives-ouvertes.fr/hal-00816699/) of 
+# A formal proof of the Odd Order Theorem
+The repository contains a [formal verification](https://hal.archives-ouvertes.fr/hal-00816699/) of 
 the [Odd Order Theorem](https://en.wikipedia.org/wiki/Feit%E2%80%93Thompson_theorem) (Feit - Thompson, 1963), 
 a landmark result of finite group theory.
 
