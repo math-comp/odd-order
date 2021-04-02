@@ -769,7 +769,9 @@ have oS1sigma phi: phi \in S1 -> orthogonal (R1 phi) (map sigma (irr W)).
   apply: leq_trans (NCpsi_le2).
   have: (0 < NC (tau psi) < 2 * minn w1 w2)%N.
     rewrite -(subnKC minw_gt2) (leq_ltn_trans NCpsi_le2) // andbT lt0n.
-    by apply/existsP; exists (i, j); rewrite /= topredE inE.
+    apply/existsP; exists (i, j).
+    rewrite -[SetDef.pred_of_set ?[b]]/(topred (SetDef.pred_of_set ?[b])).
+    by rewrite topredE inE.
   apply: cycTI_NC_minn (ddA) _ _ => x Vx.
   rewrite Dade_id; last by rewrite defA0 inE orbC mem_class_support.
   rewrite defSA in Zpsi; rewrite (cfun_on0 (zchar_on Zpsi)) // -in_setC.
