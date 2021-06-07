@@ -35,10 +35,13 @@
   ## write one `bundles.name` attribute set per
   ## alternative configuration, the can be used to
   ## compute several ci jobs as well
-  bundles = {
-    "8.11".coqPackages.coq.override.version = "8.11";
-    "8.12".coqPackages.coq.override.version = "8.12";
-    "8.13".coqPackages.coq.override.version = "8.13";
+  bundles = let mc = {
+    mathcomp.override.version = "1.12.0";
+    mathcomp.job = false;
+  }; in {
+    "8.11".coqPackages = { coq.override.version = "8.11"; } // mc;
+    "8.12".coqPackages = { coq.override.version = "8.12"; } // mc;
+    "8.13".coqPackages = { coq.override.version = "8.13"; } // mc;
   ## you may mark a package as a CI job as follows
   #  coqPackages.<another-pkg>.ci.job = "test";
   ## It can then be built throught
@@ -49,7 +52,7 @@
   ## Cachix caches to use in CI
   ## Below we list some standard ones
   cachix.coq = {};
-  cachix.math-comp = {};
+  cachix.math-comp.authToken = "CACHIX_AUTH_TOKEN";
   cachix.coq-community = {};
   
   ## If you have write access to one of these caches you can
