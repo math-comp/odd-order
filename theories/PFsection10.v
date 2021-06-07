@@ -452,7 +452,7 @@ suffices: n ^+ 2 < n + 1.
     rewrite divfK ?neq0CG // -signrN signrE addrA -(natrD _ d 1).
     by rewrite rpredB // dvdC_nat dvdn2 ?odd_double // oddD d_odd.
   rewrite -(truncCK Nn) -mulrSr -natrM -natrX ltC_nat (dvdC_nat 2) pnatr_eq0.
-  rewrite dvdn2 odd_mul mFT_odd; case: (truncC n) => [|[|n1]] // _ /idPn[].
+  rewrite dvdn2 oddM mFT_odd; case: (truncC n) => [|[|n1]] // _ /idPn[].
   by rewrite -leqNgt (ltn_exp2l 1).
 apply: lt_le_trans (_ : n * - delta + 1 <= _); last first.
   have ->: n + 1 = n * `|- delta| + 1 by rewrite normrN normr_sign mulr1.
@@ -936,7 +936,7 @@ have{ubHbar} [def_p_w1 w1_lt_w2]: (p = 2 * w1 - 1 /\ w1 < w2)%N.
   have [k0 | k_gt0] := posnP k; first by rewrite k0 in def_p.
   apply/eqP; rewrite eqn_leq k_gt0 andbT -ltnS -ltn_double -mul2n.
   rewrite -[(2 * k)%N]prednK ?muln_gt0 // ltnS -ltn_sqr 3?leqW //=.
-  rewrite -subn1 sqrn_sub ?muln_gt0 // expnMn muln1 mulnA ltnS leq_subLR.
+  rewrite -subn1 sqrnB ?muln_gt0 // expnMn muln1 mulnA ltnS leq_subLR.
   rewrite addn1 addnS ltnS -mulnSr leq_pmul2l // -(leq_subLR _ 1).
   rewrite (leq_trans (leq_pmulr _ w1_gt0)) // -(leq_pmul2r w1_gt0).
   rewrite -mulnA mulnBl mul1n -2!leq_double -!mul2n mulnA mulnBr -!expnMn.
@@ -1219,7 +1219,7 @@ have trivH0: H0 :=: 1%g.
   apply: card1_trivg; rewrite -(setIidPr sH0H) -divg_index.
   by rewrite -card_quotient ?(subset_trans sHM) // oHbar -oH divnn cardG_gt0.
 have abelHbar: p.-abelem Hbar.
-  have pHbar: p.-group Hbar by rewrite /pgroup oHbar pnat_exp pnat_id.
+  have pHbar: p.-group Hbar by rewrite /pgroup oHbar pnatX pnat_id.
   by rewrite -is_abelem_pgroup // (sol_chief_abelem _ chiefHbar) ?mmax_sol.
 rewrite /= trivH0 -(isog_abelem (quotient1_isog _)) in abelHbar.
 have:= Ptype_core_coherence maxM MtypeP Mnot5; rewrite trivH0.

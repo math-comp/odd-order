@@ -1642,7 +1642,7 @@ have [/existsP[j1 Za01] | /oL oL0] := boolP [exists j, a i0 j == 0].
     by rewrite (Da i0 j1) !(Za0 _ j1) // subr0 add0r.
   move=> j0'j; apply: contraNeq (ubLC i j0) => nz_aij; rewrite oC0 oL //.
   apply: contra ubA => /existsP[_ /Za/contra/(_ nz_aij) nz_a_j].
-  rewrite minn_mulr geq_min mul2n -addnn -{2}oC0 -(oC i0 j j1) ?lbA // => ij.
+  rewrite minnMr geq_min mul2n -addnn -{2}oC0 -(oC i0 j j1) ?lbA // => ij.
   by rewrite !inE; apply/andP=> [[/eqP-> /idPn]].
 (* This is step (3.8.3). *)
 suffices Za0 i j: i != i0 -> a i j = 0.
@@ -1652,7 +1652,7 @@ suffices Za0 i j: i != i0 -> a i j = 0.
   by rewrite (Da i1 j0) !(Za0 i1) // subr0 addr0.
 move=> i0'i; suffices /existsP[j1 Zai1]: [exists j, a i j == 0].
   by apply: contraNeq (ubLC i0 j) => /oC/(_ Zai1)->; rewrite oL0.
-apply: contraR ubA; rewrite minn_mulr geq_min orbC mul2n -addnn => /oL{1}<-.
+apply: contraR ubA; rewrite minnMr geq_min orbC mul2n -addnn => /oL{1}<-.
 by rewrite -oL0 lbA // => ij; rewrite !inE; apply/andP=> [[/eqP-> /idPn]].
 Qed.
 

@@ -165,7 +165,7 @@ Definition Dade_support1 a := class_support (H a :* a) G.
 Local Notation dd1 := Dade_support1.
 
 Lemma mem_Dade_support1 a x : a \in A -> x \in H a -> (x * a)%g \in dd1 a.
-Proof. by move=> Aa Hx; rewrite -(conjg1 (x * a)) !mem_imset2 ?set11. Qed.
+Proof. by move=> Aa Hx; rewrite -(conjg1 (x * a)) !imset2_f ?set11. Qed.
 
 (* This is Peterfalvi (2.3), except for the existence part, which is covered  *)
 (* below in the NormedTI section.                                             *)
@@ -178,7 +178,7 @@ apply: (iffP idP) => [tiAG | [nzA trivH]].
   by rewrite (subset_trans (normal_sub (nsHC a))) ?(cent1_normedTI tiAG).
 apply/normedTI_memJ_P; split=> // a g Aa Gg.
 apply/idP/idP=> [Aag | Lg]; last by rewrite memJ_norm ?(subsetP nAL).
-have /imsetP[k Lk def_ag] := conjAG Aa Aag (mem_imset _ Gg).
+have /imsetP[k Lk def_ag] := conjAG Aa Aag (imset_f _ Gg).
 suffices: (g * k^-1)%g \in 'C_G[a].
   by rewrite -Dade_sdprod ?trivH // sdprod1g inE groupMr ?groupV // => /andP[].
 rewrite !inE groupM ?groupV // ?(subsetP sLG) //=.
@@ -212,7 +212,7 @@ Proof.
 move=> a b Aa Ab /= /pred0Pn[_ /andP[/imset2P[x u /(piHA Aa) def_x Gu ->]]] /=.
 case/imset2P=> y v /(piHA Ab) def_y Gv /(canLR (conjgK v)) def_xuv.
 have def_b: a ^ (u * v^-1) = b by rewrite -def_x -consttJ conjgM def_xuv def_y.
-by apply/imsetP/conjAG; rewrite // -def_b mem_imset ?groupM ?groupV.
+by apply/imsetP/conjAG; rewrite // -def_b imset_f ?groupM ?groupV.
 Qed.
 
 (* This is an essential strengthening of Peterfalvi (2.4)(c). *)
@@ -347,11 +347,11 @@ have dd1_id: {in A, forall a, dd1 (repr (a ^: L)) = dd1 a}.
 have ->: Atau = cover P_G.
   apply/setP=> u; apply/bigcupP/bigcupP=> [[a Aa Fa_u] | [Fa]]; last first.
     by case/imsetP=> a /sTA Aa -> Fa_u; exists a.
-  by exists (dd1 a) => //; rewrite -dd1_id //; do 2!apply: mem_imset.
+  by exists (dd1 a) => //; rewrite -dd1_id //; do 2!apply: imset_f.
 have [tiP_G inj_dd1]: trivIset P_G /\ {in T &, injective dd1}.
   apply: trivIimset => [_ _ /imsetP[a Aa ->] /imsetP[b Ab ->] |]; last first.
     apply/imsetP=> [[a]]; move/sTA=> Aa; move/esym; move/eqP; case/set0Pn.
-    by exists (a ^ 1)%g; apply: mem_imset2; rewrite ?group1 ?rcoset_refl.
+    by exists (a ^ 1)%g; apply: imset2_f; rewrite ?group1 ?rcoset_refl.
   rewrite !dd1_id //; apply: contraR.
   by case/Dade_support1_TI=> // x Lx ->; rewrite classGidl.
 rewrite big_trivIset //= big_imset {P_G tiP_G inj_dd1}//=.
@@ -362,7 +362,7 @@ have rLid x: repr (x ^: L) ^: L = x ^: L.
 have {1}<-: cover P_A = A.
   apply/setP=> a; apply/bigcupP/idP=> [[_ /imsetP[d /sTA Ab ->]] | Aa].
     by case/imsetP=> x Lx ->; rewrite memJ_norm ?(subsetP nAL).
-  by exists (a ^: L); rewrite ?class_refl // -rLid; do 2!apply: mem_imset.
+  by exists (a ^: L); rewrite ?class_refl // -rLid; do 2!apply: imset_f.
 have [tiP_A injFA]: trivIset P_A /\ {in T &, injective (class^~ L)}.
   apply: trivIimset => [_ _ /imsetP[a Aa ->] /imsetP[b Ab ->] |]; last first.
     by apply/imsetP=> [[a _ /esym/eqP/set0Pn[]]]; exists a; apply: class_refl.
@@ -474,7 +474,7 @@ Proof.
 move=> calP_B; have /sdprodP[_ /= defM _ _] := Dade_set_sdprod calP_B.
 have [Mx | /cfun0-> //] := boolP (x \in 'M(B)).
 rewrite mulrb cfMorphE // morphimEdom /= /Dade_restrm calP_B.
-rewrite cfResE ?mem_imset {x Mx}//= -defM.
+rewrite cfResE ?imset_f {x Mx}//= -defM.
 by apply/subsetP=> _ /imsetP[x /mem_remgr/setIP[Lx _] ->].
 Qed.
 Local Notation rDadeE := Dade_restrictionE.
@@ -568,7 +568,7 @@ have supp_aBgP: {in calA g 'M(B), forall x,
   have sHBa: 'H(B) \subset H a by rewrite bigcap_inf.
   have sHBG: 'H(B) \subset G := subset_trans sHBa (sHG a).
   rewrite Ab -(memJ_conjg _ x) class_supportGidr //  -(conjgKV y (g ^ x)).
-  rewrite mem_imset2 // ?(subsetP sHBG) {HBy}// -mem_conjg.
+  rewrite imset2_f // ?(subsetP sHBG) {HBy}// -mem_conjg.
   apply: subsetP Cby_gx; rewrite {y}conjSg mulSg //.
   have [nsHb _ defCb _ _] := sdprod_context (defCA Ab).
   have [hallHb _] := coprime_mulGp_Hall defCb (pi'H b) (piCL Ab).
@@ -717,7 +717,7 @@ have sHBG: 'H(B) \subset G.
 rewrite mem_rcoset !inE groupMr ?groupV ?(subsetP sHBG x Hx) //=.
 congr (_ && _); have [/eqP defHBa _ _] := and3P partHBa.
 symmetry; rewrite def_u Ca_u -defHBa -(mulgKV x z) conjgM def_u -/HBaa.
-by rewrite cover_imset -class_supportEr mem_imset2.
+by rewrite cover_imset -class_supportEr imset2_f.
 Qed.
 
 End DadeExpansion.
@@ -806,7 +806,7 @@ have [_ sLG tiAG_L] := normedTI_memJ_P tiAG.
 split=> // [|a b Aa Ab /imsetP[x Gx def_b]|].
 - rewrite /(A <| L) -{2}defL subsetIr andbT; apply/subsetP=> a Aa.
   by rewrite -(tiAG_L a) ?(subsetP sAG) // conjgE mulKg.
-- by rewrite def_b mem_imset // -(tiAG_L a) -?def_b.
+- by rewrite def_b imset_f // -(tiAG_L a) -?def_b.
 exists (fun _ => 1%G) => [a Aa | a b _ _]; last by rewrite cards1 coprime1n.
 by rewrite sdprod1g -(setIidPl sLG) -setIA (setIidPr (cent1_normedTI tiAG Aa)).
 Qed.

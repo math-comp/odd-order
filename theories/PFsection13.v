@@ -1336,7 +1336,7 @@ have hallH: Hall S H.
   rewrite /Hall -divgS ?gFsub //= -(sdprod_card defS) -(sdprod_card defPU).
   rewrite -(dprod_card defH) -mulnA divnMl ?cardG_gt0 // -/c oU mulnAC c7.
   have [_ [_ ->] _ _ _] := FTtypeP_facts maxS StypeP.
-  by rewrite mulnK // -/q -/p q3 p5 coprime_mulr (coprime_dvdr u_dv_31).
+  by rewrite mulnK // -/q -/p q3 p5 coprimeMr (coprime_dvdr u_dv_31).
 rewrite -(leq_pmul2l (cardG_gt0 P)) muln1 (dprod_card defH) subset_leq_card //.
 by rewrite (Fcore_max (Hall_pi hallH)) ?gFnormal ?Fitting_nil.
 Qed.
@@ -1408,7 +1408,7 @@ have ub_p: ((p - 3) ^ 2 < 4 ^ 2)%N.
   rewrite mulnC mulnA -Dbu q3 predn_exp mulKn; last by rewrite -(subnKC pgt2).
   rewrite 2!big_ord_recl big_ord1 /= /bump /= !mulnDl expn0 expn1.
   rewrite addnA mulnS leq_add2r -(leq_add2r 9) (mulnCA p 2 3) -addnA addnCA.
-  by rewrite -leq_subLR -(sqrn_sub pgt2).
+  by rewrite -leq_subLR -(sqrnB pgt2).
 have{ub_p pge5} p5: p = 5.
   apply/eqP; rewrite eqn_leq pge5 andbT.
   by rewrite ltn_sqr ltnS leq_subLR -ltnS odd_ltn ?mFT_odd in ub_p.
@@ -1506,18 +1506,18 @@ move=> Dbu; have ub_b: (b <= q.*2)%N.
   rewrite indexg1 -/ustar -(leq_pmul2r (cardG_gt0 U)) -/u => Du.
   by rewrite -Dbu -Du -(subnKC qgt2) leq_pmull.
 have [ustar_odd p1_q p'1_q] := FTtypeP_primes_mod_cases.
-have b_odd: odd b by rewrite Dbu odd_mul mFT_odd andbT in ustar_odd.
+have b_odd: odd b by rewrite Dbu oddM mFT_odd andbT in ustar_odd.
 case: ifPn => [/p1_q q_dv_ustar | /p'1_q[_ _ /(_ b)]].
   have /dvdnP[c Db]: q %| b.
     rewrite Dbu Gauss_dvdl // coprime_sym in q_dv_ustar.
     by apply: coprimeSg coPUq; have /mulG_sub[_ sUPU] := sdprodW defPU.
-  have c_odd: odd c by rewrite Db odd_mul mFT_odd andbT in b_odd.
+  have c_odd: odd c by rewrite Db oddM mFT_odd andbT in b_odd.
   suffices /eqP c1: c == 1%N by rewrite Dbu Db c1 mul1n mulKn ?prime_gt0.
   rewrite eqn_leq odd_gt0 // andbT -ltnS -(odd_ltn 3) // ltnS.
   by rewrite -(leq_pmul2r (ltnW (ltnW qgt2))) -Db mul2n.
 have Db: b = (b - 1).+1 by rewrite subn1 prednK ?odd_gt0.
 rewrite Dbu dvdn_mulr // eqn_mod_dvd Db // -Db => /(_ isT)/dvdnP[c Db1].
-have c_even: ~~ odd c by rewrite Db Db1 /= odd_mul mFT_odd andbT in b_odd.
+have c_even: ~~ odd c by rewrite Db Db1 /= oddM mFT_odd andbT in b_odd.
 suffices /eqP->: b == 1%N by rewrite mul1n.
 have:= ub_b; rewrite Db Db1 -mul2n ltn_pmul2r ?cardG_gt0 //.
 by rewrite -ltnS odd_ltn //= !ltnS leqn0 => /eqP->.
@@ -1726,7 +1726,7 @@ have sUH: U \subset H; last split=> //.
   have nHUW1: U <*> W1 \subset 'N(H) by rewrite join_subG nHU.
   have coHUW1: coprime #|H| #|U <*> W1|.
     have [/eqP defUW1 _] := andP frobUW1.
-    rewrite (sdprodWY defUW1) -(sdprod_card defUW1) coprime_mulr coHW1 andbT.
+    rewrite (sdprodWY defUW1) -(sdprod_card defUW1) coprimeMr coHW1 andbT.
     have defHU: H ><| U = H <*> U by rewrite sdprodEY.
     rewrite (coprime_sdprod_Hall_l defHU).
     apply: pHall_Hall (pHall_subl (joing_subl _ _) _ (Fcore_Hall L)).
@@ -2031,7 +2031,7 @@ have tiA_PWG: 'A~(L) :&: PWG = set0.
     by rewrite (constt_p_elt (mem_p_elt (pgroup_pi _) _)) // inE Hy cent1id.
   suffices /pnat_dvd: #[x] %| #|P| * #|W|.
     have [_ [_ ->] _ _ _] := Sfacts; rewrite -(dprod_card defW) -/p -/q.
-    by apply; rewrite !pnat_mul pnat_exp -!coprime_pi' ?cardG_gt0 ?coHp ?coHq.
+    by apply; rewrite !pnatM pnatX -!coprime_pi' ?cardG_gt0 ?coHp ?coHq.
   case/orP: PWGx => /imset2P[y z PWy _ ->]; rewrite {z}orderJ.
     by rewrite dvdn_mulr ?order_dvdG.
   by rewrite dvdn_mull ?order_dvdG.

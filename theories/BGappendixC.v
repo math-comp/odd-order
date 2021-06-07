@@ -175,7 +175,7 @@ apply/idP/(Hilbert's_theorem_90 alpha_gen (memvf _)) => [|[u [_ nz_u] ->]].
   by exists (val u)^-1; rewrite ?memvf ?Dalpha //= invrK val_unitX.
 have /cycleP[n Du]: (insubd u0 u)^-1%g \in <[u0]> by rewrite -defFU inE.
 have{} Du: u^-1 = val (u0 ^+ n)%g by rewrite -Du /= insubdK ?unitfE.
-by rewrite Dalpha // Du -val_unitX mem_imset // expgAC mem_cycle.
+by rewrite Dalpha // Du -val_unitX imset_f // expgAC mem_cycle.
 Qed.
 
 (* This is B & G, Appendix C, Remark VIII. *)
@@ -222,7 +222,7 @@ Let p'q : q != p. Proof. by rewrite ltn_eqF. Qed.
 Let cQQ : abelian Q. Proof. exact: abelem_abelian abelQ. Qed.
 Let p'Q : p^'.-group Q. Proof. exact: pi_pgroup (abelem_pgroup abelQ) _. Qed.
 
-Let pP : p.-group P. Proof. by rewrite /pgroup oP pnat_exp ?pnat_id. Qed.
+Let pP : p.-group P. Proof. by rewrite /pgroup oP pnatX ?pnat_id. Qed.
 Let coQP : coprime #|Q| #|P|. Proof. exact: p'nat_coprime p'Q pP. Qed.
 Let sQP0Q : [~: Q, P0] \subset Q. Proof. by rewrite commg_subl. Qed.
 
@@ -248,7 +248,7 @@ Proof.
 rewrite (cardsD1 1) E_1 ltnS card_gt0 => Einv /set0Pn[/= a /setD1P[not_a1 Ea]].
 pose tau (x : F) := (2%:R - x)^-1.
 have Etau x: x \in E -> tau x \in E.
-  rewrite inE => Ex; rewrite Einv (mem_imset (fun y => y^-1)) //.
+  rewrite inE => Ex; rewrite Einv (imset_f (fun y => y^-1)) //.
   by rewrite inE andbC opprD addNKr opprK.
 pose Pa := \prod_(beta in 'Gal(Fpq / Fp)) (beta (1 - a) *: 'X + 1).
 have galPoly_roots: all (root (Pa - 1)) (enum Fp).
@@ -307,7 +307,7 @@ have [q_gt4 | q_le4] := ltnP 4 q.
         by apply: (injmP inj_sigma); rewrite ?(sigmaE, in_PU) // mulN1r addrC.
       case=> u /setIdP[Uu /imsetP[v Uv /(congr1 sigma)]].
       rewrite ?(sigmaE, in_PU) // mulN1r addrC => Dv ->.
-      by rewrite Dv !mem_imset.
+      by rewrite Dv !imset_f.
     rewrite DsH (DsH 1%N) expg1; have [w Uw ->] := repr_class U (s ^+ 2).
     pose f u := (s ^ (u * w), (s^-1 ^ u * s ^+ 2) ^ w).
     rewrite -(@card_in_imset _ _ f) => [|u v]; last first.
@@ -411,7 +411,7 @@ have /existsP[a fcFa_0]: [exists a : F, root fcF a].
     apply: contraR; rewrite -(coprimep_map inF) negb_exists => /forallP-nz_fcF.
     rewrite -/fcF rmorphB rmorphX /= map_polyX finField_genPoly.
     elim/big_rec: _ => [|x gF _ co_fcFg]; first exact: coprimep1.
-    by rewrite coprimep_mulr coprimep_XsubC nz_fcF.
+    by rewrite coprimepMr coprimep_XsubC nz_fcF.
   have /irredp_FAdjoin[L dimL [z /coprimep_root fcz0 _]] := irr_fc.
   pose finL := [vectType 'F_p of FinFieldExtType L].
   set fcL := map_poly _ _ in fcz0; pose inL := [rmorphism of in_alg L].
@@ -603,7 +603,7 @@ have sUsXp m a j n u s1 v:
   move/mulgI/(congr1 (Frobenius_aut charFp \o sigma))=> /= Duv_p.
   congr (_ * _); apply/(injmP inj_sigma); rewrite ?in_PU //.
   by rewrite !{1}sigmaE ?in_PU // rmorphB !rmorphMn rmorph1 in Duv_p *.
-have odd_P: odd #|P| by rewrite oP odd_exp odd_p orbT.
+have odd_P: odd #|P| by rewrite oP oddX odd_p orbT.
 suffices EpsiV a: a \in U -> psi a \in E -> psi (a^-1 ^ t ^+ 3) \in E.
   apply/subsetP => _ /imsetP[x Ex ->].
   have /imsetP[a Ua Dx]: x \in psi @: U by rewrite im_psi; case/setIdP: Ex.
@@ -646,7 +646,7 @@ have [[Ua Uu1 Uv1 P0s1 Dusv1] /sUs_modP-Duv1] := (usv1P, usv1P).
 have [[_ Uu2 Uv2 P0s2 _] [Ub Uu3 Uv3 P0s3 _]] := (usv2P, usv3P).
 suffices /(congr1 sigma): s ^+ 2 = s ^ v1 * s ^ a^-1 ^ t ^+ 3.
   rewrite inE sigmaX // sigma_s sigmaM ?memJ_P -?psiE ?nUtn // => ->.
-  by rewrite addrK -!im_psi !mem_imset ?nUtn.
+  by rewrite addrK -!im_psi !imset_f ?nUtn.
 rewrite groupV in Ua; have [Hs1 Hs3]: s1 \in H /\ s3 \in H by rewrite !sP0H.
 have nt_s1: s1 != 1 by apply: nt_sUs usv1P.
 have nt_s3: s3 != 1 by apply: nt_sUs usv3P.

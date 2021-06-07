@@ -230,7 +230,7 @@ have defMsU: Ms ><| U = Ms <*> U.
   by apply: sdprodEY nMsU (trivgP _); rewrite -tiMsE -mulUK setIS ?mulG_subl.
 have{} defM: Ms <*> U ><| K = M.
   rewrite sdprodE ?normsY  ?coprime_TIg //=; first by rewrite norm_joinEr.
-  rewrite -(sdprod_card defMsU) coprime_mull andbC regular_norm_coprime //=.
+  rewrite -(sdprod_card defMsU) coprimeMl andbC regular_norm_coprime //=.
   by rewrite (coprimegS sKE) ?(pnat_coprime (pcore_pgroup _ _)).
 rewrite defMsU quotient_der //= -/Ms -{2}defMl -mulgA mulUK.
 rewrite quotientMidl -quotient_der ?(subset_trans sEM) //.
@@ -1048,7 +1048,7 @@ split=> // [E E1 E2 E3 complEi | {Y t2Y defF sM'F}].
   have E3_1: E3 :=: 1.
     have [sEM s'E _] := and3P hallE; have sE'M' := dergS 1 sEM.
     have sE3F: E3 \subset 'F(M) := subset_trans sE3E' (subset_trans sE'M' sM'F).
-    rewrite -(setIidPr sE3F) coprime_TIg // -(dprod_card defF) coprime_mull.
+    rewrite -(setIidPr sE3F) coprime_TIg // -(dprod_card defF) coprimeMl.
     rewrite (pnat_coprime (pcore_pgroup _ _) (pgroupS sE3E s'E)).
     exact: p'nat_coprime (sub_pgroup (@tau3'2 _ M) t2Y) t3E3.
   have{} defE: E2 ><| E1 = E by rewrite -defE E3_1 sdprod1g.

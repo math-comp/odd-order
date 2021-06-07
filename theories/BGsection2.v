@@ -710,7 +710,7 @@ have{E_P EPfull absP} sumB: (\sum_(ZxH in clPqH) <<B (b ZxH)>> :=: 1%:M)%MS.
   apply/eqmxP; rewrite submx1 (submx_trans EPfull) //.
   apply/row_subP=> ix; set x := enum_val ix; pose ZxH := coset Z x ^: (H / Z)%g.
   have Px: x \in P by [rewrite enum_valP]; have nZx := subsetP nZP _ Px.
-  have P_ZxH: ZxH \in clPqH by apply: mem_imset; rewrite mem_quotient.
+  have P_ZxH: ZxH \in clPqH by apply: imset_f; rewrite mem_quotient.
   have Pbx := Pb _ P_ZxH; have nZbx := subsetP nZP _ Pbx.
   rewrite rowK (sumsmx_sup ZxH) {P_ZxH}// genmxE -/x.
   have: coset Z x \in coset Z (b ZxH) ^: (H / Z)%g.

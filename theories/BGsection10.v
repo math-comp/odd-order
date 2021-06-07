@@ -384,7 +384,7 @@ have sXgM: X :^ g \subset M by rewrite -cycleJ cycle_subG (subsetP sPM).
 have [trMX _ _] := sigma_group_trans maxM s_p (mem_p_elt pP Px).
 have [c cXc [m Mm def_g]] := trMX _ sXM sXgM; rewrite cent_cycle in cXc.
 have def_xg: x ^ g = x ^ m by rewrite def_g conjgM /conjg -(cent1P cXc) mulKg.
-by rewrite commgEl def_xg -commgEl mem_imset2 // inE Mm -def_xg.
+by rewrite commgEl def_xg -commgEl imset2_f // inE Mm -def_xg.
 Qed.
 
 (* This is B & G, Theorem 10.2(a1). *) 
@@ -901,7 +901,7 @@ have{nilM'W} nilW: nilpotent W.
     by rewrite (quotientYidr (subset_trans sXW nM'W)) quotient_pgroup.
   have{qWWM'} sylWp: p.-Sylow(W) Wp.
     rewrite /pHall pcore_pgroup gFsub_trans ?subsetIr //=.
-    rewrite -(Lagrange_index (subsetIr _ _) (pcore_sub _ _)) pnat_mul //.
+    rewrite -(Lagrange_index (subsetIr _ _) (pcore_sub _ _)) pnatM //.
     rewrite -(divgS (pcore_sub _ _)) -card_quotient ?normsI ?normG //= -pgroupE.
     rewrite (pi_p'group qWWM') //= -(dprod_card (nilpotent_pcoreC p nilM'W)).
     by rewrite mulKn ?cardG_gt0 // -pgroupE pcore_pgroup.
@@ -1009,7 +1009,7 @@ have{EpmA} ncA: normed_constrained A.
   exact: plength_1_normed_constrained ntA EpmA (mFT_proper_plength1 _).
 pose pi := \pi(A); pose K := 'O_pi^'('C(A)).
 have def_pi : pi =i (p : nat_pred).
-  by move=> r; rewrite !inE /= oA primes_exp ?primes_prime ?inE.
+  by move=> r; rewrite !inE /= oA primesX ?primes_prime ?inE.
 have pi'q : q \notin pi by rewrite def_pi !inE eq_sym.
 have transKA: [transitive K, on |/|*(A; q) | 'JG].
   by rewrite normed_constrained_rank2_trans // (center_idP cAA) rA2.
@@ -1187,7 +1187,7 @@ have coK0Ms: coprime #|K0| #|M`_\sigma|.
 have nilK0Ms: nilpotent (K0 <*> M`_\sigma).
   have mulK0MsP: K0 <*> M`_\sigma ><| P = K0 <*> M`_\sigma <*> P.
     rewrite sdprodEY ?normsY // coprime_TIg //= norm_joinEl //.
-    rewrite coprime_cardMg // coprime_mull (coprimeSg sK0K) //.
+    rewrite coprime_cardMg // coprimeMl (coprimeSg sK0K) //.
     by rewrite oP (pnat_coprime (pcore_pgroup _ _)) ?pnatE.
   apply: (prime_Frobenius_sol_kernel_nil mulK0MsP); rewrite ?oP //=.
     by rewrite (solvableS _ solM) // !join_subG sK0M pcore_sub.

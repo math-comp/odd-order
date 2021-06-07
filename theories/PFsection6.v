@@ -314,7 +314,7 @@ have [chi Ychi leYchi]: {chi | chi \in Y & {in Y, forall xi, d xi <= d chi}%N}.
   have [/eqP/nilP Y0 | ntY] := posnP (size Y); first by rewrite Y0 in homoY.
   pose i := [arg max_(i > Ordinal ntY) d Y`_i].
   exists Y`_i; first exact: mem_nth.
-  rewrite {}/i; case: fintype.arg_maxP => //= i _ max_i.
+  rewrite {}/i; case: fintype.arg_maxnP => //= i _ max_i.
   by move=> _ /(nthP 0)[j ltj <-]; apply: (max_i (Ordinal ltj)).
 have{homoY} /hasP[xi1 Yxi1 lt_xi1_chi]: has (fun xi => d xi < d chi)%N Y.
   apply: contraFT homoY => geYchi; apply: (@all_pred1_constant _ (chi 1%g)).
@@ -370,7 +370,7 @@ have coep: coprime e p.
   have ntKb: (K / K^`(1))%g != 1%g by case/Frobenius_kerP: frobLb.
   have [_ _ [k ->]] := pgroup_pdiv (quotient_pgroup _ pK) ntKb.
   by rewrite coprime_pexpr.
-rewrite -expnM Gauss_dvd ?coprime_expl ?coprime_expr {coep}// dvdn_mulr //=.
+rewrite -expnM Gauss_dvd ?coprimeXl ?coprimeXr {coep}// dvdn_mulr //=.
 have /dvdn_addl <-: p ^ (d chi * 2) %| e ^ 2 * sum_p2d X''.
   rewrite big_distrr big_seq dvdn_sum //= => xi /le_chi_X'' le_chi_xi.
   by rewrite dvdn_mull // dvdn_exp2l ?leq_pmul2r.
@@ -428,7 +428,7 @@ have{actsGC} PdvKa i j s:
     apply: eq_bigr; rewrite /= defCs => _ /imsetP[z Gz ->].
     rewrite -[a i j s]sum1_card -!/(C _) (reindex_inj (act_inj to z)) /=.
     apply: eq_bigl => [[u v]]; rewrite !inE /= -conjMg (inj_eq (conjg_inj _)).
-    by apply: andb_id2r => /eqP->; rewrite {2}defCs mem_imset ?andbT ?actsGC.
+    by apply: andb_id2r => /eqP->; rewrite {2}defCs imset_f ?andbT ?actsGC.
   suffices regPO: {in Omega, forall uv, 'C_P[uv | to] = 1%g}.
     rewrite -(acts_sum_card_orbit actsPO) dvdn_sum // => _ /imsetP[uv Ouv ->].
     by rewrite card_orbit regPO // indexg1.
@@ -741,13 +741,13 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
     suffices /eqP-eq_Ichi: IchiZ == [set primeTI_Ires ptiL j | j : Iirr W2].
       move=> _ /seqIndP[k /setDP[_ kZ'k] ->].
       have [[j /irr_inj-Dk] | [] //] := prTIres_irr_cases ptiL k.
-      have{j Dk} /imsetP[j _ Dk]: k \in IchiZ by rewrite eq_Ichi Dk mem_imset.
+      have{j Dk} /imsetP[j _ Dk]: k \in IchiZ by rewrite eq_Ichi Dk imset_f.
       by rewrite !inE Dk mod_IirrE ?cfker_mod in kZ'k.
     rewrite eqEcard !card_imset; last exact: prTIres_inj; first last.
       exact: inj_comp (morph_Iirr_inj _) (prTIres_inj _).
     apply/andP; split; last by rewrite !card_ord !NirrE (nclasses_isog isoW2).
     apply/subsetP=> k /imsetP[j _ Dk].
-    have [[j1 /irr_inj->]|] := prTIres_irr_cases ptiL k; first exact: mem_imset.
+    have [[j1 /irr_inj->]|] := prTIres_irr_cases ptiL k; first exact: imset_f.
     case=> /idPn[]; rewrite {k}Dk mod_IirrE ?cfIndMod ?cfMod_irr //.
     by rewrite cfInd_prTIres prTIred_not_irr.
   have [//|defX [tau2 cohX]]: X =i _ /\ coherent X L^# tau :=
@@ -761,7 +761,7 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
     have [_ /seqIndP[i0 IXi0 _]]: {phi | phi \in X}.
       by apply: seqIndD_nonempty; rewrite ?normal1 ?proper1G.
     pose xi1 := 'Ind[L] 'chi_[arg min_(i < i0 in Iirr_kerD H Z 1%G) e i].
-    case: fintype.arg_minP => {i0 IXi0}//= i1 IXi1 min_i1 in xi1.
+    case: fintype.arg_minnP => {i0 IXi0}//= i1 IXi1 min_i1 in xi1.
     exists xi1 => [|_ /seqIndP[i IXi ->]]; first by apply/seqIndP; exists i1.
     rewrite !cfInd1 // !De -!natrM dvdC_nat dvdn_pmul2l //.
     by rewrite dvdn_Pexp2l ?min_i1 ?prime_gt1.

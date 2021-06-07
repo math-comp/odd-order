@@ -170,7 +170,7 @@ Implicit Types A E H K L M Mstar N P Q Qstar R S T U V W X Y Z : {group gT}.
 (* Basic properties of the sigma decomposition. *)
 Lemma mem_sigma_decomposition x M (xM := x.`_\sigma(M)) :
   M \in 'M -> xM != 1 -> xM \in sigma_decomposition x.
-Proof. by move=> maxM nt_xM; rewrite !inE nt_xM; apply: mem_imset. Qed.
+Proof. by move=> maxM nt_xM; rewrite !inE nt_xM; apply: imset_f. Qed.
 
 Lemma sigma_decompositionJ x z :
   sigma_decomposition (x ^ z) = sigma_decomposition x :^ z.
@@ -235,7 +235,7 @@ apply: (iffP idP) => [x1 | ->]; last first.
 rewrite -(prod_constt x) big1_seq //= => p _; apply: contraTeq x1 => nt_xp.
 have piXp: p \in \pi(#[x]) by rewrite -p_part_gt1 -order_constt order_gt1.
 have [M maxM sMp] := sigma_mmax_exists (piSg (subsetT _) piXp).
-apply/subsetPn; exists (x.`_(\sigma(M))); first exact: mem_imset.
+apply/subsetPn; exists (x.`_(\sigma(M))); first exact: imset_f.
 by rewrite (sameP set1P constt1P); apply: contraL sMp => /pnatPpi; apply.
 Qed.
 
@@ -248,8 +248,7 @@ Qed.
 Remark prod_sigma_decomposition x :
   \prod_(x_sM in sigma_decomposition x) x_sM = x.
 Proof.
-rewrite -big_filter filter_index_enum; set e := enum _.
-have: uniq e := enum_uniq _; have: e =i sigma_decomposition x := mem_enum _.
+rewrite -big_filter; case: big_enumP => /= e _ [Ue De] _; move: De Ue.
 elim: {x}e (x) => [|y e IHe] x def_e /= Ue.
   by rewrite big_nil (ell_sigma0P x _) //; apply/pred0P; apply: fsym.
 have{Ue} [not_e_y Ue] := andP Ue.
@@ -275,7 +274,7 @@ have sMx: \sigma(M).-elt x := mem_p_elt (pcore_pgroup _ _) Ms_x.
 have def_xM: x.`_(\sigma(M)) = x := constt_p_elt sMx.
 exists x; apply/eqP; rewrite eqEsubset sub1set !inE ntx -setD_eq0 /=.
 rewrite -{2 3}def_xM -sigma_decomposition_constt' // (constt1P _) ?p_eltNK //.
-by rewrite -cards_eq0 (sameP (ell_sigma0P 1) eqP) eqxx; apply: mem_imset.
+by rewrite -cards_eq0 (sameP (ell_sigma0P 1) eqP) eqxx; apply: imset_f.
 Qed.
 
 Remark ell_sigma1P x :
@@ -1076,7 +1075,7 @@ have sN'x: \sigma('N[x])^'.-elt x by apply: sub_p_elt t2Nx => p /andP[].
 have defx': (x * x').`_\sigma('N[x]) = x'.
   by rewrite consttM // (constt1P sN'x) mul1g constt_p_elt.
 have sd_xx'_x': x' \in sigma_decomposition (x * x').
-  by rewrite 2!inE ntx' -{1}defx'; apply: mem_imset.
+  by rewrite 2!inE ntx' -{1}defx'; apply: imset_f.
 rewrite -(setD1K sd_xx'_x') -{3}defx' -sigma_decomposition_constt' ?consttM //.
 by rewrite constt_p_elt // (constt1P _) ?p_eltNK ?mulg1 // ell1_decomposition.
 Qed.
@@ -1164,7 +1163,7 @@ have tiP: trivIset P.
 have->: class_support M^~~ G = cover P.
   apply/setP=> az; apply/imset2P/bigcupP=> [[a z] | [xRz]].
     case/bigcupP=> x Ms_x xRa Gz ->; exists (x ^ z *: 'R[x ^ z]).
-      by apply: mem_imset; apply: mem_imset2.
+      by apply: imset_f; apply: imset2_f.
     by rewrite sigma_coverJ memJ_conjg.
   case/imsetP=> _ /imset2P[x z Ms_x Gz ->] ->; rewrite sigma_coverJ.
   by case/imsetP=> a xRa ->; exists a z => //; apply/bigcupP; exists x.
@@ -1179,7 +1178,7 @@ transitivity (\sum_(Mz in MG) \sum_(x in (Mz`_\sigma)^#) 1); last first.
   by rewrite -conjD1g cardJg.
 rewrite (exchange_big_dep (mem MsG)) /= => [|Mz xz]; last first.
   case/imsetP=> z Gz ->; rewrite MsigmaJ -conjD1g => /imsetP[x Ms_x ->{xz}].
-  exact: mem_imset2.
+  exact: imset2_f.
 apply: eq_bigr => x MsGx; rewrite card_lcoset sum1dep_card.
 have ell1x := ellMsG x MsGx; have [ntx _] := ell_sigma1P x ell1x.
 have [[transRx -> _ _] _] := FT_signalizer_context ell1x.
@@ -1644,7 +1643,7 @@ have [Mi MXi P2maxMi]: exists2 Mi, Mi \in MX & Mi \in 'M_'P2.
   have notMXsup0: set0 \notin MXsup.
     apply/imsetP=> [[Mi /PmaxMX[/setDP[maxMi _] _] /esym/eqP/set0Pn[]]].
     have [x Mis_x ntx] := trivgPn _ (Msigma_neq1 maxMi).
-    exists (x ^ 1); apply: mem_imset2; rewrite ?inE //.
+    exists (x ^ 1); apply: imset2_f; rewrite ?inE //.
     by apply/bigcupP; exists x; rewrite ?inE ?ntx // lcoset_refl.
   have [Mi Mj MXi MXj /= neqMij | tiMXsup inj_ssup] := trivIimset _ notMXsup0.
     apply/pred0Pn=> [[_ /andP[/imset2P[x y1 signMi_x _ ->]]]] /=.
@@ -1743,7 +1742,7 @@ have defM: M^`(1) ><| K = M.
     apply: der1_min; first by rewrite -{1}defMl mulG_subG normG.
     by rewrite -{2}defMl quotientMidl quotient_abelian ?cyclic_abelian.
   rewrite sdprodE ?coprime_TIg //= norm_joinEr //.
-  rewrite (coprime_dvdl (dvdn_cardMg _ _)) // coprime_mull coUK.
+  rewrite (coprime_dvdl (dvdn_cardMg _ _)) // coprimeMl coUK.
   rewrite (pnat_coprime (pcore_pgroup _ _) (sub_pgroup _ kK)) //.
   exact: kappa_sigma'.
 have{neMNX} [Mstar MNX'star] := set0Pn _ neMNX.
@@ -1986,8 +1985,8 @@ split=> [MP0 | M K PmaxM hallK Ks Z Zhat ClZhat].
   have:= sigma_decomposition_dichotomy ntx.
   have [[y ell1y yRx] _ | _] := exists_inP.
     have [nty /set0Pn[M /setIdP[maxM Ms_y]]] := ell_sigma1P _ ell1y.
-    apply/bigcupP; exists (class_support M^~~ G); first exact: mem_imset.
-    rewrite -(conjg1 x) mem_imset2 ?inE //.
+    apply/bigcupP; exists (class_support M^~~ G); first exact: imset_f.
+    rewrite -(conjg1 x) imset2_f ?inE //.
     apply/bigcupP; exists y; last by rewrite mem_lcoset.
     by rewrite !inE nty -cycle_subG.
   case/exists_inP=> y _; move: (_ * x) => y' /existsP[M].
@@ -2026,7 +2025,7 @@ rewrite /cover big_setU1 {notPcovZ}//= subUset ntPcover subsetD1 subsetT.
 rewrite {}/ClZhat {}/Zhat !andbT /= andbC; apply/and3P; split.
 - have [[y Ks_y nty] [y' Ky' nty']] := (trivgPn _ ntKs, trivgPn _ ntK).
   rewrite eq_sym; apply/set0Pn; exists ((y' * y) ^ 1).
-  apply: mem_imset2; rewrite 2?inE // groupMl // groupMr // -/Ks negb_or.
+  apply: imset2_f; rewrite 2?inE // groupMl // groupMr // -/Ks negb_or.
   have [_ _ _ tiKKs] := dprodP defNK.
   rewrite -[Z]genM_join ?mem_gen ?mem_mulg //= andbT; apply/andP; split.
     by apply: contra nty => Ky; rewrite -in_set1 -set1gE -tiKKs inE Ky.
@@ -2036,8 +2035,8 @@ rewrite {}/ClZhat {}/Zhat !andbT /= andbC; apply/and3P; split.
 apply/subsetP=> x; case/setD1P=> ntx _; apply/setUP.
 case: exists_inP (sigma_decomposition_dichotomy ntx) => [[y ell1y yRx] _ | _].
   have [nty] := ell_sigma1P _ ell1y; case/set0Pn=> H; case/setIdP=> maxH Hs_y.
-  right; apply/bigcupP; exists (class_support H^~~ G); first exact: mem_imset.
-  rewrite -[x]conjg1 mem_imset2 ?inE //; apply/bigcupP.
+  right; apply/bigcupP; exists (class_support H^~~ G); first exact: imset_f.
+  rewrite -[x]conjg1 imset2_f ?inE //; apply/bigcupP.
   by exists y; rewrite ?mem_lcoset // !inE nty -cycle_subG.
 case/exists_inP=> y ell1y /existsP[H]; set y' := y^-1 * x.
 case/and3P=> /setIdP[maxH Hs_y] /setD1P[nty' /setIP[Hy' cyy']] kHy'.
@@ -2062,7 +2061,7 @@ wlog{H defH Hy' kHy'} Ky': K hallK / y' \in K.
   move/(_ (K :^ a)%G); rewrite pHallJ // -cycle_subG.
   rewrite -{1 2}(normsP nMsM a Ma) centJ -conjIg -conjYg -conjUg -conjDg.
   by rewrite class_supportGidl ?inE //; apply.
-rewrite -[x]conjg1 mem_imset2 ?group1 //.
+rewrite -[x]conjg1 imset2_f ?group1 //.
 have [Mst _ [_ _ _ [cycZ _ defZ _ _] _]] := Ptype_embedding PmaxM hallK.
 rewrite -(mulKVg y x) -/y' 2!inE negb_or andbC.
 do [set Ks := 'C_(_)(K); set Z := K <*> _] in cycZ defZ *.
@@ -2304,7 +2303,7 @@ have notMstGH: gval H \notin Mst :^: G.
   apply: contra ntR => /imsetP[a _ defH].
   have{a} defH: H :=: Mst by rewrite -(conjGid (sK_uniqMst a _)) -?defH.
   rewrite -(setIidPl sRH) -(setIidPl sRM) -setIA defH ziMMst coprime_TIg //=.
-  rewrite cent_joinEr // TI_cardMg //= coprime_mulr -/Ks.
+  rewrite cent_joinEr // TI_cardMg //= coprimeMr -/Ks.
   rewrite (p'nat_coprime (pi_pnat rR _) kK) //=.
   exact: p'nat_coprime (pi_pnat rR _) sM_Ks.
 have FmaxH: H \in 'M_'F.

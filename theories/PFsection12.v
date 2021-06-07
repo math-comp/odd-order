@@ -459,7 +459,7 @@ have tiP: trivIset P.
   by rewrite cfnorm_irr oner_eq0.
 have coverP: cover P =i predT.
   move=> j; apply/bigcupP; have [i jH'i] := constt_cfRes_irr H' j.
-  by exists (P_ i); [apply: mem_imset | rewrite inE constt_Ind_Res].
+  by exists (P_ i); [apply: imset_f | rewrite inE constt_Ind_Res].
 have /(all_sig_cond 0)[lambda lambdaP] A: A \in P -> {i | A = P_ i}.
   by case/imsetP/sig2_eqW=> i; exists i.
 pose theta A : Iirr H := odflt 0 [pick j in A :\ 0]; pose psiH := 'Res[H] rpsi.
@@ -775,7 +775,7 @@ have nreg_KA: 'C_K(A) != 1%g.
     by rewrite andbT (mem_normal_Hall (Fcore_Hall M)) // /p_elt oz pnatE.
   have [defP0A ntP0 _ _ _] := Frobenius_context frobP0A.
   have coK_P0A: coprime #|K| #|P0 <*> A|.
-    rewrite -(sdprod_card defP0A) coprime_mulr (p'nat_coprime p'K) //=.
+    rewrite -(sdprod_card defP0A) coprimeMr (p'nat_coprime p'K) //=.
     by rewrite -orderE coprime_pi' // oz pnatE.
   have: ~~ (P0 \subset 'C(K)); last apply: contraNneq.
     have [[ntK _ _] _ [U0 [sU0ML expU0 frobKU0]]] := MtypeF.
@@ -1347,7 +1347,7 @@ have tiH i: normedTI (H i)^# G (L i).
   have /subsetP sH1A0: (H i)^# \subset 'A0(L i) by apply: Fcore_sub_FTsupp0.
   have [/(sub_in2 sH1A0)wccH1 [_ maxN] Nfacts] := FTsupport_facts (maxL i).
   suffices{z Gz H1xz wccH1} sCxLi: 'C[x] \subset L i.
-    have /imsetP[y Ly defxz] := wccH1 _ _ H1x H1xz (mem_imset _ Gz).
+    have /imsetP[y Ly defxz] := wccH1 _ _ H1x H1xz (imset_f _ Gz).
     rewrite -[z](mulgKV y) groupMr // (subsetP sCxLi) // !inE conjg_set1.
     by rewrite conjgM defxz conjgK.
   apply/idPn=> not_sCxM; pose D := [set y in 'A0(L i) | ~~ ('C[y] \subset L i)].

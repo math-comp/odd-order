@@ -347,7 +347,7 @@ have{groupE21} defE: E3 ><| (E2 ><| E1) = E.
   have sE21E: E2 <*> E1 \subset E by rewrite join_subG sE2E.
   have nE3E21 := subset_trans sE21E nE3E.
   have coE312: coprime #|E3| #|E2 <*> E1|.
-    by rewrite -defE21 coprime_cardMg // coprime_mulr coE32.
+    by rewrite -defE21 coprime_cardMg // coprimeMr coE32.
   have nE21: E1 \subset 'N(E2).
     rewrite (subset_trans (joing_subr E2 E1)) ?sub_der1_norm ?joing_subl //.
     rewrite /= -{2}(mulg1 E2) -(setIidPr (der_sub 1 _)) /=.
@@ -371,7 +371,7 @@ have{defE21} [_ defE21 nE21 tiE21] := sdprodP defE21.
 have [nE32 nE31] := (subset_trans sE2E nE3E, subset_trans sE1E nE3E).
 rewrite [E3 ><| _]sdprodEY ? sdprodE ?coprime_TIg ?normsY //=.
   by rewrite norm_joinEr // -mulgA defE21.
-by rewrite norm_joinEr // coprime_cardMg // coprime_mull coE31.
+by rewrite norm_joinEr // coprime_cardMg // coprimeMl coE31.
 Qed.
 
 (* This is B & G, Lemma 12.2(a). *)
@@ -461,7 +461,7 @@ have [sHp | sH'p] := boolP (p \in \sigma(H)); last first.
     rewrite quotientGI ?joing_subl //= joingC quotientYidr //.
     rewrite setIC coprime_TIg ?coprime_morph //.
     rewrite (pnat_coprime (pcore_pgroup _ _)) // (card_pnElem Ep2A).
-    by rewrite pnat_exp ?orbF ?pnatE.
+    by rewrite pnatX ?orbF ?pnatE.
   rewrite commg_subI // subsetI ?joing_subr ?subsetIl.
     by rewrite (subset_trans sAM) ?gFnorm.
   by rewrite setIC subIset ?nHsA_H.
@@ -1156,7 +1156,7 @@ have charE2: E2 \char K.
   have hallE2_K := pHall_subl sE2K sKE hallE2.
   by rewrite (nilpotent_Hall_pcore (abelian_nil cKK) hallE2_K) pcore_char.
 have coKE1: coprime #|K| #|E1|.
-  rewrite -(dprod_card defK) coprime_mull (sub_pnat_coprime tau3'1 t3E3 t1E1).
+  rewrite -(dprod_card defK) coprimeMl (sub_pnat_coprime tau3'1 t3E3 t1E1).
   by rewrite (sub_pnat_coprime tau2'1 t2E2 t1E1).
 have hallK: Hall 'F(E) K.
   have hallK: Hall E K.
@@ -2595,7 +2595,7 @@ have part_a_holds: part_a.
     rewrite quotientInorm subsetIidl /= centsC -/R0.
     by rewrite (sub_nilpotent_cent2 nilR1Qb) ?quotientS ?coprime_morph.
   have coR1QP: coprime #|R1Q| #|P|.
-    by rewrite -defR1Q TI_cardMg // coprime_mull coR1P.
+    by rewrite -defR1Q TI_cardMg // coprimeMl coR1P.
   have defR1QP: R1Q ><| P = R1Q <*> P.
     by rewrite sdprodEY ?normsY ?coprime_TIg.
   have sR1Ma := subset_trans sR1R sRMa; have sR1M := subset_trans sR1Ma sMaM.

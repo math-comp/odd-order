@@ -711,7 +711,7 @@ have def_h1 i: h_ i - 1 = #|A i|%:R.
   by rewrite /h_ (cardsD1 1%g) group1 addnC natrD addrK.
 have [i1 min_i1]: {i1 | forall i, i != i1 -> h_ i1 + 2%:R <= h_ i}.
   exists [arg min_(i < Ordinal k_ge2) #|H i|].
-  case: fintype.arg_minP => // i1 _ min_i1.
+  case: fintype.arg_minnP => // i1 _ min_i1.
   have oddH i: #|H i| = #|H i|./2.*2.+1.
     by rewrite -{1}[#|H i|]odd_double_half (oddSg (sHL i)).
   move=> i neq_i; rewrite -natrD ler_nat (oddH i) oddH addn2 -doubleS ltnS.

@@ -44,7 +44,7 @@ have prM := mmax_proper maxM; have solM := mFT_sol prM.
 apply/uniq_mmaxP; exists M; symmetry; apply/eqP.
 rewrite eqEsubset sub1set inE maxM sBM; apply/subsetPn=> [[H0 MB_H0 neH0M]].
 have:= erefl [arg max_(H > H0 | (H \in 'M(B)) && (H :!=: M)) #|H :&: M|`_p].
-have [|H] := arg_maxP; first by rewrite MB_H0; rewrite inE in neH0M.
+have [|H] := arg_maxnP; first by rewrite MB_H0; rewrite inE in neH0M.
 rewrite inE -andbA => /and3P[maxH sBH neHM] maxHM _ {H0 MB_H0 neH0M}.
 have sB_HM: B \subset H :&: M by rewrite subsetI sBH.
 have{sB_HM} [R sylR sBR] := Sylow_superset sB_HM pB.

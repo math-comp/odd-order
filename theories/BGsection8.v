@@ -333,7 +333,7 @@ have{} p'nbyA_1 X:
   by rewrite p'nbyA_1 // => /set1P->.
 apply/subsetPn=> -[H0 MA_H0 neH0M].
 pose H := [arg max_(H > H0 | (H \in 'M(A)) && (H != M)) #|H :&: M|`_p].
-case: arg_maxP @H => [|H {H0 MA_H0 neH0M}]; first by rewrite MA_H0 -in_set1.
+case: arg_maxnP @H => [|H {H0 MA_H0 neH0M}]; first by rewrite MA_H0 -in_set1.
 rewrite /= inE -andbA => /and3P[maxH sAH neHM] maxHM.
 have prH: H \proper G by rewrite inE in maxH; apply: maxgroupp maxH.
 have sAHM: A \subset H :&: M by rewrite subsetI sAH.

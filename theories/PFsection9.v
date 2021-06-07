@@ -391,7 +391,7 @@ have [oH1 defHbar]: #|H1| = p /\ \big[dprod/1]_(w in W1bar) H1 :^ w = Hbar.
     apply/eqP; rewrite eqEcard (card_in_imset injW0) oW0 -oW1b leq_imset_card.
     rewrite andbT; apply/subsetP=> _ /imsetP[w /sW01/= Ww ->].
     move: Ww; rewrite norm_joinEr ?quotientMl // => /mulsgP[x w1 Ux Ww1 ->].
-    by rewrite conjsgM (normsP nH1U) // mem_imset.
+    by rewrite conjsgM (normsP nH1U) // imset_f.
   have injW1: {in W1 / H0 &, injective (fun w => H1 :^ w)}.
     by apply/imset_injP; rewrite -defH1W0 (card_in_imset injW0) oW0 oW1b.
   by rewrite -(big_imset id injW1) -defH1W0 big_imset.
@@ -1082,7 +1082,7 @@ split=> {Part_a part_a}//.
     exists (theta f %% H0)%CF; first by rewrite cfMod_lin_char.
     by rewrite Ds  cfIirrE ?irrXtheta //= cfIndInd.
   suffices /(congr1 odd): u = (p.-1 ^ q.-1)%N.
-    rewrite odd_exp -(subnKC (prime_gt1 pr_q)) /= -subn1 oddB ?prime_gt0 //.
+    rewrite oddX -(subnKC (prime_gt1 pr_q)) /= -subn1 oddB ?prime_gt0 //.
     by rewrite -oH1 (oddSg sH1H) ?quotient_odd // mFT_odd.
   have p1_gt0: (0 < p.-1)%N by rewrite -(subnKC (prime_gt1 p_pr)).
   apply/eqP; rewrite -(eqn_pmul2r p1_gt0) -expnSr prednK ?prime_gt0 //.

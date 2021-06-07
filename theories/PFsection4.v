@@ -658,7 +658,7 @@ rewrite (card_afix_irr_classes Lz actsL_KK) => [|k x y Kx /=]; last first.
 apply: leq_trans (subset_leq_card _) (leq_imset_card (class^~ K) _).
 apply/subsetP=> _ /setIP[/imsetP[x Kx ->] /afix1P/normP nxKz].
 suffices{Kx} /pred0Pn[t /setIP[xKt czt]]: #|'C_(x ^: K)[z]| != 0%N.
-  rewrite -(class_eqP xKt); apply: mem_imset; have [y Ky Dt] := imsetP xKt.
+  rewrite -(class_eqP xKt); apply: imset_f; have [y Ky Dt] := imsetP xKt.
   by rewrite -(@prKW1 z) ?(czt, inE) ?ntz // Dt groupJ.
 have{coKp}: ~~ (p %| #|K|) by rewrite -prime_coprime // coprime_sym.
 apply: contraNneq => /(congr1 (modn^~ p))/eqP; rewrite mod0n.
@@ -863,7 +863,7 @@ have V2yx: (y * x)%g \in W :\: W2.
 rewrite 2?{1}prTIirr_id //.
 have /set1P->: y \in [1].
   rewrite -tiW12 inE W2y andbT; apply: contraR V'g => W1'y.
-  by rewrite Dg mem_imset2 // !inE negb_or -andbA -in_setD groupMr ?W1'y.
+  by rewrite Dg imset2_f // !inE negb_or -andbA -in_setD groupMr ?W1'y.
 rewrite -commute1 (prDade_TIsign_eq eq_mu1) !cfunE -mulrBr.
 by rewrite !dprod_IirrE !cfDprodE // !lin_char1 // subrr mulr0.
 Qed.
@@ -978,7 +978,7 @@ have{sVV0} ntV0: V0 != set0 by apply: contraNneq ntV; rewrite -subset0 => <-.
 have{ntV} tiV0: normedTI V0 G L.
   apply/normedTI_memJ_P; split=> // _ z /imset2P[u y Vu Ly ->] Gz.
   apply/idP/idP=> [/imset2P[u1 y1 Vu1 Ly1 Duyz] | Lz]; last first.
-    by rewrite -conjgM mem_imset2 ?groupM.
+    by rewrite -conjgM imset2_f ?groupM.
   rewrite -[z](mulgKV y1) groupMr // -(groupMl _ Ly) (subsetP sWL) //.
   by rewrite -(tiV u) ?groupM ?groupV // ?(subsetP sLG) // !conjgM Duyz conjgK.
 have{ntV0 sV0A0 nV0L tiV0} DtauV0: {in 'CF(L, V0), tau =1 'Ind}.

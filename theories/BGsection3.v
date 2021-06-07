@@ -310,7 +310,7 @@ rewrite defZK in primeR.
 case: (repr_extraspecial_prime_sdprod_cycle _ _ defG _ oKqe) => // _.
 apply=> //; last exact/trivgP.
 apply: contraL (oddSg sRG oddG); move/eqP->; have:= oddSg sKG oddG.
-by rewrite oKqe addn1 /= !odd_exp /= orbC => ->.
+by rewrite oKqe addn1 /= !oddX /= orbC => ->.
 Qed.
 
 (* Internal action version of B & G, Theorem 3.4. *)
@@ -972,7 +972,7 @@ case cKK: (abelian K); last first.
       by rewrite sub_astabQ normG trivg_quotient sub1G.
     apply/trivgP; rewrite -quotient1 quotientS // -tiPRcK subsetI subsetIl /=.
     rewrite (coprime_cent_Phi qK) ?(coprimegS (subsetIl _ _)) //=.
-      by rewrite norm_joinEr // coprime_cardMg // coprime_mulr coKP.
+      by rewrite norm_joinEr // coprime_cardMg // coprimeMr coKP.
     rewrite dPhiK -dK' -/K' (subset_trans (commgS _ (subsetIr _ _))) //.
     by rewrite astabQ -quotient_cents2 ?subsetIl // cosetpreK centsC /=.
   have [nK'P nK'R] := (char_norm_trans charK' nKP, char_norm_trans charK' nKR).
@@ -1214,7 +1214,7 @@ have ntSRcR Vi:
   rewrite -oCVR -defCVR; split; first by rewrite card_injm.
   apply/subsetP=> _ /morphimP[v _ Vi_v ->] /=; rewrite /f fmval_sum.
   have Vv := sVi v Vi_v; apply: group_prod => x Rx.
-  by rewrite fmvalJ ?fmodK ?nV // mem_gen // mem_imset2.
+  by rewrite fmvalJ ?fmodK ?nV // mem_gen // imset2_f.
 have{not_cSR} [V1 S1 not_nV1R]: exists2 V1, V1 \in S & ~~ (R \subset 'N(V1)).
   by move: not_cSR; rewrite astabC; case/subsetPn=> v; rewrite afixJG; exists v.
 set D := orbit 'JG%act R V1.
@@ -1250,7 +1250,7 @@ have nVjR Vj: Vj \in S :\: D -> 'C_K(Vj) = [~: K, R].
   rewrite defW defU subsetI (subset_trans sCV1) /=; last first.
     rewrite class_supportEr -(bigdprodWY defW) genS //.
     apply/bigcupsP=> x Rx; rewrite (bigcup_max (V1 :^ x)%G) // inE.
-    by rewrite (actsP actsR) //= S1 mem_imset.
+    by rewrite (actsP actsR) //= S1 imset_f.
   rewrite (subset_trans sCVj) // class_supportEr -(bigdprodWY defU) genS //.
   apply/bigcupsP=> x Rx; rewrite (bigcup_max (Vj :^ x)%G) // inE.
   by rewrite (actsP actsR) // Sj andbT (orbit_transl _ (mem_orbit 'JG Vj Rx)).
@@ -1708,7 +1708,7 @@ have partG: {in G, forall a,
     case/setU1P=> [BK | /imsetP[x Kx defB]].
       by rewrite (def_pblock tiG _ Ba) BK ?setU11 ?genGid.
     have Rxa: a \in R^# :^ x by rewrite conjD1g !inE nt_a -(congr_group defB).
-    rewrite (def_pblock tiG _ Rxa) ?setU1r ?mem_imset // conjD1g.
+    rewrite (def_pblock tiG _ Rxa) ?setU1r ?imset_f // conjD1g.
     by rewrite genD1 ?group1 // genGid defB.
   rewrite /n !inE -val_eqE /= -/(true : nat); congr ((_ : bool) + _)%N.
   case/setU1P: (pblock_mem Ga) => [-> |]; first by rewrite genGid eqxx.
