@@ -205,6 +205,7 @@ Notation x7 := +x7. Notation x8 := +x8.
 
 Definition AndLit kvs kv := kv :: kvs.
 Definition AddLit := AndLit.
+Declare Scope defclause_scope.
 Notation "(*dummy*)" := (Prop Prop) (at level 0) : defclause_scope.
 Arguments AddLit _%defclause_scope _.
 Infix "+" := AddLit : defclause_scope.
