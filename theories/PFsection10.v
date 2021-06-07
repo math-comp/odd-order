@@ -307,7 +307,7 @@ have [_ _ _ Nn] := FTtype345_constants.
 by rewrite !rpredB ?rpredZsign ?rpredZ_Cnat ?irr_vchar ?mem_zchar.
 Qed.
 Local Notation Zalpha := vchar_FTtype345_bridge.
-Local Hint Resolve Zalpha.
+Local Hint Resolve Zalpha : core.
 
 Lemma vchar_Dade_FTtype345_bridge i j :
   j != 0 -> (alpha_ i j)^\tau \in 'Z[irr G].

@@ -58,7 +58,7 @@ rewrite -[M`_\F]bigprodGE.
 elim/big_ind: _ => [|P Q nsP nsG|P /andP[] //]; first exact: normal1.
 by rewrite /normal normsY ?normal_norm // join_subG ?normal_sub.
 Qed.
-Hint Resolve Fcore_normal.
+Hint Resolve Fcore_normal : core.
 
 Lemma Fcore_sub : M`_\F \subset M.
 Proof. by case/andP: Fcore_normal. Qed.
