@@ -308,7 +308,7 @@ elim: {1 2 3}n => [| m IHm leLm1 /ltnW]; first by rewrite leqNgt cardG_gt0.
 have [eqLm le_mn|] := eqVneq (L2G m.+1) (L2G m); last first.
   rewrite eq_sym eqEcard Puig_sub_even ?leqnSn // -ltnNge => lt_m1_m.
   exact: IHm (leq_trans lt_m1_m leLm1).
-have{eqLm} eqLm k: m <= k -> 'L_{k.*2}(G) = L2G m.
+have{} eqLm k: m <= k -> 'L_{k.*2}(G) = L2G m.
   rewrite leq_eqVlt => /predU1P[-> // |]; elim: k => // k IHk.
   by rewrite leq_eqVlt => /predU1P[<- //| ltmk]; rewrite -eqLm !PuigS IHk.
 by exists m => k le_mk; rewrite Puig_def PuigS /Puig_inf /= !eqLm.
@@ -457,7 +457,7 @@ have nsL_nCS: L <| 'N_G(C :&: S).
   rewrite -[L](sub_Puig_eq _ sLCS) ?subsetIr // gFnormal_trans ?normalSG //.
   by rewrite subIset // sSG orbT.
 have sylCS: p.-Sylow(C) (C :&: S) := Sylow_setI_normal nsCG sylS.
-have{defC} defC: 'C_G(Y) * (C :&: S) = C.
+have{} defC: 'C_G(Y) * (C :&: S) = C.
   apply/eqP; rewrite eqEsubset mulG_subG sCY_C subsetIl /=.
   have nCY_C: C \subset 'N('C_G(Y)).
     exact: subset_trans (normal_sub nsCG) (normal_norm nsCY_G).

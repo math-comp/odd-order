@@ -581,7 +581,7 @@ have nilMs: nilpotent M`_\sigma.
   rewrite (nilpotentS (Msigma_der1 maxM)) // (isog_nil (quotient1_isog _)).
   by rewrite -Ma1 Malpha_quo_nil.
 rewrite (subset_trans (cents_norm (centS sZA))) ?(mmax_normal maxM) //=.
-have{sylP} sylP: p.-Sylow(M`_\sigma) P.
+have{} sylP: p.-Sylow(M`_\sigma) P.
   apply: pHall_subl _ (pcore_sub _ _) sylP.
   by rewrite (sub_Hall_pcore (Msigma_Hall maxM)) // (pi_pgroup pP).
 by rewrite (nilpotent_Hall_pcore _ sylP) ?gFnormal_trans.
@@ -931,7 +931,7 @@ split=> {defFM}//.
 have [[sE1E t1E1 _] t2E2] := (and3P hallE1, pHall_pgroup hallE2).
 have defE2: E2 :=: P by rewrite (sub_pHall sylP) // -(eq_pgroup _ def_t2) t2E2.
 have [[_ nsE3E] _ _ [defEr _] _] := sigma_compl_context maxM complEi.
-have [sE3E nE3E] := andP nsE3E; have{nE3E} nE3E := subset_trans _ nE3E.
+have [sE3E nE3E] := andP nsE3E; have{} nE3E := subset_trans _ nE3E.
 have [[_ E21 _ defE21]] := sdprodP defEr; rewrite defE21 => defE nE321 tiE321.
 rewrite defE2 in defE21; have{defE21} [_ defPE1 nPE1 tiPE1] := sdprodP defE21.
 have [P0 defP nP0E1]: exists2 P0 : {group gT}, A0 \x P0 = P & E1 \subset 'N(P0).
@@ -1133,7 +1133,7 @@ have [[K _ defK _] _ _ _] := sdprodP defEl; rewrite defK in defEl.
 have [nsKE _ mulKE1 nKE1 _] := sdprod_context defEl; have [sKE _] := andP nsKE.
 have [nsE3K sE2K _ nE32 tiE32] := sdprod_context defK.
 rewrite -sdprodEY // defK.
-have{defK} defK: E3 \x E2 = K.
+have{} defK: E3 \x E2 = K.
   rewrite dprodEsd // (sameP commG1P trivgP) -tiE32 subsetI commg_subr nE32.
   by rewrite commg_subl (subset_trans sE3E) ?normal_norm.
 have cKK: abelian K.
@@ -1505,7 +1505,7 @@ have part_a H:
     rewrite -(p_rank_Sylow sylQ) (p_rank_Sylow sylQ_E).
     by move: t2Mq; rewrite (tau2E hallE) => /andP[_ /eqP->].
   have [cAB abelB dimB] := pnElemP Eq2B; have sBH := subset_trans cAB sCA_H.
-  have{Eq2B} Eq2B: B \in 'E_q^2(H) by apply/pnElemP.
+  have{} Eq2B: B \in 'E_q^2(H) by apply/pnElemP.
   have rqHgt1: 'r_q(H) > 1 by apply/p_rank_geP; exists B.
   have piHq: q \in \pi(H) by rewrite -p_rank_gt0 ltnW.
   rewrite partition_pi_mmax // in piHq.
@@ -1776,7 +1776,7 @@ suffices /fin_all_exists[Z_ Z_P] S: exists Z, sylU2 S -> cyclicRegular Z S.
     apply/dvdn_partP=> [|p]; first exact: exponent_gt0.
     have [S sylS] := Sylow_exists p U2; rewrite -(exponent_Hall sylS).
     rewrite pi_of_exponent -p_rank_gt0 -(rank_Sylow sylS) rank_gt0 => ntS.
-    have{sylS} sylS: sylU2 S by rewrite /sylU2 ntS (p_Sylow sylS).
+    have{} sylS: sylU2 S by rewrite /sylU2 ntS (p_Sylow sylS).
     by have /Z_P[_ _ _ <-] := sylS; rewrite exponentS ?sub_gen ?(bigcup_max S).
   exists U0; split=> //.
   have ntU0: U0 :!=: 1 by rewrite trivg_exponent expU0U -trivg_exponent.
@@ -2088,7 +2088,7 @@ apply: contraR uniqNEpA => neqHM; have sQM := subset_trans sQP sPM.
 suffices{A Ep2A} [ntMa nonuniqNZ]: M`_\alpha != 1 /\ 'M('N(Z)) != [set M].
   have [A0 EpA0 defMNA0]: exists2 A0, A0 \in 'E_p^1(A) & 'M('N(A0)) == [set M].
     apply/exists_inP; apply: contraR ntMa; rewrite negb_exists_in => uniqNA1.
-    have{Ep2A} Ep2A: A \in 'E_p^2(M) := subsetP (pnElemS p 2 sQM) A Ep2A.
+    have{} Ep2A: A \in 'E_p^2(M) := subsetP (pnElemS p 2 sQM) A Ep2A.
     by have [_ [//|_ ->]] := p2Elem_mmax maxM Ep2A.
   apply/exists_inP; exists A0; rewrite // 2!inE EpA0 andbT.
   by apply: contraNneq nonuniqNZ => <-.
@@ -2196,7 +2196,7 @@ have sXZ: X \subset 'Z(P).
   case=> Q [not_cQQ dimQ _] [R]; move/cyclic_abelian=> cRR [defP _].
   have [_ mulQR _] := cprodP defP; have [sQP _] := mulG_sub mulQR.
   rewrite (subset_trans sXP') // -(der_cprod 1 defP) (derG1P cRR) cprodg1.
-  have{dimQ} dimQ: logn p #|Q| <= 3 by rewrite dimQ.
+  have{} dimQ: logn p #|Q| <= 3 by rewrite dimQ.
   have [[_ ->] _] := p3group_extraspecial (pgroupS sQP pP) not_cQQ dimQ.
   by case/cprodP: (center_cprod defP) => _ <- _; apply: mulG_subl.
 have uniqP: 'M(P) = [set M].
@@ -2256,7 +2256,7 @@ have /orP[sHq | t2Hq] := prime_class_mmax_norm maxH qX sNX_H; last first.
   have [sAH sAM] := (subset_trans sAS sSH, subset_trans sAS sSM).
   have [F hallF sAF] := Hall_superset (mmax_sol maxH) sAH (pi_pnat qA sH'q).
   have tiHsM: H`_\sigma :&: M = 1.
-    have{Eq2A} Eq2A: A \in 'E_q^2(H) by apply/pnElemP.
+    have{} Eq2A: A \in 'E_q^2(H) by apply/pnElemP.
     have [_ _ _ -> //] := tau2_context maxH t2Hq Eq2A.
     by rewrite 3!inE eq_sym neqHM maxM.
   have{Eq2A} Eq2A_F: A \in 'E_q^2(F) by apply/pnElemP.
@@ -2401,7 +2401,7 @@ have [sNX_M | not_sNX_M] := boolP ('N(X) \subset M).
   by apply: dvdn_trans pM' (cardSg (dergS 1 _)); rewrite subIset ?sNY_M ?orbT.
 have [L maxNX_L] := mmax_exists (mFT_norm_proper ntX (mFT_pgroup_proper qX)).
 have [maxL sNX_L] := setIdP maxNX_L.
-have{maxNX_L} maxNX_L: L \in 'M('N(X)) :\ M.
+have{} maxNX_L: L \in 'M('N(X)) :\ M.
   by rewrite 2!inE maxNX_L andbT; apply: contraNneq not_sNX_M => <-.
 have sXM := subset_trans sXMs (pcore_sub _ M).
 have [notMGL _ embedL] := sigma_subgroup_embedding maxM sMq sXM qX ntX maxNX_L.

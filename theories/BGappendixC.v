@@ -166,7 +166,7 @@ have /set1P[->]: (sigmaU @* U)%G \in [set <[u0 ^+ (#[u0] %/ nU)]>%G].
   by rewrite -defFU subsetT card_injm //= oU.
 rewrite divnA ?dvdn_pred_predX // -o_u0 mulKn //.
 have [/= alpha alpha_gen Dalpha] := finField_galois_generator (subvf Fp).
-have{Dalpha} Dalpha x1: x1 != 0 -> x1 / alpha x1 = x1^-1 ^+ p.-1.
+have{} Dalpha x1: x1 != 0 -> x1 / alpha x1 = x1^-1 ^+ p.-1.
   move=> nz_x1; rewrite -[_ ^+ _](mulVKf nz_x1) -exprS Dalpha ?memvf // exprVn.
   by rewrite dimv1 oF_p prednK ?prime_gt0.
 apply/idP/(Hilbert's_theorem_90 alpha_gen (memvf _)) => [|[u [_ nz_u] ->]].
@@ -174,7 +174,7 @@ apply/idP/(Hilbert's_theorem_90 alpha_gen (memvf _)) => [|[u [_ nz_u] ->]].
   have nz_u: (val u)^-1 != 0 by rewrite -unitfE unitrV (valP u).
   by exists (val u)^-1; rewrite ?memvf ?Dalpha //= invrK val_unitX.
 have /cycleP[n Du]: (insubd u0 u)^-1%g \in <[u0]> by rewrite -defFU inE.
-have{Du} Du: u^-1 = val (u0 ^+ n)%g by rewrite -Du /= insubdK ?unitfE.
+have{} Du: u^-1 = val (u0 ^+ n)%g by rewrite -Du /= insubdK ?unitfE.
 by rewrite Dalpha // Du -val_unitX mem_imset // expgAC mem_cycle.
 Qed.
 
@@ -341,7 +341,7 @@ have [q_gt4 | q_le4] := ltnP 4 q.
     rewrite lin_char1 // divr1 -lin_charX // -normCK.
     by rewrite normC_lin_char ?groupX ?expr1n.
   have degU i: i \notin linH -> 'chi_i 1%g = #|U|%:R.
-    case/(Frobenius_Ind_irrP (FrobeniusWker frobH)) => {i}i _ ->.
+    case/(Frobenius_Ind_irrP (FrobeniusWker frobH)) => {}i _ ->.
     rewrite cfInd1 ?normal_sub // -(index_sdprod defH) lin_char1 ?mulr1 //.
     exact/char_abelianP.
   have ub_linH' m (s_m := (s ^+ m)%g):
@@ -528,7 +528,7 @@ have irrPU: acts_irreducibly U P 'J.
   suffices ->: x = (z ^ u) ^+ n by rewrite groupX ?memJ_norm ?(subsetP nVU).
   apply: (injmP inj_sigma); rewrite ?(in_PU, sigmaE) //.
   by rewrite -mulr_natr -scaler_nat natr_Zp -Ds1 -mulrA -Dx mulrC divfK.
-have{ntPX defX irrPU} defX: X :=: H.
+have{ntPX irrPU} defX: X :=: H.
   rewrite -(sdprodW defH) -defX; congr (_ * _).
   have [_ -> //] := mingroupP irrPU; rewrite ?subsetIl //= -/X astabsJ ntPX.
   by rewrite normsI // normsG.
@@ -656,7 +656,7 @@ have{sUsXp} Ds2p: s2def (w1 ^+ p) (w2 ^+ p) (w3 ^+ p).
   rewrite !(=^~ conjXg _ _ p, expUMp) ?groupV -1?[t]expg1 ?nUtn ?nUtVn //.
   apply: Ds2 usv1pP usv2pP usv3pP => //.
   by rewrite !psiX // -!Frobenius_autE -rmorphD Dab rmorph_nat.
-have{Ds2} Ds2: s2def w1 w2 w3 by apply: Ds2 usv1P usv2P usv3P.
+have{} Ds2: s2def w1 w2 w3 by apply: Ds2 usv1P usv2P usv3P.
 wlog [Uw1 Uw2 Uw3]: w1 w2 w3 Ds2p Ds2 / [/\ w1 \in U, w2 \in U & w3 \in U].
   by move/(_ w1 w2 w3)->; rewrite ?(nUtVn, nUtVn 1%N, nUtn 1%N, in_group).
 have{Ds2p} Dw3p: (w2 ^- p * w1 ^- p.-1 ^ s3 * w2) ^ t ^+ 2 = w3 ^+ p.-1 ^ s1^-1.
@@ -679,7 +679,7 @@ have{Uw1} Dw1: w1 = 1.
   apply: w_id => //; have:= @not_splitU s3^-1 s3 (w1 ^- p.-1).
   rewrite mulVg (negPf nt_s3) andbF -mulgA -conjgE -Dw2p !in_group //=.
   by rewrite eqxx andbT eq_invg1 /= => ->.
-have{w1 w2 w3 Dw1 Dw3 w_id Uw2 Dw2p Ds2} Ds2: t * s2^-1 * t = s3 * t ^+ 2 * s1.
+have{w1 w2 w3 Dw1 Dw3 w_id Uw2 Dw2p} Ds2: t * s2^-1 * t = s3 * t ^+ 2 * s1.
   by rewrite Ds2 Dw3 [w2]w_id ?mulg1 ?Dw2p ?Dw1 ?mul1g // expg1n invg1 conj1g.
 have /centsP abP0: abelian P0 by rewrite -defP0 cycle_abelian.
 have QP0ys := memJ_norm y (subsetP (commg_normr P0 Q) _ _).
@@ -752,7 +752,7 @@ have charFp: p \in [char F] := card_finCharP oF pr_p.
 have sP0P: P0 \subset P by rewrite -defP0 subsetIl.
 pose s := invm inj_sigma 1%R.
 have sigma_s: sigma s = 1%R by rewrite invmK ?im_sigma ?inE.
-have{defP0} defP0: <[s]> = P0.
+have{} defP0: <[s]> = P0.
   by rewrite -morphim_cycle /= ?im_sigma ?inE // morphim_invmE.
 exact: BGappendixC_inner_subproof defP0 sigmaJ.
 Qed.

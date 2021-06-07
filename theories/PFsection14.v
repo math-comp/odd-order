@@ -138,7 +138,7 @@ have{p_g}[y [a P1a cagy]]: exists y, exists2 a, a \in P^# & g ^ y \in 'C[a].
     have [_ _ [n ->]] := pgroup_pdiv pP (mmax_Fcore_neq1 maxS).
     by apply/eq_pHall => r1; rewrite pi_of_exp ?pi_of_prime.
   have [y _ Pa] := Sylow_Jsub sylP (subsetT _) (p_elt_constt p g).
-  pose a := g.`_p ^ y; have{Pa} Pa: a \in P by rewrite -cycle_subG cycleJ.
+  pose a := g.`_p ^ y; have{} Pa: a \in P by rewrite -cycle_subG cycleJ.
   exists y, a; last by rewrite cent1C /a conjXg groupX ?cent1id.
   rewrite !inE conjg_eq1 (contraNneq _ p_g) // => /constt1P/p'nat_coprime-> //.
   exact: pnat_id.
@@ -210,7 +210,7 @@ have calL_gt1: (1 < size calL)%N.
 have [] := Dade_Ind1_sub_lin cohL calL_gt1 irr_phi Lphi phi1; rewrite -/betaL.
 rewrite -/calL odd_Frobenius_index_ler ?mFT_odd //= -/e -/h.
 case=> _ a00 ZbetaL [Gamma [o_tau1_Ga o_1_Ga [aa Zaa Dbeta] []// _ ubGa _]].
-have{a00} a00: a 0 0 = 1 by rewrite /a /w_ cycTIirr00 cycTIiso1.
+have{} a00: a 0 0 = 1 by rewrite /a /w_ cycTIirr00 cycTIiso1.
 have{a0j ai0} a_odd i j: (a i j == 1 %[mod 2])%C.
   have [[-> | /ai0 ai01] [-> | /a0j a0j1] //] := (eqVneq i 0, eqVneq j 0).
     by rewrite a00 (eqCmod_nat 2 1 1).
@@ -653,7 +653,7 @@ have <-: #|U| = nU.
     exact: semiregularS (char_sub chUH) (joing_subr _ _) regHW12y.
   case: ifP (card_FTtypeP_Galois_compl maxS galS) => //.
   rewrite -/p -/q -/nU => p_modq_1 oU.
-  have{p_modq_1 oU} oU: (#|U| * q)%N = nU.
+  have{p_modq_1} oU: (#|U| * q)%N = nU.
     by rewrite oU divnK //; have [|_ ->] := FTtypeP_primes_mod_cases _ StypeP.
   have /eqP Umodp: #|U| == 1 %[mod p].
     have:= regular_norm_dvd_pred nUW2y regUW2y.
@@ -809,12 +809,12 @@ have nzT1_Ga zeta: zeta \in calT1 -> `|'[Gamma, tau1T zeta]| ^+ 2 >= 1.
     apply: cfun_onS (cfInd_on (subsetT S) (PVbetaS _ nz_i1)).
     apply/subsetP=> x PWx; rewrite inE.
     have{PWx}: p \in \pi(#[x]).
-      case/imset2P: PWx => {x}x y PWx _ ->; rewrite {y}orderJ.
-      case/setUP: PWx => [/setD1P[ntx Px] | /imset2P[{x}x y Wx _ ->]].
+      case/imset2P: PWx => {}x y PWx _ ->; rewrite {y}orderJ.
+      case/setUP: PWx => [/setD1P[ntx Px] | /imset2P[{}x y Wx _ ->]].
         rewrite -p_rank_gt0 -rank_pgroup ?rank_gt0 ?cycle_eq1 //.
         exact: mem_p_elt (abelem_pgroup pP) Px.
       case/setDP: Wx; rewrite {y}orderJ; have [_ <- cW12 _] := dprodP defW.
-      case/mulsgP=> {x}x y W1x W2y ->; have cyx := centsP cW12 _ W2y _ W1x.
+      case/mulsgP=> {}x y W1x W2y ->; have cyx := centsP cW12 _ W2y _ W1x.
       have [-> | nty _] := eqVneq y 1%g; first by rewrite inE mulg1 W1x.
       have p'x: p^'.-elt x.
         by rewrite (mem_p_elt _ W1x) /pgroup ?pnatE ?inE ?ltn_eqF.

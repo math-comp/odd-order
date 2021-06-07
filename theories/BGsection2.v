@@ -754,7 +754,7 @@ wlog sH: / irrType F H by apply: socle_exists.
 have{cycH} linH: irr_degree (_ : sH) = 1%N.
   exact: irr_degree_abelian (cyclic_abelian cycH).
 have baseH := linear_irr_comp F'H (closF H) (linH _).
-have{linH} linH (W : sH): \rank W = 1%N by rewrite baseH; apply: linH.
+have{} linH (W : sH): \rank W = 1%N by rewrite baseH; apply: linH.
 have [w] := cycle_repr_structure sH defH F'H (closF H).
 rewrite -/h => prim_w [Wi [bijWi _ _ Wi_yg]].
 have{Wi_yg baseH} Wi_yr i: Wi i *m yr = w ^+ i *: (Wi i : 'M_h).

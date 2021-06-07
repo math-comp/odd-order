@@ -199,7 +199,7 @@ Qed.
 
 Let piHA a u : a \in A -> u \in H a :* a -> u.`_pi = a.
 Proof.
-move=> Aa /rcosetP[{u}u Hu ->]; have pi'u: pi^'.-elt u by apply: mem_p_elt Hu.
+move=> Aa /rcosetP[{}u Hu ->]; have pi'u: pi^'.-elt u by apply: mem_p_elt Hu.
 rewrite (consttM _ (cent1P (subsetP (cHA a) u Hu))).
 suffices pi_a: pi.-elt a by rewrite (constt1P pi'u) (constt_p_elt _) ?mul1g.
 by rewrite (mem_p_elt (piCL Aa)) // inE cent1id (subsetP sAL).

@@ -151,7 +151,7 @@ apply/eqP/forall_inP=> [chi1_id a Aa | chi_id].
 apply/cfunP => g; rewrite cfunE cfuniE // mulr_natr mulrb.
 case: ifPn => [/bigcupP[a Aa] | /(cfun_onP (Dade_cfunS _ _))-> //].
 case/imset2P=> _ z /rcosetP[x Hx ->] Gz ->{g}; rewrite !cfunJ {z Gz}//.
-have{chi_id} chi_id := eqP (forall_inP (chi_id a Aa) _ _).
+have{} chi_id := eqP (forall_inP (chi_id a Aa) _ _).
 rewrite chi_id // (DadeE _ Aa) ?inA1 {x Hx}// cfunElock mulrb Aa.
 apply: canRL (mulKf (neq0CG _)) _; rewrite mulr_natl -sumr_const.
 by apply: eq_bigr => x Hx; rewrite chi1E ?chi_id.
@@ -406,12 +406,12 @@ have oG1: '[Gamma, 1] = 0.
 have oSS: pairwise_orthogonal calS by apply: seqInd_orthogonal.
 have oSnuS: pairwise_orthogonal calSnu by apply: map_pairwise_orthogonal.
 have [a_ def_a defX] := orthogonal_span oSnuS SnuX.
-have{def_a} def_a: {in calS, forall xi, a_ (nu xi) = '[beta, nu xi] / '[xi]}.
+have{} def_a: {in calS, forall xi, a_ (nu xi) = '[beta, nu xi] / '[xi]}.
   move=> xi Sxi; rewrite (canRL (subrK 1) def_beta1) !cfdotDl def_a InuS //.
   by rewrite (cfdotC 1) (orthoPl oSnuG) ?(orthoPr oSnu1) ?map_f ?conjC0 ?addr0.
 pose a := '[beta, nu zeta] + 1; have Z1 := Cint1.
 have{Z1} Za: a \in Cint by rewrite rpredD ?Cint_cfdot_vchar // ZnuS.
-have {a_ def_a defX} defX: X = - nu zeta + a *: sumSnu.
+have {a_ def_a} defX: X = - nu zeta + a *: sumSnu.
   rewrite linear_sum defX big_map !(perm_big _ defS) !big_cons /= addrCA.
   rewrite def_a // Nzeta1 !divr1 zeta1 divff // scalerDl !scale1r addrA.
   rewrite addrK; congr (_ + _); apply: eq_big_seq => xi /S1P[neq_xi Sxi].

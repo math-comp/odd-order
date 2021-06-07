@@ -813,7 +813,7 @@ have o_chi_w i j: '[chi, eta_ i j] = 0.
 have [Isigma Zsigma] := cycTI_Zisometry ctiWG.
 have o1Wsig: orthonormal Wsig by rewrite map_orthonormal ?irr_orthonormal.
 have [a_ Da defX] := orthonormal_span o1Wsig wsigX.
-have{Da} Da i j: a_ (eta_ i j) = '[psi^\tau, eta_ i j].
+have{} Da i j: a_ (eta_ i j) = '[psi^\tau, eta_ i j].
   by rewrite DpsiG cfdotDl o_chi_w addr0 Da.
 have sumX: X = \sum_i \sum_j a_ (eta_ i j) *: eta_ i j.
   rewrite pair_bigA defX big_map (big_nth 0) size_tuple big_mkord /=.
@@ -1050,7 +1050,7 @@ have Dalpha i (al_ij := alpha_ i j) :
   have [a_ Da_ defY] := orthonormal_span o1S1tau S1_Y.
   have oXS1 lam : lam \in S1 -> '[X, tau1 lam] = 0.
     by move=> S1lam; rewrite (orthoPl oXY) ?map_f.
-  have{Da_} Da_ lam : lam \in S1 -> a_ (tau1 lam) = '[al_ij^\tau, tau1 lam].
+  have{} Da_ lam : lam \in S1 -> a_ (tau1 lam) = '[al_ij^\tau, tau1 lam].
     by move=> S1lam; rewrite Dal_ij cfdotDl oXS1 // addr0 Da_.
   pose a := n + a_ (tau1 zeta); have [_ oS1S1] := orthonormalP o1S1.
   have Da_z: a_ (tau1 zeta) = - n + a by rewrite addKr.
@@ -1133,7 +1133,7 @@ have ->: uniform_prTIred_seq pddM j = S2.
   congr (map _ _); apply: eq_enum => k; rewrite !inE -!/(mu_ _).
   by rewrite andb_idr // => nz_k; rewrite 2!{1}prTIred_1 2?Dmu2_1.
 case=> _ _ ccS2 _ _ [tau2 Dtau2 cohS2].
-have{cohS2} cohS2: coherent_with S2 M^# tau tau2 by apply: cohS2.
+have{} cohS2: coherent_with S2 M^# tau tau2 by apply: cohS2.
 have sS20: cfConjC_subset S2 calS0.
   by split=> // xi /sS2S Sxi; have [_ ->] := sSS0.
 rewrite perm_sym perm_catC in defS; apply: perm_coherent defS _.

@@ -392,7 +392,7 @@ have sScMsE': S \subset 'C_Ms(E^`(1)).
   have [Q sylQ] := Sylow_exists q H; have [sQH qQ _] := and3P sylQ.
   have{cHE' sQH} cQE' := centsS sQH cHE'; have sE'E := der_sub 1 E.
   have [nMsE' coMsE'] := (coprimegS sE'E coMsE, subset_trans sE'E nMsE).
-  have{H hallH sylQ} sylQ := subHall_Sylow hallH b'q sylQ.
+  have{H hallH} sylQ := subHall_Sylow hallH b'q sylQ.
   have nSE' := subset_trans sE'E nSE; have nQE' := cents_norm cQE'.
   have [x cE'x ->] := coprime_Hall_trans coMsE' nMsE' solMs sylS nSE' sylQ nQE'.
   by rewrite conj_subG // subsetI (pHall_sub sylQ) centsC.
@@ -428,7 +428,7 @@ have cCAE1_X: X \subset 'C('C_A(E1)).
   have [-> | nty] := eqVneq y 1; first exact: group1.
   have oY: #[y] = p := abelem_order_p abelA Ay nty.
   have [r _ rE1] := rank_witness E1.
-  have{rE1} rE1: 'r_r(E1) > 0 by rewrite -rE1 rank_gt0.
+  have{} rE1: 'r_r(E1) > 0 by rewrite -rE1 rank_gt0.
   have [R ErR] := p_rank_geP rE1; have{ErR} [sRE1 abelR dimR] := pnElemP ErR.
   have t1r: r \in \tau1(M) by rewrite (pnatPpi t1E1) -?p_rank_gt0.
   have ErR: R \in 'E_r^1(E) by rewrite !inE abelR dimR (subset_trans sRE1).
@@ -600,7 +600,7 @@ have{sylQ sylU} [hypQ hypU]: Qprops M q Q /\ Qprops L u U.
                   sylQ sylU nQP nUP regPQ regPU sNQL sNUM / ~~ Qprops M q Q.
   - by move=> IH; case: not_hypQ; [apply: (IH L u U) | apply: (IH M q Q)].
   case/and5P; have [_ qQ _] := and3P sylQ.
-  have{sylQ} sylQ: q.-Sylow(M) Q.
+  have{} sylQ: q.-Sylow(M) Q.
     by rewrite -Sylow_subnorm -(setIidPr sNQL) setIA Sylow_subnorm.
   have ntQ: Q :!=: 1.
     by apply: contraTneq sNQL => ->; rewrite norm1 proper_subn ?mmax_proper.
@@ -754,7 +754,7 @@ have sM'_PR: \sigma(M)^'.-group (P <*> R).
 have [E hallE sPRE] := Hall_superset (mmax_sol maxM) sPR_M sM'_PR.
 have{sPRE} [sPE sRE] := joing_subP sPRE.
 have EpP: P \in 'E_p^1(E) by apply/pnElemP.
-have{ErR} ErR: R \in 'E_r^1('C_E(P)).
+have{} ErR: R \in 'E_r^1('C_E(P)).
   by rewrite -(setIidPr (pHall_sub hallE)) setIAC pnElemI inE ErR inE.
 apply: subset_trans (cents_norm (subset_trans _ (subsetIr M`_\sigma _))) sNR_L.
 apply: subset_trans (cent_tau1Elem_Msigma maxM hallE t1Mp EpP ErR).
@@ -959,7 +959,7 @@ have{hallE2} E2_1: E2 :==: 1.
   have [A Ep2A _] := ex_tau2Elem hallE t2p.
   by apply: not_regE3Ms; case: (tau2_regular maxM complEi t2p Ep2A).
 have [_ ntE1 [cycE1 cycE3] [defE _] _] := sigma_compl_context maxM complEi.
-rewrite (eqP E2_1) sdprod1g in defE; have{ntE1} ntE1 := ntE1 E2_1.
+rewrite (eqP E2_1) sdprod1g in defE; have{} ntE1 := ntE1 E2_1.
 have [nsE3E _ mulE31 nE31 _] := sdprod_context defE.
 have cE3E1 P: P \in 'E^1(E1) -> P \subset 'C(E3).
   by case/nElemP=> p EpP; apply/idPn => /(tau13_regular maxM complEi EpP)[].

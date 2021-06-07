@@ -306,7 +306,7 @@ have [/andP[sHM' nHM'] sUM' mulHU _ tiHU] := sdprod_context defM'.
 have sM'M : M' \subset M by apply: der_sub.
 have hallM': \pi(M').-Hall(M) M' by rewrite Hall_pi // (sdprod_Hall defM).
 have hallH_M': \pi(H).-Hall(M') H := pHall_subl sHM' sM'M (Fcore_Hall M).
-have{defF} defF: (H * 'C_U(H))%g = 'F(M).
+have{} defF: (H * 'C_U(H))%g = 'F(M).
   rewrite -(setIidPl sFM') -defF -group_modl //= -/H.
   rewrite setIAC (setIidPr (der_sub 1 M)).
   rewrite -(coprime_mulG_setI_norm mulHU) ?norms_cent //; last first.
@@ -575,7 +575,7 @@ Lemma FTsupport_facts (X := 'A0(M)) (D := [set x in X | ~~('C[x] \subset M)]) :
 Proof.
 have defX: X \in pred2 'A(M) 'A0(M) by rewrite !inE eqxx orbT.
 have [sDA1 part_a part_c] := BGsummaryII maxM defX.
-have{part_a} part_a: {in X &, forall x, {subset x ^: G <= x ^: M}}.
+have{} part_a: {in X &, forall x, {subset x ^: G <= x ^: M}}.
   move=> x y A0x A0y /= /imsetP[g Gg def_y]; rewrite def_y.
   by apply/imsetP/part_a; rewrite -?def_y.
 do [split=> //; first split=> //] => x /part_c[_ ] //.
@@ -736,8 +736,8 @@ have /imsetP[y1 Sy1 /(canRL (conjsgKV _)) defW1]: W1 :^ y2^-1 \in W1x :^: S.
   apply: (of_typeP_compl_conj StypeP).
   by rewrite -(conjsgK y2 S) -defSy derJ -sdprodJ defM.
 pose y := (y1 * y2)%g; rewrite -conjsgM -/y in defW1.
-have{defSy} defSy: S :^ y = M by rewrite conjsgM (conjGid Sy1).
-have{defW2} defW2: W2 :=: W2x :^ y.
+have{} defSy: S :^ y = M by rewrite conjsgM (conjGid Sy1).
+have{} defW2: W2 :=: W2x :^ y.
   by rewrite -(typeP_cent_compl StypeP) conjIg -derJ -centJ defSy -defW1.
 suffices pairMTy: typeP_pair M (T :^ y) defW.
   exists (T :^ y)%G => //; have xdefW: W2 \x W1 = W by rewrite dprodC.
@@ -976,7 +976,7 @@ split=> [M H maxM maxH eq_MH | Gtype1 | S T W W1 W2 defW VG pairST].
    by apply: contraNneq not_PG_set0 => <-; apply: mem_imset.
   rewrite -!defDsup // -setI_eq0 class_supportEr big_distrl -subset0.
   apply/bigcupsP=> x /class_supportGidr <- /=; rewrite -conjIg sub_conjg conj0g.
-  rewrite class_supportEr big_distrr /=; apply/bigcupsP=> {x}x _.
+  rewrite class_supportEr big_distrr /=; apply/bigcupsP=> {}x _.
   rewrite subset0 setI_eq0 -sigma_supportJ sigma_support_disjoint ?mmaxJ //.
   by rewrite (orbit_transl _ (mem_orbit _ _ _)) ?in_setT // orbit_sym.
 - rewrite c1 // setD_eq0; apply/subsetP=> M maxM.

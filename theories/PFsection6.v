@@ -196,7 +196,7 @@ have cohH1: coherent (S H1) L^# tau.
   by case/andP=> lin_chi _ ->; rewrite cfInd1 ?lin_char1 ?mulr1.
 apply/unlessP; have [/val_inj-> | ltMH1] := eqVproper sMH1; first by left.
 have [lbK|ubK] := ltnP; [by left; apply: bounded_seqIndD_coherence lbK | right].
-have{ubK} ubK: (#|K : H1| < (2 * e + 1) ^ 2)%N.
+have{} ubK: (#|K : H1| < (2 * e + 1) ^ 2)%N.
   apply: leq_ltn_trans ubK _; rewrite -subn_gt0 sqrnD expnMn addKn.
   by rewrite !muln_gt0 indexg_gt0.
 have{frobLb} [[E1b frobLb] [sH1L nH1L]] := (existsP frobLb, andP nsH1L).
@@ -337,7 +337,7 @@ have /and3P[uniqY' Y'xi1 notY'chi]: [&& uniq Y', xi1 \in Y' & chi \notin Y'].
 have sY'Y: {subset Y' <= Y} by move=> xi /mem_rem/mem_rem.
 have sccY'S: cfConjC_subset Y' calS by split=> // xi /sY'Y/sYS.
 apply: (extend_coherent scohS _ Y'xi1); rewrite ?sYS {sccY'S notY'chi}//.
-have{defX} defX: perm_eq (Y' ++ X'') calX.
+have{} defX: perm_eq (Y' ++ X'') calX.
   by rewrite (perm_catCA Y' [::_; _]) catA -(permPr defX) perm_cat2r.
 have{d_chic} le_chi_X'': {in X'', forall xi, d chi <= d xi}%N.
   by move=> xi /or3P[/eqP-> | /eqP-> | /leYX'->] //; rewrite d_chic.
@@ -487,7 +487,7 @@ have Dalpha s: ~~ dC s Z^# -> alpha = 'omega_l['K_s].
   case/exists_inP=> x /= /gring_mode_class_sum_eq-> Z1x.
   have Ci1z: z \in C i1 by rewrite CE class_refl.
   rewrite [alpha](gring_mode_class_sum_eq _ Ci1z) -/phi (kerZphi z x) //.
-  have{tiZG} tiZG: {in Z^#, forall y, 'C_G[y] = 'C_L[y]}.
+  have{} tiZG: {in Z^#, forall y, 'C_G[y] = 'C_L[y]}.
     by move=> y /tiZG/setIidPr; rewrite setIA (setIidPl sLG).
   by rewrite -!index_cent1 -!divgS ?subsetIl //= !tiZG ?(prZL z x).
 have Ci01: 1%g \in C i0 by rewrite CE class_refl.
@@ -592,7 +592,7 @@ have c1_irrS: case_c1 -> {subset S <= irr L}.
   move/FrobeniusWker=> frobL _ /seqIndC1P[i nz_i ->].
   exact: irr_induced_Frobenius_ker.
 move defW2: 'C_H(W1)%G => W2; move defW: (W1 <*> W2)%G => W.
-have{defW} defW: W1 \x W2 = W.
+have{} defW: W1 \x W2 = W.
   rewrite -defW dprodEY // -defW2 ?subsetIr // setICA setIA.
   by have [_ _ _ ->] := sdprodP defL; rewrite setI1g.
 pose V := cyclicTIset defW; pose A0 := A :|: class_support V L.
@@ -960,7 +960,7 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
     have [u Du _]:= make_pi_cfAut G cokw2; rewrite Dx -Du ?Ztau1 ?mem_zchar //.
     have nAL: L \subset 'N(A) by have [_ /subsetIP[]] := normedTI_P tiA.
     pose ddA := restr_Dade_hyp PtypeL (subsetUl _ _) nAL.
-    have{Dtau1} Dtau1: {in 'Z[Y, L^#], tau1 =1 Dade ddA}.
+    have{} Dtau1: {in 'Z[Y, L^#], tau1 =1 Dade ddA}.
       by move=> phi Yphi/=; rewrite Dtau1 ?Dade_Ind ?(zcharD1_seqInd_on _ Yphi).
     have cohY_Dade: coherent_with Y L^# (Dade ddA) tau1 by [].
     rewrite (cfAut_Dade_coherent cohY_Dade) ?irrY //; last first.
@@ -1109,7 +1109,7 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
         by rewrite (subset_trans sZZH) // -cap_cfcenter_irr bigcap_inf.
       have{lin_chi} /irrP[i defRk]: 'Res chi \in irr Z.
         by rewrite lin_char_irr ?cfRes_lin_char.
-      have{chi defRk defRkZ} defRk: 'Res[Z] 'chi_k = a *: 'chi_i.
+      have{chi defRkZ} defRk: 'Res[Z] 'chi_k = a *: 'chi_i.
         by rewrite -defRk -linearZ -defRkZ /= cfResRes ?cfcenter_sub.
       exists i => //; apply: contra kerZ'k => i_0; apply/constt0_Res_cfker=> //.
       by rewrite inE defRk cfdotZl cfdot_irr i_0 mulr1 irr1_neq0.

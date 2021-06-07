@@ -370,7 +370,7 @@ rewrite -(Sylow_gen H) gen_subG; apply/bigcupsP=> P /SylowP[p p_pr sylP].
 have [-> | ntP] := eqsVneq P 1; first by rewrite sub1G.
 have [sPH pP _] := and3P sylP; have{ntP} [_ p_dv_P _] := pgroup_pdiv pP ntP.
 have{p_dv_P} s_p: p \in \sigma(M) := pgroupP (pgroupS sPH sH) p p_pr p_dv_P.
-have{sylP} sylP: p.-Sylow(M) P := subHall_Sylow hallH s_p sylP.
+have{} sylP: p.-Sylow(M) P := subHall_Sylow hallH s_p sylP.
 have [sPM nMP] := (pHall_sub sylP, norm_sigma_Sylow s_p sylP).
 have sylP_G := sigma_Sylow_G maxM s_p sylP.
 have defG': G^`(1) = G.
@@ -651,7 +651,7 @@ have [q q_pr q_dv_Mq]: {q | prime q & q %| #|M / M^`(1)| }.
 have s'q: q \in \sigma(M)^' by apply: der1_quo_sigma' q_dv_Mq.
 have [Q sylQ] := Sylow_exists q K; have [sQK qQ _] := and3P sylQ.
 have a'q: q \in \alpha(M)^' by apply: contra s'q; apply: alpha_sub_sigma.
-have{a'q sylQ hallK} sylQ: q.-Sylow(M) Q := subHall_Sylow hallK a'q sylQ.
+have{a'q hallK} sylQ: q.-Sylow(M) Q := subHall_Sylow hallK a'q sylQ.
 have{q_dv_Mq} ntQ: Q :!=: 1.
   rewrite -rank_gt0 (rank_Sylow sylQ) p_rank_gt0 mem_primes q_pr cardG_gt0.
   exact: dvdn_trans q_dv_Mq (dvdn_quotient _ _).
@@ -928,7 +928,7 @@ have part1: exists2 P : {group gT}, p.-Sylow(M`_\sigma) P & X \subset 'C(P).
 split=> // [a_p | {part1}sylX].
   have ltCMX_G := sub_proper_trans (subsetIl M 'C(X)) ltMG.
   have [P sylP cPX] := part1; have s_p := alpha_sub_sigma maxM a_p.
-  have{sylP} sylP := subHall_Sylow hallMs s_p sylP.
+  have{} sylP := subHall_Sylow hallMs s_p sylP.
   apply: rank3_Uniqueness ltCMX_G (leq_trans a_p _).
   by rewrite -(rank_Sylow sylP) rankS //= subsetI (pHall_sub sylP) // centsC.
 do [move: sWXM'; rewrite (joing_idPr (pHall_sub sylX)) => sWM'] in hallW.
@@ -1029,7 +1029,7 @@ have{maxPfactoring} [sPNQ' defNP] := maxPfactoring _ maxQ0.
 move/(congr1 ('Js%act^~ k)): defNP sPNQ'; rewrite -(conjSg _ _ k) /=.
 rewrite conjsMg !conjIg !conjsRg -!derg1 -!normJ -pcoreJ -centJ -/P.
 rewrite -(congr_group defQ) (eq_pcore _ (eq_negn def_pi)) => defNP sPNQ'.
-have{sPNQ'} sPNQ': P \subset 'N(Q)^`(1).
+have{} sPNQ': P \subset 'N(Q)^`(1).
   by rewrite (setIidPl (mFT_Sylow_der1 sylP)) in sPNQ'.
 split=> // narrowQ; have [-> | ntQ] := eqsVneq Q 1; first exact: cents1.
 pose AutQ := conj_aut Q @* 'N(Q).
@@ -1246,7 +1246,7 @@ do [split; apply: contra neqHgM] => [|nilMs].
   by rewrite (eq_uniq_mmax defUS _ sSHg) ?mmaxJ.
 have nsSM: S <| M.
   have nsMsM: M`_\sigma <| M by apply: pcore_normal.
-  have{sylS} sylS: p.-Sylow(M`_\sigma) S.
+  have{} sylS: p.-Sylow(M`_\sigma) S.
     apply: pHall_subl (pcore_sub _ _) sylS => //.
     by rewrite (sub_Hall_pcore (Msigma_Hall maxM)) ?(pi_pgroup pS).
   by rewrite (nilpotent_Hall_pcore nilMs sylS) gFnormal_trans.
@@ -1272,7 +1272,7 @@ case/setIP=> Ep2A maxA pP sAP not_cPP Z0; set E1A := 'E_p^1(A).
 have p_pr: prime p := pnElem_prime Ep2A; have [_ abelA dimA] := pnElemP Ep2A.
 have [oA [pA cAA _]] := (card_pnElem Ep2A, and3P abelA).
 have [p_gt0 p_gt1] := (prime_gt0 p_pr, prime_gt1 p_pr).
-have{maxA} maxA S:
+have{} maxA S:
   p.-group S -> A \subset S -> A \in 'E*_p(S) /\ 'Ohm_1('C_S(A)) = A.
 - move=> pS sAS; suff maxAS: A \in 'E*_p(S) by rewrite (Ohm1_cent_max maxAS).
   by rewrite (subsetP (pmaxElemS p (subsetT S))) // inE maxA inE.
@@ -1315,7 +1315,7 @@ have [Y [{cplA1C} cycY sZ0Y defC cCC]]: exists Y, cplA1C Y.
     rewrite (rank_pgroup pS) in rSgt2; have oddS := mFT_odd S.
     have max2AS: A \in 'E_p^2(S) :&: 'E*_p(S) by rewrite 3!inE sAS abelA dimA.
     have oZ1: #|Z1| = p by case/Ohm1_ucn_p2maxElem: max2AS => // _ [].
-    have{EpA1} EpA1 := EpA1 oZ1; have [sA1A abelA1 oA1] := pnElemPcard EpA1.
+    have{} EpA1 := EpA1 oZ1; have [sA1A abelA1 oA1] := pnElemPcard EpA1.
     have EpZ1: Z1 \in E1A by rewrite [E1A]p1ElemE // !inE sZ1A /= oZ1.
     have [_ defA cA1Z tiA1Z] := dprodP (p2Elem_dprodP Ep2A EpA1 EpZ1 neqA1Z).
     have defC: 'C_S(A1) = C.
@@ -1368,7 +1368,7 @@ have [Y [{cplA1C} cycY sZ0Y defC cCC]]: exists Y, cplA1C Y.
   have cCC: abelian C by rewrite -defC abelianM cAA cYY.
   have{EpZ01} [eqZ10 EpZ1] := EpZ01 cCC; rewrite -eqZ10 in EpZ1.
   have sZ0Y: Z0 \subset Y by rewrite -eqZ10 -defY Ohm_sub.
-  have{EpA1} EpA1 := EpA1 (card_pnElem EpZ1).
+  have{} EpA1 := EpA1 (card_pnElem EpZ1).
   have [sA1A _ oA1] := pnElemPcard EpA1.
   have [_ defA _ tiA1Z] := dprodP (p2Elem_dprodP Ep2A EpA1 EpZ1 neqA1Z).
   exists Y; split; rewrite // dprodE ?(centSS _ sA1A cAY) ?prime_TIg ?oA1 //.
@@ -1376,7 +1376,7 @@ have [Y [{cplA1C} cycY sZ0Y defC cCC]]: exists Y, cplA1C Y.
   apply: contraL cycY => sA1Y; rewrite abelian_rank1_cyclic // -ltnNge.
   by rewrite -dimA -rank_abelem ?rankS // -defA eqZ10 mul_subG.
 have{EpZ01} [eqZ10 EpZ0] := EpZ01 cCC; have oZ0 := card_pnElem EpZ0.
-have{EpA1} EpA1: A1 \in E1A by rewrite EpA1 ?eqZ10.
+have{} EpA1: A1 \in E1A by rewrite EpA1 ?eqZ10.
 have [sA1A _ oA1] := pnElemPcard EpA1; rewrite {}eqZ10 in neqA1Z.
 have [_ defA _ tiA1Z] := dprodP (p2Elem_dprodP Ep2A EpA1 EpZ0 neqA1Z).
 split=> //; first exists (P :&: Y)%G.

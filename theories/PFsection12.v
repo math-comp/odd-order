@@ -222,7 +222,7 @@ split=> {ZisoS_tau}//= [phi calS_phi | phi psi calS_phi calS_psi].
     by rewrite !big_nil /tau linear0.
   rewrite big_cons [tau _]linearD big_cat /= -/tau orthonormal_cat.
   have{IHe Ue} [/allP Ze -> ->] := IHe Se Ue.
-  have{h1} /h1[/allP Z_R1i -> -> /=] := memI _ _ calS_phi Si.
+  have{} /h1[/allP Z_R1i -> -> /=] := memI _ _ calS_phi Si.
   split=> //; first by apply/allP; rewrite all_cat Z_R1i.
   apply/orthogonalP=> mu nu R1i_mu /flatten_mapP[j e_j R1j_nu].
   have /= Sj := allP Se j e_j; apply: (aux phi phi i j) => //.
@@ -371,7 +371,7 @@ have {supp12B} oResD xi i1 i2 : xi \in calS -> i1 \in S_ xi -> i2 \in S_ xi ->
   '['Res[L] psi, 'chi_i1 - 'chi_i2] = 0.
 - move=> calS_xi Si1 Si2; rewrite cfdotC Frobenius_reciprocity -cfdotC.
   case: (altP (i1 =P i2))=> [-> | d12]; first by rewrite subrr linear0 cfdot0r.
-  have {supp12B} supp12B y: y \notin 'A(L) :\: H^# -> ('chi_i1 - 'chi_i2) y = 0.
+  have {} supp12B y: y \notin 'A(L) :\: H^# -> ('chi_i1 - 'chi_i2) y = 0.
     exact: (supp12B _ xi _ _ calS_xi).
   case: (FTtype1_seqInd_facts maxL Ltype1 calS_xi) => _ cst1 supA.
   move/(_ _ Si1): (supA) => /cfun_onP s1; case/(constantP 0): (cst1) => [n].
@@ -385,7 +385,7 @@ have {supp12B} oResD xi i1 i2 : xi \in calS -> i1 \in S_ xi -> i2 \in S_ xi ->
     apply/eqP; rewrite -subr_eq0; have := supp12B w; rewrite !cfunE => -> //.
     by rewrite tADH in_set0.
   have{nzAH} tiH: normedTI ('A(L) :\: H^#) G L by rewrite -A1Hdef TIsub ?A1Hdef.
-  have{supp12B} supp12B : 'chi_i1 - 'chi_i2 \in 'CF(L, 'A(L) :\: H^#).
+  have{} supp12B : 'chi_i1 - 'chi_i2 \in 'CF(L, 'A(L) :\: H^#).
     by apply/cfun_onP; apply: supp12B.
   have [_ /subsetIP[_ nAHL] _] := normedTI_P tiH.
   pose tau1 := restr_Dade ddL (subsetDl _ _) nAHL.
@@ -480,7 +480,7 @@ have Ak: k \in A; last 1 [have iHk := Ak; rewrite defA inE in Ak].
   have [j iHj] := constt_cfInd_irr i sH'H.
   rewrite {}/k /theta; case: pickP => [k /setDP[]//| /(_ j)/=].
   by rewrite defA !in_set iHj andbT => /negbFE/eqP <-.
-have{DiH} DiH: 'Ind 'chi_i = e *: \sum_(j in A) 'chi_j.
+have{} DiH: 'Ind 'chi_i = e *: \sum_(j in A) 'chi_j.
   by congr (_ = _ *: _): DiH; apply: eq_bigl => j; rewrite [in RHS]defA !inE.
 rewrite {2}DiH; have{DiH} ->: e = '['Ind 'chi_i, 'chi_k].
   rewrite DiH cfdotZl cfdot_suml (bigD1 k) //= cfnorm_irr big1 ?addr0 ?mulr1 //.
@@ -1025,7 +1025,7 @@ have ub_e: e%:R <= (p%:R + 1) / 2%:R :> algC.
 have lb_h: p%:R ^+ 2 <= h%:R :> algC.
   rewrite -natrX leC_nat dvdn_leq ?pfactor_dvdn ?cardG_gt0 //.
   by rewrite -prankP0 (leq_trans (p_rankS p sP0H)) ?p_rank_le_logn.
-have{ub_a ub_e} ub_a: p.-1.*2%:R * a ^+ 2 - 2%:R * a <= p.-1%:R / 2%:R :> algC.
+have{ub_e} ub_a: p.-1.*2%:R * a ^+ 2 - 2%:R * a <= p.-1%:R / 2%:R :> algC.
   apply: le_trans (le_trans ub_a _); last first.
     rewrite -subn1 -subSS natrB ?ltnS ?prime_gt0 // mulrSr mulrBl.
     by rewrite divff ?pnatr_eq0 ?ler_add2r.
@@ -1140,7 +1140,7 @@ have Dpsi_g: nK * '['Res[K] psi, 1] = nK' * '['Res[K'] psi, 1] + nKK' * psi g.
     by rewrite !cfun1E !cfResE ?subsetT ?(subsetP (der_sub 1 K)) ?K'z.
   have [Kz _] := setDP K'z; rewrite cfun1E Kz conjC1 mulr1 cfResE ?subsetT //.
   exact: part2.
-have{Zpsi} Zpsi: psi \in 'Z[irr G] by have [[_ ->//]] := cohS; apply: mem_zchar.
+have{} Zpsi: psi \in 'Z[irr G] by have [[_ ->//]] := cohS; apply: mem_zchar.
 have Qpsi1 R: '['Res[R] psi, 1] \in Crat.
   by rewrite rpred_Cint ?Cint_cfdot_vchar ?rpred1 ?cfRes_vchar.
 apply: Cint_rat_Aint (Aint_vchar g Zpsi).
@@ -1297,7 +1297,7 @@ rewrite (odd_pgroup_rank1_cyclic (pHall_pgroup sylP)) ?mFT_odd // leqNgt.
 apply/negP=> prankP.
 have piUp: p \in \pi(U) by rewrite -p_rank_gt0 -(p_rank_Sylow sylP) ltnW.
 have{piUp} K'p: p \in \pi(K)^' := pnatPpi (pHall_pgroup hallU) piUp.
-have{U hallU sylP} sylP: p.-Sylow(M) P := subHall_Sylow hallU K'p sylP.
+have{U hallU} sylP: p.-Sylow(M) P := subHall_Sylow hallU K'p sylP.
 have{P sylP prankP} prankM: (1 < 'r_p(M))%N by rewrite -(p_rank_Sylow sylP).
 case/negP: K'p => /=; move: {2}p.+1 (ltnSn p) => n ltpn.
 elim: n => // n IHn in p M @K ltpn maxM Mtype1 prankM *.

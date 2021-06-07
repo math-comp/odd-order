@@ -223,7 +223,7 @@ have ntP: P :!=: 1 by rewrite -rank_gt0 (rank_Sylow sylP) p_rank_gt0.
 have ltPG: P \proper G := mFT_pgroup_proper (pHall_pgroup sylP).
 have [M maxNM] := mmax_exists (mFT_norm_proper ntP ltPG).
 have{maxNM} [maxM sNM] := setIdP maxNM; have sPM := subset_trans (normG P) sNM.
-have{sylP} sylP := pHall_subl sPM (subsetT M) sylP.
+have{} sylP := pHall_subl sPM (subsetT M) sylP.
 by exists M => //; apply/exists_inP; exists P.
 Qed.
 
@@ -585,7 +585,7 @@ have [have_a nK1K ntE1 sE1K]: [/\ part_a, b1_hyp, E1 :!=: 1 & E1 \subset K].
     rewrite (sub_normal_Hall hallE3) ?(subset_trans sXK) ?(pi_pgroup _ t3p) //.
     by case/pnElemP: EpX => _ /andP[].
   have [nregX ntX] := (kappa_nonregular kp EpX, nt_pnElem EpX isT).
-  have [regE3|ntE1 {defE}defE prE nE1_E] := tau13_nonregular maxM complEi.
+  have [regE3|ntE1 {}defE prE nE1_E] := tau13_nonregular maxM complEi.
     by case/eqP: nregX; rewrite (cent_semiregular regE3).
   have defK: E :=: K.
     apply: (sub_pHall hallK _ sKE sEM); apply/pgroupP=> q q_pr q_dv_E.
@@ -998,7 +998,7 @@ split=> // [|p t2Np].
   exact: injm_sdprod (subsetT _) (injm_conj _ _) defCx.
 have [A Ep2A _] := ex_tau2Elem hallMN t2Np.
 have [[nsAMN _] _ _ _] := tau2_compl_context maxN hallMN t2Np Ep2A.
-have{Ep2A} Ep2A: A \in 'E_p^2(M) by move: Ep2A; rewrite pnElemI; case/setIP.
+have{} Ep2A: A \in 'E_p^2(M) by move: Ep2A; rewrite pnElemI; case/setIP.
 have rpM: 'r_p(M) > 1 by apply/p_rank_geP; exists A.
 have: p \in \pi(M) by rewrite -p_rank_gt0 ltnW.
 rewrite sigmaJ partition_pi_mmax // !orbA; case/orP=> //.
@@ -2268,7 +2268,7 @@ set Ks := 'C_(_)(K) => hallKs; case/and3P=> sKsMst sM_Ks _ [defK _].
 case=> cycZ ziMMst _ _ _ [_ _ defPmax _].
 have [_ [defNK _] [ntKs _] _ [//|_ q_pr _ _]] := Ptype_structure PmaxM hallK.
 set q := #|K| in q_pr.
-have{uniqMst} uniqMst: 'M('C(K)) = [set Mst].
+have{} uniqMst: 'M('C(K)) = [set Mst].
   by apply: uniqMst; apply/nElemP; exists q; rewrite p1ElemE // !inE subxx /=.
 have{maxCMstar} ->: Mstar = Mst by [apply/set1P; rewrite -uniqMst] => {Mstar}.
 have [maxH sNRH] := setIdP maxNH.
@@ -2302,7 +2302,7 @@ have sEH: E \subset H.
 have [sUH sKH]: U \subset H /\ K \subset H by apply/mulGsubP; rewrite mulUK.
 have notMstGH: gval H \notin Mst :^: G.
   apply: contra ntR => /imsetP[a _ defH].
-  have{a defH} defH: H :=: Mst by rewrite -(conjGid (sK_uniqMst a _)) -?defH.
+  have{a} defH: H :=: Mst by rewrite -(conjGid (sK_uniqMst a _)) -?defH.
   rewrite -(setIidPl sRH) -(setIidPl sRM) -setIA defH ziMMst coprime_TIg //=.
   rewrite cent_joinEr // TI_cardMg //= coprime_mulr -/Ks.
   rewrite (p'nat_coprime (pi_pnat rR _) kK) //=.

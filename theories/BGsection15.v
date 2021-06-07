@@ -228,7 +228,7 @@ rewrite norm_joinEr // mulUK in hallE.
 have [[sEM s'M_E _] [sUM sk'U _]] := (and3P hallE, and3P hallU).
 have defMsU: Ms ><| U = Ms <*> U.
   by apply: sdprodEY nMsU (trivgP _); rewrite -tiMsE -mulUK setIS ?mulG_subl.
-have{defM} defM: Ms <*> U ><| K = M.
+have{} defM: Ms <*> U ><| K = M.
   rewrite sdprodE ?normsY  ?coprime_TIg //=; first by rewrite norm_joinEr.
   rewrite -(sdprod_card defMsU) coprime_mull andbC regular_norm_coprime //=.
   by rewrite (coprimegS sKE) ?(pnat_coprime (pcore_pgroup _ _)).
@@ -270,7 +270,7 @@ set part_c := forall U, _; have c_holds: part_c.
 have hallU_E: Hall E U := pHall_Hall (pHall_subl sUE sEM hallU).
 have UtypeF := FTtypeF_complement maxM hallE hallU_E nsUE.
 set k'U13 := ({in _, _}) in UtypeF.
-have/UtypeF{UtypeF k'U13}UtypeF: k'U13.
+have/UtypeF{k'U13}UtypeF: k'U13.
   move=> x /setD1P[]; rewrite -order_gt1 -pi_pdiv.
   set p := pdiv _ => pi_x_p Ux t13x.
   apply: contraNeq (pnatPpi (mem_p_elt sk'U Ux) pi_x_p) => nreg_x.
@@ -562,7 +562,7 @@ have{frobDKb regQbDb} [p_pr oQb cQbD']:
 - have ntQb: Qb != 1 by rewrite -subG1 quotient_sub1 ?proper_subn.
   have prQbK: semiprime Qb (K / Q0).
     move=> xb; rewrite 2!inE andbC; case/andP; case/morphimP=> x nQ0x Kx -> ntx.
-    have{ntx} ntx: x != 1 by apply: contraNneq ntx => ->; rewrite morph1.
+    have{} ntx: x != 1 by apply: contraNneq ntx => ->; rewrite morph1.
     transitivity ('C_Q[x] / Q0); last first.
       rewrite -(coprime_quotient_cent (subsetIl Q _) nQ0K coQK solQ) /= -/Q0.
       by rewrite -/Q -(setIidPl sQMs) -!setIA prMsK // !inE ntx.
@@ -1040,7 +1040,7 @@ have{b'H} sM'F: M^`(1) \subset 'F(M).
   apply/eqP; rewrite trivg_card1 (card_Hall (Mbeta_Hall maxM)).
   rewrite -(partn_part _ (beta_sub_sigma maxM)) -(card_Hall (Msigma_Hall maxM)).
   by rewrite /= -defH partG_eq1.
-have{defF} defF: M`_\sigma \x Y = 'F(M).
+have{} defF: M`_\sigma \x Y = 'F(M).
   by rewrite -defF -defH nilpotent_Fitting.
 split=> // [E E1 E2 E3 complEi | {Y t2Y defF sM'F}].
   have [[sE3E' _] _ [cycE1 _] [_ defE] _]:= sigma_compl_context maxM complEi.
@@ -1051,7 +1051,7 @@ split=> // [E E1 E2 E3 complEi | {Y t2Y defF sM'F}].
     rewrite -(setIidPr sE3F) coprime_TIg // -(dprod_card defF) coprime_mull.
     rewrite (pnat_coprime (pcore_pgroup _ _) (pgroupS sE3E s'E)).
     exact: p'nat_coprime (sub_pgroup (@tau3'2 _ M) t2Y) t3E3.
-  have{defE} defE: E2 ><| E1 = E by rewrite -defE E3_1 sdprod1g.
+  have{} defE: E2 ><| E1 = E by rewrite -defE E3_1 sdprod1g.
   have [-> _ mulE21 nE21 tiE21] := sdprod_context defE.
   by rewrite -mulE21 quotientMidl quotient_cyclic // isog_sym quotient_isog.
 have{defM'} defM_P1: M \in 'M_'P1 -> H ><| K = M /\ M^`(1) = H.
@@ -1341,7 +1341,7 @@ have def_q1: q1 = q.
   exact: pnat_coprime (pcore_pgroup _ _) (pi_pgroup qA _).
 split=> //; first exact: neq_q.
 rewrite {q1 neq_q}def_q1 in qA Eq2A Eq2A_H t2Hq abelA dimA qmaxA b'q.
-have{b'q} b'q: q \notin \beta(L) by rewrite -predI_sigma_beta // inE /= sLq.
+have{} b'q: q \notin \beta(L) by rewrite -predI_sigma_beta // inE /= sLq.
 have P1maxL: L \in 'M_'P1.
   apply: contraR b'q => notP1maxL.
   by have [_ _ _ _ [|<- //]] := Ptype_structure PmaxL hallKs; apply/setDP.

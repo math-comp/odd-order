@@ -435,7 +435,7 @@ have nsR1R: 'Ohm_1(R) <| R := Ohm_normal 1 R; have [sR1R nR1R] := andP nsR1R.
 have pR1: p.-group 'Ohm_1(R) := pgroupS sR1R pR.
 have p_odd: odd p by case/even_prime: p_pr p_gt3 => ->.
 have{p_odd} oddR: odd #|R| := odd_pgroup_odd p_odd pR.
-have{dimR1} dimR1: logn p #|'Ohm_1(R)| = 2.
+have{} dimR1: logn p #|'Ohm_1(R)| = 2.
   apply/eqP; rewrite eqn_leq dimR1 -p_rank_abelem; last first.
     by rewrite abelem_Ohm1 // (p2group_abelian pR1).
   rewrite ltnNge p_rank_Ohm1 -odd_pgroup_rank1_cyclic //.
@@ -542,7 +542,7 @@ have [R'1_1 {e sTR'e} | ntR'1] := eqVneq 'Mho^1(R') 1; last first.
     by rewrite quotient_abelian // cycle_abelian.
   have sTX : T \subset <[x]>.
     rewrite (subset_trans (subset_trans sTR'e (MhoS e sR'TX))) // /e ntR'1.
-    have{defTX} defTX: T \* <[x]> = TX by rewrite cprodEY // centsC.
+    have{} defTX: T \* <[x]> = TX by rewrite cprodEY // centsC.
     rewrite -(Mho_cprod 1 defTX) ['Mho^1(_)](trivgP _) ?cprod1g ?Mho_sub //=.
     rewrite (MhoE 1 pT) gen_subG; apply/subsetP=> tp; case/imsetP=> t Tt ->{tp}.
     by rewrite inE (exponentP eT).

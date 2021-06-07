@@ -519,7 +519,7 @@ have{sUW1M} /joing_subP[nH0U nH0W1] := subset_trans sUW1M nH0M.
 have [ltCU oW2b oHb] := Ptype_Fcore_factor_facts.
 pose rU := abelem_repr abelHbar ntHbar nHbU.
 pose inHb := rVabelem abelHbar ntHbar; pose outHb := abelem_rV abelHbar ntHbar.
-have{irrU} irrU: mx_irreducible rU by apply/abelem_mx_irrP; rewrite -acts_irrQ.
+have{} irrU: mx_irreducible rU by apply/abelem_mx_irrP; rewrite -acts_irrQ.
 pose E_U := [pred A | (A \in enveloping_algebra_mx rU)%MS].
 have cEE A: A \in E_U -> centgmx rU A.
   case/envelop_mxP=> z_ ->{A}; rewrite -memmx_cent_envelop linear_sum.
@@ -605,7 +605,7 @@ have Dphi: 'dom (invm injm_phi') = Hbar.
   by exists (inF A); rewrite ?inE //= /phi' inFK // -def_h [inHb _]abelem_rV_K.
 have [phi [def_phi Kphi _ im_phi]] := domP _ Dphi.
 have{Kphi} inj_phi: 'injm phi by rewrite Kphi injm_invm.
-have{im_phi} im_phi: phi @* Hbar = setT by rewrite im_phi -Dphi im_invm.
+have{} im_phi: phi @* Hbar = setT by rewrite im_phi -Dphi im_invm.
 have phiK: {in Hbar, cancel phi phi'} by rewrite def_phi -Dphi; apply: invmK.
 have{def_phi Dphi injm_phi'} phi'K: cancel phi' phi.
   by move=> a; rewrite def_phi /= invmE ?inE.
@@ -2091,7 +2091,7 @@ have [Gamma [S4_Gamma normGamma [b Dbeta]]]:
   have Zb: b \in Cint.
     rewrite rpredD ?rpred_nat // -betaS1_B // Cint_cfdot_vchar ?Ztau //.
     by rewrite Ztau1 ?mem_zchar.
-  have{dB} dB: B = - (u %/ a)%:R *: tau1 psi1 + b *: \sum_(psi <- S1) tau1 psi.
+  have{} dB: B = - (u %/ a)%:R *: tau1 psi1 + b *: \sum_(psi <- S1) tau1 psi.
     rewrite dB big_map !(big_rem _ S1psi1) /= scalerDr addrA -scalerDl addKr.
     rewrite scaler_sumr; congr (_ + _); apply: eq_big_seq => psi.
     rewrite mem_rem_uniq ?filter_uniq ?seqInd_uniq // => /andP[/= psi_1' S1psi].
