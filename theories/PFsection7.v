@@ -337,6 +337,7 @@ Qed.
 
 End InvDadeSeqInd.
 
+Declare Scope classfun_scope.
 Notation "1" := (1 : 'CF(_)) : classfun_scope.
 
 (* This is Peterfalvi (7.8). *)
