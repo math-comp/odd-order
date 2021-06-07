@@ -259,7 +259,7 @@ rewrite -(dprodW defH) abelianM subsetIr.
 have [[_ _ _ cUU] [/abelem_abelian-> _] _ _ _] := FTtypeP_facts.
 by rewrite (abelianS _ cUU) ?subsetIl.
 Qed.
-Hint Resolve FTtypeP_Fitting_abelian.
+Hint Resolve FTtypeP_Fitting_abelian : core.
 
 Local Notation calH := (seqIndT H S).
 
