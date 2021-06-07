@@ -623,7 +623,7 @@ split.
   have [-> | ntS] := eqsVneq S 1; first by rewrite abelian1 rank1.
   have sk'p: p \in \sigma_kappa(M)^'.
     by rewrite (pnatPpi sk'U) // -p_rank_gt0 -(rank_Sylow sylS) rank_gt0.
-  have{sylS} sylS := subHall_Sylow hallU sk'p sylS.
+  have{} sylS := subHall_Sylow hallU sk'p sylS.
   have [[sSM pS _] [/= s'p _]] := (and3P sylS, norP sk'p).
   rewrite (sigma'_nil_abelian maxM) ?(pi_pgroup pS) ?(pgroup_nil pS) //.
   by rewrite (rank_Sylow sylS) leqNgt (contra _ s'p) //; apply: alpha_sub_sigma.
@@ -1152,7 +1152,7 @@ have [Y hallY nYK]: exists2 Y, \pi(H)^'.-Hall(M') (gval Y) & K \subset 'N(Y).
   apply: coprime_Hall_exists; first by case/sdprodP: defM.
     by rewrite (coprime_sdprod_Hall_l defM) (pHall_Hall hallM').
   exact: solvableS sM'M (mmax_sol maxM).
-have{defM'} defM': H ><| Y = M' by apply/(sdprod_normal_p'HallP _ hallY).
+have{} defM': H ><| Y = M' by apply/(sdprod_normal_p'HallP _ hallY).
 have MtypeP: of_typeP M Y defW.
   have [_ sYM' mulHY nHY tiHY] := sdprod_context defM'.
   do 2!split=> //; rewrite (isog_nil (quotient_isog nHY tiHY)).
@@ -1204,7 +1204,7 @@ Theorem BGsummaryI :
 Proof.
 split=> [H x a hallH nilH Hx|].
   have [M maxM sHMs] := nilpotent_Hall_sigma nilH hallH.
-  have{hallH} hallH := pHall_subl sHMs (subsetT _) (Hall_pi hallH).
+  have{} hallH := pHall_subl sHMs (subsetT _) (Hall_pi hallH).
   by case/(sigma_Hall_tame maxM hallH Hx) => // y; case/setIP; exists y.
 have [allFM | ] := boolP (('M : {set {group gT}}) \subset 'M_'F).
   by left=> M maxM; rewrite -FTtype_Fmax // (subsetP allFM).

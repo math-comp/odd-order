@@ -108,7 +108,7 @@ have cstrA: normed_constrained A.
   rewrite !inE -/pi -andbA => /and3P[sYX pi'Y nYA].
   rewrite -bigcap_p'core subsetI sYX; apply/bigcapsP=> [[q /= _] pi_q].
   have [r pi_r q'r] := pi_alt q.
-  have{sArXq'} sArXq': A`r \subset 'O_q^'(X) by apply: sArXq'; rewrite 1?eq_sym.
+  have{} sArXq': A`r \subset 'O_q^'(X) by apply: sArXq'; rewrite 1?eq_sym.
   have cA_CYr: 'C_Y(A`r) \subset 'C(A).
     have coYF: coprime #|Y| #|F|.
       by rewrite coprime_sym coprime_pi' ?cardG_gt0 // -def_pi.
@@ -292,7 +292,7 @@ have sNPM: 'N(P) \subset M.
   by rewrite -subG1 -P1 sAP in ntA.
 have sylPG: p.-Sylow(G) P := mmax_sigma_Sylow maxM sylP sNPM.
 split; rewrite // (uniq_mmax_subset1 maxM sAM).
-have{scn3_A} scn3_A: A \in 'SCN_3[p] by apply/bigcupP; exists P; rewrite // inE.
+have{} scn3_A: A \in 'SCN_3[p] by apply/bigcupP; exists P; rewrite // inE.
 pose K := 'O_p^'('C(A)); have sKF: K \subset F.
   have sKM: K \subset M := gFsub_trans _ sCAM.
   apply: subset_trans (cent_sub_Fitting solM).
@@ -322,7 +322,7 @@ have p'nbyA_1 q: q != p -> |/|*(A; q) = [set 1%G].
     by rewrite (mmax_norm maxM) // (mFT_pgroup_proper qQ).
   case/negP: ntQ; rewrite -[_ == _]subG1 -Mp'1 -defNQ pcore_max ?normalG //.
   exact: pi_pnat qQ _.
-have{p'nbyA_1} p'nbyA_1 X:
+have{} p'nbyA_1 X:
   X \proper G -> p^'.-group X -> A \subset 'N(X) -> X :=: 1.
 - move=> prX p'X nXA; have solX := mFT_sol prX.
   apply/eqP; rewrite -trivg_Fitting // -subG1 /= FittingEgen gen_subG.

@@ -447,7 +447,7 @@ pose M := socle_base i; have simM: mxsimple rK M := socle_simple i.
 have [sKp | sK1 {ciK card_sK}]: #|[set: sK]| = p \/ #|[set: sK]| = 1%N.
 - apply/pred2P; rewrite orbC card_sK; case/primeP: p_pr => _; apply.
   by rewrite (_ : p = #|G : K|) ?indexgS // -divgS // -(sdprod_card defG) mulKn.
-- have{def_sK} def_sK: [set: sK] = orbit 'Cl R i.
+- have{} def_sK: [set: sK] = orbit 'Cl R i.
     apply/eqP; rewrite eq_sym -subTset def_sK -[G in orbit _ G i]defKR.
     apply/subsetP=> _ /imsetP[_ /imset2P[y z /(subsetP ciK)ciy Rz ->] ->].
     rewrite !(inE, sub1set) in ciy; have{ciy}[Gy /eqP-ciy]:= andP ciy.
@@ -649,7 +649,7 @@ have [_ nVG] := andP nsVG; have nVR: R \subset 'N(V) := subset_trans sRG nVG.
 without loss ntV: / V :!=: 1.
   by rewrite -defV trivg_Fitting //; case: eqP => [|_] ->; rewrite ?plength1_1.
 have scVHV: 'C_H(V) \subset V by rewrite -defV cent_sub_Fitting.
-have{defV Op'H} defV: 'O_p(H) = V by rewrite -(Fitting_eq_pcore Op'H) -defV.
+have{Op'H} defV: 'O_p(H) = V by rewrite -(Fitting_eq_pcore Op'H) -defV.
 have pV: p.-group V by rewrite -defV pcore_pgroup.
 have [p_pr p_dv_V _] := pgroup_pdiv pV ntV.
 have p'r: r != p.
@@ -830,7 +830,7 @@ have defP: [~: P, R0] = P.
   have solvP := pgroup_sol pP; have nPR0 := subset_trans sR0R nPR.
   have coPR0: coprime #|P| #|R0| by rewrite (coprimeSg sPH) ?(coprimegS sR0R).
   by rewrite -{2}(coprime_cent_prod nPR0) // tiPcR0 mulg1.
-have{IHsub nVH} IHsub: forall X : {group gT},
+have{nVH} IHsub: forall X : {group gT},
   P <*> R0 \subset 'N(X) -> X \subset K ->
   (#|V <*> X <*> P| < #|H|) || (#|R0| < #|R|) -> [~: X, P] = 1.
 - move=> X; rewrite join_subG; case/andP=> nXP nXR0 sXK.
@@ -877,7 +877,7 @@ have tiVK_P: V <*> K :&: P = 1.
   by rewrite /normal joing_subl join_subG normG.
 have{mulVK oVK} oH: (#|H| = #|V| * #|K| * #|P|)%N.
   by rewrite -defH mulVK -oVK (TI_cardMg tiVK_P).
-have{oH tiVK_P IHsub} IHsub: forall X : {group gT},
+have{oH tiVK_P} IHsub: forall X : {group gT},
   P <*> R \subset 'N(X) -> X \subset K -> X :=: K \/ X \subset 'C(P).
 - move=> X nX_PR sXK; have p'X: p^'.-group X := pgroupS sXK p'K.
   have nXP: P \subset 'N(X) := subset_trans (joing_subl P R) nX_PR.
@@ -1100,7 +1100,7 @@ have defV: <<\bigcup_(Vi in S) Vi>> = V.
   rewrite properEneq subsetIl andbT (sameP eqP setIidPl) centsC.
   by apply: contra ntVj; rewrite -subG1 -tiVcK subsetI subsetIl.
 pose dxp := [fun D : {set {group gT}} => \big[dprod/1]_(Vi in D) Vi].
-have{defV} defV: \big[dprod/1]_(Vi in S) Vi = V.
+have{} defV: \big[dprod/1]_(Vi in S) Vi = V.
   have [D maxD]: {D | maxset [pred E | group_set (dxp E) & E \subset S] D}.
     by apply: ex_maxset; exists set0; rewrite /= sub0set big_set0 groupP.
   have [gW sDS] := andP (maxsetp maxD); have{maxD} [_ maxD] := maxsetP maxD.

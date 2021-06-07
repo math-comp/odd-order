@@ -481,7 +481,7 @@ Proof.
 case/pElemP=> sEG abelE pG nGA coGA oddG cCEA.
 have [-> | ntG] := eqsVneq G 1; first by rewrite cents1.
 have [p_pr _ _] := pgroup_pdiv pG ntG.
-have{cCEA} cCEA: A \subset 'C('Ohm_1('C_G(E))).
+have{} cCEA: A \subset 'C('Ohm_1('C_G(E))).
   by rewrite (OhmE 1 (pgroupS _ pG)) ?subsetIl ?cent_gen.
 apply: coprime_nil_faithful_cent_stab (pgroup_nil pG) _ => //.
 rewrite subsetI subsetIl centsC /=; set CC := 'C_G(_).
@@ -736,7 +736,7 @@ Proof.
 move=> abelA nGA coGA; symmetry; move: {2}_.+1 (ltnSn #|G|) => n.
 elim: n gT => // n IHn gT in A G abelA nGA coGA *; rewrite ltnS => leGn.
 without loss nilG: G nGA coGA leGn / nilpotent G.
-  move=> {IHn} IHn; apply/eqP; rewrite eqEsubset gen_subG.
+  move=> {} IHn; apply/eqP; rewrite eqEsubset gen_subG.
   apply/andP; split; last by apply/bigcupsP=> B _; apply: subsetIl.
   pose T := [set P : {group gT} | Sylow G P & A \subset 'N(P)].
   rewrite -{1}(@Sylow_transversal_gen _ T G) => [|P | p _]; first 1 last.

@@ -842,7 +842,7 @@ have tau_alpha i: tau (alpha_ i j) = eta_ i j - eta_ i 0 - n *: zeta1.
   (* This is the first part of 11.8.2 *)
   have [a Za defY]: exists2 a, a \in Cint & Y = a *: sum_tau1 - n *: zeta1.
     have [a_ Da defY] := orthonormal_span (map_orthonormal Itau1 o1S1) S1_Y.
-    have{Da} Da: {in S1, forall xi, a_ (tau1 xi) = '[phi, tau1 xi]}.
+    have{} Da: {in S1, forall xi, a_ (tau1 xi) = '[phi, tau1 xi]}.
       by move=> xi Sxi; rewrite Da Dphi cfdotDl (orthoPl oXS1) ?map_f ?addr0.
     exists (a_ (tau1 zeta) + n).
       by rewrite Dn rpredD ?rpred_nat // Da // Cint_cfdot_vchar ?Ztau1 ?Z_S1.
@@ -1015,11 +1015,11 @@ have bridgeS1: {in S1, forall zeta, eq_proj_eta (tau (bridge0 zeta)) eta0row}.
   move=> zeta S1zeta; set phi := bridge0 zeta; have irr_zeta := irrS1 S1zeta.
   have [X etaX [chi [Dchi oXchi o_chi_eta]]] := orthogonal_split etaW (tau phi).
   have [Isigma Zsigma] := cycTI_Zisometry ctiWG.
-  have{o_chi_eta} o_chi_eta i j: '[chi, eta_ i j] = 0.
+  have{} o_chi_eta i j: '[chi, eta_ i j] = 0.
     by rewrite (orthoPl o_chi_eta) ?map_f ?mem_irr.
   have o1etaW: orthonormal etaW by rewrite map_orthonormal ?irr_orthonormal.
   have [a Da defX] := orthonormal_span o1etaW etaX; pose a_ := a (eta_ _ _).
-  have{Da} Da i j: a_ i j = '[tau phi, eta_ i j].
+  have{} Da i j: a_ i j = '[tau phi, eta_ i j].
     by rewrite Dchi cfdotDl o_chi_eta addr0 /a_ Da.
   have Zphi: phi \in 'Z[irr M, HU^#] by apply: Zbridge0.
   have A0phi: phi \in 'CF(M, 'A0(M)) by apply: A0bridge0.
@@ -1104,7 +1104,7 @@ have bridgeS1: {in S1, forall zeta, eq_proj_eta (tau (bridge0 zeta)) eta0row}.
   rewrite a11_0 expr0n /= mulr0 addr0 in normX.
   have a10_a01: a10 + a01 = 1.
     by apply/eqP; rewrite -subr_eq0 -a00_1 -DaB1 -/a11 a11_0.
-  have{o_chi_eta} o_chi_eta: orthogonal chi etaW.
+  have{} o_chi_eta: orthogonal chi etaW.
     by apply/orthoPl=> _ /mapP[_ /(cycTIirrP defW)[i [j ->]] ->].
   have a10_0: a10 = 0.
     apply: contraNeq (FTtype34_not_ortho_cycTIiso S1zeta) => nz_a10.
@@ -1142,7 +1142,7 @@ have{Szeta} ltpq: (p < q)%N.
   by apply/orthoPl=> _ /mapP[_ /(cycTIirrP defW)[i [j ->]] ->].
 suffices galM: typeP_Galois MtypeP.
   have [_ [_ _ _ [/= cycUbar _ _]]] := typeP_Galois_P maxM notMtype5 galM.
-  have{cycUbar} cycUbar: cyclic (U / U') by rewrite -defU' -defC.
+  have{} cycUbar: cyclic (U / U') by rewrite -defU' -defC.
   have nilU: nilpotent U by have [_ []] := MtypeP.
   case/orP: Mtype34 => // /(compl_of_typeIV maxM MtypeP)[_ /negP[]].
   exact/cyclic_abelian/cyclic_nilpotent_quo_der1_cyclic.

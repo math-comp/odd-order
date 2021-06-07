@@ -77,7 +77,7 @@ have [U1 | {defA1 minB}ntU] := eqsVneq U 1.
     apply/setP=> z; rewrite (Phi_Mho pA cAA) -(subSnn n) -OhmMho.
     by rewrite (OhmEabelian pA) ?(abelianS (Ohm_sub n A)) ?inE.
   have [g injg def_g] := first_isom f; rewrite /= {}ker_f in g injg def_g.
-  have{f def_g} def_g: forall H, gval H \subset A -> g @* (H / _) = 'Mho^n(H).
+  have{f} def_g: forall H, gval H \subset A -> g @* (H / _) = 'Mho^n(H).
     move=> H sHA; rewrite def_g morphimEsub //.
     by rewrite (MhoEabelian n (pgroupS sHA pA) (abelianS sHA cAA)).
   have im_g: g @* (A / 'Phi(A)) = B by rewrite def_g // defA1 OhmMho subn1.
@@ -460,7 +460,7 @@ move: {2}_.+1 (ltnSn #|V|) => c leVc sA_G nVG coVG solV partG; move: leVc.
 pose nz_k i := (0 < m i + n i)%N; rewrite !(bigID nz_k xpredT) /= {2 4}/nz_k.
 rewrite !(big1 _ (predC _)) /= => [|i|i]; try by case: (m i) (n i) => [[]|].
 pose sum_k A_ a k := (\sum_(i | (a \in (A_ i : {set _})) && nz_k i) k i)%N.
-have{partG} partG: {in G, forall a, sum_k _ A a m = sum_k _ A a n}.
+have{} partG: {in G, forall a, sum_k _ A a m = sum_k _ A a n}.
   move=> a /partG; rewrite !(bigID nz_k (fun i => a \in _)) -!/(sum_k _ A a _).
   by rewrite /= !big1 ?addn0 /nz_k // => i /andP[_]; case: (m i) (n i) => [[]|].
 rewrite !muln1; elim: c => // c IHc in gT G A V nVG coVG solV partG sA_G *.
@@ -495,7 +495,7 @@ without loss{c leVc IHc} minV: / minnormal V (V <*> G).
   by rewrite -{2}(mul1g (A i)) -(coprime_TIg coBG) setIC group_modr // inE Ga.
 have /is_abelemP[p p_pr abelV] := minnormal_solvable_abelem minV solV.
 have [p_gt1 [pV cVV _]] := (prime_gt1 p_pr, and3P abelV).
-have{minV} minV: minnormal V G.
+have{} minV: minnormal V G.
   apply/mingroupP; split=> [|B nBG sBV]; first by rewrite ntV nVG.
   by case/mingroupP: minV => _ -> //; rewrite join_subG (sub_abelian_norm cVV).
 have co_pG: coprime p #|G|.

@@ -316,7 +316,7 @@ have /fin_all_exists2[dmu injl_mu Ddmu] j:
   by rewrite -scalerBr /= !ffunE !(tnth_nth 0 mu) -Ddmu nth_mktuple Sj0.
 pose Imu ij := (dmu ij.2).2 ij.1; pose mu i j := 'chi_(Imu (i, j)).
 pose d j : algC := (-1) ^+ (dmu j).1.
-have{Ddmu} Ddmu i j: 'Ind (ew_ i j) = d j *: (mu i j - mu 0 j).
+have{} Ddmu i j: 'Ind (ew_ i j) = d j *: (mu i j - mu 0 j).
   by rewrite Ddmu scalerBr.
 have{injl_mu} inj_Imu: injective Imu.
   move=> [i1 j1] [i2 j2]; rewrite /Imu /=; pose S i j k := mu i j :: mu k j.

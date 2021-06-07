@@ -501,14 +501,14 @@ have Da_ zeta: zeta \in calH -> a_ zeta = '['Ind (zeta - zeta0), chi].
 have Za_ zeta: zeta \in calH -> a_ zeta \in Cint.
   move=> Hzeta; rewrite Da_ // Cint_cfdot_vchar ?cfInd_vchar //.
   by rewrite rpredB ?char_vchar ?(seqInd_char Hzeta) ?(seqInd_char Hzeta0).
-have{Da_} Da_ zeta: zeta \in calS1 -> a_ zeta = '[tau1 zeta, chi].
+have{} Da_ zeta: zeta \in calS1 -> a_ zeta = '[tau1 zeta, chi].
   move=> S1zeta; have Hzeta := sS1H _ S1zeta.
   rewrite Da_ //; have [_ _ _ _ [_ <-]] := FTtypeP_facts.
     rewrite -Dtau1; last by rewrite zcharD1E rpredB ?sS1S ?dH_1.
     by rewrite raddfB cfdotBl (o_tau1S_chi zeta0) ?subr0.
   by rewrite (cfun_onS (Fitting_sub_FTsupp0 maxS)) ?H1dzeta.
 pose alpha := 'Res[H] (\sum_(zeta <- calH2) (a_ zeta)^* / '[zeta] *: zeta).
-have{Dchi} Dchi: {in H^#, forall x, chi x = a / '[zeta1] * zeta1 x + alpha x}.
+have{} Dchi: {in H^#, forall x, chi x = a / '[zeta1] * zeta1 x + alpha x}.
   move=> x H1x; have [_ Hx] := setD1P H1x.
   transitivity (invDade ddH chi x).
     by rewrite cfunElock ddH_1 // big_set1 H1x mul1g cards1 invr1 mul1r.
@@ -667,7 +667,7 @@ have{b Dtau1} oS1eta10: {in calS1, forall zeta, '[tau1 zeta, eta10] = 0}.
   by rewrite cfdot_cycTIiso signW2_eq0 (negPf nz_j) andbF.
 have [_ /oS1eta10//|alpha [Zalpha kerPalpha]] := calS1_split1 cohS S1mu1 Zeta10.
 rewrite {}oS1eta10 // expr0n mulr0 !mul0r subrr add0r => [[Deta10 -> ub_alpha]].
-have{Deta10} Deta10: {in H^#, eta10 =1 alpha}.
+have{} Deta10: {in H^#, eta10 =1 alpha}.
   by move=> x /Deta10; rewrite !mul0r add0r.
 set a1_2 := alpha 1%g ^+ 2 in ub_alpha.
 have Dsum_alpha: \sum_(x in H^#) `|alpha x| ^+ 2 = #|H|%:R * '[alpha] - a1_2.
@@ -792,7 +792,7 @@ have{tau1muj} ->: tau1 lambda x = sum_eta1 x.
 apply/nandP/andP=> [[/eqP sum_eta1x_0 /eqP eta1x_0]].
 have cycW: cyclic W by have [] := ctiWG.
 have W'x: x \notin class_support (cyclicTIset defW) G.
-  apply: contra_eqN eta1x_0 => /imset2P[{x H'x sum_eta1x_0}x g Wx Gg ->].
+  apply: contra_eqN eta1x_0 => /imset2P[{H'x sum_eta1x_0}x g Wx Gg ->].
   rewrite cfunJ {g Gg}// cycTIiso_restrict //.
   by rewrite lin_char_neq0 ?irr_cyclic_lin //; case/setDP: Wx.
 have nz_i1 : #1 != 0 :> Iirr W1 by rewrite Iirr1_neq0.
@@ -1923,7 +1923,7 @@ split=> // X Y defXY oXY oYeta; pose a := '[Gamma, eta01].
 have Za: a \in Cint.
   rewrite Cint_cfdot_vchar 1?rpredD ?rpredB ?rpred1 ?cycTIiso_vchar //.
   by rewrite Dtau ?A0beta // !(cfInd_vchar, rpredB) ?rpred1 ?irr_vchar.
-have{oYeta} oYeta j: '[Y, eta_ 0 j] = 0.
+have{} oYeta j: '[Y, eta_ 0 j] = 0.
   by rewrite (orthoPl oYeta) ?map_f ?mem_irr.
 have o_eta1s1: '[eta01^*, eta01] = 0.
   rewrite Deta01s cfdot_cycTIiso /= -(inj_eq irr_inj) aut_IirrE.

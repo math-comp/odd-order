@@ -201,11 +201,11 @@ case: m Chi => [|[|m]] // Chi _ irrChi Chifree Chi1 ChiCF [iso_tau Ztau].
 rewrite -(tnth_nth 0 _ 0); set chi := tnth Chi.
 have chiE i: chi i = Chi`_i by rewrite -tnth_nth.
 have inChi i: chi i \in Chi by apply: mem_tnth.
-have{irrChi} irrChi i: chi i \in irr H by apply: irrChi.
+have{} irrChi i: chi i \in irr H by apply: irrChi.
 have eq_chi i j: (chi i == chi j) = (i == j).
   by rewrite /chi !(tnth_nth 0) nth_uniq ?size_tuple ?free_uniq.
 have dot_chi i j: '[chi i, chi j] = (i == j)%:R.
-  rewrite -eq_chi; have [/irrP[{i}i ->] /irrP[{j}j ->]] := (irrChi i,irrChi j).
+  rewrite -eq_chi; have [/irrP[{}i ->] /irrP[{}j ->]] := (irrChi i,irrChi j).
   by rewrite cfdot_irr inj_eq //; apply: irr_inj.
 pose F i j := chi i - chi j.
 have DF i j : F i j =  F i 0 - F j 0 by rewrite /F opprB addrA subrK.

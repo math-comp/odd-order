@@ -123,7 +123,7 @@ have [sQ1Ms qQ1 _] := and3P sylQ1.
 have{qQ1} [q_pr q_dv_Q1 _] := pgroup_pdiv qQ1 ntQ1.
 have{sQ1Ms q_dv_Q1} sMq: q \in \sigma(M).
   exact: pgroupP (pgroupS sQ1Ms (pcore_pgroup _ _)) q q_pr q_dv_Q1.
-have{sylQ1} sylQ1: q.-Sylow(M) Q1.
+have{} sylQ1: q.-Sylow(M) Q1.
   by rewrite (subHall_Sylow (Msigma_Hall maxM)).
 have sQ1M := pHall_sub sylQ1.
 have{sylQ2} sylQ2g': q.-Sylow(M) (Q2 :^ g^-1).
@@ -265,10 +265,10 @@ pose X := 'Ohm_1('Z(P))%G.
 have eqCQ12_X: ('C_Q1(X) == 1) = ('C_Q2(X) == 1).
   rewrite -(inj_eq (@conjsg_inj _ g)) conjs1g conjIg -/Q2 -centJ (normP _) //.
   by rewrite (subsetP (gFnorm_trans _ _) g nPg) ?gFnorms.
-have{EpX1} EpX1: X1 \in 'E_p^1(A) :\ X.
+have{} EpX1: X1 \in 'E_p^1(A) :\ X.
   rewrite 2!inE EpX1 andbT; apply: contraNneq nregX11 => defX1.
   by rewrite defX1 eqCQ12_X -defX1 regX12.
-have{EpX2 eqCQ12_X} EpX2: X2 \in 'E_p^1(A) :\ X.
+have{eqCQ12_X} EpX2: X2 \in 'E_p^1(A) :\ X.
   rewrite 2!inE EpX2 andbT; apply: contraNneq nregX22 => defX2.
   by rewrite defX2 -eqCQ12_X -defX2 regX21.
 apply: contraR nregX11 => not_cPP.
@@ -357,7 +357,7 @@ have [cKA | not_cKA]:= boolP (A \subset 'C(K)).
   pose KA := K <*> A; have defKA: K \x A = KA.
     by rewrite dprodEY // coprime_TIg // (coprimegS sAP).
   have defA: 'Ohm_1(P) = A by case exceptional_structure.
-  have{defA} defA: 'Ohm_1('O_p(KP)) = A.
+  have{} defA: 'Ohm_1('O_p(KP)) = A.
     apply/eqP; rewrite -defA eqEsubset OhmS /=; last first.
       rewrite pcore_sub_Hall ?(pHall_subl _ _ sylP) ?joing_subr //.
       exact: subset_trans (pHall_sub hallKP) sEM.
@@ -411,7 +411,7 @@ suffices nregQ: 'C_Q(A) != 1.
     by rewrite inE (subsetP (pnElemS p 2 (subsetT M))).
   case=> _ sAQm [_ _ cQstarQm]; rewrite (centSS sAQm sQ_Qstar) // in not_cQA.
   apply: cQstarQm; apply/implyP=> _; apply/set0Pn; exists B.
-  have{Eq2B} Eq2B := subsetP (pnElemS q 2 sQ_Qstar) B Eq2B.
+  have{} Eq2B := subsetP (pnElemS q 2 sQ_Qstar) B Eq2B.
   rewrite inE Eq2B (subsetP (pmaxElemS q (subsetT _))) // inE maxB inE.
   by have [? _ _] := pnElemP Eq2B.
 pose Q0 := 'Z(Q); have sQ0Q: Q0 \subset Q by apply: gFsub.
@@ -430,7 +430,7 @@ have defQ0: [~: A, Q0] = Q0.
   by rewrite (coprimeSg (subset_trans sQ0Q sQK)).
 have [_ _ [A1 EpA1 [A2 EpA2 [neqA12 regA1 regA2]]]] := exceptional_structure.
 have defA: A1 \x A2 = A by apply/(p2Elem_dprodP Ep2A EpA1 EpA2).
-have{defQ0} defQ0: [~: A1, Q0] * [~: A2, Q0] = Q0.
+have{} defQ0: [~: A1, Q0] * [~: A2, Q0] = Q0.
   have{defA} [[_ defA cA12 _] [sA2A _ _]] := (dprodP defA, pnElemP EpA2).
   by rewrite -commMG ?defA // normsR ?(cents_norm cA12) // (subset_trans sA2A).
 have sA_NQ0: A \subset 'N_M(Q0) by rewrite subsetI sAM.

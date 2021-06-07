@@ -780,7 +780,7 @@ have [p_pr _ [r oApr]] := pgroup_pdiv pA ntA.
 have oddp: odd p by move: (mFT_odd A); rewrite oApr odd_exp.
 have def_pi: \pi(A)^' =i p^'.
   by move=> q; rewrite inE /= oApr pi_of_exp // pi_of_prime.
-have{p'Y} p'Y : p^'.-group Y by rewrite -(eq_pgroup _ def_pi).
+have{} p'Y : p^'.-group Y by rewrite -(eq_pgroup _ def_pi).
 rewrite (eq_pcore _ def_pi) (@plength1_norm_pmaxElem _ p X A) //.
 by rewrite (subsetP (pmaxElemS p (subsetT _))) // setIC 2!inE sAX.
 Qed.

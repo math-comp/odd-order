@@ -334,7 +334,7 @@ case: cl1 => ij kvs /= in cl1k * => th_cl1; set th1p := [pred cl | _].
 pose th1 := [seq if cl.1 == ij then cl1k else cl | cl <- th].
 exists th1; first by elim: (th) @th1 => //= cl th' ->; rewrite -2!fun_if.
 suffices Dth1: th1 =i th1p by rewrite Dth1 !inE !eqxx.
-move=> cl; rewrite inE; apply/mapP/idP=> [[{cl}cl th_cl ->] | ].
+move=> cl; rewrite inE; apply/mapP/idP=> [[{}cl th_cl ->] | ].
   by case cl_ij: (cl.1 == ij); rewrite ?eqxx ?cl_ij.
 case: ifP => [_ /eqP-> | cl'ij th_cl]; last by exists cl; rewrite ?cl'ij.
 by exists (ij, kvs); rewrite ?eqxx.
@@ -616,7 +616,7 @@ have: goal (s1%:~R + '[m ij1, eval_cl m kvs]) (if cl1eq then 0%N else s2).
 have /allP: {subset kvs <= kvs2} by [].
 rewrite cfdot_sumr unlock; elim: kvs s1 s2 => [|[k v2] kvs IHkvs] s1 s2 /=.
   by rewrite addr0 /goal -rmorphB pmulrn -!CintrE.
-case/andP=> kvs2_v /IHkvs{IHkvs}IHkvs; have{cl2P} [ltk _] := cl2P _ kvs2_v.
+case/andP=> kvs2_v /IHkvs{}IHkvs; have{cl2P} [ltk _] := cl2P _ kvs2_v.
 have [v1 /cl1P[_ /eqP/=Dv1] | kvs1'k] := get_litP.
   rewrite addrA => gl12; apply: IHkvs; congr (goal (_ + _) _): gl12.
   by rewrite raddfMz addrC /= Dv1 -mulrzA -rmorphD.
@@ -767,7 +767,7 @@ case: s => [si sj sk] /= sym12 Uth2 m m_th1; case/and3P: (m_th1) sym12.
 case: th_bbox (th_bboxP (bbox_refl (th_bbox th1))) => ri rj rijP.
 case/andP=> /= leri lerj lerk _ /and4P[Ssi Ssj /andP[Usk /allP/=lesrk] sym12].
 have{Ssi}-/SsP/(_ leri)[ltIi uIi szIi] := Ssi.
-have{Ssj SsP} /SsP/(_ lerj)[ltIj uIj szIj] := Ssj.
+have{Ssj} /SsP/(_ lerj)[ltIj uIj szIj] := Ssj.
 pose smL ij := m (nth ri (I_ si m.1) ij.1, nth rj (I_ sj m.2) ij.2)%N.
 pose smR := [seq m`_k | k <- sk].
 have [[lb_m ZmL Dm] [o1m ZmR]] := (LmodelP m, RmodelP m).
@@ -1083,7 +1083,7 @@ have /allP: {subset kvs2' <= kvs2} by [].
 pose lit12 k := (k, 1) \in kvs1 /\ (k, 1) \in kvs2.
 have: mm -> {k | lit12 k & k \notin unzip1 kvs2'} by [].
 elim: kvs2' mm => [|[k v2] kvs2' IH] //= mm mmP /andP[kvs2k /IH{IH}IHkvs].
-case/andP=> kvs2'k /IHkvs{IHkvs}IHkvs; case: ifP => [_ | /norP[]].
+case/andP=> kvs2'k /IHkvs{}IHkvs; case: ifP => [_ | /norP[]].
   by apply/IHkvs=> /mmP[kv kvs12kv /norP[]]; exists kv.
 have [v1 /= kvs1k | //] := get_litP; case: eqP => // -> in kvs2k * => _ nz_v1.
 case Dbb: (th_bbox th) (th_bboxP (bbox_refl (th_bbox th))) => [ri rj] rijP.
