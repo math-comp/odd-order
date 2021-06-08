@@ -148,7 +148,7 @@ have /(mem_sdprod defS)[x [w [PUx W1w Dgy _]]]: g ^ y \in S.
   by rewrite (subsetP (cent1_normedTI tiA0 A0a)) // 2!inE.
 suffices w_eq1: w = 1%g.
   have sCaP: 'C_PU[a] \subset P := Frobenius_cent1_ker frobPU P1a.
-  rewrite -[g](conjgK y) mem_imset2 ?inE //= conjg_eq1 ntg /=.
+  rewrite -[g](conjgK y) imset2_f ?inE //= conjg_eq1 ntg /=.
   by rewrite (subsetP sCaP) // inE cagy Dgy w_eq1 mulg1 PUx.
 apply: contraNeq W'g => ntw; have nPUw := subsetP nPUW1 w W1w.
 have{x PUx Dgy} /imset2P[x z W2w_x _ Dgy]: g ^ y \in class_support (W2 :* w) PU.
@@ -156,7 +156,7 @@ have{x PUx Dgy} /imset2P[x z W2w_x _ Dgy]: g ^ y \in class_support (W2 :* w) PU.
   have coPUw := coprime_dvdr (order_dvdG W1w) coPUq.
   have [/cover_partition-> _] := partition_cent_rcoset nPUw coPUw.
   by rewrite Dgy mem_rcoset mulgK.
-rewrite -[g](conjgK (y * z^-1)%g) mem_imset2 ?inE //= conjg_eq1 ntg /= conjgM.
+rewrite -[g](conjgK (y * z^-1)%g) imset2_f ?inE //= conjg_eq1 ntg /= conjgM.
 by rewrite Dgy conjgK -(dprodWC defW) -[x](mulgKV w) mem_mulg -?mem_rcoset.
 Qed.
 
@@ -846,12 +846,12 @@ have ->: v.-1 = (p * size calT1)%N; last rewrite mulKn ?prime_gt0 //.
   rewrite [p](index_sdprod defT); have isoV := sdprod_isog defQV.
   rewrite [v](card_isog isoV) -card_Iirr_abelian -?(isog_abelian isoV) //.
   rewrite -(card_imset _ (can_inj (mod_IirrK nsQQV))) (cardD1 0) /=.
-  rewrite -{1}(mod_Iirr0 QV Q) mem_imset //=.
+  rewrite -{1}(mod_Iirr0 QV Q) imset_f //=.
   rewrite (size_irr_subseq_seqInd _ (subseq_refl _)) //=.
   apply: eq_card => s; rewrite !inE mem_seqInd ?gFnormal // !inE subGcfker.
   congr (_ && _); apply/idP/idP=> [/imsetP[r _ ->] | kerQs].
     by rewrite mod_IirrE ?cfker_mod.
-  by rewrite -(quo_IirrK nsQQV kerQs) mem_imset.
+  by rewrite -(quo_IirrK nsQQV kerQs) imset_f.
 have o1T1: orthonormal (map tau1T calT1).
   rewrite map_orthonormal ?(sub_orthonormal irrT1) ?seqInd_uniq //.
   exact: irr_orthonormal.
@@ -946,9 +946,9 @@ have lbG0 g: g \in G0 -> 1 <= `|tau1M psi g| ^+ 2.
   rewrite !inE ?expr_ge1 ?normr_ge0 // => /norP[/norP[/norP[AM'g W'g P'g Q'g]]].
   have{W'g} /coprime_typeP_Galois_core-co_p_g: g \notin ccG W^#.
     apply: contra W'g => /imset2P[x y /setD1P[ntx Wx] Gy Dg].
-    rewrite Dg mem_imset2 // !inE Wx andbT; apply/norP; split.
-      by apply: contra Q'g => /(subsetP sW1Q)?; rewrite Dg mem_imset2 ?inE ?ntx.
-    by apply: contra P'g => /(subsetP sW2P)Px; rewrite Dg mem_imset2 ?inE ?ntx.
+    rewrite Dg imset2_f // !inE Wx andbT; apply/norP; split.
+      by apply: contra Q'g => /(subsetP sW1Q)?; rewrite Dg imset2_f ?inE ?ntx.
+    by apply: contra P'g => /(subsetP sW2P)Px; rewrite Dg imset2_f ?inE ?ntx.
   have{AM'g} betaMg0: tauM betaM g = 0.
     by apply: cfun_on0 AM'g; rewrite -defAM Dade_cfunS.
   suffices{betaMg0}: 1 <= `|(\sum_ij (-1) ^+ nb ij *: sigma 'chi_ij) g|.
@@ -958,7 +958,7 @@ have lbG0 g: g \in G0 -> 1 <= `|tau1M psi g| ^+ 2.
   have{co_p_g} Zeta_g ij: sigma 'chi_ij g \in Cint.
     apply/Cint_cycTIiso_coprime/(coprime_dvdr (cforder_lin_char_dvdG _)).
       by apply: irr_cyclic_lin; have [] := ctiWG.
-    rewrite -(dprod_card defW) coprime_mulr.
+    rewrite -(dprod_card defW) coprimeMr.
     by apply/andP; split; [apply: co_p_g galT _ | apply: co_p_g galS _].
   rewrite sum_cfunE norm_Cint_ge1 ?rpred_sum // => [ij _|].
     by rewrite cfunE rpredMsign.
@@ -1145,7 +1145,7 @@ have{n nmodq Dx} lb_x: (q + q.+1 * p <= x)%N.
   rewrite (divn_eq n q) nmodq (modn_small (ltnW qgt2)) addn1 in Dx.
   rewrite Dx leq_add2l leq_mul // ltnS leq_pmull // lt0n.
   have: odd x by rewrite (dvdn_odd (dvdn_indexg _ _)) ?mFT_odd.
-  by rewrite Dx oddD odd_mul !mFT_odd; apply: contraNneq => ->.
+  by rewrite Dx oddD oddM !mFT_odd; apply: contraNneq => ->.
 have lb_h: (p ^ q < h)%N.
   rewrite (@leq_trans (p * nU)) //; last first.
     rewrite -DnU oH mulnA mulnC leq_mul // (leq_trans _ lb_x) //.

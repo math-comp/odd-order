@@ -973,7 +973,7 @@ split=> [M H maxM maxH eq_MH | Gtype1 | S T W W1 W2 defW VG pairST].
   apply/orbit_eqP/idPn => not_HG_M.
   have /negP[]: ~~ [disjoint 'A1~(M) & 'A1~(H)].
    rewrite eq_MH -setI_eq0 setIid -defDsup //.
-   by apply: contraNneq not_PG_set0 => <-; apply: mem_imset.
+   by apply: contraNneq not_PG_set0 => <-; apply: imset_f.
   rewrite -!defDsup // -setI_eq0 class_supportEr big_distrl -subset0.
   apply/bigcupsP=> x /class_supportGidr <- /=; rewrite -conjIg sub_conjg conj0g.
   rewrite class_supportEr big_distrr /=; apply/bigcupsP=> {}x _.
@@ -1064,7 +1064,7 @@ have part_b S T (maxS : S \in 'M) (maxT : T \in 'M) (ncST : NC S T) :
     rewrite part_a1 ?mmaxJ // => [/pred0Pn[y /andP/=[A1Sy ATyx]]|]; last first.
       by rewrite /NC -(rcoset_id (in_setT x)) orbit_rcoset.
     rewrite FTsuppJ mem_conjg in ATyx; exists (y ^ x^-1); apply/andP; split.
-      by apply/bigcupP; exists y => //; rewrite mem_imset2 ?rcoset_refl ?inE.
+      by apply/bigcupP; exists y => //; rewrite imset2_f ?rcoset_refl ?inE.
     apply/bigcupP; exists (y ^ x^-1) => //.
     by rewrite mem_class_support ?rcoset_refl.
   have{AGTy} [x2 ATx2 x2R_yG] := bigcupP AGTy.
@@ -1078,7 +1078,7 @@ have part_b S T (maxS : S \in 'M) (maxT : T \in 'M) (ncST : NC S T) :
     have [[z1 maxSz] [z2 maxTz]] := (sM_MG S maxS, sM_MG T maxT).
     case/imsetP: ncST; exists (z1 * z2^-1)%g; first by rewrite inE.
     rewrite conjsgM; apply/(canRL (conjsgK _))/congr_group/injA1G=> //.
-    apply/eqP/idPn=> /(trivIsetP tiA1g)/pred0Pn[]; try exact: mem_imset.
+    apply/eqP/idPn=> /(trivIsetP tiA1g)/pred0Pn[]; try exact: imset_f.
     exists y; rewrite !FT_Dade1_supportJ /= A1GSy andbT.
     by apply/bigcupP; exists x2; rewrite // (subsetP sDA1T) ?inE ?ATx2.
   have{x2R_yG} /imsetP[z _ def_y]: y \in x2 ^: G.
@@ -1129,7 +1129,7 @@ Proof.
 move=> maxS maxT /FT_Dade_support_disjoint[] // _ _ tiA1A.
 without loss{tiA1A maxT}: S T maxS / [disjoint 'A1~(T) & 'A~(S)].
   by move=> IH_ST; case: tiA1A => /IH_ST; first rewrite disjoint_sym; apply.
-by rewrite disjoint_sym; apply/disjoint_trans/FT_Dade_supportS/FTsupp1_sub.
+by rewrite disjoint_sym; apply/disjointWl/FT_Dade_supportS/FTsupp1_sub.
 Qed.
 
 End Eight.

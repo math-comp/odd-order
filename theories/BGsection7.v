@@ -777,7 +777,7 @@ have prA: A \proper G := sub_proper_trans cAA (mFT_cent_proper ntA).
 split=> // X Y sAX prX; case/setIdP; case/andP=> sYX p'Y nYA.
 have pl1X := pl1subG _ prX; have solX := mFT_sol prX.
 have [p_pr _ [r oApr]] := pgroup_pdiv pA ntA.
-have oddp: odd p by move: (mFT_odd A); rewrite oApr odd_exp.
+have oddp: odd p by move: (mFT_odd A); rewrite oApr oddX.
 have def_pi: \pi(A)^' =i p^'.
   by move=> q; rewrite inE /= oApr pi_of_exp // pi_of_prime.
 have{} p'Y : p^'.-group Y by rewrite -(eq_pgroup _ def_pi).
@@ -798,7 +798,7 @@ have ntA: A :!=: 1 by rewrite -rank_gt0 ltnW.
 pose pi := \pi(A); simpl in pi.
 have [p_pr pdvA [r oApr]] := pgroup_pdiv pA ntA.
 have{r oApr} def_pi: pi =i (p : nat_pred).
-  by move=> p'; rewrite !inE oApr primes_exp // primes_prime ?inE.
+  by move=> p'; rewrite !inE oApr primesX // primes_prime ?inE.
 have def_pi' := eq_negn def_pi; have defK := eq_pcore _ def_pi'.
 pose Z := 'Ohm_1('Z(P)); have sZ_ZP: Z \subset 'Z(P) by apply: Ohm_sub.
 have sZP_A: 'Z(P) \subset A by rewrite -defCA setIS ?centS.
@@ -968,7 +968,7 @@ have [defZ def_pi']: 'Z(A) = A /\ \pi(A)^' =i p^'.
     rewrite /rank big1_seq // => p1 _; rewrite /p_rank big1 // => E.
     by rewrite inE; case/andP; move/trivgP->; rewrite cards1 logn1.
   have [p_pr _ [k ->]] := pgroup_pdiv (pgroupS sAP (pHall_pgroup sylP)) ntA.
-  split=> [|p1]; last by rewrite !inE primes_exp // primes_prime ?inE.
+  split=> [|p1]; last by rewrite !inE primesX // primes_prime ?inE.
   by apply/eqP; rewrite eqEsubset subsetIl subsetI subxx -{1}defCA subsetIr.
 rewrite -(eq_pcore _ def_pi') -def_pi' => pi'q.
 apply: normed_constrained_rank3_trans; rewrite ?defZ //.

@@ -426,7 +426,7 @@ suffices pB (X : {group {perm gT}}): X \subset B -> p^'.-group X -> X :=: 1.
   rewrite cAbAb -(nilpotent_pcoreC p (abelian_nil cAbAb)) trivg_pcore_quotient.
   rewrite dprod1g pcore_pgroup; split=> //_ a Aa p'a.
   rewrite order_dvdn -cycle_eq1 [<[_]>]pB ?(pgroupS (cycleX _ _) p'a) //.
-  by rewrite genS // sub1set inE orbC (mem_imset (expgn^~ _)).
+  by rewrite genS // sub1set inE orbC (imset_f (expgn^~ _)).
 move=> sXB p'X; have AutX := subset_trans sXB AutB.
 pose toX := ([Aut R] \ AutX)%gact; pose CX := 'C_(H | toX)(X).
 suffices sHCX: H \subset CX.

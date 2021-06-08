@@ -751,7 +751,7 @@ have oS1sigma phi: phi \in S1 -> orthogonal (R1 phi) (map sigma (irr W)).
   pose w1 := #|W1|; pose w2 := #|W2|.
   have minw_gt2: (2 < minn w1 w2)%N.
     have [[_ ntW1 _ _] [ntW2 _ _] _] := prDade_prTI ddA.
-    rewrite -(dprod_card defW) odd_mul => /andP[oddW1 oddW2].
+    rewrite -(dprod_card defW) oddM => /andP[oddW1 oddW2].
     by rewrite leq_min !odd_gt2 ?cardG_gt1.
   apply: contraTeq (minw_gt2) => ntNC; rewrite -leqNgt.
   pose NC := cyclicTI_NC ddA.

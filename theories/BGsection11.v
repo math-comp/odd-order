@@ -180,7 +180,7 @@ have nMsA := subset_trans sAM nMsM.
 have nHA: A \subset 'N(H) by rewrite normsI // normsG.
 have nMsgA: A \subset 'N(Ms :^ g) by rewrite normJ (subset_trans sAMg) ?conjSg.
 have coMsA: coprime #|Ms| #|A|.
-  by rewrite oA coprime_expr ?(pnat_coprime (pcore_pgroup _ _)) ?pnatE.
+  by rewrite oA coprimeXr ?(pnat_coprime (pcore_pgroup _ _)) ?pnatE.
 have coHA: coprime #|H| #|A| := coprimeSg sHMs coMsA.
 have coMsgA: coprime #|Ms :^ g| #|A| by rewrite cardJg.
 have solA: solvable A := abelian_sol cAA.

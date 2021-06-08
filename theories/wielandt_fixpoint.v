@@ -226,7 +226,7 @@ apply/subsetP=> _ /morphimP[x Nx Xx ->].
 rewrite 2!inE /= qact_domE ?subsetT // astabsJ.
 rewrite (subsetP (gFnorm_trans _ nKuX)) ?mem_quotient //=.
 apply/subsetP=> _ /morphimP[y Dy Yy ->].
-by rewrite inE /= -act_f // morphimEsub // mem_imset // (acts_act actsXY).
+by rewrite inE /= -act_f // morphimEsub // imset_f // (acts_act actsXY).
 Qed.
 
 Variant is_iso_quotient_homocyclic_sdprod gT (V G : {group gT}) m : Prop :=
@@ -244,7 +244,7 @@ have [p_pr pVdvdn [n Vpexpn]] := pgroup_pdiv (abelem_pgroup abelV) ntV.
 move/(abelem_mx_irrP abelV ntV nVG): (minV) => mx_irrV.
 have dim_lt0 : 'dim V > 0 by rewrite (dim_abelemE abelV) // Vpexpn pfactorK.
 have q_gt1: q > 1 by rewrite (ltn_exp2l 0) // prime_gt1.
-have p_q: p.-nat q by rewrite pnat_exp pnat_id.
+have p_q: p.-nat q by rewrite pnatX pnat_id.
 have p_dv_q: p %| q := dvdn_exp2l p m_gt0.
 pose rG := regular_repr [comUnitRingType of 'Z_q] G; pose MR_G := ('MR rG)%gact.
 have [wT [fL injL [fX injX fJ]]]: exists wT : finGroupType,
@@ -443,7 +443,7 @@ rewrite -Kf3; apply/setP=> y; apply/idP/idP; last first.
   by rewrite !inE /= sdprodmEl //= f3y (subsetP (joing_subl _ X)) /=.
 rewrite ker_sdprodm => /imset2P[u t Uu /setIdP[Xt /eqP/= fu] ->{y}].
 have: f3 u \in V :&: G.
-  by rewrite inE -fU_V morphim_sdprodml //= mem_imset ?setIid // fu GgX.
+  by rewrite inE -fU_V morphim_sdprodml //= imset_f ?setIid // fu GgX.
 rewrite tiVG in_set1 fu morph_injm_eq1 ?KgX ?injm_invm // => /eqP t1.
 by rewrite t1 invg1 mulg1 !inE Uu /= fu t1 morph1.
 Qed.
@@ -514,7 +514,7 @@ set q := (p ^ e)%N; have q_gt1: q > 1 by rewrite -(exp1n e) ltn_exp2r.
 have{e_gt0 co_pG} [wT W D G1 f homoW oW kerf imfW imfG1 defD] := 
   iso_quotient_homocyclic_sdprod minV co_pG abelV e_gt0.
 have [[cWW _] [_ /mulG_sub[sWD sG1D] nWG1 tiWG1]] := (andP homoW, sdprodP defD).
-have pW: p.-group W by rewrite /pgroup oW pnat_exp [p.-nat _]pV.
+have pW: p.-group W by rewrite /pgroup oW pnatX [p.-nat _]pV.
 have rW_V: 'r(W) = 'dim V.
   rewrite (rank_abelian_pgroup pW cWW) -(mulnK #|_| (cardG_gt0 'Mho^1(W))).
   rewrite mul_card_Ohm_Mho_abelian // divg_normal ?Mho_normal //=.

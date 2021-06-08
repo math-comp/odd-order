@@ -322,7 +322,7 @@ Proposition coprime_cent_prod gT (A G : {group gT}) :
   [~: G, A] * 'C_G(A) = G.
 Proof.
 move=> nGA; have sRG: [~: G, A] \subset G by rewrite commg_subl.
-rewrite -(Lagrange sRG) coprime_mull => /andP[coRA _] /(solvableS sRG).
+rewrite -(Lagrange sRG) coprimeMl => /andP[coRA _] /(solvableS sRG).
 exact: coprimeR_cent_prod.
 Qed.
 
@@ -544,7 +544,7 @@ have /centerP[_ Zz]: z \in 'Z(H) by rewrite (subsetP clH) // mem_commg ?groupV.
 have fy: f y = y.
   apply: (IHi); first by rewrite groupM ?groupV.
   rewrite expMg_Rmul; try by apply: commute_sym; apply: Zz; rewrite ?groupV.
-  rewrite -/z bin2odd ?odd_exp // {3}expnS -mulnA expgM expH' ?groupV //.
+  rewrite -/z bin2odd ?oddX // {3}expnS -mulnA expgM expH' ?groupV //.
   rewrite expg1n mulg1 expgVn -(autmE Af) -morphX ?(subsetP sHG) //= autmE.
   rewrite IHi ?mulVg ?groupX // {2}expnS expgM -(expgM x _ p) -expnSr.
   by rewrite xp1 expg1n.
@@ -814,13 +814,13 @@ have nKS: S \subset 'N(K).
   rewrite norms_gen //; apply/subsetP=> y Sy; rewrite inE.
   apply/subsetP=> _ /imsetP[_ /imset2P[x u Sx /setIdP[Gu Sxu] ->] ->].
   have Gy: y \in G := subsetP sSG y Sy.
-  by rewrite conjRg mem_imset2 ?groupJ // inE -conjJg /= 2?groupJ.
+  by rewrite conjRg imset2_f ?groupJ // inE -conjJg /= 2?groupJ.
 set alpha := restrm_morphism nKS (coset_morphism K).
 have alphim: (alpha @* S) = (S / K) by rewrite morphim_restrm setIid.
 have abelSK : abelian (alpha @* S).
   rewrite alphim sub_der1_abelian // genS //.
   apply/subsetP=> _ /imset2P[x y Sx Sy ->].
-  by rewrite mem_imset2 // inE (subsetP sSG) ?groupJ.
+  by rewrite imset2_f // inE (subsetP sSG) ?groupJ.
 set ker_trans := 'ker (transfer G abelSK).
 have G'ker : G' \subset ker_trans.
   rewrite gen_subG; apply/subsetP=> h; case/imset2P=> h1 h2 Gh1 Gh2 ->{h}.
@@ -839,7 +839,7 @@ have gGSeq0: (fmod abelSK (alpha g) *+ #|G : S| = 0)%R.
   - by rewrite (subsetP nKS) ?groupX.
   - rewrite (subsetP nKS) // conjgE invgK mulgA -mem_rcoset.
     exact: mulg_exp_card_rcosets.
-  rewrite mem_rcoset -{1}[g ^+ _]invgK -conjVg -commgEl mem_gen ?mem_imset2 //.
+  rewrite mem_rcoset -{1}[g ^+ _]invgK -conjVg -commgEl mem_gen ?imset2_f //.
     by rewrite groupV groupX.
   rewrite inE conjVg !groupV (subsetP sXG) //= conjgE invgK mulgA -mem_rcoset.
   exact: mulg_exp_card_rcosets.

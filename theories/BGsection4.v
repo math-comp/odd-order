@@ -149,7 +149,7 @@ Proof.
 move=> pR oddR ncycR Rx ixR; rewrite -cycle_subG in Rx.
 have ntR: R :!=: 1 by apply: contra ncycR; move/eqP->; apply: cyclic1.
 have [p_pr _ [e oR]]:= pgroup_pdiv pR ntR.
-case p2: (p == 2); first by rewrite oR odd_exp (eqP p2) in oddR.
+case p2: (p == 2); first by rewrite oR oddX (eqP p2) in oddR.
 have [cRR | not_cRR] := orP (orbN (abelian R)).
   rewrite 2!inE Ohm_sub Ohm1_abelem // -p_rank_abelian //= eqn_leq.
   rewrite -rank_pgroup // ltnNge -abelian_rank1_cyclic // ncycR andbT.
@@ -291,7 +291,7 @@ have{ncycR} [Z nsZR] := ex_odd_normal_p2Elem pR oddR ncycR.
 case/pnElemP=> sZR abelZ dimZ2; have [pZ cZZ _] := and3P abelZ.
 have{SCN_3_empty} defZ: 'Ohm_1('C_R(Z)) = Z.
   apply: (Ohm1_cent_max_normal_abelem _ pR).
-    by have:= oddSg sZR oddR; rewrite (card_pgroup pZ) dimZ2 odd_exp.
+    by have:= oddSg sZR oddR; rewrite (card_pgroup pZ) dimZ2 oddX.
   apply/maxgroupP; split=> [|H /andP[nsHR abelH] sZH]; first exact/andP.
   have [pH cHH _] := and3P abelH; apply/eqP; rewrite eq_sym eqEproper sZH /=.
   pose normal_abelian := [pred K : {group gT} | K <| R & abelian K].
@@ -733,7 +733,7 @@ suffices q_dv_p2: q %| (p ^ 2).-1.
     apply/orP; have:= q_dv_p2; rewrite -subn1 (subn_sqr p 1).
     rewrite -[p]odd_double_half p_odd /= !doubleK addKn addn1 -doubleS -!mul2n.
     rewrite mulnC !Euclid_dvdM // dvdn_prime2 // -orbA; case: eqP => // -> _.
-    by rewrite -Euclid_dvdM // /dvdn modn2 mulnC odd_mul andbN.
+    by rewrite -Euclid_dvdM // /dvdn modn2 mulnC oddM andbN.
   have p_gt2: p > 2 by rewrite ltn_neqAle; case: eqP p_odd => // <-.
   have p1_ltp: p.+1./2 < p.
     by rewrite -divn2 ltn_divLR // muln2 -addnn -addn2 leq_add2l.
@@ -777,7 +777,7 @@ have [cRR | not_cRR] := boolP (abelian R).
   pose rAR := reprGLm (abelem_repr abelR ntR nRA).
   have:= cardSg (subsetT (rAR @* A)); rewrite card_GL ?card_Fp //.
   rewrite card_injm ?ker_reprGLm ?rker_abelem ?prime_TIg ?oA // unlock.
-  rewrite Gauss_dvdr; last by rewrite coprime_expr ?prime_coprime ?dvdn_prime2.
+  rewrite Gauss_dvdr; last by rewrite coprimeXr ?prime_coprime ?dvdn_prime2.
   move: rR; rewrite -ltnS -[_ < _](mem_iota 0) !inE eqn0Ngt rank_gt0 ntR.
   rewrite (dim_abelemE abelR ntR) (rank_abelem abelR).
   do [case/pred2P=> ->; rewrite /= muln1] => [-> // | ].

@@ -109,7 +109,7 @@ have nsG'p'G: 'O_p^'(G') <| G := gFnormal_trans _ nsG'G.
 have nG'p'G := normal_norm nsG'p'G; have solG' := nilpotent_sol nilG'.
 have{nilG'} pGb: p.-group (G / 'O_p^'(G')).
   rewrite /pgroup card_quotient -?(Lagrange_index sG'G (pcore_sub _ _)) //=.
-  rewrite pnat_mul // -card_quotient // pnat_id //= -pnatNK.
+  rewrite pnatM // -card_quotient // pnat_id //= -pnatNK.
   by case/and3P: (nilpotent_pcore_Hall p^' nilG').
 have{pGb} cycGb: cyclic (G / 'O_p^'(G')).
   apply: (cyclic_nilpotent_quo_der1_cyclic (pgroup_nil pGb)).

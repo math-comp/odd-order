@@ -542,7 +542,7 @@ suffices{De} [t Dtheta]: exists i, 'Res[H, T] 'chi_i = theta.
 have ITtheta: T \subset 'I[theta] := subsetIr _ _.
 have solT: solvable (T / H) := abelian_sol abTbar.
 have [|t []] := extend_solvable_coprime_irr nsHT solT ITtheta; last by exists t.
-rewrite coprime_sym coprime_mull !(coprime_dvdl _ hallH) ?cfDet_order_dvdG //.
+rewrite coprime_sym coprimeMl !(coprime_dvdl _ hallH) ?cfDet_order_dvdG //.
 by rewrite -dvdC_nat !CdivE truncCK ?Cnat_irr1 // dvd_irr1_cardG.
 Qed.
   
@@ -609,7 +609,7 @@ have [k co_k_a Dmu]: {k | coprime k a & mu (QaC w_a) = QaC (w_a ^+ k)}.
   have prCw: a.-primitive_root (QaC w_a) by rewrite fmorph_primitive_root.
   by have [k coka ->] := aut_prim_rootP mu prCw; rewrite -rmorphX; exists k.
 pose k1 := chinese a b k 1; have /Qn_aut_exists[nu Dnu]: coprime k1 (a * b).
-  rewrite coprime_mulr -!(coprime_modl k1) chinese_modl ?chinese_modr //.
+  rewrite coprimeMr -!(coprime_modl k1) chinese_modl ?chinese_modr //.
   by rewrite !coprime_modl co_k_a coprime1n.
 exists nu => [x | y].
   have /Fadjoin_polyP[p Qp ->]: x \in <<1; w_a>>%VS by rewrite genQa memvf.

@@ -827,7 +827,7 @@ split.
 - have hallMs := pHall_subl (subxx _) (subsetT _) (Msigma_Hall_G maxM).
   move=> x y Ms_x Ms_y /=/imsetP[a _ def_y]; rewrite def_y in Ms_y *.
   have [b /setIP[Mb _ ->]] := sigma_Hall_tame maxM hallMs Ms_x Ms_y.
-  exact: mem_imset.
+  exact: imset_f.
 - move=> g notMg; split.
     apply/eqP; rewrite eqEsubset andbC setIS ?conjSg ?pcore_sub //=.
     rewrite subsetI subsetIl -MsigmaJ.
@@ -843,7 +843,7 @@ split.
   suffices defCx: 'R[x] ><| 'C_M[x] = 'C[x].
     split=> //; first by rewrite -(sdprod_Hall defCx).
     rewrite defSM //; split; last by rewrite (card_imset _ val_inj).
-    apply/imsetP; exists (gval M); first exact: mem_imset.
+    apply/imsetP; exists (gval M); first exact: imset_f.
     by rewrite -(atransP trR _ SMxM) -imset_comp.
   have [| SMgt1] := leqP #|'M_\sigma[x]| 1.
     rewrite leq_eqVlt {2}(cardD1 M) SMxM orbF => eqSMxM.
@@ -881,7 +881,7 @@ move=> P2maxN; have [PmaxN _] := setDP P2maxN; have [_ notFmaxN] := setDP PmaxN.
 have [FmaxM _ [E _]] := nonFtype_signalizer_base maxM Ms1x not_sCM notFmaxN.
 case=> cycE frobM; split=> //; first by exists E.
 move: SMgt1; rewrite (cardsD1 M) SMxM ltnS lt0n => /pred0Pn[My /setD1P[neqMyM]].
-move/(mem_imset val); rewrite -defSM //= => /setIdP[/imsetP[y _ defMy] My_x].
+move/(imset_f val); rewrite -defSM //= => /setIdP[/imsetP[y _ defMy] My_x].
 rewrite (Fcore_eq_Msigma maxM (notP1type_Msigma_nil _)) ?FmaxM //.
 apply/normedTI_P=> [[_ _ /(_ y (in_setT y))/contraR/implyP/idPn[]]].
 rewrite -{1}(norm_mmax maxM) (sameP normP eqP) -defMy neqMyM.
@@ -945,7 +945,7 @@ have notUPGZ: Z \notin [set cover PG].
 rewrite /partition /trivIset /(cover _) !big_setU1 // !big_set1 /= -defG1.
 rewrite eqxx tiZPG !inE negb_or nzZ /= eq_sym; apply: contraNneq nzPG => PG0.
 apply/imsetP; exists M => //; apply/eqP; rewrite eq_sym -subset0 -PG0.
-by rewrite (bigcup_max (class_support M^~~ G)) //; apply: mem_imset.
+by rewrite (bigcup_max (class_support M^~~ G)) //; apply: imset_f.
 Qed.
 
 Let typePfacts M (H := M`_\F) U W1 W2 W (defW : W1 \x W2 = W) :
@@ -1307,7 +1307,7 @@ split=> // [x A0x a A0xa|x Dx].
   have [A1x | notA1x] := boolP (x \in 'A1(M)); last first.
     by exists a; rewrite // (tiA0 x) // inE notA1x.
   case/setD1P: A1x => _; rewrite def_FTcore // => Ms_x.
-  apply/imsetP; rewrite tameMs ?mem_imset ?inE //.
+  apply/imsetP; rewrite tameMs ?imset_f ?inE //.
   rewrite (mem_Hall_pcore (Msigma_Hall maxM)) ?(subsetP sA0M) //.
   by rewrite p_eltJ (mem_p_elt (pcore_pgroup _ _) Ms_x).
 have [Ms1x [_ not_sCxM]] := (subsetP sDMs1 x Dx, setIdP Dx).

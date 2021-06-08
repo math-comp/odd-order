@@ -341,7 +341,7 @@ have /subsetIP[sRH cUR]: R \subset 'C_H(U).
   apply/setIidPl/eqP; rewrite eqEcard subsetIl /= (card_Hall hallR) {}oH.
   rewrite (card_Hall (setI_normal_Hall _ hallR _)) ?subsetIl ?gFnormal //.
   rewrite partnM ?expn_gt0 ?cardG_gt0 //= part_p'nat ?mul1n ?pnatNK //.
-  by rewrite pnat_exp ?pnat_id.
+  by rewrite pnatX ?pnat_id.
 suffices: ~~ (R^`(1)%g \proper R) by apply: contraNeq (sol_der1_proper solH _).
 have /setIidPr {2}<-: R \subset HU^`(1)%g.
   by rewrite [HU^`(1)%g]defM'' -(dprodWY defHC) sub_gen ?subsetU ?sRH.
