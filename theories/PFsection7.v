@@ -1,5 +1,6 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
+From HB Require Import structures.
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
 Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
@@ -78,8 +79,10 @@ move=> mu alpha beta; apply/cfunP=> a; rewrite !cfunElock.
 rewrite mulrnAr -mulrnDl mulrCA -mulrDr; congr (_ * _ *+ _).
 by rewrite big_distrr -big_split; apply: eq_bigr => x _; rewrite !cfunE.
 Qed.
-Canonical invDade_linear := Linear invDade_is_linear.
-Canonical invDade_additive := Additive invDade_is_linear.
+HB.instance Definition _ :=
+  GRing.isLinear.Build [ringType of algC]
+    [lmodType _ of classfun G] [zmodType of classfun L] _ invDade
+    invDade_is_linear.
 
 Lemma invDade_on chi : chi^\rho \in 'CF(L, A).
 Proof. by apply/cfun_onP=> x notAx; rewrite cfunElock (negPf notAx). Qed.
@@ -326,7 +329,7 @@ transitivity (\sum_(x in A) \sum_(xi <- S) \sum_(mu <- S) F xi mu x).
   apply: eq_bigr => x Ax; rewrite part_a // sum_cfunE -mulrA mulr_suml.
   apply: eq_bigr => xi _; rewrite mulrA -mulr_suml rmorph_sum; congr (_ * _).
   rewrite mulr_sumr; apply: eq_bigr => mu _; rewrite !cfunE (cfdotC mu).
-  rewrite -{1}[mu x]conjCK -fmorph_div -rmorphM conjCK -3!mulrA 2!(mulrCA _^-1).
+  rewrite -{1}[mu x]conjCK -fmorph_div -rmorphM/= conjCK -3!mulrA 2!(mulrCA _^-1).
   by rewrite (mulrA _^-1) -invfM 2!(mulrCA (xi x)) mulrA 2!(mulrA _^*).
 rewrite exchange_big; apply: eq_bigr => xi _; rewrite exchange_big /=.
 apply: eq_big_seq => mu Smu; have Tmu := sST mu Smu.
@@ -468,7 +471,7 @@ split=> // [ | chi /irrP[t def_chi] o_chiSnu].
     have [nz_xi Nxi1] := (cfnorm_seqInd_neq0 nsHL Sxi, Cnat_seqInd1 Sxi).
     rewrite (normr_idP _) ?mulr_ge0 ?invr_ge0 ?ler0n ?cfnorm_ge0 ?Cnat_ge0 //.
     by rewrite mulrCA !exprMn ['[xi]]lock !mulrA divfK // -lock.
-  apply/andP; rewrite -subr_ge0 addrK andbC -subr_ge0 addrC opprB subrK.
+  apply/andP; rewrite -(subr_ge0 w) addrK andbC -subr_ge0 addrC opprB subrK.
   rewrite pmulr_rge0 ?gt0CG // andbb -mulr_natr (mulrAC v).
   have v_ge0: 0 <= v by [rewrite invr_ge0 ler0n]; have L_gt0 := gt0CG L.
   have Lu: #|L|%:R * u = h - 1 by rewrite -eh -mulrA hu mulVKf.
@@ -737,7 +740,8 @@ case/(_ lt_e_h2)=> min_rho1 maxGamma _ {lt_e_h2}.
 pose calB := [set i | (i != i1) && (c i i1 == 0)].
 pose sumB := \sum_(i in calB) (h_ i - 1) / (e_ i * h_ i).
 suffices{min_rho1} sumB_max: sumB <= (e - 1) / (h + 2%:R).
-  rewrite -subr_ge0 opprB addrCA -opprB subr_ge0; apply: le_trans sumB_max.
+  rewrite -subr_ge0 opprB addrCA -[_ / _ - _]opprB subr_ge0.
+  apply: le_trans sumB_max.
   rewrite -subr_ge0 opprB addrCA -(opprB _ sumB) subr_ge0.
   have Zchi1: chi i1 \in 'Z[irr G] by rewrite Znu ?seqInd_zcharW ?Sr.
   have [eps [t def_chi1]] := vchar_norm1P Zchi1 (n1Snu i1 'chi_(r i1) (Sr i1)).

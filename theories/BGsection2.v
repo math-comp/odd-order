@@ -1137,7 +1137,7 @@ have rq1: r ^+ q = 1 by apply/eqP; rewrite inE in rs_r.
 split.
   have Ur: r \in GRing.unit.
     by rewrite -(unitrX_pos _ (prime_gt0 q_pr)) rq1 unitr1.
-  pose u_r : {unit 'F_p} := Sub r Ur; have:= order_dvdG (in_setT u_r).
+  pose u_r : {unit 'F_p} := sub r Ur; have:= order_dvdG (in_setT u_r).
   rewrite card_units_Zp ?pdiv_gt0 // {2}/pdiv primes_prime //=.
   rewrite (@totient_pfactor p 1) // muln1; apply: dvdn_trans.
   have: (u_r ^+ q == 1)%g.

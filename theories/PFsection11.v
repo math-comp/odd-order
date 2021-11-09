@@ -816,7 +816,7 @@ pose beta := beta_ 0 j1.
 have betaE i j: j != 0 -> beta_ i j = beta.
   move=> nz_j; transitivity (beta_ i j1); congr (_ + _); apply/eqP.
     rewrite eq_sym -subr_eq0 [rhs in _ + rhs]opprD addrACA -opprD subr_eq0.
-    rewrite -linearB /= !opprB !addrA !subrK -!/(mu2_ i _).
+    rewrite -[in X in X == _]linearB /= !opprB !addrA !subrK -!/(mu2_ i _).
     by rewrite [Dade pddM _]prDade_sub_TIirr ?mu2_1 //= deltaZ.
   rewrite -subr_eq0 !opprD addrACA -3!opprD opprK subr_eq0 addrACA addrA.
   rewrite -(prDade_sub2_TIirr pddM) -!/(mu2_ _ _) !deltaZ -linearB /=.
@@ -824,7 +824,7 @@ have betaE i j: j != 0 -> beta_ i j = beta.
 pose j := j1. (* The remainder of the proof only uses j = 1. *)
 (* This is the second part of (11.8.3). *)
 have Rbeta: cfReal beta.
-  rewrite /cfReal eq_sym -subr_eq0 rmorphD !rmorphB /= opprB 2!opprD opprB -/j.
+  rewrite /cfReal eq_sym -subr_eq0 rmorphD/= !rmorphB/= opprB 2!opprD opprB -/j.
   rewrite 2![(eta_ 0 _)^*%CF]cfAut_cycTIiso -!cycTIirr_aut !aut_Iirr0 -Dade_aut.
   set k := aut_Iirr conjC j; rewrite -(betaE 0 k) ?aut_Iirr_eq0 // addrACA.
   rewrite addrC addr_eq0 addrCA subrK opprD opprK Dn raddfZnat -!raddfB /= -Dn.
@@ -857,7 +857,7 @@ have tau_alpha i: tau (alpha_ i j) = eta_ i j - eta_ i 0 - n *: zeta1.
     rewrite cfdotC Dade_isometry ?A0bridge0 //.
     rewrite cfdotBr !cfdotBl deltaZ !cfdotZl n1S1 // mulr1.
     rewrite !cfdot_prTIirr_red (negPf nz_j1) eqxx !omu2S1 //= cfdotC omuS1 //.
-    by rewrite conjC0 mulr0 opprB !subr0 add0r rmorphD rmorphN Dn !rmorph_nat.
+    by rewrite conjC0 mulr0 opprB !subr0 add0r rmorphD/= rmorphN Dn !rmorph_nat.
   have{psi_phi} col0_beta: '[eta_col 0, beta] = a. (* Also part of (11.8.5). *)
     apply/(addIr (-1 + n))/(canRL (addNKr _)).
     rewrite addrCA addrA addrACA -{}psi_phi Dpsi cfdotBl; congr (_ + _).
@@ -893,7 +893,7 @@ have tau_alpha i: tau (alpha_ i j) = eta_ i j - eta_ i 0 - n *: zeta1.
     rewrite defY cfnormD cfnormN !cfnormZ cfdotNr cfdotZr.
     rewrite cfnorm_map_orthonormal // -Dn Itau1 ?mem_zchar ?n1S1 // mulr1.
     rewrite scaler_sumr cfproj_sum_orthonormal // rmorphN addrAC.
-    rewrite Dn rmorphM !Cint_normK ?rpred_nat // !rmorph_nat conj_Cint // -Dn.
+    rewrite Dn rmorphM/= !Cint_normK ?rpred_nat // !rmorph_nat conj_Cint // -Dn.
     by rewrite -mulr2n mulrC mulrA -mulr_natr mulNr -mulrBr.
   have{a_even} Da: (a == 0) || (a == 2%:R). (* Second part of (11.8.2). *)
     suffices (b := a - 1): b ^+ 2 == 1.
@@ -901,7 +901,7 @@ have tau_alpha i: tau (alpha_ i j) = eta_ i j - eta_ i 0 - n *: zeta1.
     have S1gt0: (0 < size S1)%N by case: (S1) S1zeta.
     have: n * b ^+ 2 <= n *+ 3.
       have: 2%:R + n <= n *+ 3 by rewrite addrC ler_add2l ler_muln2r Dn ler1n.
-      apply: le_trans; rewrite sqrrB1 -mulr_natr -mulrBr mulrDr mulrA mulr1.
+      apply: le_trans; rewrite sqrrB1 -(mulr_natr a) -mulrBr mulrDr mulrA mulr1.
       rewrite ler_add2r -(ler_add2r (n ^+ 2 + '[X])) !addrA -nY -cfnormDd //.
       by rewrite -Dphi norm_FTtype345_bridge ?S1_1 // ler_addl cfnorm_ge0.
     have Zb: b \in Cint by rewrite rpredB ?rpred1 ?Za.
@@ -941,7 +941,7 @@ have tau_theta: tau theta = eta_col j - d%:R *: zeta1.
   have Dpsi1 i: tau (alpha_ i j) = psi1 i by apply: tau_alpha.
   rewrite Dtheta [tau _]raddfD raddf_sum (eq_bigr psi1) //= {Dpsi1}/psi1 -/psi.
   rewrite Dpsi !sumrB  [X in X = _]addrC -!addrA; congr (_ + _).
-  rewrite -opprB -opprD -opprB -/(eta_col 0) addrA addrK; congr (- _).
+  rewrite -opprB -opprD -[LHS]opprB -/(eta_col 0) addrA addrK; congr (- _).
   rewrite sumr_const nirrW1 -scaler_nat scalerA mulrC.
   by rewrite divfK ?neq0CG // delta1 scalerBl scale1r subrK.
 have [tau2 coh_tau2] := cohS2.

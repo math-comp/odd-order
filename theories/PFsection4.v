@@ -549,7 +549,7 @@ Lemma prTIirr0_1 i : mu2_ i 0 1%g = 1.
 Proof. by rewrite prTIirr_1 prTIirr00 cfun11. Qed.
 
 Lemma prTIirr0_linear i : mu2_ i 0 \is a linear_char.
-Proof. by rewrite qualifE irr_char /= prTIirr0_1. Qed.
+Proof. by rewrite qualifE/= irr_char /= prTIirr0_1. Qed.
 
 Lemma prTIred_1 j : mu_ j 1%g = w1%:R * mu2_ 0 j 1%g.
 Proof.
@@ -876,7 +876,7 @@ Proof.
 move=> nz_j nz_k eq_mu2jk_1.
 have [-> | k'j] := eqVneq j k; first by rewrite !subrr !raddf0.
 have [[Itau Ztau] [_ Zsigma]] := (Dade_Zisometry ddA0, cycTI_Zisometry ctiWL).
-set dmu2 := _ - _; set dsw := _ - _; have Dmu2 := prTIirr_id ptiWL.
+set dmu2 := mu2_ i j - _; set dsw := _ - _; have Dmu2 := prTIirr_id ptiWL.
 have Zmu2: dmu2 \in 'Z[irr L, A0].
   by rewrite zchar_split rpredB ?irr_vchar ?prDade_sub_TIirr_on.
 apply: eq_signed_sub_cTIiso => // [||x Vx].
@@ -922,7 +922,7 @@ have real'T: ~~ has cfReal calT.
   by apply/hasPn=> _ /imageP[j /andP[nzj _] ->]; apply: prTIred_not_real.
 have ccT: cfConjC_closed calT.
   move=> _ /imageP[j Tj ->]; rewrite -prTIred_aut image_f // inE aut_Iirr_eq0.
-  by rewrite prTIred_aut cfunE conj_Cnat ?Cnat_char1 ?prTIred_char.
+  by rewrite prTIred_aut cfunE/= conj_Cnat ?Cnat_char1 ?prTIred_char.
 have TonA: 'Z[calT, L^#] =i 'Z[calT, A].
   have A'1: 1%g \notin A by apply: contra (subsetP sAA0 _) _; have [] := ddA0.
   move=> psi; rewrite zcharD1E -(setU1K A'1) zcharD1; congr (_ && _).

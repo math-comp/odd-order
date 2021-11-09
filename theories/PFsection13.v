@@ -449,7 +449,7 @@ Qed.
 (* longer needed. Note that this lemma is only used to establish various      *)
 (* inequalities (13.6-8) that contribute to (13.10), so it does not need to   *)
 (* be exported from this section.                                             *)
-Let calS1_split1 (tau1 : {additive _}) zeta1 chi :
+Let calS1_split1 (tau1 : {additive _ -> _}) zeta1 chi :
    coherent_with calS S^# tau tau1 -> zeta1 \in calS1 -> chi \in 'Z[irr G] ->
    {in calS1, forall zeta, zeta != zeta1 -> '[tau1 zeta, chi] = 0} -> 
   let a := '[tau1 zeta1, chi] in
@@ -560,7 +560,7 @@ exists alpha => //; split=> //.
     by rewrite -[a1 * _]mulrA -(mulrA a); congr (_ * _); rewrite -mulrA mulrC.
   rewrite mulrBr; congr (_ - _); last first.
     by rewrite mulrACA -expr2 -!exprMn mulrAC.
-  rewrite -mulrA exprMn -mulrA; congr (_ * _); rewrite expr2 -mulrA.
+  rewrite -(mulrA (_^+_)) exprMn -mulrA; congr (_ * _); rewrite expr2 -mulrA.
   congr (_ * _); apply: canLR (mulKf (cfnorm_seqInd_neq0 nsHS S1zeta1)) _.
   rewrite (cfnormE (cfun_onG _)) mulVKf ?neq0CG // mulrC.
   rewrite (cfnormE (seqInd_on nsHS S1zeta1)) mulVKf ?neq0CG //.
@@ -579,7 +579,7 @@ Qed.
 Local Notation eta10 := (eta_ #1 0).
 Local Notation eta01 := (eta_ 0 #1).
 
-Let o_tau1_eta (tau1 : {additive _}) i j:
+Let o_tau1_eta (tau1 : {additive _ -> _}) i j:
     coherent_with calS S^# tau tau1 -> 
   {in 'Z[calSirr], forall zeta, '[tau1 zeta, eta_ i j] = 0}.
 Proof.
@@ -600,7 +600,7 @@ by rewrite leq_div2l // -subn1 ltn_subRL.
 Qed.
 
 (* This is Peterfalvi (13.6). *)
-Lemma FTtypeP_sum_Ind_Fitting_lb (tau1 : {additive _}) lambda :
+Lemma FTtypeP_sum_Ind_Fitting_lb (tau1 : {additive _ -> _}) lambda :
     coherent_with calS S^# tau tau1 -> lambda \in irrIndH -> lambda \in calS ->
   \sum_(x in H^#) `|tau1 lambda x| ^+ 2 >= #|S|%:R - lambda 1%g ^+ 2.
 Proof.
@@ -778,7 +778,7 @@ have{Dtau1_mu} [j nz_j tau1muj]: exists2 j, j != 0 & tau1 (mu_ j) = sum_eta1.
   by exists j; rewrite // Dtau1_mu // signW2K.
 move=> x; rewrite !inE => /norP[H'x _].
 have{tau1muj} ->: tau1 lambda x = sum_eta1 x.
-  rewrite -[lambda](subrK (mu_ j)) raddfD cfunE tau1muj.
+  rewrite -[lambda](subrK (mu_ j)) raddfD cfunE /= tau1muj.
   rewrite [tau1 _ x](cfun_on0 _ H'x) ?add0r {x H'x}//=.
   have Hmuj: mu_ j \in calH := Hmu nz_j.
   have dmu1: (lambda - mu_ j) 1%g == 0 by rewrite !cfunE !calHuq ?subrr.
@@ -1196,15 +1196,15 @@ Proof.
 pose mkrat b d := fracq (b, d%:Z).
 pose test r b d := 1 - mkrat 1 r.-1 - mkrat 1 (r ^ 2)%N > mkrat b%:Z d.
 have lb_m r b d: test r.+2 b d -> (q >= r.+2)%N -> m > b%:R / d%:R.
-  rewrite /test /mkrat !fracqE !CratrE /= => ub_bd le_r_q.
+  rewrite /test /mkrat !fracqE !CratrE/= => ub_bd le_r_q.
   apply: lt_le_trans ub_bd _; rewrite ler_paddr ?invr_ge0 ?ler0n //.
   rewrite -!addrA ler_add2l -!opprD ler_opp2 ler_add //.
-    rewrite mul1r lef_pinv ?qualifE ?ltr0n //; last by rewrite -(subnKC qgt2).
+    rewrite mul1r lef_pinv ?qualifE/= ?ltr0n //; last by rewrite -(subnKC qgt2).
     by rewrite leC_nat -ltnS (ltn_predK qgt2).
   rewrite -(ltn_predK pgt2) expnSr natrM invfM mulrA.
   rewrite ler_pdivr_mulr ?gt0CG // mulrAC mul1r -subn1.
   rewrite ler_pmul ?invr_ge0 ?ler0n ?leC_nat ?leq_subr //.
-  rewrite lef_pinv ?qualifE ?ltr0n ?leC_nat ?expn_gt0 ?(prime_gt0 pr_q) //.
+  rewrite lef_pinv ?qualifE/= ?ltr0n ?leC_nat ?expn_gt0 ?(prime_gt0 pr_q) //.
   apply: leq_trans (_ : q ^ 2 <= _)%N; first by rewrite leq_exp2r.
   by rewrite -(subnKC qgt2) leq_pexp2l // -subn1 ltn_subRL.
 split=> [||q3]; try by apply: lb_m; compute.
@@ -1217,7 +1217,7 @@ split; last apply: le_lt_trans gen_lb_uc.
   apply: lt_le_trans (_ : (1 - d 5%N) / 2%:R <= _).
     by rewrite /d -!CratrE; compute.
   rewrite Dm ler_pmul2r ?invr_gt0 ?ltr0n // ler_add2l ler_opp2.
-  rewrite lef_pinv ?qualifE ?ltr0n ?expn_gt0 // leC_nat leq_pexp2l //=.
+  rewrite lef_pinv ?qualifE/= ?ltr0n ?expn_gt0 // leC_nat leq_pexp2l //=.
   by rewrite -subn1 ltn_subRL odd_geq ?mFT_odd //= ltn_neqAle pgt2 andbT -q3.
 rewrite -mulrA mulrCA Dm -mulrA -invfM -natrM mulrA q3 mulrBr mulr1.
 rewrite ler_pmul2r ?invr_gt0 ?ltr0n //= -subn1 natrB ?expn_gt0 ?prime_gt0 //.
@@ -1228,9 +1228,9 @@ rewrite ler_pdivr_mulr ?ltr0n ?expn_gt0 // mulrAC (expnS 3) (natrM _ 3).
 rewrite mulrA mulfK ?gt_eqF ?ltr0n ?expn_gt0 //.
 rewrite -ler_pdivr_mull ?ltr0n // !natrX -exprVn -exprMn.
 rewrite mulrS mulrDr mulr1 mulVf ?pnatr_eq0 //.
-apply: le_trans (_ : (3%:R^-1 + 1) ^+ 2 <= _); last by rewrite -!CratrE.
+apply: le_trans (_ : (3%:R^-1 + 1) ^+ 2 <= _); last by rewrite -!CratrE; reflexivity.
 rewrite ler_sqr ?rpredD ?rpred1 ?rpredV ?rpred_nat // ler_add2r.
-by rewrite lef_pinv ?qualifE ?ltr0n ?leC_nat.
+by rewrite lef_pinv ?qualifE/= ?ltr0n ?leC_nat.
 Qed.
 
 (* This corollary of (13.11) is used in both (13.12) and (13.15). *)
@@ -1258,7 +1258,7 @@ have ub5_m: ~~ (7%:R / 10%:R < m).
     rewrite ler_pdivr_mulr ?ler_pdivl_mull ?ltr0n // -natrM mul2n leC_nat.
     by rewrite ltnW.
   rewrite -(subnKC pge5) [_%:R]mulrSr mulrDl divff ?pnatr_eq0 // ler_add2l.
-  by rewrite mul1r lef_pinv ?qualifE ?ltr0n // leC_nat.
+  by rewrite mul1r lef_pinv ?qualifE/= ?ltr0n // leC_nat.
 split=> //; apply: contraNeq ub5_m.
 by rewrite neq_ltn ltnNge qgt2 -(odd_geq 5) ?mFT_odd.
 Qed.
@@ -1293,7 +1293,7 @@ have [q3 pge5]: q = 3%N /\ (p >= 5)%N.
   rewrite !invfM !mulrA -(subnKC pgt2) ler_pmul2r ?invr_gt0 ?ltr0n //.
   rewrite ler_pdivr_mulr ?ltr0n ?expn_gt0 // mulrAC -natrM -expnS.
   rewrite prednK ?cardG_gt0 // ler_pmul ?invr_ge0 ?ler0n ?leC_nat ?leq_pred //.
-  rewrite lef_pinv ?qualifE ?gt0CG ?ltr0n // leC_nat.
+  rewrite lef_pinv ?qualifE/= ?gt0CG ?ltr0n // leC_nat.
   by rewrite -(subnKC c_gt1) ltnS dvdn_leq //= -subSn ?subn2.
 have [_ _ [//|lb_m lb_uc]] := lb_m_cases.
 pose sum3 r : algC := (r.+1 ^ 2)%:R^-1 + r.+1%:R^-1 + 1.
@@ -1303,12 +1303,12 @@ have ub3_m r a: (r < p)%N -> (a <= b)%N -> m < 3%:R / (a * 6).+1%:R * sum3 r.
   move=> lb_p lb_b; apply: lt_le_trans ub_m _.
   rewrite !natrM !invfM mulrACA -!mulrA q3 ler_pmul2l ?ltr0n //.
   rewrite -(ltn_predK c_gt1) Dc1 ler_pmul ?mulr_ge0 ?invr_ge0 ?ler0n //.
-    by rewrite lef_pinv ?qualifE ?ltr0n // leC_nat ltnS leq_mul.
+    by rewrite lef_pinv ?qualifE/= ?ltr0n // leC_nat ltnS leq_mul.
   rewrite predn_exp mulnC natrM 2!big_ord_recl big_ord1 /= /bump /= expn1.
   rewrite -(subnKC (ltnW pgt2)) add2n in lb_p *.
   rewrite mulfK ?pnatr_eq0 // addnA 2!natrD 2!mulrDr mulr1 {-1}natrM invfM.
   rewrite mulrA divfK ?mulVf ?pnatr_eq0 // ler_add2r.
-  by rewrite ler_add ?lef_pinv ?qualifE ?ltr0n ?leC_nat ?leq_sqr.
+  by rewrite ler_add ?lef_pinv ?qualifE/= ?ltr0n ?leC_nat ?leq_sqr.
 have beq1: b = 1%N.
   apply: contraTeq lb_m; rewrite neq_ltn ltnNge b_gt0 => /(ub3_m 4%N) ub41.
   by rewrite lt_gtF // (lt_trans (ub41 _)) // /sum3 -!CratrE; compute.
@@ -1916,7 +1916,7 @@ have defGamma j: j != 0 -> tau (beta_ j) - 1 + eta_ 0 j = Gamma.
     by apply: (mulfI (neq0CG W1)); rewrite -!prTIred_1 !FTprTIred1.
   by rewrite -/sigma FTprTIsign // scale1r -addrA addNr.
 have GammaReal: cfReal Gamma.
-  rewrite /cfReal rmorphD rmorphB rmorph1 /= Deta01s Dtau ?A0beta // cfAutInd.
+  rewrite /cfReal rmorphD/= rmorphB rmorph1 /= Deta01s Dtau ?A0beta // cfAutInd.
   rewrite rmorphB /= cfAutInd rmorph1 -prTIirr_aut aut_Iirr0 -/(beta_ _).
   by rewrite -Dtau ?A0beta ?defGamma ?aut_Iirr_eq0.
 split=> // X Y defXY oXY oYeta; pose a := '[Gamma, eta01].

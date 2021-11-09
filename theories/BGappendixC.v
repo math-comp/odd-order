@@ -52,7 +52,7 @@ Hypothesis ltqp : (q < p)%N.
 (* From the fieldH assumption. *)
 Variables (fT : finFieldType) (charFp : p \in [char fT]).
 Local Notation F := (PrimeCharType charFp).
-Local Notation galF := [splittingFieldType 'F_p of F].
+Local Notation galF := [the splittingFieldType 'F_p of F].
 Let Fpq : {vspace F} := fullv.
 Let Fp : {vspace F} := 1%VS.
 
@@ -255,7 +255,8 @@ have galPoly_roots: all (root (Pa - 1)) (enum Fp).
   apply/allP=> x; rewrite mem_enum => /vlineP[b ->].
   rewrite rootE !hornerE horner_prod subr_eq0 /=; apply/eqP.
   pose h k := (1 - a) *+ k + 1; transitivity (Nm (h b)).
-    apply: eq_bigr => beta _; rewrite !(rmorphB, rmorphD, rmorphMn) rmorph1 /=.
+    apply: eq_bigr => beta _.
+    rewrite rmorphB rmorphD rmorphMn/= rmorphB /= rmorph1 /=.
     by rewrite -mulr_natr -scaler_nat natr_Zp hornerD hornerZ hornerX hornerC.
   elim: (b : nat) => [|k IHk]; first by rewrite /h add0r galNorm1.
   suffices{IHk}: h k / h k.+1 \in E.
@@ -267,7 +268,7 @@ have galPoly_roots: all (root (Pa - 1)) (enum Fp).
     by rewrite inE galNorm0 eq_sym oner_eq0.
   congr (_ \in E): (Etau _ IHk); apply: canLR (@invrK _) _; rewrite invfM invrK.
   apply: canRL (mulKf nz_hk1) _; rewrite mulrC mulrBl divfK // mulrDl mul1r.
-  by rewrite {2}/h mulrS -2!addrA addrK addrAC -mulrSr.
+  by rewrite {2}/h mulrS -(addrA (1 -a)) (addrA _ (1 -a)) addrK addrAC -mulrSr.
 have sizePa: size Pa = q.+1.
   have sizePaX (beta : {rmorphism F -> F}) : size (beta (1 - a) *: 'X + 1) = 2%N.
     rewrite -mul_polyC size_MXaddC oner_eq0 andbF size_polyC fmorph_eq0.
@@ -364,7 +365,7 @@ have [q_gt4 | q_le4] := ltnP 4 q.
     apply: le_trans (ub_linH' 1%N isT); apply: ler_sum => i linH'i.
     rewrite ler_pdivr_mulr // degU ?divfK ?neq0CG //.
     rewrite normrM -normrX norm_conjC ler_wpmul2l ?normr_ge0 //.
-    rewrite -ler_sqr ?qualifE ?normr_ge0 ?(ltW (x := 0)) // ?sqrtCK.
+    rewrite -ler_sqr ?qualifE /= ?normr_ge0 ?(ltW (x := 0)) // ?sqrtCK.
     apply: le_trans (ub_linH' 2%N isT); rewrite (bigD1 i) ?ler_paddr //=.
     by apply: sumr_ge0 => i1 _; rewrite exprn_ge0 ?normr_ge0.
   rewrite natrM real_ler_distl ?rpredB ?rpredM ?rpred_nat // => /andP[lb_Pe _].
@@ -385,7 +386,7 @@ have [q_gt4 | q_le4] := ltnP 4 q.
 have q3: q = 3%N by apply/eqP; rewrite eqn_leq qgt2 andbT -ltnS -(odd_ltn 5).
 rewrite (cardsD1 1) E_1 ltnS card_gt0; apply/set0Pn => /=.
 pose f (c : 'F_p) : {poly 'F_p} := 'X * ('X - 2%:R%:P) * ('X - c%:P) + ('X - 1).
-have fc0 c: (f c).[0] = -1 by rewrite !hornerE.
+have fc0 c: (f c).[0] = -1 by rewrite !hornerE /= !hornerE.
 have fc2 c: (f c).[2%:R] = 1 by rewrite !(subrr, hornerE) /= addrK.
 have /existsP[c nz_fc]: [exists c, ~~ [exists d, root (f c) d]].
   have nz_f_0 c: ~~ root (f c) 0 by rewrite /root fc0 oppr_eq0.
