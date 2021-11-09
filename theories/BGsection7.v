@@ -1,8 +1,9 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
+From HB Require Import structures.
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq div fintype bigop.
+Require Import ssrbool ssrfun eqtype ssrnat seq div choice fintype bigop.
 From mathcomp
 Require Import finset prime fingroup morphism automorphism action quotient.
 From mathcomp
@@ -59,21 +60,21 @@ Reserved Notation "|/|* ( A ; pi )"
   (at level 8, format "|/|* ( A ;  pi )").
 
 (* The generic setup for the whole Odd Order Theorem proof. *)
+
+HB.mixin Record IsMinSimpleOddGroup gT of FinGroup gT := {
+  mFT_odd_full : odd #|[set: gT]|;
+  mFT_simple : simple [set: gT];
+  mFT_nonSolvable : ~~ solvable [set: gT];
+  mFT_min : forall M : {group gT}, M \proper [set: gT] -> solvable M
+}.
+
+#[short(type="minSimpleOddGroupType")]
+HB.structure
+Definition minSimpleOddGroup := { G of IsMinSimpleOddGroup G & FinGroup G }.
+
 Section InitialReduction.
 
 Implicit Type gT : finGroupType.
-
-Record minSimpleOddGroupMixin gT : Prop := MinSimpleOddGroupMixin {
-  _ : odd #|[set: gT]|;
-  _ : simple [set: gT];
-  _ : ~~ solvable [set: gT];
-  _ : forall M : {group gT}, M \proper [set: gT] -> solvable M
-}.
-
-Structure minSimpleOddGroupType := MinSimpleOddGroupType {
-  minSimpleOddGroupType_base :> finGroupType;
-  _ : minSimpleOddGroupMixin minSimpleOddGroupType_base
-}.
 
 Hypothesis IH_FT : minSimpleOddGroupType -> False.
 
@@ -82,15 +83,17 @@ Proof.
 move: {2}_.+1 (ltnSn #|G|) => n.
 elim: n => // n IHn in gT G *; rewrite ltnS => leGn oddG.
 have oG: #|[subg G]| = #|G| by rewrite (card_isog (isog_subg G)).
-apply/idPn=> nsolG; case: IH_FT; exists [finGroupType of subg_of G].
-do [split; rewrite ?oG //=] => [||M].
+apply/idPn=> nsolG; apply: IH_FT.
+pose gT' := [finGroupType of subg_of G].
+apply: (HB.pack gT' (IsMinSimpleOddGroup.Build gT' _ _ _ _)) => /= ??????.
+- by rewrite oG.
 - rewrite -(isog_simple (isog_subg _)); apply/simpleP; split=> [|H nsHG].
     by apply: contra nsolG; move/eqP->; rewrite abelian_sol ?abelian1.
   have [sHG _]:= andP nsHG; apply/pred2P; apply: contraR nsolG; case/norP=> ntH.
   rewrite eqEcard sHG -ltnNge (series_sol nsHG) => ltHG.
   by rewrite !IHn ?(oddSg sHG) ?quotient_odd ?(leq_trans _ leGn) ?ltn_quotient.
 - by apply: contra nsolG => solG; rewrite -(im_sgval G) morphim_sol.
-rewrite properEcard oG; case/andP=> sMG ltMG.
+move=> M; rewrite properEcard oG; case/andP=> sMG ltMG.
 by apply: IHn (leq_trans ltMG leGn) (oddSg sMG _); rewrite oG.
 Qed.
 
@@ -101,7 +104,7 @@ Proof. by move/minSimpleOdd_ind; apply: simple_sol_prime. Qed.
 End InitialReduction.
 
 Notation TheMinSimpleOddGroup gT :=
-    [set: FinGroup.arg_sort (FinGroup.base (minSimpleOddGroupType_base gT))]
+  [set: BaseFinGroup.arg_sort gT]
   (only parsing).
 
 (* Elementary properties of the minimal counter example. *)
@@ -114,16 +117,10 @@ Local Notation sT := {set gT}.
 Implicit Type p : nat.
 
 Lemma mFT_odd H : odd #|H|.
-Proof. by apply: (oddSg (subsetT H)); case: gT => ? []. Qed.
-
-Lemma mFT_simple : simple G.
-Proof. by case: gT => ? []. Qed.
-
-Lemma mFT_nonSolvable : ~~ solvable G.
-Proof. by case: gT => ? []. Qed.
+Proof. by apply: (oddSg (subsetT H)); rewrite mFT_odd_full. Qed.
 
 Lemma mFT_sol M : M \proper G -> solvable M.
-Proof. by case: gT M => ? []. Qed.
+Proof. by move=> ?; rewrite mFT_min. Qed.
 
 Lemma mFT_nonAbelian : ~~ abelian G.
 Proof. by apply: contra mFT_nonSolvable; apply: abelian_sol. Qed.
@@ -148,7 +145,7 @@ Proof. by move/pgroup_sol; rewrite mFT_sol_proper. Qed.
 Lemma mFT_norm_proper H : H :!=: 1 -> H \proper G -> 'N(H) \proper G.
 Proof.
 move=> ntH; rewrite !properT; apply: contra; move/eqP=> nHG; apply/eqP.
-move/eqP: ntH; case/simpleP: mFT_simple => _; case/(_ H) => //=.
+move/eqP: ntH; case/simpleP : (@mFT_simple gT) => _; case/(_ H) => //=.
 by rewrite -nHG normalG.
 Qed.
 
@@ -499,7 +496,7 @@ elim: m => // m IHm in H Q1 Q2 * => geQ12m sAH prHG maxQ1 maxQ2 ntHQ1 ntHQ2.
 have:= maxQ1; rewrite inE => /maxgroupP[/andP[qQ1 nQ1A] maxQ1P].
 have:= maxQ2; rewrite inE => /maxgroupP[/andP[qQ2 nQ2A] maxQ2P].
 have prQ12: Q1 :&: Q2 \proper G.
-  rewrite properT; apply: contraNneq (mFT_nonSolvable gT) => <-.
+  rewrite properT; apply: contraNneq (@mFT_nonSolvable gT) => <-.
   by apply: pgroup_sol (pgroupS _ qQ1); rewrite subsetIl.
 wlog defH: H prHG sAH ntHQ1 ntHQ2 / Q1 :&: Q2 != 1 -> H :=: 'N(Q1 :&: Q2).
   case: (eqVneq (Q1 :&: Q2) 1) => [-> | ntQ12] IH.

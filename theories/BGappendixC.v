@@ -52,7 +52,7 @@ Hypothesis ltqp : (q < p)%N.
 (* From the fieldH assumption. *)
 Variables (fT : finFieldType) (charFp : p \in [char fT]).
 Local Notation F := (PrimeCharType charFp).
-Local Notation galF := [splittingFieldType 'F_p of F].
+Local Notation galF := [the splittingFieldType 'F_p of F].
 Let Fpq : {vspace F} := fullv.
 Let Fp : {vspace F} := 1%VS.
 
@@ -267,7 +267,7 @@ have galPoly_roots: all (root (Pa - 1)) (enum Fp).
     by rewrite inE galNorm0 eq_sym oner_eq0.
   congr (_ \in E): (Etau _ IHk); apply: canLR (@invrK _) _; rewrite invfM invrK.
   apply: canRL (mulKf nz_hk1) _; rewrite mulrC mulrBl divfK // mulrDl mul1r.
-  by rewrite {2}/h mulrS -2!addrA addrK addrAC -mulrSr.
+  by rewrite {2}/h mulrS -(addrA (1 -a)) (addrA _ (1 -a)) addrK addrAC -mulrSr.
 have sizePa: size Pa = q.+1.
   have sizePaX (beta : {rmorphism F -> F}) : size (beta (1 - a) *: 'X + 1) = 2%N.
     rewrite -mul_polyC size_MXaddC oner_eq0 andbF size_polyC fmorph_eq0.

@@ -614,7 +614,7 @@ pose k1 := chinese a b k 1; have /Qn_aut_exists[nu Dnu]: coprime k1 (a * b).
 exists nu => [x | y].
   have /Fadjoin_polyP[p Qp ->]: x \in <<1; w_a>>%VS by rewrite genQa memvf.
   rewrite -!horner_map -!map_poly_comp !map_Qnum_poly // Dmu Dnu -rmorphX /=.
-    by rewrite -(prim_expr_mod pr_w_a) chinese_modl // prim_expr_mod.
+    by rewrite -[in LHS](prim_expr_mod pr_w_a) /k1 chinese_modl // prim_expr_mod.
   by rewrite exprM (prim_expr_order pr_w_a) expr1n rmorph1.
 have /Fadjoin_polyP[p Qp ->]: y \in <<1; w_b>>%VS by rewrite genQb memvf.
 rewrite -!horner_map -!map_poly_comp !map_Qnum_poly // Dnu -rmorphX /=.

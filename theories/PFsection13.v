@@ -1228,7 +1228,7 @@ rewrite ler_pdivr_mulr ?ltr0n ?expn_gt0 // mulrAC (expnS 3) (natrM _ 3).
 rewrite mulrA mulfK ?gt_eqF ?ltr0n ?expn_gt0 //.
 rewrite -ler_pdivr_mull ?ltr0n // !natrX -exprVn -exprMn.
 rewrite mulrS mulrDr mulr1 mulVf ?pnatr_eq0 //.
-apply: le_trans (_ : (3%:R^-1 + 1) ^+ 2 <= _); last by rewrite -!CratrE.
+apply: le_trans (_ : (3%:R^-1 + 1) ^+ 2 <= _); last by rewrite -!CratrE; reflexivity.
 rewrite ler_sqr ?rpredD ?rpred1 ?rpredV ?rpred_nat // ler_add2r.
 by rewrite lef_pinv ?qualifE ?ltr0n ?leC_nat.
 Qed.

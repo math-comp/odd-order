@@ -447,7 +447,7 @@ by case=> [[/cyclicTIhyp_sym ? ? ?] [? ?]]; rewrite setIC setUC orbC => ? ? [].
 Qed.
 
 (* This is Peterfalvi, Theorem (8.8). *)
-Lemma FTtypeP_pair_cases : 
+Lemma FTtypeP_pair_cases :
      (*a*) {in 'M, forall M, FTtype M == 1%N}
   \/ (*b*) exists S, exists T, exists_typeP (fun _ => typeP_pair S T).
 Proof.
@@ -460,7 +460,7 @@ suffices{tiST tiV cWW sW1W sW2W b3 b4} tiW12: W1 :&: W2 = 1%g.
   have defW: W1 \x W2 = W by rewrite dprodEY ?(centSS _ _ cWW).
   right; exists S, T; exists S _ _ _ defW; split=> // [|M _ /b4[] // x].
     by do 2?split; rewrite ?mFT_odd // /normedTI tiV nVW setTI /=.
-  by case=> <-; rewrite inE mem_orbit ?orbT.
+  by case=> <-; rewrite inE mem_orbit ?orbT // ?in_setT.
 wlog {b2 T defT maxT} Stype2: S W1 W2 @W @V maxS defS cycW ntV / FTtype S == 2%N.
   move=> IH; case/orP: b2 cycW ntV => /IH; first exact.
   by rewrite setIC /V /W /= joingC setUC; apply.
@@ -622,7 +622,7 @@ Lemma FT_Dade0_hyp : Dade_hypothesis G M 'A0(M).
 Proof.
 have [part_a _ parts_bc] := FTsupport_facts.
 have /subsetD1P[sA0M notA0_1] := FTsupp0_sub M.
-split; rewrite // /normal ?sA0M ?norm_FTsupp0 //=.
+split; rewrite // /normal ?sA0M ?norm_FTsupp0 ?subsetT //=.
 exists 'R_M => [|x y A0x A0y]; first exact: is_FTsignalizer.
 rewrite /'R_M; case: ifPn => [_ | not_sCxM]; first by rewrite cards1 coprime1n.
 rewrite (coprimeSg (subsetIl _ _)) //=.

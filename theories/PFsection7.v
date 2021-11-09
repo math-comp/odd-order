@@ -468,7 +468,7 @@ split=> // [ | chi /irrP[t def_chi] o_chiSnu].
     have [nz_xi Nxi1] := (cfnorm_seqInd_neq0 nsHL Sxi, Cnat_seqInd1 Sxi).
     rewrite (normr_idP _) ?mulr_ge0 ?invr_ge0 ?ler0n ?cfnorm_ge0 ?Cnat_ge0 //.
     by rewrite mulrCA !exprMn ['[xi]]lock !mulrA divfK // -lock.
-  apply/andP; rewrite -subr_ge0 addrK andbC -subr_ge0 addrC opprB subrK.
+  apply/andP; rewrite -(subr_ge0 w) addrK andbC -subr_ge0 addrC opprB subrK.
   rewrite pmulr_rge0 ?gt0CG // andbb -mulr_natr (mulrAC v).
   have v_ge0: 0 <= v by [rewrite invr_ge0 ler0n]; have L_gt0 := gt0CG L.
   have Lu: #|L|%:R * u = h - 1 by rewrite -eh -mulrA hu mulVKf.

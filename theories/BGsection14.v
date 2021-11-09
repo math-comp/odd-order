@@ -1626,7 +1626,7 @@ have [Mi MXi P2maxMi]: exists2 Mi, Mi \in MX & Mi \in 'M_'P2.
       rewrite (trivg_kappa_compl maxMi complU).
       by apply: contraR (allP1 _ MXi) => ?; apply/setDP.
     rewrite card_class_support_sigma // natrM natf_indexg ?subsetT // -/g.
-    rewrite mulrCA mulrC ler_wpmul2r ?ler0n // -subn1 natrB ?cardG_gt0 //.
+    rewrite mulrCA (mulrC g) ler_wpmul2r ?ler0n // -subn1 natrB ?cardG_gt0 //.
     rewrite mulr1n mulrBl -{1}(sdprod_card defMi) natrM invfM.
     rewrite mulVKf ?natrG_neq0 // ler_add2l ler_opp2 -(mulr_natr _ 2) invfM.
     rewrite ler_pdivr_mulr ?natrG_gt0 // mulrC mulrA.

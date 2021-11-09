@@ -1176,7 +1176,7 @@ have [lam Zlam [Z oZS1 defY]]:
   apply/orthogonalP=> _ _ /predU1P[-> | //] /mapP[xi S1xi ->].
   rewrite !cfdotBl !cfdotZl Itau1 ?mem_zchar //.
   rewrite cfproj_sum_orthogonal ?map_f // a_E // Itau1 ?Z_S1 //.
-  apply: (mulIf nz_xi11); rewrite divfK ?nz_nS1 // 2!mulrBl mulrA divfK //.
+  apply: (mulIf nz_xi11); rewrite divfK ?nz_nS1 // 2!mulrBl [in lam * _]mulrA divfK //.
   rewrite mul0r mulrBl opprB -addrA addrCA addrC !addrA !oXtau1 // !mulNr.
   rewrite -(conj_Cnat (N_S1_1 _ S1xi)) -(conj_Cnat (N_S1_1 _ S1xi1)).
   rewrite opprK [- _ + _]addrC -!(mulrC _^*) -!cfdotZr -cfdotBr.

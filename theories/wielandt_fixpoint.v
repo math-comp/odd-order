@@ -257,7 +257,7 @@ have [wT [fL injL [fX injX fJ]]]: exists wT : finGroupType,
 move imfL: (fL @* [set: _])%G => L; move imfX: (fX @* G)%G => X.
 have cLL: abelian L by rewrite -imfL morphim_abelian // zmod_abelian.
 have pL: p.-group L.
-  by rewrite -imfL morphim_pgroup -?pnat_exponent ?exponent_mx_group.
+  by rewrite -imfL morphim_pgroup /= -?pnat_exponent ?exponent_mx_group ?cardG_gt0.
 have tiVG: V :&: G = 1 by rewrite coprime_TIg // Vpexpn coprime_pexpl.
 have{copG} p'G: p^'.-group G by rewrite /pgroup p'natE // -prime_coprime.
 have p'X: p^'.-group X by rewrite -imfX morphim_pgroup.

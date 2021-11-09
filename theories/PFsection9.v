@@ -1,5 +1,6 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
+From HB Require Import structures.
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
 Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
@@ -535,13 +536,15 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
   {F : finFieldType & {outF : {rmorphism F -> 'M(Hbar)%Mg}
    & {inF : {additive _} | cancel outF inF & {in E_U, cancel inF outF}}
    & forall a, outF a \in E_U}}%R.
-- pose B := row_base (enveloping_algebra_mx rU).
+- pose HACK := enveloping_algebra_mx rU.
+  pose B := row_base HACK.
   have freeB: row_free B by apply: row_base_free.
   pose outF := [additive of vec_mx \o mulmxr B].
   pose inF := [additive of mulmxr (pinvmx B) \o mxvec].
   have E_F a: outF a \in E_U by rewrite !inE vec_mxK mulmx_sub ?eq_row_base.
   have inK: {in E_U, cancel inF outF}.
     by move=> A E_A; rewrite /= mulmxKpV ?mxvecK ?eq_row_base.
+  set HACK2 := (quotient_coset_of__canonical__fingroup_FinGroup _) in @outF inF E_F inK *.
   have outI: injective outF := inj_comp (can_inj vec_mxK) (row_free_inj freeB).
   have outK: cancel outF inF by move=> a; apply: outI; rewrite inK ?E_F.
   pose one := inF 1%R; pose mul a b := inF (outF a * outF b)%R.
@@ -557,8 +560,8 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
   have mul1F: left_id one mul by move=> a; apply: outI; rewrite outM out1 mul1r.
   have mulD: left_distributive mul +%R%R.
     by move=> a1 a2 b; apply: canLR outK _; rewrite !raddfD mulrDl -!{1}outM.
-  pose Fring_NC := RingType 'rV__ (ComRingMixin mulA mulC mul1F mulD nzFone).
-  pose Fring := ComRingType Fring_NC mulC.
+  pose rV_isComRing := GRing.Zmodule_IsComRing.Build 'rV__ mulA mulC mul1F mulD nzFone.
+  Time pose Fring : comRingType := HB.pack 'rV__ rV_isComRing.
   have outRM: multiplicative (outF : Fring -> _) by [].
   have mulI (nza : {a | a != 0%R :> Fring}): GRing.rreg (val nza).
     case: nza => a /=; rewrite -(inj_eq outI) out0 => nzA b1 b2 /(congr1 outF).
@@ -566,12 +569,12 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
     by rewrite row_free_unit (mx_Schur irrU) ?cEE ?E_F.
   pose inv (a : Fring) := oapp (fun nza => invF (mulI nza) one) a (insub a).
   have inv0: (inv 0 = 0)%R by rewrite /inv insubF ?eqxx.
-  have mulV: GRing.Field.axiom inv.
+  pose field_axiom (R : ringType) inv := (forall x : R, x != 0 :>R -> inv x * x = 1 :> R)%R.
+  have mulV: field_axiom _ inv.
     by move=> a nz_a; rewrite /inv insubT /= (f_invF (mulI (exist _ _ _))).
-  pose FunitRing := UnitRingType Fring (FieldUnitMixin mulV inv0).
-  have Ffield := @FieldMixin [comUnitRingType of FunitRing] inv mulV inv0.
-  pose F := FieldType (IdomainType _ (FieldIdomainMixin Ffield)) Ffield.
-  by exists [finFieldType of F], (AddRMorphism outRM); first exists inF.
+  pose IsField := GRing.ComRing_IsField.Build Fring mulV inv0.
+  Time pose F : finFieldType := HB.pack Fring IsField.
+  by exists F, (AddRMorphism outRM); first exists inF.
 pose in_uF (a : F) : {unit F} := insubd (1 : {unit F}) a.
 have in_uF_E a: a != 1 -> val (in_uF a) = a.
   by move=> nt_a; rewrite insubdK /= ?unitfE.
@@ -663,7 +666,7 @@ have cyc_uF := @field_unit_group_cyclic F.
 exists F.
   exists phi; last first.
     split=> //; first exact/isomP; apply/esym/eqP; rewrite eqEcard o_nF -phi_s.
-    by rewrite (@cycle_subG F) mem_morphim //= card_injm ?subsetIl ?oW2b.
+    by rewrite cycle_subG mem_morphim //= card_injm ?subsetIl ?oW2b.
   exists psi => //; last first.
     by split=> // h x Hh Ux; rewrite qactJ (subsetP nH0U) ?phiJ.
   have inj_eta: 'injm (Morphism etaM).

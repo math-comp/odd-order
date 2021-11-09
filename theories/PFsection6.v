@@ -870,7 +870,7 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
       by rewrite rpredB ?rpredZ ?rpred_sum // => *; rewrite memv_span ?map_f.
     congr (_ + _); transitivity (b ^+ 2 * m + a ^+ 2 - a * b *+ 2); last first.
       rewrite [RHS]mulrC [in RHS]addrC mulrBl sqrrB1 !addrA mulrDl !mul1r subrK.
-      by rewrite mulrBl [m * _]mulrC mulrnAl mulrAC Db exprMn (mulrCA a) addrAC.
+      by rewrite mulrBl [m * _]mulrC mulrnAl [in RHS]mulrAC Db exprMn (mulrCA a) addrAC.
     rewrite addrC cfnormB !cfnormZ Cint_normK ?norm_Cnat // cfdotZr.
     rewrite cfnorm_map_orthonormal // -/m linear_sum cfproj_sum_orthonormal //.
     by rewrite oYYt ?map_f // eqxx mulr1 rmorphM conjCK aut_Cnat ?aut_Cint.

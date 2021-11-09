@@ -750,7 +750,7 @@ have sG1_HVG: G1 \subset class_support H^# G :|: class_support V G.
     have [_ _ _ regHUH] := Frobenius_kerP frobHU.
     by rewrite (subsetP (regHUH ay _)) // inE ?HUxy // inE ntay.
   suffices /imset2P[xyz z Vxzy _ ->]: xy \in class_support V S.
-    by rewrite -conjgM orbC memJ_class_support.
+    by rewrite -conjgM orbC memJ_class_support ?in_setT //=.
   rewrite /V setUC -(FTsupp0_typeP maxS StypeP) !inE Sxy.
   rewrite andb_orr andNb (contra (subsetP _ _) notHUxy) /=; last first.
     by apply/bigcupsP=> z _; rewrite (eqP Stype2) setDE -setIA subsetIl.

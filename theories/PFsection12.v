@@ -479,7 +479,7 @@ have defA: A = P_ i := lambdaP A P_A.
 have Ak: k \in A; last 1 [have iHk := Ak; rewrite defA inE in Ak].
   have [j iHj] := constt_cfInd_irr i sH'H.
   rewrite {}/k /theta; case: pickP => [k /setDP[]//| /(_ j)/=].
-  by rewrite defA !in_set iHj andbT => /negbFE/eqP <-.
+  by rewrite defA !in_set iHj andbT => /negbFE/set1P <-.
 have{} DiH: 'Ind 'chi_i = e *: \sum_(j in A) 'chi_j.
   by congr (_ = _ *: _): DiH; apply: eq_bigl => j; rewrite [in RHS]defA !inE.
 rewrite {2}DiH; have{DiH} ->: e = '['Ind 'chi_i, 'chi_k].
@@ -877,10 +877,10 @@ have /trivgPn[y nty Ey]: E != 1%G by have [] := Frobenius_context frobHE.
 have cErEy: centgmx rE (rE y).
   by apply/centgmxP=> z Ez; rewrite -!repr_mxM // (centsP cEE).
 have irrE: mx_irreducible rE by apply/abelem_mx_irrP.
-have charFp2: p \in [char MatrixGenField.gen_finFieldType irrE cErEy].
+have charFp2: p \in [char [finFieldType of (MatrixGenField.gen_of irrE cErEy)]].
   apply: (rmorph_char (MatrixGenField.gen_rmorphism irrE cErEy)).
   exact: char_Fp.
-pose Fp2 := primeChar_finFieldType charFp2.
+pose Fp2 := [the finFieldType of (PrimeCharType charFp2)].
 pose n1 := MatrixGenField.gen_dim (rE y).
 pose rEp2 : mx_representation Fp2 E n1 := MatrixGenField.gen_repr irrE cErEy.
 have n1_gt0: (0 < n1)%N := MatrixGenField.gen_dim_gt0 irrE cErEy.

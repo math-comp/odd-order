@@ -374,7 +374,7 @@ have{} sylP: p.-Sylow(M) P := subHall_Sylow hallH s_p sylP.
 have [sPM nMP] := (pHall_sub sylP, norm_sigma_Sylow s_p sylP).
 have sylP_G := sigma_Sylow_G maxM s_p sylP.
 have defG': G^`(1) = G.
-  have [_ simpG] := simpleP _ (mFT_simple gT).
+  have [_ simpG] := simpleP _ (@mFT_simple gT).
   by have [?|//] := simpG _ (der_normal 1 _); case/derG1P: (mFT_nonAbelian gT).
 rewrite -subsetIidl -{1}(setIT P) -defG'.
 rewrite (focal_subgroup_gen sylP_G) (focal_subgroup_gen sylP) genS //.

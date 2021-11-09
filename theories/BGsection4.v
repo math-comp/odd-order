@@ -833,7 +833,7 @@ have p_gt3: p > 3; last split => //.
   have q_gt2: q > 2 by rewrite ltn_neqAle; case: eqP odd_q => // <-.
   apply: leq_ltn_trans q_gt2 _.
   rewrite /= -ker_conj_aut (card_isog (first_isog_loc _ _)) // in q_dv_Ab.
-  have q_dv_A := dvdn_trans q_dv_Ab (cardSg (Aut_conj_aut _ _)).
+  have q_dv_A := dvdn_trans q_dv_Ab (cardSg (Aut_conj_aut R A)).
   by case/(pi_Aut_rank2_pgroup pR): (pgroupP (pgroup_pi _) q q_pr q_dv_A).
 pose S := 'Ohm_1(R); pose S' := S^`(1); pose C := 'C_R(S).
 have pS: p.-group S := pgroupS (Ohm_sub 1 _) pR.
