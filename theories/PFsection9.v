@@ -1424,7 +1424,7 @@ Lemma typeP_reducible_core_cases :
               & {xi | xi \is a linear_char & 'chi_t = 'Ind[M, HC] xi}}
   + [/\ typeP_Galois, [Frobenius HU / H0 = Hbar ><| (U / H0)],
         cyclic U, #|U| = (p ^ q).-1 %/ p.-1
-      & FTtype M == 2 -> [Frobenius HU = H ><| U]].
+      & FTtype M == 2%N -> [Frobenius HU = H ><| U]].
 Proof.
 have [GalM | Gal'M] := boolP typeP_Galois; last first.
   pose eqInHCb nu r := ('chi_r \is a linear_char) && (nu == 'Ind[M, HC] 'chi_r).
@@ -1945,7 +1945,7 @@ have [gtS4alpha s4gt0]: (size S4)%:R > '[alpha] /\ (size S4 > 0)%N.
   have q_gt2: (2 < q)%N.
     by rewrite ltn_neqAle prime_gt1 ?(contraTneq _ odd_q) => // <-.
   apply: leq_trans (_ : a.*2 ^ q + 'C(q, 2) * a.*2 ^ 2 + q * a.*2 <= _)%N.
-    rewrite -mul2n (mulnCA q) (mulnA 2) ltn_add2r !expnMn -addSn leq_add //.
+    rewrite -mul2n (mulnCA q) (mulnA 2%N) ltn_add2r !expnMn -addSn leq_add //.
       apply: leq_ltn_trans (_ : q.-1.*2.+1 * a ^ q < _)%N.
         rewrite leq_mul ?leq_pexp2l //.
         by rewrite -(subnKC q_gt2) -addnn !addnS !ltnS leq_addl.

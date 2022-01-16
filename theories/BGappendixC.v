@@ -269,11 +269,11 @@ have galPoly_roots: all (root (Pa - 1)) (enum Fp).
   apply: canRL (mulKf nz_hk1) _; rewrite mulrC mulrBl divfK // mulrDl mul1r.
   by rewrite {2}/h mulrS -2!addrA addrK addrAC -mulrSr.
 have sizePa: size Pa = q.+1.
-  have sizePaX (beta : {rmorphism F -> F}) : size (beta (1 - a) *: 'X + 1) = 2.
+  have sizePaX (beta : {rmorphism F -> F}) : size (beta (1 - a) *: 'X + 1) = 2%N.
     rewrite -mul_polyC size_MXaddC oner_eq0 andbF size_polyC fmorph_eq0.
     by rewrite subr_eq0 eq_sym (negbTE not_a1).
   rewrite size_prod => [|i _]; last by rewrite -size_poly_eq0 sizePaX.
-  rewrite (eq_bigr (fun _ => 2)) => [|beta _]; last by rewrite sizePaX.
+  rewrite (eq_bigr (fun _ => 2%N)) => [|beta _]; last by rewrite sizePaX.
   rewrite sum_nat_const muln2 -addnn -addSn addnK.
   by rewrite -galois_dim ?finField_galois ?subvf // dimv1 divn1 dimFpq.
 have sizePa1: size (Pa - 1) = q.+1.
@@ -365,7 +365,7 @@ have [q_gt4 | q_le4] := ltnP 4 q.
     rewrite ler_pdivr_mulr // degU ?divfK ?neq0CG //.
     rewrite normrM -normrX norm_conjC ler_wpmul2l ?normr_ge0 //.
     rewrite -ler_sqr ?qualifE ?normr_ge0 ?(ltW (x := 0)) // ?sqrtCK.
-    apply: le_trans (ub_linH' 2 isT); rewrite (bigD1 i) ?ler_paddr //=.
+    apply: le_trans (ub_linH' 2%N isT); rewrite (bigD1 i) ?ler_paddr //=.
     by apply: sumr_ge0 => i1 _; rewrite exprn_ge0 ?normr_ge0.
   rewrite natrM real_ler_distl ?rpredB ?rpredM ?rpred_nat // => /andP[lb_Pe _].
   rewrite -ltC_nat -(ltr_pmul2l (gt0CG P)) {lb_Pe}(lt_le_trans _ lb_Pe) //.
@@ -382,7 +382,7 @@ have [q_gt4 | q_le4] := ltnP 4 q.
   rewrite exprMn sqrtCK -!natrX -natrM leC_nat -expnM muln2 oP.
   rewrite -(subnKC q_gt4) doubleS (expnS p _.*2.+1) -(subnKC pgt4) leq_mul //.
   by rewrite ?leq_exp2l // !doubleS !ltnS -addnn leq_addl.
-have q3: q = 3 by apply/eqP; rewrite eqn_leq qgt2 andbT -ltnS -(odd_ltn 5).
+have q3: q = 3%N by apply/eqP; rewrite eqn_leq qgt2 andbT -ltnS -(odd_ltn 5).
 rewrite (cardsD1 1) E_1 ltnS card_gt0; apply/set0Pn => /=.
 pose f (c : 'F_p) : {poly 'F_p} := 'X * ('X - 2%:R%:P) * ('X - c%:P) + ('X - 1).
 have fc0 c: (f c).[0] = -1 by rewrite !hornerE.
@@ -398,9 +398,9 @@ have /existsP[c nz_fc]: [exists c, ~~ [exists d, root (f c) d]].
   rewrite mulf_neq0 ?subr_eq0 1?(contraTneq _ (rfP a)) // => -> //.
   by rewrite /root fc2.
 have{nz_fc} /= nz_fc: ~~ root (f c) _ by apply/forallP; rewrite -negb_exists.
-have sz_fc_lhs: size ('X * ('X - 2%:R%:P) * ('X - c%:P)) = 4.
+have sz_fc_lhs: size ('X * ('X - 2%:R%:P) * ('X - c%:P)) = 4%N.
   by rewrite !(size_mul, =^~ size_poly_eq0) ?size_polyX ?size_XsubC.
-have sz_fc: size (f c) = 4 by rewrite size_addl ?size_XsubC sz_fc_lhs.
+have sz_fc: size (f c) = 4%N by rewrite size_addl ?size_XsubC sz_fc_lhs.
 have irr_fc: irreducible_poly (f c) by apply: cubic_irreducible; rewrite ?sz_fc.
 have fc_monic : f c \is monic.
   rewrite monicE lead_coefDl ?size_XsubC ?sz_fc_lhs // -monicE.
@@ -423,12 +423,12 @@ have Fp_fcF: fcF \is a polyOver Fp.
   by apply/polyOverP => i; rewrite coef_map /= memvZ ?memv_line.
 pose G := 'Gal(Fpq / Fp).
 have galG: galois Fp Fpq by rewrite finField_galois ?subvf.
-have oG: #|G| = 3 by rewrite -galois_dim // dimv1 dimFpq q3.
+have oG: #|G| = 3%N by rewrite -galois_dim // dimv1 dimFpq q3.
 have Fp'a: a \notin Fp.
   by apply: contraL fcFa_0 => /vlineP[d ->]; rewrite fmorph_root.
 have DfcF: fcF = \prod_(beta in G) ('X - (beta a)%:P).
   pose Pa : {poly F} := minPoly Fp a.
-  have /eqP szPa: size Pa == 4.
+  have /eqP szPa: size Pa == 4%N.
     rewrite size_minPoly eqSS.
     rewrite (sameP eqP (prime_nt_dvdP _ _)) ?adjoin_deg_eq1 //.
     by rewrite adjoin_degreeE dimv1 divn1 -q3 -dimFpq field_dimS ?subvf.
@@ -617,9 +617,9 @@ move=> Ua Ea; have{Ea} [b Ub Dab]: exists2 b, b \in U & psi a + psi b = 2%:R.
   case/setIdP: Ea => _; rewrite -im_psi => /imsetP[b Ub Db]; exists b => //.
   by rewrite -Db addrC subrK.
 (* In the book k is arbitrary in Fp; however only k := 3 is used. *)
-have [u2 [s2 [v2 usv2P]]] := split_sUs 3 (a * _) 2 1%N (groupM Ua (groupVr Ub)).
-have{Ua} [u1 [s1 [v1 usv1P]]] := split_sUs 1%N a^-1 3 2 (groupVr Ua).
-have{Ub} [u3 [s3 [v3 usv3P]]] := split_sUs 2 b 1%N 3 Ub.
+have [u2 [s2 [v2 usv2P]]] := split_sUs 3%N (a * _) 2%N 1%N (groupM Ua (groupVr Ub)).
+have{Ua} [u1 [s1 [v1 usv1P]]] := split_sUs 1%N a^-1 3%N 2%N (groupVr Ua).
+have{Ub} [u3 [s3 [v3 usv3P]]] := split_sUs 2%N b 1%N 3%N Ub.
 pose s2def w1 w2 w3 := t * s2^-1 * t = w1 * s3 * w2 * t ^+ 2 * s1 * w3.
 pose w1 := v2 ^ t^-1 * u3; pose w2 := v3 * u1 ^ t ^- 2; pose w3 := v1 * u2 ^ t.
 have stXC m n: (m <= n)%N -> s ^- n ^ t ^+ m = s ^- m ^ t ^+ n * s ^- (n - m).
@@ -662,7 +662,7 @@ wlog [Uw1 Uw2 Uw3]: w1 w2 w3 Ds2p Ds2 / [/\ w1 \in U, w2 \in U & w3 \in U].
 have{Ds2p} Dw3p: (w2 ^- p * w1 ^- p.-1 ^ s3 * w2) ^ t ^+ 2 = w3 ^+ p.-1 ^ s1^-1.
   rewrite -[w1 ^+ _](mulKg w1) -[w3 ^+ _](mulgK w3) -expgS -expgSr !prednK //.
   rewrite -(canLR (mulKg _) Ds2p) -(canLR (mulKg _) Ds2) 6!invMg !invgK.
-  by rewrite mulgA mulgK [2]lock /conjg !mulgA mulVg mul1g mulgK.
+  by rewrite mulgA mulgK [2%N]lock /conjg !mulgA mulVg mul1g mulgK.
 have w_id w: w \in U -> w ^+ p.-1 == 1 -> w = 1.
   by move=> Uw /eqP/(canRL_in (expgK _) Uw)->; rewrite ?expg1n ?oU.
 have{Uw3} Dw3: w3 = 1.

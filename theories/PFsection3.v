@@ -355,9 +355,9 @@ Definition Otest cl1 cl2 :=
     if kvs2 is (k, v2) :: kvs2 then
       if get_lit k kvs1 is Some v1 then loop (v1 * v2 + s1) s2 kvs2 else
       loop s1 s2.+1 kvs2
-    else (s1, if norm_cl kvs1 == 3 then 0%N else s2) in
+    else (s1, if norm_cl kvs1 == 3%N then 0%N else s2) in
   let: (s1, s2) := loop 0 0%N kvs2 in
-  (norm_cl kvs2 == 3) ==> (`|s1 - dot_ref ij1 ij2| <= s2)%N.
+  (norm_cl kvs2 == 3%N) ==> (`|s1 - dot_ref ij1 ij2| <= s2)%N.
 
 (* Matching up to a permutation of the rows, columns, and base vectors. *)
 
@@ -476,7 +476,7 @@ Arguments satP {m th}.
 Lemma norm_clP m th cl :
     sat m th -> cl \in th ->
   let norm := norm_cl cl.2 in let beta := m cl.1 in 
-  [/\ (norm <= 3)%N, norm == 3 -> beta = eval_cl m cl.2
+  [/\ (norm <= 3)%N, norm == 3%N -> beta = eval_cl m cl.2
     & (norm < 3)%N -> size cl.2 == size m -> 
       exists2 dk, dk \in dirr_constt beta & orthogonal (dchi dk) m].
 Proof.
@@ -530,7 +530,7 @@ by do 2?case: eqP => [-> | _]; rewrite // ?cfdotNr oYm ?oppr0 ltxx.
 Qed.
 
 Lemma norm_cl_eq3 m th cl :
-  sat m th -> cl \in th -> norm_cl cl.2 == 3 -> m cl.1 = eval_cl m cl.2.
+  sat m th -> cl \in th -> norm_cl cl.2 == 3%N -> m cl.1 = eval_cl m cl.2.
 Proof. by move=> m_th /(norm_clP m_th)[]. Qed.
 
 Lemma norm_lit m th cl kv :
@@ -577,7 +577,7 @@ Qed.
 Arguments sat_cases [m th] k [cl].
 
 Definition unsat_cases_hyp th0 kvs tO cl :=
-  let: (k, _) := head (2, 0) kvs in let thk_ := ext_cl th0 cl k in
+  let: (k, _) := head (2%N, 0) kvs in let thk_ := ext_cl th0 cl k in
   let th's := [seq unwrap (thk_ v) | v <- lit_vals & v \notin unzip2 kvs] in
   let add hyp kv :=
     let: (_, v) := kv in let: Wrap th := thk_ v in hyp /\ unsat th in
@@ -606,7 +606,7 @@ Qed.
 Lemma O ij12 : is_sat_test (sat_test Otest ij12).
 Proof.
 apply: sat_testP => m th [ij1 kvs1] [ij2 kvs2] /= m_th th_cl1 th_cl2.
-set cl1eq := _ == 3; set cl2eq := _ == 3; have [_ _ Dm] := LmodelP m.
+set cl1eq := _ == 3%N; set cl2eq := _ == 3%N; have [_ _ Dm] := LmodelP m.
 pose goal (s1 : algCnum) s2 :=
   cl2eq ==> (`|s1 - (dot_ref ij1 ij2)%:~R| <= s2%:R).
 set kvs := kvs2; set s1 := 0; set s2 := {2}0%N; have thP := satP m_th.
@@ -937,7 +937,7 @@ Qed.
 
 Let cfnorm_alpha i j : i != 0 -> j != 0 -> '[alpha_ i j] = 4%:R.
 Proof.
-move=> nzi nzj; rewrite -[4]/(size [:: 1; - w_ i 0; - w_ 0 j; w_ i j]).
+move=> nzi nzj; rewrite -[4%N]/(size [:: 1; - w_ i 0; - w_ 0 j; w_ i j]).
 rewrite -cfnorm_orthonormal 3?big_cons ?big_seq1 ?addrA -?alphaE //.
 rewrite /orthonormal -w_00 /= !cfdotNl !cfdotNr !opprK !oppr_eq0 !cfnorm_irr.
 by rewrite !cfdot_w !eqxx /= !(eq_sym 0) (negPf nzi) (negPf nzj) !eqxx.
@@ -1034,6 +1034,8 @@ Local Notation unsat := (@unsat gT G).
 Local Notation O := (@O gT G).
 Local Notation "#1" := (inord 1).
 
+Local Open Scope nat_scope.
+
 (* This is the combinatorial core of Peterfalvi (3.5.2). *)
 (* Peterfalvi uses evaluation at 1%g to conclude after the second step; since *)
 (* this is not covered by our model, we have used the dot product constraints *)
@@ -1043,7 +1045,7 @@ Proof.
 uwlog b11x1: (& b11 = x1 + x2 + x3) by do 2!fill b11.
 uwlog b21x1: (& b21 = -x1 + x2 + x3) by uhave x2, x3 in b21 as O(21, 11).
 consider b12; uhave -x2 | x2 | ~x2 in b12.
-- by uhave x1 in b12 as O(12, 11); counter to O(12, 21).
+- by uhave x1 in b12 as O(12, 11)%N; counter to O(12, 21).
 - uhave x1 | ~x1 in b12 as O(12, 21).
     by uhave ~x3 in b12 as O(12, 21); counter to O(12, 11).
   by uhave ~x3 in b12 as O(12, 11); counter to O(12, 21).
@@ -1054,6 +1056,8 @@ Qed.
 
 Let unsat_II: unsat |= & x1, x2 in b11 & x1, x2 in b21.
 Proof. by fill b11; uhave -x3 in b21 as O(21, 11); symmetric to unsat_J. Qed.
+
+Local Open Scope ring_scope.
 
 (* This reflects the application of (3.5.2), but only to rule out nonzero     *)
 (* components of the first entry that conflict with positive components of    *)
@@ -1104,6 +1108,8 @@ have[] := symP [:: k] _ _ unsat_J; rewrite /= ltkr !andbT /=; apply/andP; split.
   by apply/hasP; exists (i1, j1, kvs1); rewrite //= eqxx kvs1k.
 by apply/hasP; exists (i2, j2, kvs2); rewrite //= (eqP eq_j) eqxx kvs2k.
 Qed.
+
+Local Open Scope nat_scope.
 
 (* This is the combinatorial core of Peterfalvi (3.5.4). *)
 (* We have made a few simplifications to the combinatorial analysis in the    *)
@@ -1184,6 +1190,8 @@ uhave ~x5 in b41 as L(41, 31); uhave ~x4 in b41 as O(41, 31).
 by uhave ~x2 in b41 as L(41, 21); counter to O(41, 12).
 Qed.
 
+Local Open Scope ring_scope.
+
 (* This refinement of Peterfalvi (3.5.4) is the essential part of (3.5.5). *)
 Let column_pivot (m : model G) (j0 : 'I_m.2.+1) :
   exists dk, forall (i : 'I_m.1.+1) (j : 'I_m.2.+1),
@@ -1221,7 +1229,7 @@ without loss m_th: m / sat m |= cl11 & ? in b21.
 without loss{m_th} m_th: m / sat m |= & x1 in b11 & x1 in b21.
   pose sat123P := @allP _ (fun k => sat_lit m _ (k, _)) (rev (iota 0 3)).
   have [m123 | ] := altP (sat123P b21 0).
-    suffices: sat m |= cl11 & ~x1, ~x2, ~x3 in b21 by move/(O(21, 11)).
+    suffices: sat m |= cl11 & ~x1, ~x2, ~x3 in b21 by move/(O(21, 11)%N).
     by rewrite /sat /= {1}/sat_cl /= !m123.
   case/allPn=> k k012 /negP nz_m21 IHm; rewrite -[sat_lit _ _ _]andbT in nz_m21.
   have ltk3: (k < 3)%N by rewrite mem_rev mem_iota in k012.
@@ -1232,7 +1240,7 @@ without loss{m_th} m_th: m / sat m |= & x1 in b11 & x1 in b21.
   pose mk := Model (LmodelP m) mkP; apply: {IHm}(IHm mk).
   have{m_th} [v lit_v m_th] := sat_cases k m_th (mem_head _ _) ltk.
   suffices: sat mk |= & x1 in b11 & (Lit 1 v) in b21.
-    by case/or4P: lit_v m_th => // /eqP-> => [/and4P[] | | _ /(L(21,11))].
+    by case/or4P: lit_v m_th => // /eqP-> => [/and4P[] | | _ /(L(21,11)%N)].
   have [m_bb _ m_b21 /sat123P m_b11 _] := and5P m_th.
   by apply/and5P; split; rewrite // /sat_cl /= [sat_lit _ _ _]m_b11.
 have /dIrrP[dk Ddk]: m`_0 \in dirr G.
@@ -1247,12 +1255,12 @@ without loss{i lti} ->: m i ltj m_th / i = 0%N.
     apply: (IHi (t_m 0%N i m lti) 0%N); rewrite /sat /sat_cl //= bb21_m m_gt0.
     by rewrite /= m_i1_x1 /sat_lit /= andbT /t_ij /=; case: ifP.
   case i_gt1: (1 < i)%N; last by case: (i) i_gt1 => [|[|[]]].
-  have itv_i: (1 < i < m.1)%N by [apply/andP]; pose m2 := t_m 2 i m itv_i.
+  have itv_i: (1 < i < m.1)%N by [apply/andP]; pose m2 := t_m 2%N i m itv_i.
   have m2_th: sat m2 |= & x1 in b11 & x1 in b21 & ? in b31.
     rewrite /sat m_gt0 -andbA (leq_trans _ lti) ?(leq_trans _ ltj) /sat_cl //=.
     by rewrite /sat_lit /= -(subnKC i_gt1); have [_ _] := and3P m_th.
   have [v] := sat_cases _ m2_th (mem_head _ _) m_gt0; rewrite !inE.
-  by case/or3P=> /eqP-> => [/unsat_Ii | /and4P[] | /(L(31,11))].
+  by case/or3P=> /eqP-> => [/unsat_Ii | /and4P[] | /(L(31,11)%N)].
 have [-> | nzj] := posnP j; first by case/and5P: m_th.
 without loss{ltj nzj} ->: m j m_th / j = 1%N.
   have itv_j: (0 < j < m.2)%N by rewrite nzj.
@@ -1262,7 +1270,7 @@ have{m_th}[/= _ m_gt0 m_x1] := and3P m_th.
 have{m_x1} m_th: sat m |= & x1 in b11 & x1 in b21 & ? in b12.
   by rewrite /sat m_gt0 /sub_bbox; have [[_ _ -> ->]] := LmodelP m.
 have [v] := sat_cases 0%N m_th (mem_head _ _) m_gt0; rewrite !inE.
-by case/or3P=> /eqP-> => [/and4P[] | /unsat_C | /(L(12,11))].
+by case/or3P=> /eqP-> => [/and4P[] | /unsat_C | /(L(12,11)%N)].
 Qed.
 
 (* This is Peterfalvi (3.5). *)
@@ -1610,7 +1618,7 @@ have Za i1 i2 j1 j2 : a i1 j2 == 0 -> a i2 j1 == 0 -> a i1 j1 == 0.
   pose L := [set (if a i1 j == 0 then i2 else i1, j) | j : Iirr W2].
   pose C := [set (i, if a i j1 == 0 then j2 else j1) | i : Iirr W1].
   have [<- <-]: #|L| = w2 /\ #|C| = w1 by rewrite !card_imset // => ? ? [].
-  have <-: #|[set (i1, j1); (i2, j2)]| = 2 by rewrite cards2 xpair_eqE i2'1.
+  have <-: #|[set (i1, j1); (i2, j2)]| = 2%N by rewrite cards2 xpair_eqE i2'1.
   rewrite -cardsUI leq_add ?subset_leq_card //; last first.
     apply/subsetP=> _ /setIP[/imsetP[j _ ->] /imsetP[i _ []]].
     by case: ifP => _ <- ->; rewrite !inE ?Za21 ?(negPf nz_a11) !eqxx ?orbT.
@@ -1759,7 +1767,7 @@ case: (boolP ((i1, j1) \in S))=> [I1J1iS|]; last first.
   by rewrite subr0 oner_eq0.
 have SPos : (0 < #|S|)%N by rewrite (cardD1 (i1,j1)) I1J1iS.
 have SLt: (#|S| <= 2)%N.
-  by rewrite -[2]add1n cycTI_NC_sub // !cycTI_NC_dirr // cycTIiso_dirr.
+  by rewrite -[2%N]add1n cycTI_NC_sub // !cycTI_NC_dirr // cycTIiso_dirr.
 have: (0 < #|S| < 2 * minn w1 w2)%N.
   rewrite SPos; apply: leq_ltn_trans SLt _.
   by rewrite -{1}[2%N]muln1 ltn_mul2l /= leq_min ![(1 < _)%N]ltnW.

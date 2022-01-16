@@ -160,7 +160,7 @@ rewrite -[g](conjgK (y * z^-1)%g) imset2_f ?inE //= conjg_eq1 ntg /= conjgM.
 by rewrite Dgy conjgK -(dprodWC defW) -[x](mulgKV w) mem_mulg -?mem_rcoset.
 Qed.
 
-Hypothesis Stype2 : FTtype S == 2.
+Hypothesis Stype2 : FTtype S == 2%N.
 
 (* This is used to bound #|ccG P^#| and #|ccG Q^#| in the proof of (14.11.4). *)
 Lemma FTtype2_cc_core_ler : #|G|%:R^-1 * #|ccG P^#|%:R <= (u * q)%:R^-1 :> algC.
@@ -211,7 +211,7 @@ have [] := Dade_Ind1_sub_lin cohL calL_gt1 irr_phi Lphi phi1; rewrite -/betaL.
 rewrite -/calL odd_Frobenius_index_ler ?mFT_odd //= -/e -/h.
 case=> _ a00 ZbetaL [Gamma [o_tau1_Ga o_1_Ga [aa Zaa Dbeta] []// _ ubGa _]].
 have{} a00: a 0 0 = 1 by rewrite /a /w_ cycTIirr00 cycTIiso1.
-have{a0j ai0} a_odd i j: (a i j == 1 %[mod 2])%C.
+have{a0j ai0} a_odd i j: (a i j == 1 %[mod 2%N])%C.
   have [[-> | /ai0 ai01] [-> | /a0j a0j1] //] := (eqVneq i 0, eqVneq j 0).
     by rewrite a00 (eqCmod_nat 2 1 1).
   by rewrite -(eqCmodDr _ 1) -{1}a00 cycTIiso_cfdot_exchange // eqCmodD.
@@ -496,7 +496,7 @@ exact: (prime_dim_normed_finField _ _ _ defPU) nU_W2Q.
 Qed.
 
 (* Justification for Hypothesis (14.3). *)
-Fact FTtypeP_max_typeII : FTtype S == 2.
+Fact FTtypeP_max_typeII : FTtype S == 2%N.
 Proof. by have [[_ ->]] := FTtypeP_facts maxS StypeP. Qed.
 Let Stype2 := FTtypeP_max_typeII.
 
@@ -585,7 +585,7 @@ have tiA0: normedTI 'A0(S) G S by have [_ _ _ _ []] := FTtypeP_facts _ StypeP.
 have [_ sUPU _ nPU _] := sdprod_context defPU.
 have coPU := coprimegS (joing_subl U W1) (Ptype_Fcore_coprime StypeP).
 have abR0: abelian R0 := abelianS sR0U cUU.
-have{a U1 defU1 isoU r_r_U} rR0_2: 'r(R0) = 2.
+have{a U1 defU1 isoU r_r_U} rR0_2: 'r(R0) = 2%N.
   by rewrite (rank_Sylow sylR0) -r_r_U (isog_rank isoU) defU1 rank_mx_group.
 have piUr: r \in \pi(U) by rewrite -p_rank_gt0 -(rank_Sylow sylR0) rR0_2.
 have /exists_inP[x /setD1P[ntx R0x] ntCPx]: [exists x in R0^#, 'C_P[x] != 1%g].
@@ -613,7 +613,7 @@ have{x ntx R0x ntCPx} sZR_R0: 'Z(R) \subset R0.
 pose R1 := 'Ohm_1('Z(R))%G; pose m := logn r #|R1|.
 have sR10: R1 \subset R0 by apply: gFsub_trans.
 have oR1: #|R1| = (r ^ m)%N by rewrite -card_pgroup ?(pgroupS sR10).
-have{sZR_R0 rR0_2} m12: pred2 1%N 2 m.
+have{sZR_R0 rR0_2} m12: pred2 1%N 2%N m.
   transitivity (0 < m < 1 + 2)%N; first by rewrite -mem_iota !inE.
   rewrite -[m]p_rank_abelian ?center_abelian -?rank_pgroup ?(pgroupS sZR_R0) //.
   rewrite rank_gt0 ltnS -rR0_2 rankS // center_nil_eq1 ?(pgroup_nil rR) //.
@@ -688,7 +688,7 @@ Proof.
 have: (4 < p)%N by rewrite odd_geq ?mFT_odd ?(leq_trans _ ltqp).
 elim: p ltqp => // n IHn; rewrite !ltnS => ngeq.
 rewrite leq_eqVlt => /predU1P[/esym n4 | ngt4].
-  suffices /eqP <-: 3 == q by rewrite n4.
+  suffices /eqP <-: 3%N == q by rewrite n4.
   by rewrite eqn_leq qgt2 -ltnS -(odd_ltn 5) ?mFT_odd // -n4.
 apply: leq_trans (_ : q * n ^ q.+1 <= _)%N; last first.
   rewrite (expnS q) leq_mul //.
@@ -738,7 +738,7 @@ Let sTT0 : cfConjC_subset calS calS0.
 Proof. exact/seqInd_conjC_subset1/Fcore_sub_FTcore. Qed.
 
 (* This is Peterfalvi (14.9). *)
-Lemma FTtypeP_min_typeII : FTtype T == 2.
+Lemma FTtypeP_min_typeII : FTtype T == 2%N.
 Proof.
 apply: contraLR v1p_gt_u1q => notTtype2; rewrite -leqNgt -leC_nat.
 have [o_betaT0_eta _ [Ttype3 _]] := FTtype34_structure maxT TtypeP notTtype2.
@@ -962,9 +962,9 @@ have lbG0 g: g \in G0 -> 1 <= `|tau1M psi g| ^+ 2.
     by apply/andP; split; [apply: co_p_g galT _ | apply: co_p_g galS _].
   rewrite sum_cfunE norm_Cint_ge1 ?rpred_sum // => [ij _|].
     by rewrite cfunE rpredMsign.
-  set a := \sum_i _; suffices: (a == 1 %[mod 2])%C.
+  set a := \sum_i _; suffices: (a == 1 %[mod 2%N])%C.
     by apply: contraTneq=> ->; rewrite (eqCmod_nat 2 0 1).
-  have signCmod2 n ij (b := sigma 'chi_ij g): ((-1) ^+ n * b == b %[mod 2])%C.
+  have signCmod2 n ij (b := sigma 'chi_ij g): ((-1) ^+ n * b == b %[mod 2%N])%C.
     rewrite -signr_odd mulr_sign eqCmod_sym; case: ifP => // _.
     by rewrite -(eqCmodDl _ b) subrr -[b + b](mulr_natr b 2) eqCmodMl0 /b.
   rewrite -[1]addr0 [a](bigD1 0) {a}//= cfunE eqCmodD //.
@@ -1068,7 +1068,7 @@ Qed.
 (* This is Peterfalvi (14.14). *)
 Let LM_cases :
     '[tauM betaM, tau1L phi] != 0 /\ h.-1%:R / pq <= pq - 1
- \/ '[tauL betaL, tau1M psi] != 0 /\ q = 3 /\ p = 5.
+ \/ '[tauL betaL, tau1M psi] != 0 /\ q = 3%N /\ p = 5%N.
 Proof.
 have [irr_phi irr_psi] := (irrL Lphi, irrM Mpsi).
 have:= Dade_sub_lin_nonorthogonal (mFT_odd _) _ cohM cohL _ Mpsi _ _ Lphi.
@@ -1089,7 +1089,7 @@ have{ub_v} ub_qp: (q ^ (p - 3) < p ^ 2)%N.
   move/leq_ltn_trans->; rewrite // -addSn addnC -(leq_add2r (q ^ 2 * p ^ 2)).
   rewrite addnAC -mulSnr prednK ?cardG_gt0 // mulnA leq_add2l -expnMn.
   by rewrite (ltn_sqr 1) (@ltn_mul 1 1) ?prime_gt1.
-have q3: q = 3.
+have q3: q = 3%N.
   apply/eqP; rewrite eqn_leq qgt2 -ltnS -(odd_ltn 5) ?mFT_odd // -ltnS.
   rewrite -(ltn_exp2l _ _ (ltnW pgt2)) (leq_trans qp1_gt_pq1) // ltnW //.
   by rewrite -{1}(subnK pgt2) -addnS expnD (expnD p 2 4) ltn_mul ?ltn_exp2r.
@@ -1102,7 +1102,7 @@ apply: (@leq_trans (3 * x ^ 2)); last first.
   by rewrite [rhs in (_ <= rhs)%N]expnS leq_mul ?IHx.
 rewrite -addn1 sqrnD -addnA (mulSn 2) leq_add2l muln1.
 rewrite (@leq_trans (2 * (x * 7))) ?leq_mul //.
-by rewrite mulnCA (mulnDr x 12 2) mulnC leq_add2r -(subnKC xgt6).
+by rewrite mulnCA (mulnDr x 12 2)%N mulnC leq_add2r -(subnKC xgt6).
 Qed.
 
 (* This is Peterfalvi (14.15). *)
@@ -1161,10 +1161,10 @@ have ub_h: (h <= p ^ 2 * q ^ 2)%N.
 have{lb_h} lb_q2: (p ^ q.-2 < q ^ 2)%N.
   rewrite -(@ltn_pmul2l (p ^ 2)) ?expn_gt0 ?cardG_gt0 // (leq_trans _ ub_h) //.
   by rewrite -subn2 -expnD subnKC // ltnW.
-have q3: q = 3.
+have q3: q = 3%N.
   apply/eqP; rewrite eqn_leq qgt2 -(subnKC (ltnW qgt2)) subn2 ltnS.
   by rewrite -(ltn_exp2l _ _ (ltnW pgt2)) (ltn_trans lb_q2) ?ltn_exp2r.
-have{lb_q2 p1modq} p7: p = 7.
+have{lb_q2 p1modq} p7: p = 7%N.
   suff: p \in [seq n <- iota 4 5 | prime n & n == 1 %[mod 3]] by case/predU1P.
   by rewrite mem_filter pr_p mem_iota -q3 p1modq ltqp; rewrite q3 in lb_q2 *.
 rewrite oH mulnC oU /nU q3 p7 -leq_divRL //= in ub_h lb_x.

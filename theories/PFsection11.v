@@ -60,11 +60,11 @@ Implicit Types H K L N P Q R S T U V W : {group gT}.
 
 Variables M U W W1 W2 : {group gT}.
 Hypotheses (maxM : M \in 'M) (defW : W1 \x W2 = W) (MtypeP : of_typeP M U defW).
-Hypothesis notMtype2 : FTtype M != 2.
+Hypothesis notMtype2 : FTtype M != 2%N.
 
-Let notMtype5 : FTtype M != 5. Proof. exact: FTtype5_exclusion. Qed.
+Let notMtype5 : FTtype M != 5%N. Proof. exact: FTtype5_exclusion. Qed.
 Let notMtype1 : FTtype M != 1%N. Proof. exact: FTtypeP_neq1 MtypeP. Qed.
-Let Mtype34 : FTtype M \in pred2 3 4.
+Let Mtype34 : FTtype M \in pred2 3%N 4%N.
 Proof.
 by have:= FTtype_range M; rewrite -mem_iota !inE !orbA orbC 3?[_ == _](negPf _).
 Qed.
@@ -1005,7 +1005,7 @@ Qed.
 Lemma FTtype34_structure (eta0row := \sum_j eta_ 0 j) :
   [/\ (*a*) {in S1, forall zeta, eq_proj_eta (tau (bridge0 zeta)) eta0row},
       (*b*) (p < q)%N
-    & (*c*) FTtype M == 3 /\ typeP_Galois MtypeP].
+    & (*c*) FTtype M == 3%N /\ typeP_Galois MtypeP].
 Proof.
 have sum_etaW F: \sum_(eta <- etaW) F eta = \sum_i \sum_j F (eta_ i j).
   rewrite big_map big_tuple (reindex (dprod_Iirr defW)) /=.

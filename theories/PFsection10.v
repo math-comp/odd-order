@@ -448,7 +448,7 @@ suffices: n == 0.
 suffices: n ^+ 2 < n + 1.
   have d_dv_M: (d%:R %| #|M|)%C by rewrite -(mu1 0 j) // ?dvd_irr1_cardG.
   have{d_dv_M} d_odd: odd d by apply: dvdn_odd (mFT_odd M); rewrite -dvdC_nat.
-  have: (2 %| n * w1%:R)%C.
+  have: (2%N %| n * w1%:R)%C.
     rewrite divfK ?neq0CG // -signrN signrE addrA -(natrD _ d 1).
     by rewrite rpredB // dvdC_nat dvdn2 ?odd_double // oddD d_odd.
   rewrite -(truncCK Nn) -mulrSr -natrM -natrX ltC_nat (dvdC_nat 2) pnatr_eq0.
@@ -553,7 +553,7 @@ Qed.
 
 (* This is Peterfalvi (10.7). *)
 Let Frob_der1_type2 S :
-  S \in 'M -> FTtype S == 2 -> [Frobenius S^`(1) with kernel S`_\F].
+  S \in 'M -> FTtype S == 2%N -> [Frobenius S^`(1) with kernel S`_\F].
 Proof.
 move: S => L maxL /eqP Ltype2.
 have [S pairMS [xdefW [U StypeP]]] := FTtypeP_pair_witness maxM MtypeP.
@@ -593,7 +593,7 @@ have{tiA1M_AS} oST phi psi:
   move=> psi Tpsi; rewrite zchar_split mem_zchar //=.
   have [s /setDP[_ kerH's] ->] := seqIndP Tpsi.
   by rewrite inE in kerH's; rewrite (prDade_Ind_irr_on pddS).
-have notStype5: FTtype S != 5 by rewrite (eqP Stype2).
+have notStype5: FTtype S != 5%N by rewrite (eqP Stype2).
 have [|[_ _ _ _ -> //]] := typeP_reducible_core_cases maxS StypeP notStype5.
 case=> t []; set lambda := 'chi_t => T0C'lam lam_1 _.
 have{T0C'lam} Tlam: lambda \in calT.
@@ -785,7 +785,7 @@ rewrite -addrA -opprD ler_pdivl_mulr; last by rewrite natrG_gt0.
 apply: le_trans (_ : 1 - (3%:R^-1 + 7%:R^-1) <= _); last first.
   rewrite ler_add2l ler_opp2.
   rewrite ler_add // lef_pinv ?qualifE ?gt0CG ?ltr0n ?ler_nat //.
-  have notStype5: FTtype S != 5 by rewrite (eqP Stype2).
+  have notStype5: FTtype S != 5%N by rewrite (eqP Stype2).
   have frobUW2 := Ptype_compl_Frobenius maxS StypeP notStype5.
   apply: leq_ltn_trans (ltn_odd_Frobenius_ker frobUW2 (mFT_odd _)).
   by rewrite (leq_double 3).
@@ -888,7 +888,7 @@ Local Notation "` 'H''" := `M'' (at level 0) : group_scope.
 (* This is the bulk of the proof of Peterfalvi, Theorem (10.10); as with      *)
 (* (10.8), it will be restated below in order to remove dependencies on zeta, *)
 (* U_M and W1.                                                                *)
-Lemma FTtype5_exclusion_main : FTtype M != 5.
+Lemma FTtype5_exclusion_main : FTtype M != 5%N.
 Proof.
 apply/negP=> Mtype5.
 suffices [tau1]: coherent calS M^# tau by case/FTtype345_noncoherence_main.
@@ -1089,7 +1089,7 @@ have Dalpha i (al_ij := alpha_ i j) :
     rewrite mulrAC Dn -natrM in ub_a2; apply: le_trans ub_a2.
     rewrite -Cint_normK // ler_wpmul2r ?exprn_ge0 ?normr_ge0 // leC_nat szS1.
     rewrite (subn_sqr p 1) def_p_w1 subnK ?muln_gt0 // mulnA mulnK // mulnC.
-    by rewrite -subnDA -(mulnBr 2 _ 1%N) mulnA (@leq_pmul2l 4 2) ?ltn_subRL.
+    by rewrite -subnDA -(mulnBr 2%N _ 1%N) mulnA (@leq_pmul2l 4 2) ?ltn_subRL.
   have Z_4a1: 4%:R * a - 1%:R \in Cint by rewrite rpredB ?rpredM ?rpred_nat.
   have{ub_8a2} ub_4a1: `|4%:R * a - 1| < 3%:R.
     rewrite -ltr_sqr ?rpred_nat ?qualifE ?normr_ge0 // -natrX Cint_normK //.

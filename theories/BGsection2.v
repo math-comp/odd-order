@@ -911,7 +911,7 @@ case/Cauchy: pQ => // x Qx oxp; have Gx := subsetP sQG x Qx.
 case/submxP: (u_fix x Qx) => a def_ux.
 case/submxP: (v_fix x Qx) => b def_vx.
 have def_x: rG x = B^-1 *m block_mx a 0 0 b *m B.
-  rewrite -mulmxA -[2]/(1 + 1)%N mul_block_col !mul0mx addr0 add0r.
+  rewrite -mulmxA -[2%N]/(1 + 1)%N mul_block_col !mul0mx addr0 add0r.
   by rewrite -def_ux -def_vx -mul_col_mx mulKmx.
 have ap1: a ^+ p = 1.
   suff: B^-1 *m block_mx (a ^+ p) 0 0 (b ^+ p) *m B = 1.
@@ -921,7 +921,7 @@ have ap1: a ^+ p = 1.
     by rewrite -(repr_mxX (subg_repr rG sQG)) // -oxp expg_order repr_mx1.
   elim: (p) => [|k IHk]; first by rewrite -scalar_mx_block mulmx1 mulVmx.
   rewrite !exprS -IHk def_x -!mulmxE !mulmxA mulmxK // -2!(mulmxA B^-1).
-  by rewrite -[2]/(1 + 1)%N mulmx_block !mulmx0 !mul0mx !addr0 mulmxA add0r.
+  by rewrite -[2%N]/(1 + 1)%N mulmx_block !mulmx0 !mul0mx !addr0 mulmxA add0r.
 have ab1: a * b = 1.
   have: Q \subset <<[set y in G | \det (rG y) == 1]>>.
   rewrite subIset // genS //; apply/subsetP=> yz; case/imset2P=> y z Gy Gz ->.
@@ -934,7 +934,7 @@ have ab1: a * b = 1.
     by rewrite inE groupM ?repr_mxM //= detM y1 z1 mulr1.
   case/subsetP/(_ x Qx)/setIdP=> _.
   rewrite def_x !detM mulrAC -!detM -mulrA mulKr // -!mulmxE.
-  rewrite -[2]/(1 + 1)%N det_lblock // [a]mx11_scalar [b]mx11_scalar.
+  rewrite -[2%N]/(1 + 1)%N det_lblock // [a]mx11_scalar [b]mx11_scalar.
   by rewrite !det_scalar1 -scalar_mxM => /eqP->.
 have{ab1 ap1 def_x} ne_ab: a != b.
   apply/eqP=> defa; have defb: b = 1.
@@ -1056,7 +1056,7 @@ Qed.
 
 (* This is B & G, Lemma 2.7. *)
 Lemma regular_abelem2_on_abelem2 p q gT (P Q : {group gT}) :
-    p.-abelem P -> q.-abelem Q -> 'r_p(P) = 2 ->'r_q(Q) = 2 ->
+    p.-abelem P -> q.-abelem Q -> 'r_p(P) = 2%N ->'r_q(Q) = 2%N ->
     Q \subset 'N(P) -> 'C_Q(P) = 1%g ->
   (q %| p.-1)%N
   /\ (exists2 a, a \in Q^# & exists r,

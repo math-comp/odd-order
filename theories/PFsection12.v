@@ -169,7 +169,7 @@ Lemma FTtype1_subcoherent (R1 := sval R1gen) :
     [/\ subcoherent calS tau R,
         {in Iirr_kerD L H 1%G, forall i (phi := 'chi_i),
          [/\ orthonormal (R1 phi),
-             size (R1 phi) = 2
+             size (R1 phi) = 2%N
            & tau (phi - phi^*%CF) = \sum_(mu <- R1 phi) mu]}
     & forall chi, R chi = flatten [seq R1 'chi_i | i in S_ chi]]}.
 Proof.
@@ -565,7 +565,7 @@ Hypothesis sylP0 : p.-Sylow(M) P0.
 
 (* This is Peterfalvi (12.9). *)
 Lemma non_Frobenius_FTtype1_witness :
-  [/\ abelian P0, 'r_p(P0) = 2
+  [/\ abelian P0, 'r_p(P0) = 2%N
     & exists2 L, L \in 'M /\ P0 \subset L`_\s
     & exists2 x, x \in 'Ohm_1(P0)^#
     & [/\ ~~ ('C_K[x] \subset K'), 'N(<[x]>) \subset M & ~~ ('C[x] \subset L)]].
@@ -579,7 +579,7 @@ have sylP0_U: p.-Sylow(U) P0 := pHall_subl sP0U (pHall_sub hallU) sylP0.
 have{hallU} defM: K ><| U = M by apply/(sdprod_normal_p'HallP nsKM hallU).
 have{K'P0} coKP0: coprime #|K| #|P0| by rewrite coprime_pi'.
 have [/(_ _ _ sylP0_U)[abP0 rankP0] uCK _] := FTtypeI_II_facts maxM Mtype1 defM.
-have{rankP0} /eqP prankP0: 'r_p(P0) == 2.
+have{rankP0} /eqP prankP0: 'r_p(P0) == 2%N.
   by rewrite eqn_leq -{1}rank_pgroup // rankP0 (p_rank_Sylow sylP0).
 have piP0p: p \in \pi(P0) by rewrite -p_rank_gt0 prankP0.
 have [L maxL sP0Ls]: exists2 L, L \in 'M & P0 \subset L`_\s.
@@ -631,7 +631,7 @@ by rewrite prankP0 FTcore_type1 //= ltnS p_rank_gt0.
 Qed.
 
 Variables (L : {group gT}) (x : gT).
-Hypotheses (abP0 : abelian P0) (prankP0 : 'r_p(P0) = 2).
+Hypotheses (abP0 : abelian P0) (prankP0 : 'r_p(P0) = 2%N).
 Hypotheses (maxL : L \in 'M) (sP0_Ls : P0 \subset L`_\s).
 Hypotheses (P0_1s_x : x \in 'Ohm_1(P0)^#) (not_sCxK' : ~~ ('C_K[x] \subset K')).
 Hypotheses (sNxM : 'N(<[x]>) \subset M) (not_sCxL : ~~ ('C[x] \subset L)).
@@ -652,7 +652,7 @@ have [Ltype1 | notLtype1] := boolP (FTtype L == 1)%N; last first.
     have [_ _ _ tiFL] := compl_of_typeII_IV maxL LtypeP notLtype5.
     have Fx: x \in 'F(L)^# by rewrite !inE ntx (subsetP (Fcore_sub_Fitting L)).
     by have /idPn[] := cent1_normedTI tiFL Fx; rewrite setTI.
-  have [/=/FTcore_type2<- // | notLtype2] := boolP (FTtype L == 2).
+  have [/=/FTcore_type2<- // | notLtype2] := boolP (FTtype L == 2%N).
   have [_ _ [Ltype3 galL]] := FTtype34_structure maxL LtypeP notLtype2.
   have cycU: cyclic U.
     suffices regHU: Ptype_Fcompl_kernel LtypeP :=: 1%g.
@@ -710,7 +710,7 @@ pose P := 'O_p(H); pose P1 := 'Ohm_1(P).
 have sylP: p.-Sylow(H) P := nilpotent_pcore_Hall p (Fcore_nil L).
 have [sPH pP _] := and3P sylP; have sP1H: P1 \subset H by rewrite 2?gFsub_trans.
 have abelP1: p.-abelem P1 by rewrite Ohm1_abelem ?(abelianS sPH).
-have prankP1: 'r_p(P1) = 2.
+have prankP1: 'r_p(P1) = 2%N.
   apply/anti_leq; rewrite p_rank_Ohm1 (p_rank_Sylow sylP).
   by rewrite -[in (_ <= 2)%N]rankH p_rank_le_rank -prankP0 p_rankS.
 have ntP1: P1 != 1%g by rewrite -rank_gt0 ltnW // -prankP1 p_rank_le_rank.
@@ -861,7 +861,7 @@ have ffulE: mx_faithful rE by apply: abelem_mx_faithful.
 have p'E: [char 'F_p]^'.-group E.
   rewrite (eq_p'group _ (charf_eq (char_Fp pr_p))) (coprime_p'group _ pV) //.
   by rewrite coprime_sym (coprimeSg sVH) ?(Frobenius_coprime frobHE).
-have dimV: 'dim V = 2 by rewrite (dim_abelemE abelV) // oV pfactorK.
+have dimV: 'dim V = 2%N by rewrite (dim_abelemE abelV) // oV pfactorK.
 have cEE: abelian E.
   by rewrite dimV in (rE) ffulE; apply: charf'_GL2_abelian (mFT_odd E) ffulE _.
 have Enonscalar y: y \in E -> y != 1%g -> ~~ is_scalar_mx (rE y).

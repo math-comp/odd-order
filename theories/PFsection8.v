@@ -379,7 +379,7 @@ Qed.
 Lemma FTtypeP_neq1 : FTtype M != 1%N.
 Proof. by apply/FTtypeP=> // [[V [/(typePF_exclusion MtypeP)]]]. Qed.
 
-Remark compl_of_typeII_IV : FTtype M != 5 -> of_typeII_IV M U defW.
+Remark compl_of_typeII_IV : FTtype M != 5%N -> of_typeII_IV M U defW.
 Proof.
 move=> Mtype'5.
 have [Ux Wx W1x W2x defWx Mtype24]: exists_typeP (of_typeII_IV M).
@@ -391,7 +391,7 @@ have [x [Mx defUx defW1x _ _]] := of_typeP_conj MtypePx.
 by rewrite -defUx -defW1x cardJg conjsg_eq1 in ntUx prW1x.
 Qed.
 
-Remark compl_of_typeII : FTtype M == 2 -> of_typeII M U defW.
+Remark compl_of_typeII : FTtype M == 2%N -> of_typeII M U defW.
 Proof.
 move=> Mtype2.
 have [Ux Wx W1x W2x defWx [[MtypePx _ _ _]]] := FTtypeP 2 maxM Mtype2.
@@ -401,7 +401,7 @@ split=> //; first by apply: compl_of_typeII_IV; rewrite // (eqP Mtype2).
 by apply: compl_of_typeF M'typeF; rewrite defH; have [_ []] := MtypeP.
 Qed.
 
-Remark compl_of_typeIII : FTtype M == 3 -> of_typeIII M U defW.
+Remark compl_of_typeIII : FTtype M == 3%N -> of_typeIII M U defW.
 Proof.
 move=> Mtype3.
 have [Ux Wx W1x W2x defWx [[MtypePx _ _ _]]] := FTtypeP 3 maxM Mtype3.
@@ -410,7 +410,7 @@ rewrite abelianJ normJ -{1}(conjGid Mx) conjSg.
 by split=> //; apply: compl_of_typeII_IV; rewrite // (eqP Mtype3).
 Qed.
 
-Remark compl_of_typeIV : FTtype M == 4 -> of_typeIV M U defW.
+Remark compl_of_typeIV : FTtype M == 4%N -> of_typeIV M U defW.
 Proof.
 move=> Mtype4.
 have [Ux Wx W1x W2x defWx [[MtypePx _ _ _]]] := FTtypeP 4 maxM Mtype4.
@@ -419,7 +419,7 @@ rewrite abelianJ normJ -{1}(conjGid Mx) conjSg.
 by split=> //; apply: compl_of_typeII_IV; rewrite // (eqP Mtype4).
 Qed.
 
-Remark compl_of_typeV : FTtype M == 5 -> of_typeV M U defW.
+Remark compl_of_typeV : FTtype M == 5%N -> of_typeV M U defW.
 Proof.
 move=> Mtype5.
 have [Ux Wx W1x W2x defWx [[MtypePx /eqP]]] := FTtypeP 5 maxM Mtype5.
@@ -436,7 +436,7 @@ Definition all_FTtype1 := [forall M : {group gT} in 'M, FTtype M == 1%N].
 Definition typeP_pair S T (W W1 W2 : {set gT}) (defW : W1 \x W2 = W) :=
  [/\      [/\ cyclicTI_hypothesis G defW, S \in 'M & T \in 'M],
    (*b1*) [/\ S^`(1) ><| W1 = S, T^`(1) ><| W2 = T & S :&: T = W]%g,
-   (*b2*) (FTtype S == 2) || (FTtype T == 2),
+   (*b2*) (FTtype S == 2%N) || (FTtype T == 2%N),
    (*b3*) (1 < FTtype S <= 5 /\ 1 < FTtype T <= 5)%N
  & (*b4*) {in 'M, forall M, FTtype M != 1%N -> gval M \in S :^: G :|: T :^: G}].
 
@@ -461,7 +461,7 @@ suffices{tiST tiV cWW sW1W sW2W b3 b4} tiW12: W1 :&: W2 = 1%g.
   right; exists S, T; exists S _ _ _ defW; split=> // [|M _ /b4[] // x].
     by do 2?split; rewrite ?mFT_odd // /normedTI tiV nVW setTI /=.
   by case=> <-; rewrite inE mem_orbit ?orbT.
-wlog {b2 T defT maxT} Stype2: S W1 W2 @W @V maxS defS cycW ntV / FTtype S == 2.
+wlog {b2 T defT maxT} Stype2: S W1 W2 @W @V maxS defS cycW ntV / FTtype S == 2%N.
   move=> IH; case/orP: b2 cycW ntV => /IH; first exact.
   by rewrite setIC /V /W /= joingC setUC; apply.
 have{maxS Stype2 defS} prW1: prime #|W1|.
@@ -571,7 +571,7 @@ Lemma FTsupport_facts (X := 'A0(M)) (D := [set x in X | ~~('C[x] \subset M)]) :
             (*c2*) {in X, forall y, coprime #|H| #|'C_M[y]| },
             (*c3*) x \in 'A(L) :\: 'A1(L)
           & (*c4*) 1 <= FTtype L <= 2
-                /\ (FTtype L == 2 -> [Frobenius M with kernel M`_\F])]}].
+                /\ (FTtype L == 2%N -> [Frobenius M with kernel M`_\F])]}].
 Proof.
 have defX: X \in pred2 'A(M) 'A0(M) by rewrite !inE eqxx orbT.
 have [sDA1 part_a part_c] := BGsummaryII maxM defX.
@@ -908,7 +908,7 @@ End OneMaximal.
 
 (* This is Peterfalvi (8.16). *)
 Lemma FTtypeII_ker_TI M :
-   M \in 'M -> FTtype M == 2 ->
+   M \in 'M -> FTtype M == 2%N ->
  [/\ normedTI 'A0(M) G M, normedTI 'A(M) G M & normedTI 'A1(M) G M].
 Proof.
 move=> maxM typeM; have [sA1A sAA0] := (FTsupp1_sub maxM, FTsupp_sub0 M).
