@@ -30,18 +30,28 @@
 
   ## select an entry to build in the following `bundles` set
   ## defaults to "default"
-  default-bundle = "8.13";
+  default-bundle = "8.14+1.14";
 
   ## write one `bundles.name` attribute set per
   ## alternative configuration, the can be used to
   ## compute several ci jobs as well
-  bundles = let mc = {
-    mathcomp.override.version = "1.12.0";
-    mathcomp.job = false;
-  }; in {
-    "8.11".coqPackages = { coq.override.version = "8.11"; } // mc;
-    "8.12".coqPackages = { coq.override.version = "8.12"; } // mc;
-    "8.13".coqPackages = { coq.override.version = "8.13"; } // mc;
+  bundles = let
+    mc13 = {
+      mathcomp.override.version = "1.13.0";
+      mathcomp.job = false;
+    };
+    mc14 = {
+      mathcomp.override.version = "mathcomp-1.14.0";
+      mathcomp.job = false;
+    };
+  in {
+    "8.12+1.13".coqPackages = { coq.override.version = "8.12"; } // mc13;
+    "8.13+1.13".coqPackages = { coq.override.version = "8.13"; } // mc13;
+    "8.14+1.13".coqPackages = { coq.override.version = "8.14"; } // mc13;
+    "8.12+1.14".coqPackages = { coq.override.version = "8.12"; } // mc14;
+    "8.13+1.14".coqPackages = { coq.override.version = "8.13"; } // mc14;
+    "8.14+1.14".coqPackages = { coq.override.version = "8.14"; } // mc14;
+
   ## you may mark a package as a CI job as follows
   #  coqPackages.<another-pkg>.ci.job = "test";
   ## It can then be built throught
@@ -54,17 +64,17 @@
   cachix.coq = {};
   cachix.math-comp.authToken = "CACHIX_AUTH_TOKEN";
   cachix.coq-community = {};
-  
+
   ## If you have write access to one of these caches you can
   ## provide the auth token or signing key through a secret
   ## variable on GitHub. Then, you should give the variable
   ## name here. For instance, coq-community projects can use
   ## the following line instead of the one above:
   # cachix.coq-community.authToken = "CACHIX_AUTH_TOKEN";
-  
+
   ## Or if you have a signing key for a given Cachix cache:
   # cachix.my-cache.signingKey = "CACHIX_SIGNING_KEY"
-  
+
   ## Note that here, CACHIX_AUTH_TOKEN and CACHIX_SIGNING_KEY
   ## are the names of secret variables. They are set in
   ## GitHub's web interface.
