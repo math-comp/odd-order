@@ -181,7 +181,7 @@ Local Notation pHbar_p := Ptype_factor_prime.
 
 Lemma Ptype_Fcore_kernel_trivial : H0 :=: 1%g.
 Proof.
-have [/type2facts[_ oP _]| /type34ker1[]//] := boolP (FTtype S == 2).
+have [/type2facts[_ oP _]| /type34ker1[]//] := boolP (FTtype S == 2%N).
 have [/and3P[]] := Ptype_Fcore_kernel_exists maxS StypeP notStype5.
 case/maxgroupp/andP=> /proper_sub-sH0P nH0S /subset_trans/(_ nH0S)nH0P _ _.
 apply: card1_trivg; rewrite -(divg_indexS sH0P) -card_quotient //.
@@ -206,7 +206,7 @@ Lemma FTtypeP_facts :
       (*d*) coherent calS S^# tau
     & (*e*) normedTI 'A0(S) G S /\ {in 'CF(S, 'A0(S)), tau =1 'Ind}]%N.
 Proof.
-have type23: pred2 2 3 (FTtype S).
+have type23: pred2 2%N 3%N (FTtype S).
   by rewrite /= -implyNb; apply/implyP=> /type34facts[_ _ [->]].
 have [_ ntU _ tiFS] := compl_of_typeII_IV maxS StypeP notStype5.
 have [_ /mulG_sub[_ sUPU] nPU tiPU] := sdprodP defPU.
@@ -214,7 +214,7 @@ have cUU: abelian U by case/orP: type23 => [/compl2facts | /compl3facts] [_ ->].
 split.
 - split=> //; last exact: Ptype_compl_Frobenius StypeP _.
   by rewrite ltnNge; apply: contraR => /type34facts[_ /ltnW].
-- by have [/type2facts[] | /type34ker1[]] := boolP (FTtype S == 2).
+- by have [/type2facts[] | /type34ker1[]] := boolP (FTtype S == 2%N).
 - have ->: u = #|U / C|%g by rewrite card_quotient ?normsI ?normG ?norms_cent.
   have p1gt0: (0 < p.-1)%N by rewrite -(subnKC pgt2).
   have [/typeP_Galois_P[]| /typeP_Galois_Pn[]]// := boolP (typeP_Galois StypeP).
@@ -345,7 +345,7 @@ Proof. by case: b => //; apply: conjC_Iirr_eq0. Qed.
 (* better fits its actual use in (13.7), (13.8) and (13.9) (note however that *)
 (* the p = 3 part will in fact not be used).                                  *)
 Definition typeP_TIred_coherent tau1 :=
-  exists2 b : bool, b -> p = 3
+  exists2 b : bool, b -> p = 3%N
   & forall j, j != 0 -> tau1 (mu_ j) = (-1) ^+ b *: \sum_i eta_ i (signW2 b j).
 
 (* This is the main part of Peterfalvi (13.3)(c), using the definition above. *)
@@ -380,7 +380,7 @@ have{Dmu} defIW2 l: l != 0 -> pred2 j k l.
 have [nz_k j'k]: k != 0 /\ k != j.
   rewrite conjC_Iirr_eq0 nz_j -(inj_eq irr_inj) conjC_IirrE.
   by rewrite odd_eq_conj_irr1 ?mFT_odd ?irr_eq1.
-have /eqP p3: p == 3.
+have /eqP p3: p == 3%N.
   rewrite -nirrW2 (cardD1 0) (cardD1 j) (cardD1 k) !inE nz_j nz_k j'k !eqSS.
   by apply/pred0Pn=> [[l /and4P[k'l j'l /defIW2/norP[]]]].
 exists true => // _ /defIW2/pred2P[]->; first by rewrite scaler_sign.
@@ -1190,7 +1190,7 @@ Import ssrint.
 Let lb_m_cases :
  [/\ (*a*) (q >= 7)%N -> m > 8%:R / 10%:R,
      (*b*) (q >= 5)%N -> m > 7%:R / 10%:R
-   & (*c*) q = 3 ->
+   & (*c*) q = 3%N ->
            m > 49%:R / 100 %:R /\ u%:R / c%:R > (p ^ 2).-1%:R / 6%:R :> algC].
 Proof.
 pose mkrat b d := fracq (b, d%:Z).
@@ -1214,7 +1214,7 @@ have Dm: m = (1 - d p) / 2%:R.
   rewrite -{1}(ltn_predK pgt2) expnS natrM invfM mulrA.
   by congr (_ + _ / _); apply/eqP; rewrite -!CratrE; compute.
 split; last apply: le_lt_trans gen_lb_uc.
-  apply: lt_le_trans (_ : (1 - d 5) / 2%:R <= _).
+  apply: lt_le_trans (_ : (1 - d 5%N) / 2%:R <= _).
     by rewrite /d -!CratrE; compute.
   rewrite Dm ler_pmul2r ?invr_gt0 ?ltr0n // ler_add2l ler_opp2.
   rewrite lef_pinv ?qualifE ?ltr0n ?expn_gt0 // leC_nat leq_pexp2l //=.
@@ -1234,17 +1234,17 @@ by rewrite lef_pinv ?qualifE ?ltr0n ?leC_nat.
 Qed.
 
 (* This corollary of (13.11) is used in both (13.12) and (13.15). *)
-Let small_m_q3 : m < (q * p)%:R / (q.*2.+1 * p.-1)%:R -> q = 3 /\ (p >= 5)%N.
+Let small_m_q3 : m < (q * p)%:R / (q.*2.+1 * p.-1)%:R -> q = 3%N /\ (p >= 5)%N.
 Proof.
 move=> ub_m; have [lb7_m lb5_m _] := lb_m_cases.
-have [p3 | p_neq3] := eqVneq p 3.
+have [p3 | p_neq3] := eqVneq p 3%N.
   have ub7_m: ~~ (8%:R / 10%:R < m).
     rewrite lt_gtF // (lt_le_trans ub_m) // p3 /=.
     apply: le_trans (_ : 3%:R / 4%:R <= _); last first.
       by rewrite -!CratrE; compute.
     rewrite ler_pdivl_mulr ?ltr0n // mulrAC ler_pdivr_mulr ?ltr0n ?muln_gt0 //.
     by rewrite -!natrM leC_nat mulnCA mulSn -muln2 -!mulnA leq_addl.
-  have{ub7_m} q5: q = 5.
+  have{ub7_m} q5: q = 5%N.
     apply: contraNeq ub7_m; rewrite neq_ltn odd_ltn ?mFT_odd //= ltnS leqNgt.
     by rewrite ltn_neqAle qgt2 -{1}p3 eq_sym p'q -(odd_geq 7) ?mFT_odd.
   have /implyP := lt_trans (lb5_m _) ub_m.
@@ -1287,7 +1287,7 @@ have{regCW1} dv_2q_c1: q.*2 %| c.-1.
   have /mulG_sub[_ sW1S] := sdprodW defS.
   apply: normsI; first by have [_ []] := StypeP.
   by rewrite (subset_trans sW1S) ?norms_cent ?gFnorm.
-have [q3 pge5]: q = 3 /\ (p >= 5)%N.
+have [q3 pge5]: q = 3%N /\ (p >= 5)%N.
   apply: small_m_q3; apply: (lt_le_trans ub_m).
   rewrite !natrM -!mulrA ler_pmul2l ?gt0CG //.
   rewrite !invfM !mulrA -(subnKC pgt2) ler_pmul2r ?invr_gt0 ?ltr0n //.
@@ -1310,13 +1310,13 @@ have ub3_m r a: (r < p)%N -> (a <= b)%N -> m < 3%:R / (a * 6).+1%:R * sum3 r.
   rewrite mulrA divfK ?mulVf ?pnatr_eq0 // ler_add2r.
   by rewrite ler_add ?lef_pinv ?qualifE ?ltr0n ?leC_nat ?leq_sqr.
 have beq1: b = 1%N.
-  apply: contraTeq lb_m; rewrite neq_ltn ltnNge b_gt0 => /(ub3_m 4) ub41.
+  apply: contraTeq lb_m; rewrite neq_ltn ltnNge b_gt0 => /(ub3_m 4%N) ub41.
   by rewrite lt_gtF // (lt_trans (ub41 _)) // /sum3 -!CratrE; compute.
-have c7: c = 7 by rewrite -(ltn_predK c_gt1) Dc1 beq1.
+have c7: c = 7%N by rewrite -(ltn_predK c_gt1) Dc1 beq1.
 have plt11: (p < 11)%N.
   rewrite ltnNge; apply: contraL lb_m => /ub3_m/(_ b_gt0) ub100.
   by rewrite lt_gtF // (lt_trans ub100) // /sum3 -!CratrE; compute.
-have{plt11} p5: p = 5.
+have{plt11} p5: p = 5%N.
   suffices: p \in [seq r <- iota q.+1 7 | prime r & coprime r c].
     by rewrite c7 q3 inE => /eqP.
   rewrite mem_filter mem_iota ltn_neqAle p'q q3 pgt2 pr_p (coprimeSg sW2P) //.
@@ -1344,7 +1344,7 @@ Local Notation c1 := FTtypeP_Ind_Fitting_reg_Fcore.
 
 (* This is the main part of the proof of Peterfalvi (13.13). *)
 Lemma FTtypeP_Ind_Fitting_nonGalois_facts :
-  ~~ typeP_Galois StypeP -> q = 3 /\ #|U| = (p.-1./2 ^ 2)%N.
+  ~~ typeP_Galois StypeP -> q = 3%N /\ #|U| = (p.-1./2 ^ 2)%N.
 Proof.
 have even_p1: 2 %| p.-1 by rewrite -subn1 -subSS dvdn_sub ?dvdn2 //= mFT_odd.
 move=> gal'S; have{gal'S} u_dv_p2q: u %| p.-1./2 ^ q.-1.
@@ -1367,7 +1367,7 @@ have ub_m: m < f q.
     by rewrite -natrX leC_nat divn2 dvdn_leq // expn_gt0 -(subnKC pgt2).
   rewrite -(subnKC qgt2) ler_pexpn2r ?rpred_div ?rpred_nat // natf_div //.
   by rewrite ler_wpmul2r ?invr_ge0 ?ler0n // leC_nat leq_pred.
-have{ub_m} q3: q = 3.
+have{ub_m} q3: q = 3%N.
   apply: contraTeq ub_m; rewrite neq_ltn ltnNge qgt2 -(odd_geq 5) ?mFT_odd //=.
   move=> qge5; rewrite lt_gtF // -(subnKC qge5).
   elim: (q - 5)%N => [|r]; last apply: le_lt_trans.
@@ -1382,7 +1382,7 @@ apply: le_trans (_ : (p.-1 ^ 2)%:R / 8%:R <= _).
   by rewrite -natrX Du ler_pdivl_mulr ?ltr0n // mulrC -natrM leC_nat leq_mul.
 rewrite -!subn1 (subn_sqr p 1) !natrM -!mulrA ler_wpmul2l ?ler0n //.
 rewrite ler_pdivr_mulr 1?mulrAC ?ler_pdivl_mulr ?ltr0n // -!natrM leC_nat.
-rewrite (mulnA _ 3 2) (mulnA _ 4 2) leq_mul // mulnBl mulnDl leq_subLR.
+rewrite (mulnA _ 3%N 2%N) (mulnA _ 4%N 2%N) leq_mul // mulnBl mulnDl leq_subLR.
 by rewrite addnCA (mulnSr p 3) -addnA leq_addr.
 Qed.
  
@@ -1407,9 +1407,9 @@ have ub_p: ((p - 3) ^ 2 < 4 ^ 2)%N.
   rewrite -natrM ltC_nat prednK ?expn_gt0 ?cardG_gt0 // => /(leq_mul bgt2q).
   rewrite mulnC mulnA -Dbu q3 predn_exp mulKn; last by rewrite -(subnKC pgt2).
   rewrite 2!big_ord_recl big_ord1 /= /bump /= !mulnDl expn0 expn1.
-  rewrite addnA mulnS leq_add2r -(leq_add2r 9) (mulnCA p 2 3) -addnA addnCA.
+  rewrite addnA mulnS leq_add2r -(leq_add2r 9) (mulnCA p 2%N 3%N) -addnA addnCA.
   by rewrite -leq_subLR -(sqrnB pgt2).
-have{ub_p pge5} p5: p = 5.
+have{ub_p pge5} p5: p = 5%N.
   apply/eqP; rewrite eqn_leq pge5 andbT.
   by rewrite ltn_sqr ltnS leq_subLR -ltnS odd_ltn ?mFT_odd in ub_p.
 have bgt1: (1 < b)%N by rewrite -(subnKC bgt2q) q3.
@@ -1436,7 +1436,7 @@ Let ustar := (p ^ q).-1 %/ p.-1.
 
 (* This is Peterfalvi (13.13). *)
 Lemma FTtypeP_nonGalois_facts :
-  ~~ typeP_Galois StypeP -> q = 3 /\ u = (p.-1./2 ^ 2)%N.
+  ~~ typeP_Galois StypeP -> q = 3%N /\ u = (p.-1./2 ^ 2)%N.
 Proof.
 move=> gal'S; have: has irrIndH calS.
   by apply: contraR gal'S => /(FTtypeP_no_Ind_Fitting_facts maxS StypeP)[].
@@ -1664,7 +1664,7 @@ Proof. exact/seqInd_conjC_subset1/Fcore_sub_FTcore. Qed.
 
 (* This is Peterfalvi (13.17). *)
 Lemma FTtypeII_support_facts T L (Q := T`_\F) (H := L`_\F) :
-    FTtype S == 2 -> typeP_pair S T defW -> L \in 'M('N(U)) ->
+    FTtype S == 2%N -> typeP_pair S T defW -> L \in 'M('N(U)) ->
   [/\ (*a*) [Frobenius L with kernel H],
       (*b*) U \subset H
     & (*c*) H ><| W1 = L \/ (exists2 y, y \in Q & H ><| (W1 <*> W2 :^ y) = L)].
@@ -2117,7 +2117,7 @@ have{Gamma_even} odd_bSphi_bLeta: (bSphi + bLeta == 1 %[mod 2])%C.
   rewrite cfdot_cycTIiso mulrb ifN_eqC ?Iirr1_neq0 // add0r.
   rewrite 2?(orthogonalP otau1eta _ _ (map_f _ _) (mem_eta _)) // oppr0 !add0r.
   by rewrite addr0 addrA addrC addr_eq0 !opprB addrA /eqCmod => /eqP <-.
-have abs_mod2 a: a \in Cint -> {b : bool | a == b%:R %[mod 2]}%C.
+have abs_mod2 a: a \in Cint -> {b : bool | a == b%:R %[mod 2%N]}%C.
   move=> Za; pose n := truncC `|a|; exists (odd n).
   apply: eqCmod_trans (eqCmod_addl_mul _ (rpred_nat _ n./2) _).
   rewrite addrC -natrM -natrD muln2 odd_double_half truncCK ?Cnat_norm_Cint //.

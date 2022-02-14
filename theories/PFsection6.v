@@ -349,7 +349,7 @@ have p_gt0 n: (0 < p ^ n)%N by rewrite expn_gt0 prime_gt0.
 rewrite -!natrM; apply: (lt_le_trans (y := (e ^ 2 * (p ^ d chi) ^ 2)%:R)).
   rewrite ltr_nat -expnMn -mulnn mulnAC !mulnA 2?ltn_pmul2r //.
   rewrite -mulnA mulnCA ltn_pmul2l // -(subnK lt_xi1_chi) addnS expnS.
-  rewrite expnD mulnA ltn_pmul2r // -(muln1 3) leq_mul //.
+  rewrite expnD mulnA ltn_pmul2r // -(muln1 3%N) leq_mul //.
   rewrite ltn_neqAle prime_gt1 // eq_sym (sameP eqP (prime_oddPn p_pr)).
   by rewrite (dvdn_odd p_dv_K) // (oddSg sKL).
 have [r] := seqIndP (sYX _ Ychi); rewrite !inE => /andP[nkerZr _] def_chi.
@@ -716,7 +716,7 @@ have oYtau: orthonormal (map tau1 Y) by apply: map_orthonormal.
 have [[_ oYY] [_ oYYt]] := (orthonormalP oY, orthonormalP oYtau).
 have [eta1 Yeta1]: {eta1 | eta1 \in Y} by apply: seqIndD_nonempty.
 pose m : algC := (size Y)%:R; pose m_ub2 a := (a - 1) ^+ 2 + (m - 1) * a ^+ 2.
-have m_ub2_lt2 a: a \in Cint -> m_ub2 a < 2%:R -> a = 0 \/ a = 1 /\ size Y = 2.
+have m_ub2_lt2 a: a \in Cint -> m_ub2 a < 2%:R -> a = 0 \/ a = 1 /\ size Y = 2%N.
   move=> Za ub_a; have [|nza] := eqVneq a 0; [by left | right].
   have ntY: (1 < size Y)%N by apply: seqInd_nontrivial Yeta1.
   have m1_ge1: 1 <= m - 1 by rewrite ler_subr_addr (ler_nat _ 2).
@@ -977,7 +977,7 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
   have [Y1 tau_gamma defY1]: exists2 Y1 : 'CF(G), forall i : Iirr Z, i != 0 ->
       exists2 X1 : 'CF(G), orthogonal X1 (map tau1 Y)
       & tau (gamma i) = X1 - #|H : Z|%:R *: Y1
-      & Y1 = tau1 eta1 \/ size Y = 2 /\ Y1 = dual_iso tau1 eta1.
+      & Y1 = tau1 eta1 \/ size Y = 2%N /\ Y1 = dual_iso tau1 eta1.
   - pose psi1 := tau1 eta1; pose b := psi1 z0.
     pose a :=  (psi1 1%g - b) / #|Z|%:R.
     have sZG := subset_trans sZL sLG.

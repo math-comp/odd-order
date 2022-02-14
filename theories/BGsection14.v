@@ -1804,7 +1804,7 @@ have oTGgt_g2: (g / 2%:R < #|TG|%:R)%R.
     case/negP: (pgroupP sM'K _ p_pr (pdiv_dvd _)); rewrite eqpq.
     exact: pgroupP sMKs _ q_pr (pdiv_dvd _).
   have p_gt2: 2 < p by rewrite odd_geq.
-  apply: lt_le_trans (isT : lhs < hm 3 * hm 5)%R _.
+  apply: lt_le_trans (isT : lhs < hm 3%N * hm 5%N)%R _.
   by rewrite ler_pmul ?hm_inc ?hm_ge0 //= odd_geq ?(leq_trans _ ltpq).
 have defZhat: Z :\: (K :|: Ks) = T.
   rewrite /T cover_imset big_setU1 //= defMNX big_set1 defKs_star Ks0.
