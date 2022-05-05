@@ -85,7 +85,8 @@ elim: n => // n IHn in gT G *; rewrite ltnS => leGn oddG.
 have oG: #|[subg G]| = #|G| by rewrite (card_isog (isog_subg G)).
 apply/idPn=> nsolG; apply: IH_FT.
 pose gT' := [finGroupType of subg_of G].
-apply: (HB.pack gT' (IsMinSimpleOddGroup.Build gT' _ _ _ _)) => /= ??????.
+apply: (HB.pack gT' (IsMinSimpleOddGroup.Build gT' _ _ _ _));
+    do ?[move=> /= ??????].
 - by rewrite oG.
 - rewrite -(isog_simple (isog_subg _)); apply/simpleP; split=> [|H nsHG].
     by apply: contra nsolG; move/eqP->; rewrite abelian_sol ?abelian1.
@@ -973,4 +974,3 @@ by apply: SCN_normed_constrained sylP _; rewrite inE SCN_A ltnW.
 Qed.
 
 End Seven.
-
