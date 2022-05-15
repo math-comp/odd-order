@@ -350,7 +350,8 @@ have hallKP: ptau.-Hall(E) KP.
   apply/eqP; rewrite -(partnC tau (part_gt0 _ _)) (card_Hall sylP).
   rewrite (card_Hall hallK) partn_part => [|q]; last exact: leqW.
   rewrite (card_Hall hallE) -!partnI; congr (_ * _)%N; apply: eq_partn => q.
-  by rewrite 4!inE andbC /= 8!inE -leqNgt -eqn_leq eq_sym; case: eqP => // <-.
+  rewrite [\sigma(M)^']lock !inE -lock -leqNgt -eqn_leq eq_sym andb_idl //.
+  by move/eqP <-.
 have nsKP_E: KP <| E.
   by rewrite [KP](eq_Hall_pcore _ hallKP) ?pcore_normal ?rank2_ge_pcore_Hall.
 have [cKA | not_cKA]:= boolP (A \subset 'C(K)).

@@ -69,22 +69,22 @@ Variables M E : {group gT}.
 Hypotheses (maxM : M \in 'M) (hallE : \sigma(M)^'.-Hall(M) E).
 
 Lemma tau1J x : \tau1(M :^ x) =i \tau1(M).
-Proof. by move=> p; rewrite 3!inE sigmaJ p_rankJ derg1 -conjsRg cardJg. Qed.
+Proof. by move=> p; rewrite !(sigmaJ, inE) p_rankJ derg1 -conjsRg cardJg. Qed.
 
 Lemma tau2J x : \tau2(M :^ x) =i \tau2(M).
-Proof. by move=> p; rewrite 3!inE sigmaJ p_rankJ. Qed.
+Proof. by move=> p; rewrite inE /= inE /= sigmaJ p_rankJ. Qed.
 
 Lemma tau3J x : \tau3(M :^ x) =i \tau3(M).
-Proof. by move=> p; rewrite 3!inE sigmaJ p_rankJ derg1 -conjsRg cardJg. Qed.
+Proof. by move=> p; rewrite !(sigmaJ, inE) p_rankJ derg1 -conjsRg cardJg. Qed.
 
 Lemma tau2'1 : {subset \tau1(M) <= \tau2(M)^'}.
-Proof. by move=> p; rewrite !inE; case/and3P=> ->; move/eqP->. Qed.
+Proof. by move=> p; rewrite !inE => /and3P[-> /eqP->]. Qed.
 
 Lemma tau3'1 : {subset \tau1(M) <= \tau3(M)^'}.
-Proof. by move=> p; rewrite !inE; case/and3P=> -> ->. Qed.
+Proof. by move=> p; rewrite !inE => /and3P[-> ->]. Qed.
 
 Lemma tau3'2 : {subset \tau2(M) <= \tau3(M)^'}.
-Proof. by move=> p; rewrite !inE; case/andP=> ->; move/eqP->. Qed.
+Proof. by move=> p; rewrite !inE => /andP[-> /eqP->]. Qed.
 
 Lemma ex_sigma_compl : exists F : {group gT}, \sigma(M)^'.-Hall(M) F.
 Proof. exact: Hall_exists (mmax_sol maxM). Qed.
@@ -396,7 +396,7 @@ have [sMp | sM'p] := boolP (p \in \sigma(M)); last first.
   have:= prime_class_mmax_norm maxH pX sNH.
   rewrite defH /= sigmaJ tau2J !negb_or (negPf sM'p) /= => t2Mp.
   by rewrite (contraL (@tau2'1 _ p)) // [~~ _]tau3'2.
-rewrite 3!inE sMp 3!inE sMp orbF negbK.
+rewrite !(sMp, inE) orbF negbK.
 have [_ transCX _] := sigma_group_trans maxM sMp pX.
 set maxMX := finset _ in transCX.
 have maxMX_H: gval H \in maxMX by rewrite inE MG_H (subset_trans (normG X)).

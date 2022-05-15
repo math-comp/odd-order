@@ -965,7 +965,7 @@ have defKs: 'C_H(K) = Ks.
   by rewrite -(setIidPl sHM') -setIA defK cent_cycle prKsK // (setIidPr _).
 have{hallK} kK: \kappa(M).-group K.
   apply: sub_pgroup (pgroup_pi K) => p piKp.
-  rewrite unlock 4!inE -!andb_orr orNb andbT -andbA.
+  rewrite unlock inE /= inE /= -!andb_orr orNb andbT -andbA.
   have [X EpX]: exists X, X \in 'E_p^1(K).
     by apply/p_rank_geP; rewrite p_rank_gt0.
   have [sXK abelX dimX] := pnElemP EpX; have [pX _] := andP abelX.
