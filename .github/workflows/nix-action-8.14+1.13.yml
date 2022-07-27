@@ -77,6 +77,30 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "8.14+1.13"
         --argstr job "mathcomp-character"
     - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "8.14+1.13"
+        --argstr job "mathcomp-ssreflect"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: mathcomp-fingroup'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "8.14+1.13"
+        --argstr job "mathcomp-fingroup"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: mathcomp-algebra'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "8.14+1.13"
+        --argstr job "mathcomp-algebra"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: mathcomp-solvable'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "8.14+1.13"
+        --argstr job "mathcomp-solvable"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: mathcomp-field'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "8.14+1.13"
+        --argstr job "mathcomp-field"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: mathcomp'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "8.14+1.13"
+        --argstr job "mathcomp"
+    - if: steps.stepCheck.outputs.status == 'built'
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "8.14+1.13"
         --argstr job "odd-order"
