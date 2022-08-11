@@ -560,7 +560,7 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
   have mul1F: left_id one mul by move=> a; apply: outI; rewrite outM out1 mul1r.
   have mulD: left_distributive mul +%R%R.
     by move=> a1 a2 b; apply: canLR outK _; rewrite !raddfD mulrDl -!{1}outM.
-  pose rV_isComRing := GRing.Zmodule_IsComRing.Build 'rV__ mulA mulC mul1F mulD nzFone.
+  pose rV_isComRing := GRing.Zmodule_isComRing.Build 'rV__ mulA mulC mul1F mulD nzFone.
   Time pose Fring : comRingType := HB.pack 'rV__ rV_isComRing.
   have outRM: multiplicative (outF : Fring -> _) by [].
   have mulI (nza : {a | a != 0%R :> Fring}): GRing.rreg (val nza).
@@ -572,7 +572,7 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
   pose field_axiom (R : ringType) inv := (forall x : R, x != 0 :>R -> inv x * x = 1 :> R)%R.
   have mulV: field_axiom _ inv.
     by move=> a nz_a; rewrite /inv insubT /= (f_invF (mulI (exist _ _ _))).
-  pose IsField := GRing.ComRing_IsField.Build Fring mulV inv0.
+  pose IsField := GRing.ComRing_isField.Build Fring mulV inv0.
   Time pose F : finFieldType := HB.pack Fring IsField.
   by exists F, (AddRMorphism outRM); first exists inF.
 pose in_uF (a : F) : {unit F} := insubd (1 : {unit F}) a.

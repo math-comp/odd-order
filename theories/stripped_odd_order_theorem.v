@@ -163,7 +163,7 @@ have{rG inj_rG im_rG} [gT o_gT [f [g Gf [fK gK]] [fM f1 fV]]]:
   have m1: left_id o m by move=> a; apply: canLR fK _; rewrite f1 mul1T.
   have mV: left_inverse o v m.
     by move=> a; apply: canLR fK _; rewrite fV f1 mulVT.
-  pose isGroup_gT : IsMulGroup gT := IsMulGroup.Build gT mA m1 mV.
+  pose isGroup_gT : isMulGroup gT := isMulGroup.Build gT mA m1 mV.
   pose bT : finGroupType := HB.pack gT isGroup_gT.
   exists bT; first by rewrite card_ord Dn.
   by exists f; first exists g.
