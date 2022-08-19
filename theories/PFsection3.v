@@ -1376,7 +1376,7 @@ have [-> | nzj1] := altP (j1 =P 0); first exact: oxi_i0.
 have ->: xi_ i1 j1 = beta i1 j1 + xi_ i1 0 + xi_ 0 j1 by rewrite /xi_ !ifN.
 rewrite 2!cfdotDr oxi_i0 oxi_0j andbC /xi_ (negPf nzi2) (negPf nzj2) !addr0.
 rewrite eq_sym xpair_eqE cfdotC 2!cfdotBr o_beta // betaXi0 ?betaX0j //.
-by rewrite -!CintrE /= rmorph_int; do 2!case: (_ == _).
+by rewrite !pmulrn -!mulrzBr rmorph_int; do 2!case: (_ == _).
 Qed.
 
 End CyclicTIisoBasis.
@@ -1423,7 +1423,7 @@ Qed.
 
 Fact cyclicTIiso_key : unit. Proof. by []. Qed.
 Definition cyclicTIiso :=
-  locked_with cyclicTIiso_key (lfun_linear (sval cyclicTIiso_exists)).
+  locked_with cyclicTIiso_key [linear of (sval cyclicTIiso_exists)].
 Local Notation sigma := cyclicTIiso.
 Let im_sigma := map sigma (irr W).
 Let eta_ i j := sigma (w_ i j).
@@ -1486,7 +1486,9 @@ Proof.
 have sigW i j : '[sigma 'chi_i, sigma 'chi_j] = (i == j)%:R.
   by rewrite cycTIisometry cfdot_irr.
 have [j | sigmaV sigma'V] := equiv_restrict_compl_ortho sWG nsVW cfWVbasis sigW.
-  rewrite /= -/cfWVbase -(eq_bigr _ (fun _ _ => linearZ _ _)) /= -linear_sum.
+  rewrite /= -/cfWVbase.
+  under eq_bigr => i _ do rewrite -linearZ.
+  rewrite -linear_sum.
   rewrite -cfun_sum_cfdot cycTIiso_Ind //.
   by rewrite (basis_mem cfWVbasis) ?mem_nth ?size_image.
 split=> [phi v Vv | psi /orthoPl o_psi_sigma].

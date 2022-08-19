@@ -416,7 +416,7 @@ have al_ij_zeta_s: '[al_ij^\tau, zeta^*^\tau1] = a.
   apply: canRL (addNKr _) _; rewrite addrC -opprB -cfdotBr -raddfB.
   have M'dz: zeta - zeta^*%CF \in 'Z[calS, M'^#] by apply: seqInd_sub_aut_zchar.
   rewrite Dtau1 // Dade_isometry ?alpha_on ?tauM' //.
-  rewrite cfdotBr opprB cfdotBl cfdot_conjCr rmorphB linearZ /=.
+  rewrite cfdotBr opprB cfdotBl cfdot_conjCr rmorphB /= linearZ /=.
   rewrite -!prTIirr_aut !cfdotBl !cfdotZl !o_mu2_zeta o_zeta_s !mulr0.
   by rewrite opprB !(subr0, rmorph0) add0r irrWnorm ?mulr1.
 have Zal_ij: al_ij^\tau \in 'Z[irr G] by apply: Zalpha_tau.

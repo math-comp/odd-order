@@ -816,7 +816,7 @@ pose beta := beta_ 0 j1.
 have betaE i j: j != 0 -> beta_ i j = beta.
   move=> nz_j; transitivity (beta_ i j1); congr (_ + _); apply/eqP.
     rewrite eq_sym -subr_eq0 [rhs in _ + rhs]opprD addrACA -opprD subr_eq0.
-    rewrite -linearB /= !opprB !addrA !subrK -!/(mu2_ i _).
+    rewrite -[in X in X == _]linearB /= !opprB !addrA !subrK -!/(mu2_ i _).
     by rewrite [Dade pddM _]prDade_sub_TIirr ?mu2_1 //= deltaZ.
   rewrite -subr_eq0 !opprD addrACA -3!opprD opprK subr_eq0 addrACA addrA.
   rewrite -(prDade_sub2_TIirr pddM) -!/(mu2_ _ _) !deltaZ -linearB /=.

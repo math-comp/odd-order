@@ -1,5 +1,6 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
+From HB Require Import structures.
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
 Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
@@ -78,8 +79,10 @@ move=> mu alpha beta; apply/cfunP=> a; rewrite !cfunElock.
 rewrite mulrnAr -mulrnDl mulrCA -mulrDr; congr (_ * _ *+ _).
 by rewrite big_distrr -big_split; apply: eq_bigr => x _; rewrite !cfunE.
 Qed.
-Canonical invDade_linear := Linear invDade_is_linear.
-Canonical invDade_additive := Additive invDade_is_linear.
+HB.instance Definition _ :=
+  GRing.linear_isLinear.Build [ringType of algC]
+    [lmodType _ of classfun G] [zmodType of classfun L] _ invDade
+    invDade_is_linear.
 
 Lemma invDade_on chi : chi^\rho \in 'CF(L, A).
 Proof. by apply/cfun_onP=> x notAx; rewrite cfunElock (negPf notAx). Qed.

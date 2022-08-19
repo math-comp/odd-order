@@ -1,5 +1,6 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
+From HB Require Import structures.
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
 Require Import ssrbool ssrfun eqtype ssrnat seq path div choice.
@@ -274,8 +275,9 @@ Proof.
 move=> mu alpha beta; apply/cfunP=> x; rewrite !cfunElock.
 by case: pickP => [a _ | _] /=; rewrite ?mulr0 ?addr0 ?cfunE.
 Qed.
-Canonical Dade_additive := Additive Dade_is_linear.
-Canonical Dade_linear := Linear Dade_is_linear.
+HB.instance Definition _ :=
+  GRing.linear_isLinear.Build [ringType of algC]
+    [lmodType _ of classfun L] [zmodType of classfun G] _ Dade Dade_is_linear.
 
 Local Notation "alpha ^\tau" := (Dade alpha).
 
