@@ -364,7 +364,7 @@ have [q_gt4 | q_le4] := ltnP 4 q.
     apply: le_trans (ub_linH' 1%N isT); apply: ler_sum => i linH'i.
     rewrite ler_pdivr_mulr // degU ?divfK ?neq0CG //.
     rewrite normrM -normrX norm_conjC ler_wpmul2l ?normr_ge0 //.
-    rewrite -ler_sqr ?qualifE ?normr_ge0 ?(ltW (x := 0)) // ?sqrtCK.
+    rewrite -ler_sqr ?qualifE /= ?normr_ge0 ?(ltW (x := 0)) // ?sqrtCK.
     apply: le_trans (ub_linH' 2%N isT); rewrite (bigD1 i) ?ler_paddr //=.
     by apply: sumr_ge0 => i1 _; rewrite exprn_ge0 ?normr_ge0.
   rewrite natrM real_ler_distl ?rpredB ?rpredM ?rpred_nat // => /andP[lb_Pe _].

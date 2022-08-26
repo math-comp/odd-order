@@ -549,7 +549,7 @@ Lemma prTIirr0_1 i : mu2_ i 0 1%g = 1.
 Proof. by rewrite prTIirr_1 prTIirr00 cfun11. Qed.
 
 Lemma prTIirr0_linear i : mu2_ i 0 \is a linear_char.
-Proof. by rewrite qualifE irr_char /= prTIirr0_1. Qed.
+Proof. by rewrite qualifE/= irr_char /= prTIirr0_1. Qed.
 
 Lemma prTIred_1 j : mu_ j 1%g = w1%:R * mu2_ 0 j 1%g.
 Proof.

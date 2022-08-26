@@ -1027,9 +1027,9 @@ rewrite -!addrA ler_lt_add //; last first.
     rewrite addrC -[_ *+ 2]mulr_natl invfM mulVKf ?pnatr_eq0 //.
     rewrite mulr_natl -mulrS -mulr_natl [q2]natrM.
     by rewrite ler_pdivr_mulr ?mulr_gt0 ?gt0CG // mulKf ?neq0CG ?leC_nat.
-  rewrite -natrM !addrA ltr_add ?(FTtypeP_complV_ltr TtypeP) 1?ltnW //.
-  rewrite ltr_add ?(FTtypeP_complV_ltr StypeP) // /pq mulnC /q2 !natrM !invfM.
-  by rewrite !ltr_pmul2l ?ltf_pinv ?invr_gt0 ?qualifE ?gt0CG ?ltr0n ?ltr_nat.
+  rewrite -natrM !addrA ltr_add ?(FTtypeP_complV_ltr _ TtypeP) 1?ltnW //.
+  rewrite ltr_add ?(FTtypeP_complV_ltr _ StypeP) // /pq mulnC /q2 !natrM !invfM.
+  by rewrite !ltr_pmul2l ?ltf_pinv ?invr_gt0 ?qualifE/= ?gt0CG ?ltr0n ?ltr_nat.
 rewrite ler_pdivr_mulr ?ler_pdivl_mull ?gt0CG // -natrM leC_nat.
 apply: leq_trans lb_k; rewrite leqW // mulnAC mulnC leq_mul //.
 have [[_ _ frobVW2 _] _ _ _ _] := FTtypeP_facts maxT TtypeP.

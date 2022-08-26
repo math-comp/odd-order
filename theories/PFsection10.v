@@ -218,7 +218,7 @@ have invj j: j != 0 -> mu2_ 0 j 1%g = d%:R /\ delta_ j = delta.
 have d_gt1: (d > 1)%N.
   rewrite ltn_neqAle andbC -eqC_nat -ltC_nat truncCK ?Cnat_irr1 //.
   rewrite irr1_gt0 /= eq_sym; apply: contraNneq nz_j1 => mu2_lin.
-  have: mu2_ 0 #1 \is a linear_char by rewrite qualifE irr_char /= mu2_lin.
+  have: mu2_ 0 #1 \is a linear_char by rewrite qualifE/= irr_char /= mu2_lin.
   by rewrite lin_irr_der1 => /(prTIirr0P ptiWM)[i /irr_inj/prTIirr_inj[_ ->]].
 split=> // [i j /invj[<- _] | _ /invj[//] | ]; first by rewrite prTIirr_1.
 have: (d%:R == delta %[mod w1])%C by rewrite truncCK ?Cnat_irr1 ?prTIirr1_mod.
@@ -784,7 +784,7 @@ rewrite mul1r -{1}[_^-1]mul1r addrC ler_oppr [- _]opprB -!mulrBl.
 rewrite -addrA -opprD ler_pdivl_mulr; last by rewrite natrG_gt0.
 apply: le_trans (_ : 1 - (3%:R^-1 + 7%:R^-1) <= _); last first.
   rewrite ler_add2l ler_opp2.
-  rewrite ler_add // lef_pinv ?qualifE ?gt0CG ?ltr0n ?ler_nat //.
+  rewrite ler_add // lef_pinv ?qualifE/= ?gt0CG ?ltr0n ?ler_nat //.
   have notStype5: FTtype S != 5%N by rewrite (eqP Stype2).
   have frobUW2 := Ptype_compl_Frobenius maxS StypeP notStype5.
   apply: leq_ltn_trans (ltn_odd_Frobenius_ker frobUW2 (mFT_odd _)).
@@ -1092,7 +1092,7 @@ have Dalpha i (al_ij := alpha_ i j) :
     by rewrite -subnDA -(mulnBr 2%N _ 1%N) mulnA (@leq_pmul2l 4 2) ?ltn_subRL.
   have Z_4a1: 4%:R * a - 1%:R \in Cint by rewrite rpredB ?rpredM ?rpred_nat.
   have{ub_8a2} ub_4a1: `|4%:R * a - 1| < 3%:R.
-    rewrite -ltr_sqr ?rpred_nat ?qualifE ?normr_ge0 // -natrX Cint_normK //.
+    rewrite -ltr_sqr ?rpred_nat ?qualifE/= ?normr_ge0 // -natrX Cint_normK //.
     rewrite sqrrB1 exprMn -natrX -mulrnAl -mulrnA (natrD _ 8 1) ltr_add2r.
     rewrite (natrM _ 2 4) (natrM _ 2 8) -!mulrA -mulrBr ltr_pmul2l ?ltr0n //.
     by rewrite ltr_subl_addl (le_lt_trans ub_8a2) // ltr_add2l ltr_nat.

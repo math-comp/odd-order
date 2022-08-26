@@ -884,7 +884,7 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
       by rewrite -(norm_Cnat Na) norm_Cint_ge1 ?Cint_Cnat.
     have /seqIndP[i1 /setDP[_ not_kerH'i1] Dxi1] := Xxi1.
     apply: contraNneq not_kerH'i1 => a_eq1; rewrite inE (subset_trans sZH') //.
-    rewrite -lin_irr_der1 qualifE irr_char /= -(inj_eq (mulfI (neq0CiG L H))).
+    rewrite -lin_irr_der1 qualifE/= irr_char /= -(inj_eq (mulfI (neq0CiG L H))).
     by rewrite -cfInd1 // -Dxi1 xi1_1 a_eq1 mul1r mulr1 oW1.
   without loss{tau_psi1 Itau1 Ztau1 Dtau1 b q Db mq2_lt2 Zq} tau_psi1:
     tau1 cohY o_tauXY oX1tauY / tau psi1 = X1 - a *: tau1 eta1.
@@ -1212,7 +1212,7 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
     have leba i: i \in rp -> b i <= a_ i.
       move=> rp_i; have ai_gt0: a_ i > 0 by rewrite -Da_ ?irr1_gt0.
       rewrite (le_trans (real_ler_norm (Rb i _))) //.
-      rewrite -(@ler_pexpn2r _ 2) ?qualifE ?(ltW ai_gt0) ?norm_ger0 //.
+      rewrite -(@ler_pexpn2r _ 2) ?qualifE/= ?(ltW ai_gt0) ?norm_ger0 //.
       apply: le_trans (_ : '[b i *: Y1 - Z1 i] <= _).
         rewrite cfnormBd; last by rewrite cfdotZl cfdotC oZY1 ?conjC0 ?mulr0.
         by rewrite cfnormZ normY1 mulr1 ler_addl cfnorm_ge0.

@@ -1047,7 +1047,7 @@ have a0: a = 0.
   rewrite ltr_subr_addl -ltr_subr_addr -(ltr_add2r 1) -mulrSr -sqrrB1.
   rewrite -Cint_normK ?rpredB ?rpredM ?rpred_nat ?rpred1 //.
   rewrite (lt_le_trans (y := (3 ^ 2)%:R)) ?ltC_nat // natrX.
-  rewrite ler_sqr ?qualifE ?ler0n ?normr_ge0 //.
+  rewrite ler_sqr ?qualifE/= ?ler0n ?normr_ge0 //.
   rewrite (le_trans _ (ler_sub_dist _ _)) // normr1 normrM normr_nat.
   by rewrite ler_subr_addl -mulrS mulr_natl ler_pmuln2r ?norm_Cint_ge1.
 pose chi0 := 'Ind[L, H] 1.
@@ -1168,7 +1168,7 @@ have lb_psiM: '[rhoM psi] >= #|K :\: K'|%:R / #|M|%:R * e.-1%:R ^+ 2.
   rewrite ler_paddr ?sumr_ge0 // => [z _|]; first exact: mul_conjC_ge0.
   rewrite -sumr_const ler_sum // => z KK'z.
   rewrite {}rhoMid ?(subsetP _ z KK'z) ?setDS ?sub1G // {}psiKK'_id {z KK'z}//.
-  rewrite -normCK ler_sqr ?qualifE ?ler0n ?normr_ge0 //.
+  rewrite -normCK ler_sqr ?qualifE/= ?ler0n ?normr_ge0 //.
   have [eps prim_eps] := C_prim_root_exists (prime_gt0 pr_p).
   have psi_xg: (psi (x * g)%g == e%:R %[mod 1 - eps])%A.
     have [-> // _] := rhoL_psi; rewrite -[x]mulg1 -chi1.
@@ -1223,7 +1223,7 @@ have ubM: (#|M| <= #|K| * #|H|)%N.
   by rewrite -(sdprod_card defM) leq_mul // subset_leq_card.
 have{lb_psiM lb_psiL ub_rhoML ubM} ubK: (#|K / K'|%g < 4)%N.
   rewrite card_quotient ?gFnorm -?ltC_nat //.
-  rewrite -ltf_pinv ?qualifE ?gt0CiG ?ltr0n // natf_indexg ?gFsub //.
+  rewrite -ltf_pinv ?qualifE/= ?gt0CiG ?ltr0n // natf_indexg ?gFsub //.
   rewrite invfM invrK mulrC -(subrK #|K|%:R #|K'|%:R) mulrDl divff ?neq0CG //.
   rewrite -opprB mulNr addrC ltr_subr_addl -ltr_subr_addr.
   have /Frobenius_context[_ _ ntE _ _] := set_Frobenius_compl defL frobL.
