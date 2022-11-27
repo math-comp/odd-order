@@ -53,11 +53,9 @@
       mathcomp.job = false;
     };
   in {
-    "8.12+1.13".coqPackages = { coq.override.version = "8.12"; } // mc13;
     "8.13+1.13".coqPackages = { coq.override.version = "8.13"; } // mc13;
     "8.14+1.13".coqPackages = { coq.override.version = "8.14"; } // mc13;
     "8.15+1.13".coqPackages = { coq.override.version = "8.15"; } // mc13;
-    "8.12+1.14".coqPackages = { coq.override.version = "8.12"; } // mc14;
     "8.13+1.14".coqPackages = { coq.override.version = "8.13"; } // mc14;
     "8.14+1.14".coqPackages = { coq.override.version = "8.14"; } // mc14;
     "8.15+1.14".coqPackages = { coq.override.version = "8.15"; } // mc14;

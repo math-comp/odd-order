@@ -1404,7 +1404,7 @@ suffices /sigW[f /and3P[]]: exists f : {ffun _}, sigma_spec f.
   rewrite linear_sum rpred_sum // => k _; rewrite linearZ rpredZ_Cint //=.
   by rewrite -tnth_nth lfunE [sigma _]Dsigma ?mem_enum ?dchi_vchar.
 have [xi_ [xi00 Zxi Dxi o1xi]] := cyclicTIiso_basis_exists.
-pose f := [ffun k => dirr_dIirr (prod_curry xi_) (inv_dprod_Iirr defW k)].
+pose f := [ffun k => dirr_dIirr (uncurry xi_) (inv_dprod_Iirr defW k)].
 exists f; apply/and3P; case: linear_of_free => /= sigma Dsigma.
 have{f Dsigma} Deta i j: sigma (w_ i j) = xi_ i j.
   rewrite /w_ -tnth_map /= (tnth_nth 0) /=.

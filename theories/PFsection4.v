@@ -271,7 +271,7 @@ Proof. exact: cfdot_dprod_irr. Qed.
 
 (* Witnesses for Theorem (4.3)(b). *)
 Fact primeTIdIirr_key : unit. Proof. by []. Qed.
-Definition primeTIdIirr_def := dirr_dIirr (sigma \o prod_curry w_).
+Definition primeTIdIirr_def := dirr_dIirr (sigma \o uncurry w_).
 Definition primeTIdIirr := locked_with primeTIdIirr_key primeTIdIirr_def.
 Definition primeTI_Iirr ij := (primeTIdIirr ij).2.
 Definition primeTI_Isign j := (primeTIdIirr (0, j)).1.

@@ -413,7 +413,7 @@ have actsGC i: {acts G, on C i | 'J}.
 have{actsGC} PdvKa i j s:
   ~~ dC i Z^# -> ~~ dC j Z^# -> dC s Z -> (#|P| %| a i j s * #|C s|)%N.
 - pose Omega := [set uv in [predX C i & C j] | mulgm uv \in C s]%g.
-  pose to_fn uv x := prod_curry (fun u v : gT => (u ^ x, v ^ x)%g) uv.
+  pose to_fn uv x := uncurry (fun u v : gT => (u ^ x, v ^ x)%g) uv.
   have toAct: is_action setT to_fn.
     by apply: is_total_action => [[u v]|[u v] x y] /=; rewrite ?conjg1 ?conjgM.
   move=> Zi Zj Z's; pose to := Action toAct.
