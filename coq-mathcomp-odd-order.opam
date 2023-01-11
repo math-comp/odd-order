@@ -12,7 +12,7 @@ build: [
 install: [ make "install" ]
 depends: [
   "ocaml"
-  "coq-mathcomp-character" { (>= "1.12.0") | (= "dev") }
+  "coq-mathcomp-character" { (>= "1.13.0") | (= "dev") }
   "coq" { >= "8.13" }
 ]
 tags: [ "keyword:finite groups" "keyword:Feit Thompson theorem" "keyword:small scale reflection" "keyword:mathematical components" "keyword:odd order theorem" ]
