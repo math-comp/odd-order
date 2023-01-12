@@ -225,7 +225,7 @@ split.
     have ltp1q: (p.-1 ^ q < p ^ q)%N by rewrite ltn_exp2r ?prednK // 2?ltnW.
     by rewrite leq_divRL // -expnSr (ltn_predK qgt2) -ltnS (ltn_predK ltp1q).
   rewrite dvdn_leq ?expn_gt0 ?p1gt0 // (dvdn_trans (cardSg (subsetT V))) //.
-  by rewrite cardsT card_matrix mul1n dvdn_exp2r //= card_ord Zp_cast.
+  by rewrite cardsT card_mx mul1n dvdn_exp2r //= card_ord Zp_cast.
 - have:= Ptype_core_coherence maxS StypeP notStype5; rewrite H0_1 CHbar_C.
   by rewrite (derG1P (abelianS _ cUU)) ?subsetIl ?(group_inj (joing1G _)).
 have ntA0: 'A0(S) != set0 := FTsupp0_neq0 maxS.
@@ -1354,7 +1354,7 @@ move=> gal'S; have{gal'S} u_dv_p2q: u %| p.-1./2 ^ q.-1.
   have a_odd: odd a by rewrite (dvdn_odd (dvdn_indexg _ _)) ?mFT_odd.
   have [_ _ nPU _] := sdprodP defPU.
   rewrite /u -card_quotient ?normsI ?normG ?norms_cent // (card_isog isoUhat).
-  apply: dvdn_trans (cardSg (subsetT _)) _; rewrite cardsT card_matrix mul1n.
+  apply: dvdn_trans (cardSg (subsetT _)) _; rewrite cardsT card_mx mul1n.
   rewrite card_ord Zp_cast ?dvdn_exp2r // -(@Gauss_dvdl a _ 2) ?coprimen2 //.
   by rewrite -divn2 divnK.
 have [_ lb5_m lb3_m] := lb_m_cases.

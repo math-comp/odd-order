@@ -571,7 +571,7 @@ set a := #|U : _| => [] [a_gt1 a_dv_p1 _ [U1 isoU1]].
 have{isoU1} isoU: U \isog U1 := isog_trans (quotient1_isog U) isoU1.
 have{a_gt1 a_dv_p1} defU1: U1 :=: [set: 'rV_2].
   apply/eqP; rewrite eqEcard subsetT -(card_isog isoU) oU.
-  rewrite cardsT card_matrix card_ord Zp_cast // leq_sqr -/p.
+  rewrite cardsT card_mx card_ord Zp_cast // leq_sqr -/p.
   apply: dvdn_leq; first by rewrite -(subnKC pgt2).
   rewrite -divn2 -(@Gauss_dvdl a _ 2) ?divnK //.
     by rewrite dvdn2 -subn1 oddB ?odd_gt0 ?mFT_odd.

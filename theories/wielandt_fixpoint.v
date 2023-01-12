@@ -344,7 +344,7 @@ have simS: forall U, U \in S -> mxsimple aG (gMx U).
   rewrite inE memJ_norm ?(subsetP nXL) // Lu /= inE gJ //.
   by rewrite mem_rowg (mxmodule_trans modU2) ?GgX.
 have im_g: Morphism gM @* L = [set: 'rV_#|G|].
-  apply/eqP; rewrite eqEcard subsetT cardsT card_matrix card_Fp //= mul1n.
+  apply/eqP; rewrite eqEcard subsetT cardsT card_mx card_Fp //= mul1n.
   rewrite card_morphim kerg setIid (Phi_Mho pL cLL) -divgS ?Mho_sub //.
   rewrite -(mul_card_Ohm_Mho_abelian 1 cLL) mulnK ?cardG_gt0 //.
   rewrite (card_pgroup (pgroupS (Ohm_sub 1 L) pL)) -rank_abelian_pgroup //.

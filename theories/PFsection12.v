@@ -891,7 +891,7 @@ have n1_eq1: n1 = 1%N.
   rewrite (MatrixGenField.gen_dim_factor irrE cErEy) mul1n dimV.
   by rewrite ltnNge mxminpoly_linear_is_scalar Enonscalar.
 have oFp2: #|Fp2| = (p ^ 2)%N.
-  rewrite card_sub card_matrix card_Fp // -{1}n1_eq1.
+  rewrite card_sub card_mx card_Fp // -{1}n1_eq1.
   by rewrite (MatrixGenField.gen_dim_factor irrE cErEy) dimV.
 have [f rfK fK]: bijective (@scalar_mx Fp2 n1).
   rewrite n1_eq1.
