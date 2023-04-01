@@ -332,7 +332,7 @@ Lemma ext_clP cl1 th k v (cl1k := (cl1.1, (k, v) :: cl1.2)) :
         /\ th1 =i [pred cl | if cl.1 == cl1.1 then cl == cl1k else cl \in th].
 Proof.
 case: cl1 => ij kvs /= in cl1k * => th_cl1; set th1p := [pred cl | _].
-pose th1 := [seq if cl.1 == ij then cl1k else cl | cl <- th].
+pose th1 := [seq (if cl.1 == ij then cl1k else cl) | cl <- th].
 exists th1; first by elim: (th) @th1 => //= cl th' ->; rewrite -2!fun_if.
 suffices Dth1: th1 =i th1p by rewrite Dth1 !inE !eqxx.
 move=> cl; rewrite inE; apply/mapP/idP=> [[{}cl th_cl ->] | ].
