@@ -214,11 +214,11 @@ have invj j: j != 0 -> mu2_ 0 j 1%g = d%:R /\ delta_ j = delta.
   have: delta_ j *: mu2_ 0 j == cfAut u (delta_ #1 *: mu2_ 0 #1).
     by rewrite -!(cycTIiso_prTIirr pddM) -/ctiWM -Dj1u.
   rewrite raddfZsign /= -prTIirr_aut eq_scaled_irr signr_eq0 /= /mu2_.
-  by case/andP=> /eqP-> /eqP->; rewrite prTIirr_aut cfunE aut_Cnat ?Cnat_irr1.
+  by case/andP=> /eqP-> /eqP->; rewrite prTIirr_aut cfunE/= aut_Cnat ?Cnat_irr1.
 have d_gt1: (d > 1)%N.
   rewrite ltn_neqAle andbC -eqC_nat -ltC_nat truncCK ?Cnat_irr1 //.
   rewrite irr1_gt0 /= eq_sym; apply: contraNneq nz_j1 => mu2_lin.
-  have: mu2_ 0 #1 \is a linear_char by rewrite qualifE irr_char /= mu2_lin.
+  have: mu2_ 0 #1 \is a linear_char by rewrite qualifE/= irr_char /= mu2_lin.
   by rewrite lin_irr_der1 => /(prTIirr0P ptiWM)[i /irr_inj/prTIirr_inj[_ ->]].
 split=> // [i j /invj[<- _] | _ /invj[//] | ]; first by rewrite prTIirr_1.
 have: (d%:R == delta %[mod w1])%C by rewrite truncCK ?Cnat_irr1 ?prTIirr1_mod.
@@ -416,7 +416,7 @@ have al_ij_zeta_s: '[al_ij^\tau, zeta^*^\tau1] = a.
   apply: canRL (addNKr _) _; rewrite addrC -opprB -cfdotBr -raddfB.
   have M'dz: zeta - zeta^*%CF \in 'Z[calS, M'^#] by apply: seqInd_sub_aut_zchar.
   rewrite Dtau1 // Dade_isometry ?alpha_on ?tauM' //.
-  rewrite cfdotBr opprB cfdotBl cfdot_conjCr rmorphB linearZ /=.
+  rewrite cfdotBr opprB cfdotBl cfdot_conjCr rmorphB /= linearZ /=.
   rewrite -!prTIirr_aut !cfdotBl !cfdotZl !o_mu2_zeta o_zeta_s !mulr0.
   by rewrite opprB !(subr0, rmorph0) add0r irrWnorm ?mulr1.
 have Zal_ij: al_ij^\tau \in 'Z[irr G] by apply: Zalpha_tau.
@@ -480,7 +480,7 @@ have eta_mu i: '[delta *: (eta_ i j - eta_ i 0), (mu_ j)^\tau1] = 1.
     have o_S_eta_ := coherent_ortho_cycTIiso MtypeP sSS0 cohS.
     by rewrite cfdotZr cfdotC o_S_eta_ ?conjC0 ?mulr0 // cfAut_irr.
   pose psi := mu_ j -  d%:R *: zeta^*%CF; rewrite (canRL (subrK _) (erefl psi)).
-  rewrite (raddfD tau1) raddfZnat cfdotDr addrC cfdotZl cfdotBl !{}o_zeta_s_w.
+  rewrite (raddfD tau1)/= raddfZnat cfdotDr addrC cfdotZl cfdotBl !{}o_zeta_s_w.
   rewrite subr0 mulr0 add0r -(canLR (subrK _) (tau_alpha i nz_j)).
   have Zpsi: psi \in 'Z[calS, M'^#].
     by rewrite ZmuBzeta // cfunE zeta1w1 rmorph_nat.
@@ -545,7 +545,7 @@ have odd_zeta_g: (zeta^\tau1 g == 1 %[mod 2])%C.
     rewrite ltn_neqAle val_eqE -irr_eq1 (eq_sym i) -(inj_eq irr_inj) andbA.
     by rewrite aut_IirrE odd_eq_conj_irr1 ?mFT_odd ?andbb.
   rewrite -{1}conjC_Iirr0 [w_ _ _]cycTIirr_aut -cfAut_cycTIiso.
-  by rewrite cfunE conj_Cint ?Zwg.
+  by rewrite cfunE /= conj_Cint ?Zwg.
 rewrite norm_Cint_ge1 //; first by rewrite zeta_g rpred_sum.
 apply: contraTneq odd_zeta_g => ->.
 by rewrite eqCmod_sym /eqCmod subr0 /= (dvdC_nat 2 1).
@@ -621,7 +621,7 @@ have{nRT} uccT2: cfConjC_subset T2 calT.
   by rewrite lam'nu lams'nu !(hasPn nRT).
 have scohT2 := subset_subcoherent scohT uccT2.
 have [tau2 cohT2]: coherent T2 S^# tauS.
-  apply: (uniform_degree_coherence scohT2); rewrite /= !cfunE nu_r_1 eqxx.
+  apply: (uniform_degree_coherence scohT2); rewrite /= !cfunE /= nu_r_1 eqxx.
   by rewrite conj_Cnat ?Cnat_irr1 ?eqxx.
 have [s nz_s] := has_nonprincipal_irr ntW2; have Smu_s := calSmu nz_s.
 pose alpha := mu_ s - d%:R *: zeta; pose beta := nu r - lambda.
@@ -750,7 +750,7 @@ have sG1_HVG: G1 \subset class_support H^# G :|: class_support V G.
     have [_ _ _ regHUH] := Frobenius_kerP frobHU.
     by rewrite (subsetP (regHUH ay _)) // inE ?HUxy // inE ntay.
   suffices /imset2P[xyz z Vxzy _ ->]: xy \in class_support V S.
-    by rewrite -conjgM orbC memJ_class_support.
+    by rewrite -conjgM orbC memJ_class_support ?in_setT //=.
   rewrite /V setUC -(FTsupp0_typeP maxS StypeP) !inE Sxy.
   rewrite andb_orr andNb (contra (subsetP _ _) notHUxy) /=; last first.
     by apply/bigcupsP=> z _; rewrite (eqP Stype2) setDE -setIA subsetIl.
@@ -784,7 +784,7 @@ rewrite mul1r -{1}[_^-1]mul1r addrC ler_oppr [- _]opprB -!mulrBl.
 rewrite -addrA -opprD ler_pdivl_mulr; last by rewrite natrG_gt0.
 apply: le_trans (_ : 1 - (3%:R^-1 + 7%:R^-1) <= _); last first.
   rewrite ler_add2l ler_opp2.
-  rewrite ler_add // lef_pinv ?qualifE ?gt0CG ?ltr0n ?ler_nat //.
+  rewrite ler_add // lef_pinv ?qualifE/= ?gt0CG ?ltr0n ?ler_nat //.
   have notStype5: FTtype S != 5%N by rewrite (eqP Stype2).
   have frobUW2 := Ptype_compl_Frobenius maxS StypeP notStype5.
   apply: leq_ltn_trans (ltn_odd_Frobenius_ker frobUW2 (mFT_odd _)).
@@ -1092,7 +1092,7 @@ have Dalpha i (al_ij := alpha_ i j) :
     by rewrite -subnDA -(mulnBr 2%N _ 1%N) mulnA (@leq_pmul2l 4 2) ?ltn_subRL.
   have Z_4a1: 4%:R * a - 1%:R \in Cint by rewrite rpredB ?rpredM ?rpred_nat.
   have{ub_8a2} ub_4a1: `|4%:R * a - 1| < 3%:R.
-    rewrite -ltr_sqr ?rpred_nat ?qualifE ?normr_ge0 // -natrX Cint_normK //.
+    rewrite -ltr_sqr ?rpred_nat ?qualifE/= ?normr_ge0 // -natrX Cint_normK //.
     rewrite sqrrB1 exprMn -natrX -mulrnAl -mulrnA (natrD _ 8 1) ltr_add2r.
     rewrite (natrM _ 2 4) (natrM _ 2 8) -!mulrA -mulrBr ltr_pmul2l ?ltr0n //.
     by rewrite ltr_subl_addl (le_lt_trans ub_8a2) // ltr_add2l ltr_nat.

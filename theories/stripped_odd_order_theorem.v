@@ -1,5 +1,6 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
+From HB Require structures.
 Require mathcomp.ssreflect.ssreflect.
 From mathcomp
 Require ssrbool ssrfun eqtype ssrnat fintype finset fingroup.
@@ -109,7 +110,8 @@ Local Notation Anormal := normal_subgroup.
 Local Notation Aabel_quo := abelian_factor.
 Local Notation Asol := solvable_group.
 
-Import Prelude ssreflect ssrbool ssrfun eqtype ssrnat fintype finset fingroup.
+Import HB.structures.
+Import Prelude ssreflect ssrbool ssrfun eqtype ssrnat choice fintype finset fingroup.
 Import morphism quotient action gfunctor gproduct commutator gseries nilpotent.
 Import GroupScope.
 
@@ -161,8 +163,9 @@ have{rG inj_rG im_rG} [gT o_gT [f [g Gf [fK gK]] [fM f1 fV]]]:
   have m1: left_id o m by move=> a; apply: canLR fK _; rewrite f1 mul1T.
   have mV: left_inverse o v m.
     by move=> a; apply: canLR fK _; rewrite fV f1 mulVT.
-  pose bT := BaseFinGroupType _ (FinGroup.Mixin mA m1 mV).
-  exists (@FinGroupType bT mV); first by rewrite card_ord Dn.
+  pose isGroup_gT : isMulGroup gT := isMulGroup.Build gT mA m1 mV.
+  pose bT : finGroupType := HB.pack gT isGroup_gT.
+  exists bT; first by rewrite card_ord Dn.
   by exists f; first exists g.
 pose im (H : {group gT}) x := (G x * (g x \in H))%type.
 have imG H : Agroup T mul one inv (im H).

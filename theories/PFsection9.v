@@ -1,5 +1,6 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
+From HB Require Import structures.
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
 Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
@@ -506,7 +507,8 @@ Lemma typeP_Galois_P :
     typeP_Galois ->
   {F : finFieldType & {phi : {morphism Hbar >-> F}
      & {psi : {morphism U >-> {unit F}} & {eta : {morphism W1 >-> {perm F}}
-   & forall alpha : {perm F}, reflect (rmorphism alpha) (alpha \in eta @* W1)
+   & forall alpha : {perm F},
+       reflect (additive alpha * multiplicative alpha) (alpha \in eta @* W1)
    & [/\ 'injm eta, {in Hbar & W1, morph_act 'Q 'P phi eta}
        & {in U & W1, forall x w, val (psi (x ^ w)) = eta w (val (psi x))}]}
    & 'ker psi = C /\ {in Hbar & U, morph_act 'Q 'U phi psi}}
@@ -525,7 +527,7 @@ have cEE A: A \in E_U -> centgmx rU A.
   case/envelop_mxP=> z_ ->{A}; rewrite -memmx_cent_envelop linear_sum.
   rewrite summx_sub // => x Ux; rewrite linearZ scalemx_sub {z_}//=.
   rewrite memmx_cent_envelop; apply/centgmxP=> y Uy.
-  rewrite -repr_mxM // commgC 2?repr_mxM ?(groupR, groupM) // -/rU.
+  rewrite -repr_mxM // commgC 2?repr_mxM ?(groupR, groupM) -/rU; [| by []..].
   apply/row_matrixP=> i; rewrite row_mul; move: (row i _) => h.
   have cHbH': (U / H0)^`(1) \subset 'C(Hbar).
     by rewrite -quotient_der ?quotient_cents.
@@ -533,15 +535,17 @@ have cEE A: A \in E_U -> centgmx rU A.
   by apply: (canLR (mulKg _)); rewrite -(centsP cHbH') ?mem_commg ?mem_rVabelem.
 have{cEE} [F [outF [inF outFK inFK] E_F]]:
   {F : finFieldType & {outF : {rmorphism F -> 'M(Hbar)%Mg}
-   & {inF : {additive _} | cancel outF inF & {in E_U, cancel inF outF}}
+   & {inF : {additive _ -> _} | cancel outF inF & {in E_U, cancel inF outF}}
    & forall a, outF a \in E_U}}%R.
-- pose B := row_base (enveloping_algebra_mx rU).
+- pose HACK := enveloping_algebra_mx rU.
+  pose B := row_base HACK.
   have freeB: row_free B by apply: row_base_free.
   pose outF := [additive of vec_mx \o mulmxr B].
   pose inF := [additive of mulmxr (pinvmx B) \o mxvec].
   have E_F a: outF a \in E_U by rewrite !inE vec_mxK mulmx_sub ?eq_row_base.
   have inK: {in E_U, cancel inF outF}.
     by move=> A E_A; rewrite /= mulmxKpV ?mxvecK ?eq_row_base.
+  set HACK2 := (quotient_coset_of__canonical__fingroup_FinGroup _) in @outF inF E_F inK *.
   have outI: injective outF := inj_comp (can_inj vec_mxK) (row_free_inj freeB).
   have outK: cancel outF inF by move=> a; apply: outI; rewrite inK ?E_F.
   pose one := inF 1%R; pose mul a b := inF (outF a * outF b)%R.
@@ -557,8 +561,8 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
   have mul1F: left_id one mul by move=> a; apply: outI; rewrite outM out1 mul1r.
   have mulD: left_distributive mul +%R%R.
     by move=> a1 a2 b; apply: canLR outK _; rewrite !raddfD mulrDl -!{1}outM.
-  pose Fring_NC := RingType 'rV__ (ComRingMixin mulA mulC mul1F mulD nzFone).
-  pose Fring := ComRingType Fring_NC mulC.
+  pose rV_isComRing := GRing.Zmodule_isComRing.Build 'rV__ mulA mulC mul1F mulD nzFone.
+  Time pose Fring : comRingType := HB.pack 'rV__ rV_isComRing.
   have outRM: multiplicative (outF : Fring -> _) by [].
   have mulI (nza : {a | a != 0%R :> Fring}): GRing.rreg (val nza).
     case: nza => a /=; rewrite -(inj_eq outI) out0 => nzA b1 b2 /(congr1 outF).
@@ -566,12 +570,16 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
     by rewrite row_free_unit (mx_Schur irrU) ?cEE ?E_F.
   pose inv (a : Fring) := oapp (fun nza => invF (mulI nza) one) a (insub a).
   have inv0: (inv 0 = 0)%R by rewrite /inv insubF ?eqxx.
-  have mulV: GRing.Field.axiom inv.
+  pose field_axiom (R : ringType) inv := (forall x : R, x != 0 :>R -> inv x * x = 1 :> R)%R.
+  have mulV: field_axiom _ inv.
     by move=> a nz_a; rewrite /inv insubT /= (f_invF (mulI (exist _ _ _))).
-  pose FunitRing := UnitRingType Fring (FieldUnitMixin mulV inv0).
-  have Ffield := @FieldMixin [comUnitRingType of FunitRing] inv mulV inv0.
-  pose F := FieldType (IdomainType _ (FieldIdomainMixin Ffield)) Ffield.
-  by exists [finFieldType of F], (AddRMorphism outRM); first exists inF.
+  pose IsField := GRing.ComRing_isField.Build Fring mulV inv0.
+  Time pose F : finFieldType := HB.pack Fring IsField.
+  pose outaM := GRing.isAdditive.Build Fring _ _ (raddfB outF).
+  pose outmM := GRing.isMultiplicative.Build _ _ _ outRM.
+  pose outRMT : GRing.RMorphism.type Fring _ :=
+    HB.pack (outF : _ -> _) outaM outmM.
+  by exists F, outRMT; first exists inF.
 pose in_uF (a : F) : {unit F} := insubd (1 : {unit F}) a.
 have in_uF_E a: a != 1 -> val (in_uF a) = a.
   by move=> nt_a; rewrite insubdK /= ?unitfE.
@@ -583,7 +591,7 @@ have [psi psiK]: {psi : {morphism U >-> {unit F}}
     rewrite in_uF_E ?inFK //; apply: contraTneq (repr_mx_unitr rU Ux).
     by move/(canRL_in inFK EUx)->; rewrite rmorph0 unitr0.
   suffices psiM: {in U &, {morph psi: x y / x * y}} by exists (Morphism psiM).
-  move=> x y Ux Uy /=; apply/val_inj/(can_inj outFK); rewrite rmorphM //.
+  move=> x y Ux Uy /=; apply/val_inj/(can_inj outFK); rewrite rmorphM //=.
   by rewrite !{1}psiK ?groupM // morphM ?(subsetP nH0U) ?repr_mxM ?mem_quotient.
 have /trivgPn/sig2W[s W2s nts]: W2bar != 1%G.
   by rewrite -cardG_gt1 oW2b prime_gt1.
@@ -596,7 +604,7 @@ have phi'D: {in setT &, {morph phi' : a b / a * b}}.
 have inj_phi': injective phi'.
   move=> a b /rVabelem_inj eq_sab; apply: contraNeq nz_sb.
   rewrite -[sb]mulmx1 idmxE -(rmorph1 outF) -subr_eq0 => /divff <-.
-  by rewrite rmorphM mulmxA !raddfB /= eq_sab subrr mul0mx.
+  by rewrite rmorphM /= mulmxA !raddfB /= eq_sab subrr mul0mx.
 have injm_phi': 'injm (Morphism phi'D) by apply/injmP; apply: in2W.
 have Dphi: 'dom (invm injm_phi') = Hbar.
   apply/setP=> h; apply/morphimP/idP=> [[a _ _ ->] // | Hh].
@@ -613,7 +621,7 @@ have phi'1: phi' 1%R = s by rewrite /phi' rmorph1 mulmx1 [inHb _]abelem_rV_K.
 have phi_s: phi s = 1%R by rewrite -phi'1 phi'K.
 have phiJ: {in Hbar & U, forall h x, phi (h ^ inMb x) = phi h * val (psi x)}%R.
   move=> h x Hh Ux; have Uxb := mem_quotient H0 Ux.
-  apply: inj_phi'; rewrite phiK ?memJ_norm ?(subsetP nHbU) // /phi' rmorphM.
+  apply: inj_phi'; rewrite phiK ?memJ_norm ?(subsetP nHbU) // /phi' rmorphM /=.
   by rewrite psiK // mulmxA [inHb _]rVabelemJ // -/inHb [inHb _]phiK.
 have Kpsi: 'ker psi = C.
   apply/setP=> x; rewrite [C]unlock 2!in_setI /= astabQ; apply: andb_id2l => Ux.
@@ -644,7 +652,7 @@ have etaMpsi a: {in U & W1, forall x w,
   by rewrite conjgC -morphJ ?(subsetP nH0U x Ux, subsetP nH0W1 w Ww).
 have psiJ: {in U & W1, forall x w, val (psi (x ^ w)) = eta w (val (psi x))}.
   by move=> x w Ux Ww /=; rewrite -[val _]mul1r -(eta1 w Ww) -etaMpsi ?mul1r.
-have etaRM w: w \in W1 -> rmorphism (eta w).
+have etaRM w: w \in W1 -> (additive (eta w) * multiplicative (eta w)).
   move=> Ww; have nUw := subsetP nHbW1 _ (mem_quotient _ Ww).
   have etaD: additive (eta w).
     move=> a b; rewrite -[a]phi'K -[b]phi'K -!zmodMgE -!zmodVgE.
@@ -652,7 +660,9 @@ have etaRM w: w \in W1 -> rmorphism (eta w).
     by rewrite morphM 1?morphV ?groupV // memJ_norm.
   do 2![split=> //] => [a b|]; last exact: eta1.
   rewrite -[a]outFK; have /envelop_mxP[d ->] := E_F a.
-  rewrite raddf_sum mulr_suml ![eta w _](raddf_sum (Additive etaD)) mulr_suml.
+  pose etaaM := GRing.isAdditive.Build _ _ _ etaD.
+  pose etaA : GRing.Additive.type _ _ := HB.pack (fun_of_perm _) etaaM.
+  rewrite raddf_sum mulr_suml ![eta w _](raddf_sum etaA) mulr_suml.
   apply: eq_bigr => _ /morphimP[x Nx Ux ->]; move: {d}(d _) => dx.
   rewrite -[dx]natr_Zp scaler_nat !(mulrnAl, raddfMn); congr (_ *+ dx)%R.
   by rewrite -psiK //= outFK mulrC etaMpsi // mulrC psiJ.
@@ -663,7 +673,7 @@ have cyc_uF := @field_unit_group_cyclic F.
 exists F.
   exists phi; last first.
     split=> //; first exact/isomP; apply/esym/eqP; rewrite eqEcard o_nF -phi_s.
-    by rewrite (@cycle_subG F) mem_morphim //= card_injm ?subsetIl ?oW2b.
+    by rewrite cycle_subG mem_morphim //= card_injm ?subsetIl ?oW2b.
   exists psi => //; last first.
     by split=> // h x Hh Ux; rewrite qactJ (subsetP nH0U) ?phiJ.
   have inj_eta: 'injm (Morphism etaM).
@@ -678,11 +688,17 @@ exists F.
     by rewrite conjg_set1 chw ?memJ_norm // (subsetP nHbW1) ?mem_quotient.
   exists (Morphism etaM) => [alpha |]; last first.
     by split=> // h w Hh Ww /=; rewrite qactJ (subsetP nH0W1) -?etaK.
-  pose autF (f : {perm F}) := rmorphism f. (* Bits of Galois theory... *)
+  pose autF (f : {perm F}) := (additive f * multiplicative f)%type. (* Bits of Galois theory... *)
   have [r prim_r]: {r : F | forall f g, autF f -> autF g -> f r = g r -> f = g}.
     have /cyclicP/sig_eqW[r def_uF] := cyc_uF [set: {unit F}]%G.
     exists (val r) => f g fRM gRM eq_fgr; apply/permP=> a.
-    rewrite (_ : f =1 RMorphism fRM) // (_ : g =1 RMorphism gRM) //.
+    pose faM := GRing.isAdditive.Build _ _ _ fRM.1.
+    pose fmM := GRing.isMultiplicative.Build _ _ _ fRM.2.
+    pose fRMT : GRing.RMorphism.type _ _ := HB.pack (fun_of_perm f) faM fmM.
+    pose gaM := GRing.isAdditive.Build _ _ _ gRM.1.
+    pose gmM := GRing.isMultiplicative.Build _ _ _ gRM.2.
+    pose gRMT : GRing.RMorphism.type _ _ := HB.pack (fun_of_perm g) gaM gmM.
+    rewrite (_ : f =1 fRMT) // (_ : g =1 gRMT) //.
     have [-> | /in_uF_E <-] := eqVneq a 0%R; first by rewrite !rmorph0.
     have /cycleP[m ->]: in_uF a \in <[r]> by rewrite -def_uF inE.
     by rewrite val_unitX !rmorphX /= eq_fgr.
@@ -709,7 +725,11 @@ exists F.
     have charF: p \in [char F]%R by rewrite !inE p_pr -order_dvdn -o_nF /=.
     by rewrite -(dvdn_charf charF) (dvdn_charf (char_Fp p_pr)) natr_Zp.
   have{Pr0 nP} fPr0 f: autF f -> root P (f r).
-    move=> fRM; suff <-: map_poly (RMorphism fRM) P = P by apply: rmorph_root.
+    move=> fRM.
+    pose faM := GRing.isAdditive.Build _ _ _ fRM.1.
+    pose fmM := GRing.isMultiplicative.Build _ _ _ fRM.2.
+    pose fRMT : GRing.RMorphism.type _ _ := HB.pack (fun_of_perm f) faM fmM.
+    suff <-: map_poly fRMT P = P by apply: rmorph_root.
     apply/polyP=> i; rewrite coef_map.
     have [/(nth_default _)-> | lt_i_P] := leqP (size P) i; first exact: rmorph0.
     by have /cycleP[n ->] := all_nthP 0%R nP i lt_i_P; apply: rmorph_nat.
@@ -753,7 +773,10 @@ rewrite gen_subG /= -/C -Kpsi; apply/subsetP=> _ /imset2P[_ w /set1P-> Ww ->].
 have Uxw: x ^ w \in U by rewrite memJ_norm ?(subsetP nUW1).
 apply/kerP; rewrite (morphM, groupM) ?morphV ?groupV //.
 apply/(canLR (mulKg _))/val_inj; rewrite psiJ // mulg1 def_psi_x.
-exact: (rmorph_nat (RMorphism (etaRM w Ww))).
+pose etaaM := GRing.isAdditive.Build _ _ _ (etaRM w Ww).1.
+pose etamM := GRing.isMultiplicative.Build _ _ _ (etaRM w Ww).2.
+pose etaRMT : GRing.RMorphism.type _ _ := HB.pack (fun_of_perm _) etaaM etamM.
+exact: (rmorph_nat etaRMT).
 Qed.
 
 Local Open Scope ring_scope.
@@ -1527,7 +1550,7 @@ have ntS1: (0 < size S1)%N.
 have sS10: cfConjC_subset S1 (S_ H0C').
   split=> [||chi]; first by rewrite filter_uniq.
     by apply: mem_subseq; apply: filter_subseq.
-  rewrite !mem_filter !inE cfunE => /andP[/eqP <- S0chi].
+  rewrite !mem_filter !inE cfunE /= => /andP[/eqP <- S0chi].
   by rewrite cfAut_seqInd // andbT conj_Cnat ?(Cnat_seqInd1 S0chi).
 have cohS1: coherent S1 M^# tau.
   apply: uniform_degree_coherence (subset_subcoherent scohS0 sS10) _.
@@ -2122,14 +2145,14 @@ have [Gamma [S4_Gamma normGamma [b Dbeta]]]:
     by case/andP=> /andP[-> /cfAut_seqInd->].
   have ubG: '[G] + (b ^+ 2 - b) * (u %/ a).*2%:R + '[Delta] = 1.
     apply: (addrI ((u %/ a) ^ 2)%:R); transitivity '[beta^\tau].
-      rewrite -!addrA addrCA Dbeta cfnormDd; last first.
+      rewrite -!addrA [LHS]addrCA Dbeta cfnormDd; last first.
         by rewrite cfdotC (span_orthogonal oG'4) ?rmorph0 // memv_span ?inE.
       congr (_ + _); rewrite !addrA dG' cfnormDd; last first.
         by rewrite cfdotC (span_orthogonal oD1) ?rmorph0 // memv_span ?inE.
       congr (_ + _); rewrite dB scaleNr [- _ + _]addrC cfnormB !cfnormZ.
       rewrite normr_nat Cint_normK // scaler_sumr cfdotZr rmorph_nat.
       rewrite cfnorm_map_orthonormal // cfproj_sum_orthonormal //.
-      rewrite Itau1 ?mem_zchar // n1psi1 mulr1 rmorphM rmorph_nat conj_Cint //.
+      rewrite Itau1 ?mem_zchar// n1psi1 mulr1 rmorphM/= rmorph_nat conj_Cint //.
       rewrite -mulr2n oS1ua -muln_divA // mul2n -addrA addrCA -natrX mulrBl.
       by congr (_ + (_ - _)); rewrite -mulrnAl -mulrnA muln2 mulrC.
     rewrite Itau // cfnormBd; last first.

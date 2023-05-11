@@ -479,7 +479,7 @@ have defA: A = P_ i := lambdaP A P_A.
 have Ak: k \in A; last 1 [have iHk := Ak; rewrite defA inE in Ak].
   have [j iHj] := constt_cfInd_irr i sH'H.
   rewrite {}/k /theta; case: pickP => [k /setDP[]//| /(_ j)/=].
-  by rewrite defA !in_set iHj andbT => /negbFE/eqP <-.
+  by rewrite defA !in_set iHj andbT => /negbFE/set1P <-.
 have{} DiH: 'Ind 'chi_i = e *: \sum_(j in A) 'chi_j.
   by congr (_ = _ *: _): DiH; apply: eq_bigl => j; rewrite [in RHS]defA !inE.
 rewrite {2}DiH; have{DiH} ->: e = '['Ind 'chi_i, 'chi_k].
@@ -877,10 +877,10 @@ have /trivgPn[y nty Ey]: E != 1%G by have [] := Frobenius_context frobHE.
 have cErEy: centgmx rE (rE y).
   by apply/centgmxP=> z Ez; rewrite -!repr_mxM // (centsP cEE).
 have irrE: mx_irreducible rE by apply/abelem_mx_irrP.
-have charFp2: p \in [char MatrixGenField.gen_finFieldType irrE cErEy].
-  apply: (rmorph_char (MatrixGenField.gen_rmorphism irrE cErEy)).
+have charFp2: p \in [char [finFieldType of (MatrixGenField.gen_of irrE cErEy)]].
+  apply: (rmorph_char [rmorphism of MatrixGenField.gen irrE cErEy]).
   exact: char_Fp.
-pose Fp2 := primeChar_finFieldType charFp2.
+pose Fp2 := [the finFieldType of (PrimeCharType charFp2)].
 pose n1 := MatrixGenField.gen_dim (rE y).
 pose rEp2 : mx_representation Fp2 E n1 := MatrixGenField.gen_repr irrE cErEy.
 have n1_gt0: (0 < n1)%N := MatrixGenField.gen_dim_gt0 irrE cErEy.
@@ -926,7 +926,7 @@ apply: (can_inj (fun w => MatrixGenField.in_genK irrE cErEy w)).
 rewrite !rowE mul_mx_scalar MatrixGenField.in_genZ MatrixGenField.in_genJ //.
 rewrite -val_g // Dgz mul_mx_scalar; congr (_ *: _).
 rewrite -(natr_Zp a) scaler_nat.
-by rewrite -(rmorph_nat (MatrixGenField.gen_rmorphism irrE cErEy)).
+by rewrite -(rmorph_nat [rmorphism of MatrixGenField.gen irrE cErEy]).
 Qed.
 
 Let calS := seqIndD H L H 1.
@@ -1047,7 +1047,7 @@ have a0: a = 0.
   rewrite ltr_subr_addl -ltr_subr_addr -(ltr_add2r 1) -mulrSr -sqrrB1.
   rewrite -Cint_normK ?rpredB ?rpredM ?rpred_nat ?rpred1 //.
   rewrite (lt_le_trans (y := (3 ^ 2)%:R)) ?ltC_nat // natrX.
-  rewrite ler_sqr ?qualifE ?ler0n ?normr_ge0 //.
+  rewrite ler_sqr ?qualifE/= ?ler0n ?normr_ge0 //.
   rewrite (le_trans _ (ler_sub_dist _ _)) // normr1 normrM normr_nat.
   by rewrite ler_subr_addl -mulrS mulr_natl ler_pmuln2r ?norm_Cint_ge1.
 pose chi0 := 'Ind[L, H] 1.
@@ -1168,7 +1168,7 @@ have lb_psiM: '[rhoM psi] >= #|K :\: K'|%:R / #|M|%:R * e.-1%:R ^+ 2.
   rewrite ler_paddr ?sumr_ge0 // => [z _|]; first exact: mul_conjC_ge0.
   rewrite -sumr_const ler_sum // => z KK'z.
   rewrite {}rhoMid ?(subsetP _ z KK'z) ?setDS ?sub1G // {}psiKK'_id {z KK'z}//.
-  rewrite -normCK ler_sqr ?qualifE ?ler0n ?normr_ge0 //.
+  rewrite -normCK ler_sqr ?qualifE/= ?ler0n ?normr_ge0 //.
   have [eps prim_eps] := C_prim_root_exists (prime_gt0 pr_p).
   have psi_xg: (psi (x * g)%g == e%:R %[mod 1 - eps])%A.
     have [-> // _] := rhoL_psi; rewrite -[x]mulg1 -chi1.
@@ -1223,7 +1223,7 @@ have ubM: (#|M| <= #|K| * #|H|)%N.
   by rewrite -(sdprod_card defM) leq_mul // subset_leq_card.
 have{lb_psiM lb_psiL ub_rhoML ubM} ubK: (#|K / K'|%g < 4)%N.
   rewrite card_quotient ?gFnorm -?ltC_nat //.
-  rewrite -ltf_pinv ?qualifE ?gt0CiG ?ltr0n // natf_indexg ?gFsub //.
+  rewrite -ltf_pinv ?qualifE/= ?gt0CiG ?ltr0n // natf_indexg ?gFsub //.
   rewrite invfM invrK mulrC -(subrK #|K|%:R #|K'|%:R) mulrDl divff ?neq0CG //.
   rewrite -opprB mulNr addrC ltr_subr_addl -ltr_subr_addr.
   have /Frobenius_context[_ _ ntE _ _] := set_Frobenius_compl defL frobL.

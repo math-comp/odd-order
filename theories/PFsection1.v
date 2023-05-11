@@ -56,7 +56,7 @@ suffices{t} /eqP->: [set 0] == 'Fix_Iact[1].
 rewrite eqEcard !(sub1set, inE) conjC_Iirr_eq0 eqxx /=.
 rewrite (card_afix_irr_classes (cycle_id _) n_cG_A) => [|i x xy Gx]; last first.
   rewrite inE => {xy}/imsetP[y Gy /(canRL invgK)->].
-  by rewrite -conjVg cfunJ {y Gy}//= conjC_IirrE cfunE -irr_inv invgK.
+  by rewrite -conjVg cfunJ {y Gy}//= conjC_IirrE cfunE/= -irr_inv invgK.
 have ->: #|[set 0 : Iirr G]| = #|[1 {set gT}]| by rewrite !cards1.
 apply/subset_leq_card/subsetP=> _ /setIdP[/imsetP[x Gx ->] /afix1P-DxGV].
 have /imsetP[y Gy DxV]: x^-1%g \in x ^: G by rewrite -DxGV memV_invg class_refl.
@@ -614,7 +614,7 @@ pose k1 := chinese a b k 1; have /Qn_aut_exists[nu Dnu]: coprime k1 (a * b).
 exists nu => [x | y].
   have /Fadjoin_polyP[p Qp ->]: x \in <<1; w_a>>%VS by rewrite genQa memvf.
   rewrite -!horner_map -!map_poly_comp !map_Qnum_poly // Dmu Dnu -rmorphX /=.
-    by rewrite -(prim_expr_mod pr_w_a) chinese_modl // prim_expr_mod.
+    by rewrite -[in LHS](prim_expr_mod pr_w_a) /k1 chinese_modl // prim_expr_mod.
   by rewrite exprM (prim_expr_order pr_w_a) expr1n rmorph1.
 have /Fadjoin_polyP[p Qp ->]: y \in <<1; w_b>>%VS by rewrite genQb memvf.
 rewrite -!horner_map -!map_poly_comp !map_Qnum_poly // Dnu -rmorphX /=.
@@ -670,8 +670,8 @@ Lemma make_pi_cfAut a k :
 Proof.
 move=> co_k_a; have [v Dv] := Qn_aut_exists co_k_a.
 have [u Du_a Du_a'] := dvd_restrict_cfAut a v.
-exists u => [gt0 G0 | ] chi x Zchi a_x; last by rewrite cfunE Du_a'.
-rewrite cfunE {u Du_a'}Du_a //.
+exists u => [gt0 G0 | ] chi x Zchi a_x; last by rewrite cfunE/= Du_a'.
+rewrite cfunE/= {u Du_a'}Du_a //.
 without loss{Zchi} Nchi: chi / chi \is a character.
   move=> IH; case/vcharP: Zchi => [chi1 Nchi1 [chi2 Nchi2 ->]].
   by rewrite !cfunE rmorphB !IH.
@@ -682,7 +682,7 @@ have [sXG0 | G0'x] := boolP (<[x]> \subset G0); last first.
 rewrite -!(cfResE chi sXG0) ?cycle_id ?mem_cycle //.
 rewrite ['Res _]cfun_sum_cfdot !sum_cfunE rmorph_sum; apply: eq_bigr => i _.
 have chiX := lin_charX (char_abelianP _ (cycle_abelian x) i) _ (cycle_id x).
-rewrite !cfunE rmorphM aut_Cnat ?Cnat_cfdot_char_irr ?cfRes_char //.
+rewrite !cfunE/= rmorphM/= aut_Cnat ?Cnat_cfdot_char_irr ?cfRes_char //.
 by congr (_ * _); rewrite Dv -chiX // -expg_mod_order (eqnP a_x) chiX.
 Qed.
 

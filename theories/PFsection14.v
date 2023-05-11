@@ -831,7 +831,7 @@ have nzT1_Ga zeta: zeta \in calT1 -> `|'[Gamma, tau1T zeta]| ^+ 2 >= 1.
   rewrite cfdot_real_vchar_even ?mFT_odd ?oGa1 ?rpred0 //; split.
     rewrite rpredD ?Ztau1T ?(mem_zchar T1zeta) // rpredB ?rpred1 //.
     by rewrite Dade_vchar // zchar_split ZbetaT0.
-  rewrite /cfReal -subr_eq0 opprD opprB rmorphD rmorphB rmorph1 /= addrACA.
+  rewrite /cfReal -subr_eq0 opprD opprB rmorphD /= rmorphB rmorph1 /= addrACA.
   rewrite !addrA subrK -Dade_aut -linearB /= -/tauT rmorphB opprB /=.
   rewrite -prTIred_aut aut_Iirr0 -/nu_ [sum in tauT sum]addrC addrA subrK.
   rewrite -Dtau1T; last first.
@@ -981,7 +981,7 @@ have lbG0 g: g \in G0 -> 1 <= `|tau1M psi g| ^+ 2.
     by rewrite odd_eq_conj_irr1 ?mFT_odd // irr_eq1 nz_ij.
   rewrite -signr_odd -[odd _]negbK signrN !cfunE mulNr addrC.
   apply: eqCmod_trans (signCmod2 _ _) _.
-  by rewrite eqCmod_sym conjC_IirrE -cfAut_cycTIiso cfunE conj_Cint.
+  by rewrite eqCmod_sym conjC_IirrE -cfAut_cycTIiso cfunE /= conj_Cint.
 have cardG_D1 R: #|R^#| = #|R|.-1 by rewrite [#|R|](cardsD1 1%g) group1.
 pose rho := invDade ddMK; pose nG : algC := #|G|%:R.
 pose sumG0 := \sum_(g in G0) `|tau1M psi g| ^+ 2.
@@ -1006,8 +1006,8 @@ have{rho sumG0 sumG0_diff ub_rho lb_rho} []:
   ~ pq / k%:R + 2%:R / pq + (u * q)%:R^-1 + (v * p)%:R^-1 < p%:R^-1 + q%:R^-1.
 - rewrite le_gtF // -!addrA -ler_subl_addl -ler_subr_addl -(ler_add2l 1).
   apply: le_trans {ub_rho lb_rho}(le_trans lb_rho ub_rho) _.
-  rewrite /sumG0_diff -!addnA natrD opprD addrA mulrBr opprB addrA.
-  rewrite ler_subl_addr ler_paddr //.
+  rewrite /sumG0_diff -!addnA natrD opprD [in leLHS]addrA mulrBr opprB.
+  rewrite [in leLHS]addrA ler_subl_addr ler_paddr //.
     by rewrite mulr_ge0 ?invr_ge0 ?ler0n // subr_ge0 -sumr_const ler_sum.
   rewrite mulrDl -!addrA addrCA [1 + _]addrA [_ + (_ - _)]addrA ler_add //.
     rewrite -(Lagrange (normal_sub nsKM)) natrM invfM mulrA -/k -/e /pq -De.
@@ -1027,9 +1027,9 @@ rewrite -!addrA ler_lt_add //; last first.
     rewrite addrC -[_ *+ 2]mulr_natl invfM mulVKf ?pnatr_eq0 //.
     rewrite mulr_natl -mulrS -mulr_natl [q2]natrM.
     by rewrite ler_pdivr_mulr ?mulr_gt0 ?gt0CG // mulKf ?neq0CG ?leC_nat.
-  rewrite -natrM !addrA ltr_add ?(FTtypeP_complV_ltr TtypeP) 1?ltnW //.
-  rewrite ltr_add ?(FTtypeP_complV_ltr StypeP) // /pq mulnC /q2 !natrM !invfM.
-  by rewrite !ltr_pmul2l ?ltf_pinv ?invr_gt0 ?qualifE ?gt0CG ?ltr0n ?ltr_nat.
+  rewrite -natrM !addrA ltr_add ?(FTtypeP_complV_ltr _ TtypeP) 1?ltnW //.
+  rewrite ltr_add ?(FTtypeP_complV_ltr _ StypeP) // /pq mulnC /q2 !natrM !invfM.
+  by rewrite !ltr_pmul2l ?ltf_pinv ?invr_gt0 ?qualifE/= ?gt0CG ?ltr0n ?ltr_nat.
 rewrite ler_pdivr_mulr ?ler_pdivl_mull ?gt0CG // -natrM leC_nat.
 apply: leq_trans lb_k; rewrite leqW // mulnAC mulnC leq_mul //.
 have [[_ _ frobVW2 _] _ _ _ _] := FTtypeP_facts maxT TtypeP.

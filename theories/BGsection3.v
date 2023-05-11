@@ -1313,7 +1313,8 @@ have cVL: L \subset 'C(V | 'Q).
   apply: subset_trans (subset_trans sLF (Fitting_stab_chief solG _)) _ => //.
   exact: (bigcap_inf (X, Y)).
 have nVG: {acts G, on group V | 'Q}.
-  by split; rewrite ?quotientS ?subsetT // actsQ // normal_norm.
+  split; last by rewrite ?quotientS ?subsetT.
+  by rewrite actsQ // normal_norm.
 pose V1 := sdpair1 <[nVG]> @* V.
 have [p p_pr abelV]: exists2 p, prime p & p.-abelem V.
   apply/is_abelemP; apply: charsimple_solvable (quotient_sol _ _).

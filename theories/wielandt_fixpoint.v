@@ -1,5 +1,6 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
+From HB Require Import structures.
 Require Import mathcomp.ssreflect.ssreflect.
 From mathcomp
 Require Import ssrbool ssrfun eqtype ssrnat seq path div.
@@ -257,7 +258,7 @@ have [wT [fL injL [fX injX fJ]]]: exists wT : finGroupType,
 move imfL: (fL @* [set: _])%G => L; move imfX: (fX @* G)%G => X.
 have cLL: abelian L by rewrite -imfL morphim_abelian // zmod_abelian.
 have pL: p.-group L.
-  by rewrite -imfL morphim_pgroup -?pnat_exponent ?exponent_mx_group.
+  by rewrite -imfL morphim_pgroup /= -?pnat_exponent ?exponent_mx_group ?cardG_gt0.
 have tiVG: V :&: G = 1 by rewrite coprime_TIg // Vpexpn coprime_pexpl.
 have{copG} p'G: p^'.-group G by rewrite /pgroup p'natE // -prime_coprime.
 have p'X: p^'.-group X by rewrite -imfX morphim_pgroup.
@@ -267,13 +268,18 @@ have nXL: X \subset 'N(L).
   by rewrite -fJ // mem_morphim ?in_setT.
 have [/= S defL im_S] := coprime_act_abelian_pgroup_structure cLL pL p'X nXL.
 pose gi (z : 'Z_q) := z%:R : 'F_p.
-have giM: rmorphism gi.
-  split=> [z1 z2|]; last split=> // z1 z2.
-    apply: canRL (addrK _) _; apply: val_inj.
-    by rewrite -{2}(subrK z2 z1) -natrD /= !val_Fp_nat ?modn_dvdm // Zp_cast.
+have gia : additive gi.
+  move=> z1 z2.
+  apply: canRL (addrK _) _; apply: val_inj.
+  by rewrite -{2}(subrK z2 z1) -natrD /= !val_Fp_nat ?modn_dvdm // Zp_cast.
+have gim : multiplicative gi.
+  split=> // z1 z2.
   by apply: val_inj; rewrite -natrM /= !val_Fp_nat ?modn_dvdm // Zp_cast.
+pose giaM := GRing.isAdditive.Build _ _ gi gia.
+pose gimM := GRing.isMultiplicative.Build _ _ gi gim.
+pose giRM : GRing.RMorphism.type _ _ := HB.pack gi giaM gimM.
 have [gL [DgL _ _ _]] := domP (invm_morphism injL) (congr_group imfL).
-pose g u := map_mx (RMorphism giM) (gL u).
+pose g u := map_mx giRM (gL u).
 have gM: {in L &, {morph g : u v / u * v}}.
   by move=> u v Lu Lv /=; rewrite {1}/g morphM // map_mxD.
 have kerg: 'ker (Morphism gM) = 'Phi(L).
@@ -298,7 +304,7 @@ have XfX: {in G, forall x, fX x \in X}.
 have gJ: {in L & X, forall u x, g (u ^ x) = g u *m aG (gX x)}.
   rewrite -{1}imfL -{1}imfX => _ _ /morphimP[u rVu _ ->] /morphimP[x Gx _ ->].
   rewrite -fJ // /g DgL DgX /= !invmE // mx_repr_actE ?inE //.
-  by rewrite (map_mxM (RMorphism giM)) map_regular_mx.
+  by rewrite (map_mxM giRM) map_regular_mx.
 pose gMx U := rowg_mx (Morphism gM @* U).
 have simS: forall U, U \in S -> mxsimple aG (gMx U).
   move=> U S_U; have [_ nUX irrU] := im_S U S_U.
@@ -535,7 +541,10 @@ have toWlin a1: linear (fun u => fW' (fW u ^ val (subg G1 a1))).
   rewrite morphM ?memJ_norm ?(subsetP nWG1) ?subgP //=; congr (_ * _).
   rewrite -(natr_Zp z) !scaler_nat morphX ?in_setT // conjXg morphX //.
   by rewrite memJ_norm // (subsetP nWG1) ?subgP.
-pose rW a1 := lin1_mx (Linear (toWlin a1)).
+pose toWlM a1 := GRing.isLinear.Build _ _ _ _ _ (toWlin a1).
+pose rWL a1 : GRing.Linear.type _ _ _ _ :=
+  HB.pack (fun u => fW' (fW u ^ val (subg G1 a1))) (toWlM a1).
+pose rW a1 := lin1_mx (rWL a1).
 pose fG := restrm sG1D f; have im_fG : fG @* G1 = G by rewrite im_restrm.
 have injfG: 'injm fG by rewrite -tiWG1 setIC ker_restrm kerf setIS ?Mho_sub.
 pose fG' := invm injfG; have im_fG': fG' @* G = G1 by rewrite -im_fG im_invm.
@@ -596,10 +605,13 @@ have{atypeCW} /isogP[hC injhC im_hC]: 'C_W(Ai1) \isog [set: 'rV['Z_q]_(rC i)].
   by rewrite abelian_type_mx_group ?mul1n.
 have mkMx m1 m2 (U : {group 'rV['Z_q]_m1}) (g : {morphism U >-> 'rV['Z_q]_m2}):
   setT \subset 'dom g -> {Mg | mulmx^~ Mg =1 g}.
-- move/subsetP=> allU; suffices lin_g: linear g.
-    by exists (lin1_mx (Linear lin_g)) => u; rewrite mul_rV_lin1.
-  move=> z u v; rewrite morphM ?allU ?in_setT //.
-  by rewrite -(natr_Zp z) !scaler_nat -zmodXgE morphX ?allU ?in_setT.
+  move/subsetP=> allU.
+  have lin_g : linear g.
+    move=> z u v; rewrite morphM ?allU ?in_setT //.
+    by rewrite -(natr_Zp z) !scaler_nat -zmodXgE morphX ?allU ?in_setT.
+  pose glM := GRing.isLinear.Build _ _ _ _ _ lin_g.
+  pose gL : GRing.Linear.type _ _ _ _ := HB.pack (mfun g) glM.
+  by exists (lin1_mx gL) => u; rewrite mul_rV_lin1.
 have /mkMx[Pu defPu]: setT \subset 'dom (invm injfW \o invm injhR).
   by rewrite -sub_morphim_pre -im_hR // im_invm //= im_fW.
 have /mkMx[Pd defPd]: setT \subset 'dom (invm injfW \o invm injhC).
