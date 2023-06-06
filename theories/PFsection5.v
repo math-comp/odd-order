@@ -1595,7 +1595,7 @@ have Zphi_tau: phi^\tau \in 'Z[irr G, G^#].
   by rewrite zchar_split Dade_cfun Dade_vchar ?Zphi.
 have norm_phi_tau : '[phi^\tau] = 2%:R.
   rewrite Dade_isometry ?(zchar_on Zphi) // cfnormB -conjC_IirrE.
-  by rewrite !cfdot_irr !eqxx eq_sym (negPf notRchi) rmorph0 addr0 subr0.
+  by rewrite !cfdot_irr !eqxx eq_sym (negPf notRchi) add0r rmorph0 subr0.
 have [j [k ne_kj phi_tau]] := vchar_norm2 Zphi_tau norm_phi_tau.
 suffices def_k: conjC_Iirr j = k by exists j; rewrite -conjC_IirrE def_k.
 have/esym:= eq_subZnat_irr 1 1 k j (conjC_Iirr j) (conjC_Iirr k).
