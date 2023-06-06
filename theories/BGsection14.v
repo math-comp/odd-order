@@ -1880,7 +1880,7 @@ have{IHn} oSGgt_g2: (g / 2%:R < #|class_support S G|%:R)%R.
   exact: leq_trans leTGn nTG_leS.
 have{oSGgt_g2 oTGgt_g2} meetST: ~~ [disjoint TG & class_support S G].
   rewrite -leq_card_setU; apply: contraTneq (leqnn #|G|) => tiTGS.
-  rewrite -ltnNge -(ltr_nat [realFieldType of rat]) -/g.
+  rewrite -ltnNge -(ltr_nat rat) -/g.
   rewrite -{1}[g](@divfK _ 2%:R) // mulr_natr.
   apply: lt_le_trans (ltr_add oTGgt_g2 oSGgt_g2) _.
   by rewrite -natrD -tiTGS ler_nat cardsT max_card.

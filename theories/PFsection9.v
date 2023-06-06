@@ -540,8 +540,8 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
 - pose HACK := enveloping_algebra_mx rU.
   pose B := row_base HACK.
   have freeB: row_free B by apply: row_base_free.
-  pose outF := [additive of vec_mx \o mulmxr B].
-  pose inF := [additive of mulmxr (pinvmx B) \o mxvec].
+  pose outF : {additive _ -> _} := vec_mx \o mulmxr B.
+  pose inF : {additive _ -> _} := mulmxr (pinvmx B) \o mxvec.
   have E_F a: outF a \in E_U by rewrite !inE vec_mxK mulmx_sub ?eq_row_base.
   have inK: {in E_U, cancel inF outF}.
     by move=> A E_A; rewrite /= mulmxKpV ?mxvecK ?eq_row_base.

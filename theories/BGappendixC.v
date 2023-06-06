@@ -195,7 +195,7 @@ have ->: [set u | uval u \in Fp] = galFpU.
   by apply: val_inj; rewrite /= insubdK ?unitfE.
 have oFpU: #|galFpU| = p.-1.
   rewrite card_injm ?card_finField_unit ?oF_p //.
-  by apply/injmP=> v1 v2 _ _ []/(fmorph_inj [rmorphism of in_alg F])/val_inj.
+  by apply/injmP=> v1 v2 _ _ []/(fmorph_inj (in_alg F))/val_inj.
 have oUU: #|sigmaU @* U| = nU by rewrite card_injm.
 rewrite dprodE ?coprime_TIg ?oUU ?oFpU //; last first.
   by rewrite (sub_abelian_cent2 (cyclic_abelian (cycFU [set: _]))) ?subsetT.
@@ -406,7 +406,7 @@ have irr_fc: irreducible_poly (f c) by apply: cubic_irreducible; rewrite ?sz_fc.
 have fc_monic : f c \is monic.
   rewrite monicE lead_coefDl ?size_XsubC ?sz_fc_lhs // -monicE.
   by rewrite !monicMl ?monicXsubC ?monicX.
-pose inF := [rmorphism of in_alg F]; pose fcF := map_poly inF (f c).
+pose inF : {rmorphism _ -> _} := in_alg F; pose fcF := map_poly inF (f c).
 have /existsP[a fcFa_0]: [exists a : F, root fcF a].
   suffices: ~~ coprimep (f c) ('X ^+ #|F| - 'X).
     apply: contraR; rewrite -(coprimep_map inF) negb_exists => /forallP-nz_fcF.
@@ -414,8 +414,8 @@ have /existsP[a fcFa_0]: [exists a : F, root fcF a].
     elim/big_rec: _ => [|x gF _ co_fcFg]; first exact: coprimep1.
     by rewrite coprimepMr coprimep_XsubC nz_fcF.
   have /irredp_FAdjoin[L dimL [z /coprimep_root fcz0 _]] := irr_fc.
-  pose finL := [vectType 'F_p of FinFieldExtType L].
-  set fcL := map_poly _ _ in fcz0; pose inL := [rmorphism of in_alg L].
+  pose finL := Vector.clone 'F_p (FinFieldExtType L) _.
+  set fcL := map_poly _ _ in fcz0; pose inL : {rmorphism _ -> _} := in_alg L.
   rewrite -(coprimep_map inL) -/fcL rmorphB rmorphX /= map_polyX.
   apply: contraL (fcz0 _) _; rewrite hornerD hornerN hornerXn hornerX subr_eq0.
   have ->: #|F| = #|{: finL}%VS| by rewrite oF card_vspace dimL sz_fc oF_p q3.

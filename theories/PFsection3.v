@@ -1422,8 +1422,8 @@ by rewrite alphaE linearD !linearB sigma1 !Deta.
 Qed.
 
 Fact cyclicTIiso_key : unit. Proof. by []. Qed.
-Definition cyclicTIiso :=
-  locked_with cyclicTIiso_key [linear of (sval cyclicTIiso_exists)].
+Definition cyclicTIiso := locked_with cyclicTIiso_key
+  (sval cyclicTIiso_exists : GRing.Linear.type _ _ _ _).
 Local Notation sigma := cyclicTIiso.
 Let im_sigma := map sigma (irr W).
 Let eta_ i j := sigma (w_ i j).

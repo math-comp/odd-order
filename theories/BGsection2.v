@@ -274,7 +274,7 @@ have F'Zh: [char F]^'.-group (Zp h).
   apply/negP=> /= charFp.
   have d_gt0: d > 0 by move: h_gt0; rewrite def_h; case d.
   have: eps ^+ d == 1.
-    rewrite -(inj_eq (fmorph_inj [rmorphism of Frobenius_aut charFp])).
+    rewrite -(inj_eq (fmorph_inj (Frobenius_aut charFp))).
     by rewrite rmorph1 /= Frobenius_autE -exprM -def_h eps_h.
   by rewrite -(prim_order_dvd prim_eps) gtnNdvd // def_h ltn_Pmulr // prime_gt1.
 case: (ltngtP h 1) => [|h_gt1|h1]; last first; last by rewrite ltnNge h_gt0.
@@ -1137,7 +1137,7 @@ have rq1: r ^+ q = 1 by apply/eqP; rewrite inE in rs_r.
 split.
   have Ur: r \in GRing.unit.
     by rewrite -(unitrX_pos _ (prime_gt0 q_pr)) rq1 unitr1.
-  pose u_r : {unit 'F_p} := sub r Ur; have:= order_dvdG (in_setT u_r).
+  pose u_r : {unit 'F_p} := Sub r Ur; have:= order_dvdG (in_setT u_r).
   rewrite card_units_Zp ?pdiv_gt0 // {2}/pdiv primes_prime //=.
   rewrite (@totient_pfactor p 1) // muln1; apply: dvdn_trans.
   have: (u_r ^+ q == 1)%g.

@@ -80,8 +80,7 @@ rewrite mulrnAr -mulrnDl mulrCA -mulrDr; congr (_ * _ *+ _).
 by rewrite big_distrr -big_split; apply: eq_bigr => x _; rewrite !cfunE.
 Qed.
 HB.instance Definition _ :=
-  GRing.isLinear.Build [ringType of algC]
-    [lmodType _ of classfun G] [zmodType of classfun L] _ invDade
+  GRing.isLinear.Build algC (classfun G) (classfun L) _ invDade
     invDade_is_linear.
 
 Lemma invDade_on chi : chi^\rho \in 'CF(L, A).

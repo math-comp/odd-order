@@ -27,8 +27,6 @@ Unset Printing Implicit Defensive.
 Import GroupScope Order.TTheory GRing.Theory Num.Theory.
 Local Open Scope ring_scope.
 
-Local Notation algCF := [fieldType of algC].
-
 Section Main.
 
 Variable gT : finGroupType.

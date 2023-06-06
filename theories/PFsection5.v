@@ -496,8 +496,8 @@ Definition subcoherent S tau R :=
     & (*e*) {in S &, forall xi phi : 'CF(L),
               orthogonal phi (xi :: xi^*%CF) -> orthogonal (R phi) (R xi)}].
 
-Definition dual_iso (nu : {additive 'CF(L) -> 'CF(G)}) :=
-  [additive of -%R \o nu \o cfAut conjC].
+Definition dual_iso (nu : {additive 'CF(L) -> 'CF(G)}) : {additive _ -> _} :=
+  -%R \o nu \o cfAut conjC.
 
 End Defs.
 
@@ -838,7 +838,7 @@ Hypothesis cohS : subcoherent S tau R.
 
 Lemma nil_coherent A : coherent [::] A tau.
 Proof.
-exists [additive of 'Ind[G]]; split=> [|u /zchar_span]; last first.
+exists 'Ind[G]; split=> [|u /zchar_span]; last first.
   by rewrite span_nil memv0 => /eqP-> /=; rewrite !raddf0.
 split=> [u v | u] /zchar_span; rewrite span_nil memv0 => /eqP->.
   by rewrite raddf0 !cfdot0l.
