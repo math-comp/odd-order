@@ -910,7 +910,7 @@ have nchi: '[chi] = \sum_(xi <- R chi) a xi.
   by rewrite ochi_psi ochic_psi (oSS chi^*%CF) // !subr0 -cfdotC.
 have normX: '[X1] <= '[X] ?= iff (X == X1).
   rewrite -[in '[X]](subrK X1 X) -subr_eq0 cfnormDd.
-    by rewrite -leif_subLR subrr -cfnorm_eq0 eq_sym; apply/leif_eq/cfnorm_ge0.
+    by rewrite -leifBLR subrr -cfnorm_eq0 eq_sym; apply/leif_eq/cfnorm_ge0.
   rewrite defX1 cfdot_sumr big1_seq // => xi Rxi.
   rewrite cfdotZr cfdotBl cfproj_sum_orthonormal // -{2}dotS00R // defXY.
   by rewrite cfdotBl (orthoPl oYR) // subr0 subrr mulr0.
@@ -923,7 +923,7 @@ have{nchi normX} part_a: '[chi] <= '[X] ?= iff all is01a (R chi) && (X == X1).
   apply: leif_trans normX; rewrite nchi defX1 cfnorm_sum_orthonormal //.
   by rewrite -big_all !(big_tnth _ _ (R chi)) big_andE; apply: leif_sum.
 split=> [|/leif_eq part_b]; first by case: part_a.
-have [_ /esym] := leif_add part_a part_b; rewrite -!cfnormBd // -defXY.
+have [_ /esym] := leifD part_a part_b; rewrite -!cfnormBd // -defXY.
 rewrite Itau1 ?mem_zchar ?mem_head // eqxx => /andP[a_eq /eqP->].
 split=> //; first by apply/esym/eqP; rewrite part_a.
 have{a_eq} [/allP a01 /eqP->] := andP a_eq; rewrite defX1.
@@ -1198,25 +1198,25 @@ have [||leXchi _] := subcoherent_norm _ _ (erefl _) defXY.
 have normXY: '[X] + '[Y] = '[chi] + '[a *: xi1].
   by rewrite -!cfnormBd // ?cfdotZr ?ocS1 ?mulr0 // -eqXY Itau.
 have{leXchi normXY}: '[Y] <= a ^+ 2 * '[xi1].
-  by rewrite -(ler_add2l '[X]) normXY cfnormZ Cint_normK // ler_add2r.
+  by rewrite -(lerD2l '[X]) normXY cfnormZ Cint_normK // lerD2r.
 rewrite {}defY cfnormDd; last first.
   rewrite cfdotC (span_orthogonal oZS1) ?rmorph0 ?memv_span1 //.
   rewrite big_seq memvB ?memvZ ?memv_suml ?memv_span ?map_f //.
   by move=> theta S1theta; rewrite memvZ ?memv_span.
-rewrite -cfnormN opprB cfnormB !cfnormZ !Cint_normK // addrAC ler_subl_addl.
+rewrite -cfnormN opprB cfnormB !cfnormZ !Cint_normK // addrAC lerBlDl.
 rewrite cfdotZl cfdotZr cfnorm_sum_orthogonal ?cfproj_sum_orthogonal ?map_f //.
-rewrite a_xi1 Itau1 ?Z_S1 // addrAC ler_add2r !(divfK, mulrA) ?nz_nS1 //.
+rewrite a_xi1 Itau1 ?Z_S1 // addrAC lerD2r !(divfK, mulrA) ?nz_nS1 //.
 rewrite !conj_Cint ?rpredM // => /le_gtF-lb_2_lam_a.
 suffices lam0: lam = 0; last apply: contraFeq lb_2_lam_a => nz_lam.
   suffices ->: Z = 0 by rewrite lam0 scale0r subrK.
   by apply: contraFeq lb_2_lam_a; rewrite -cfnorm_gt0 lam0 expr0n !mul0r !add0r.
-rewrite ltr_paddr ?cfnorm_ge0 // -mulr2n -mulr_natl mulrCA.
+rewrite ltr_wpDr ?cfnorm_ge0 // -mulr2n -mulr_natl mulrCA.
 have xi11_gt0: xi1 1%g > 0 by rewrite char1_gt0 ?N_S ?sS1S -?cfnorm_eq0 ?nz_nS1.
-have a_gt0: a > 0 by rewrite -(ltr_pmul2r xi11_gt0) mul0r -chi1 char1_gt0.
+have a_gt0: a > 0 by rewrite -(ltr_pM2r xi11_gt0) mul0r -chi1 char1_gt0.
 apply: le_lt_trans (_ : lam ^+ 2 * (2%:R * a) < _).
-  by rewrite ler_pmul2r ?mulr_gt0 ?ltr0n ?Cint_ler_sqr.
-rewrite ltr_pmul2l ?(lt_le_trans ltr01) ?sqr_Cint_ge1 {lam Zlam nz_lam}//.
-rewrite -(ltr_pmul2r xi11_gt0) -mulrA -chi1 -(ltr_pmul2r xi11_gt0).
+  by rewrite ler_pM2r ?mulr_gt0 ?ltr0n ?Cint_ler_sqr.
+rewrite ltr_pM2l ?(lt_le_trans ltr01) ?sqr_Cint_ge1 {lam Zlam nz_lam}//.
+rewrite -(ltr_pM2r xi11_gt0) -mulrA -chi1 -(ltr_pM2r xi11_gt0).
 congr (_ < _): ub_chi1; rewrite -mulrA -expr2 mulr_suml big_map.
 apply/eq_big_seq=> xi S1xi; rewrite a_E // Itau1 ?mem_zchar //.
 rewrite ger0_norm ?divr_ge0 ?cfnorm_ge0 ?char1_ge0 ?N_S ?sS1S //.
@@ -1293,11 +1293,11 @@ have haveX xi: xi \in S2 chi1 -> exists2 X, Xspec X & Xi_spec X xi.
   - apply: sub_iso_to IZtau; last exact: zcharW.
     by apply: zchar_trans_on; apply/allP; rewrite /= !Zd.
   rewrite eqX1Y cfnormBd // defN in eqX1.
-  have{eqX1} [|nX n_xi defX] := eqX1; first by rewrite ler_paddr ?cfnorm_ge0.
+  have{eqX1} [|nX n_xi defX] := eqX1; first by rewrite ler_wpDr ?cfnorm_ge0.
   exists X => //; split; last by rewrite eqXY1 cfdotBr oXY1 subr0.
   suffices Y0: Y = 0 by rewrite eqXY1 eqX1Y Y0 subr0 opprB addrC subrK.
   apply/eqP; rewrite -cfnorm_eq0 leif_le ?cfnorm_ge0 //.
-  by rewrite -(ler_add2l '[X1]) addr0 n_xi.
+  by rewrite -(lerD2l '[X1]) addr0 n_xi.
 pose XDspec X := {in S2 chi1, forall xi, '[X, D xi] = N%:R}.
 have [X [RchiX nX defX] XD_N]: exists2 X, Xspec X & XDspec X.
   have [sSchi | /allPn[xi1 Sxi1]] := altP (@allP _ (pred2 chi1 chi2) S).

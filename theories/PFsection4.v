@@ -569,9 +569,9 @@ have [k chi_j_k]: {k | k \in irr_constt chi_j} := constt_cfRes_irr K _.
 have Nchi_j: chi_j \is a character by rewrite cfRes_char ?irr_char.
 have lb_mu_1: w1%:R * 'chi_k 1%g <= mu_ j 1%g ?= iff (chi_j == 'chi_k).
   have [chi' Nchi' Dchi_j] := constt_charP _ Nchi_j chi_j_k.
-  rewrite prTIred_1 (mono_leif (ler_pmul2l (gt0CG W1))).
+  rewrite prTIred_1 (mono_leif (ler_pM2l (gt0CG W1))).
   rewrite -subr_eq0 Dchi_j addrC addKr -(canLR (addrK _) Dchi_j) !cfunE.
-  rewrite leif_subLR addrC -leif_subLR cfRes1 subrr -char1_eq0 // eq_sym.
+  rewrite leifBLR addrC -leifBLR cfRes1 subrr -char1_eq0 // eq_sym.
   by apply: leif_eq; rewrite char1_ge0.
 pose psi := 'Ind 'chi_k - mu_ j; have Npsi: psi \is a character.
   apply/forallP=> l; rewrite coord_cfdot cfdotBl; set a := '['Ind _, _].
@@ -584,7 +584,7 @@ pose psi := 'Ind 'chi_k - mu_ j; have Npsi: psi \is a character.
   rewrite cfdot_suml big1 ?subr0 // => i _.
   rewrite cfdot_irr -(inj_eq irr_inj) mulrb ifN_eqC ?muj'l //.
 have ub_mu_1: mu_ j 1%g <= 'Ind[L] 'chi_k 1%g ?= iff ('Ind 'chi_k == mu_ j).
-  rewrite -subr_eq0 -/psi (canRL (subrK _) (erefl psi)) cfunE -leif_subLR.
+  rewrite -subr_eq0 -/psi (canRL (subrK _) (erefl psi)) cfunE -leifBLR.
   by rewrite subrr -char1_eq0 // eq_sym; apply: leif_eq; rewrite char1_ge0.
 have [_ /esym] := leif_trans lb_mu_1 ub_mu_1; rewrite cfInd1 //.
 by rewrite -(index_sdprod defL) eqxx => /andP[/eqP-> /eqP <-]; rewrite irrK.
