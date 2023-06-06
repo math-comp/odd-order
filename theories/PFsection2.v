@@ -276,8 +276,7 @@ move=> mu alpha beta; apply/cfunP=> x; rewrite !cfunElock.
 by case: pickP => [a _ | _] /=; rewrite ?mulr0 ?addr0 ?cfunE.
 Qed.
 HB.instance Definition _ :=
-  GRing.isLinear.Build [ringType of algC]
-    [lmodType _ of classfun L] [zmodType of classfun G] _ Dade Dade_is_linear.
+  GRing.isLinear.Build algC (classfun L) (classfun G) _ Dade Dade_is_linear.
 
 Local Notation "alpha ^\tau" := (Dade alpha).
 

@@ -80,8 +80,7 @@ rewrite mulrnAr -mulrnDl mulrCA -mulrDr; congr (_ * _ *+ _).
 by rewrite big_distrr -big_split; apply: eq_bigr => x _; rewrite !cfunE.
 Qed.
 HB.instance Definition _ :=
-  GRing.isLinear.Build [ringType of algC]
-    [lmodType _ of classfun G] [zmodType of classfun L] _ invDade
+  GRing.isLinear.Build algC (classfun G) (classfun L) _ invDade
     invDade_is_linear.
 
 Lemma invDade_on chi : chi^\rho \in 'CF(L, A).
@@ -482,8 +481,8 @@ split=> // [ | chi /irrP[t def_chi] o_chiSnu].
   rewrite -real_ltNge ?Creal_Cint // lt_def => /andP[].
   move/(norm_Cint_ge1 Za)=> a_ge1 a_ge0; rewrite mulrA -mulrBl.
   rewrite (normr_idP _) // -(@mulVf _ 2%:R) ?pnatr_eq0 // in a_ge1.
-  rewrite mulr_ge0 // subr_ge0 (le_trans _ (ler_wpmul2l u_ge0 a_ge1)) // mulrA.
-  by rewrite ler_wpmul2r ?ler0n // -(ler_pmul2l L_gt0) mulrA Lu -eh mulfK.
+  rewrite mulr_ge0 // subr_ge0 (le_trans _ (ler_wpM2l u_ge0 a_ge1)) // mulrA.
+  by rewrite ler_wpM2r ?ler0n // -(ler_pM2l L_gt0) mulrA Lu -eh mulfK.
 have Zchi: chi \in 'Z[irr G] by rewrite def_chi irr_vchar.
 have def_chi0: {in A, chi^\rho =1 (fun _ => '[beta, chi])}.
   have defT1: perm_eq calT [:: zeta, Ind1H & S1].
@@ -620,7 +619,7 @@ Lemma odd_Frobenius_index_ler (R : numFieldType) (K L : {group gT}) :
     odd #|L| -> [Frobenius L with kernel K] ->
   #|L : K|%:R <= (#|K|%:R - 1) / 2%:R :> R.
 Proof.
-move=> oddL /existsP[H frobL]; rewrite ler_pdivl_mulr ?ltr0n // ler_subr_addl.
+move=> oddL /existsP[H frobL]; rewrite ler_pdivlMr ?ltr0n // lerBrDl.
 have ->: #|L : K| = #|H| by have [/index_sdprod] := Frobenius_context frobL.
 by rewrite -natrM -mulrS ler_nat muln2 (ltn_odd_Frobenius_ker frobL).
 Qed.
@@ -747,11 +746,11 @@ suffices{min_rho1} sumB_max: sumB <= (e - 1) / (h + 2%:R).
   have [eps [t def_chi1]] := vchar_norm1P Zchi1 (n1Snu i1 'chi_(r i1) (Sr i1)).
   pose sumG0 := \sum_(g in G0) `|'chi_t g| ^+ 2.
   apply: (le_trans (y := (#|G0|%:R - sumG0) / #|G|%:R)); last first.
-    rewrite ler_pmul2r ?invr_gt0 ?gt0CG // ler_add2l ler_opp2.
+    rewrite ler_pM2r ?invr_gt0 ?gt0CG // lerD2l lerN2.
     rewrite [sumG0](bigD1 1%g) /=; last first.
       rewrite !inE group1 andbT; apply/bigcupP=> [[i _]].
       by rewrite class_supportEr => /bigcupP[x _]; rewrite conjD1g !inE eqxx.
-    rewrite -[1]addr0 ler_add ?sumr_ge0 // => [|x _]; last first.
+    rewrite -[1]addr0 lerD ?sumr_ge0 // => [|x _]; last first.
       by rewrite -normrX normr_ge0.
     have Zchit1: 'chi_t 1%g \in Cint by rewrite CintE Cnat_irr1.
     by rewrite expr_ge1 ?normr_ge0 // norm_Cint_ge1 ?irr1_neq0.
@@ -759,10 +758,10 @@ suffices{min_rho1} sumB_max: sumB <= (e - 1) / (h + 2%:R).
   apply: (le_trans (y := \sum_i ('[rho i 'chi_t] - ea i))); last first.
     rewrite -subr_ge0 -opprB oppr_ge0 -mulNr opprB addrC mulrC.
     by rewrite /sumG0 defG0 Dade_cover_inequality ?cfnorm_irr.
-  rewrite (bigID (mem calB)) /= addrC ler_add //.
+  rewrite (bigID (mem calB)) /= addrC lerD //.
     rewrite -subr_ge0 opprK -big_split sumr_ge0 //= => i _.
     by rewrite def_h1 eh subrK cfnorm_ge0.
-  rewrite (bigD1 i1) ?inE ?eqxx ?andbF //= -ler_subl_addl.
+  rewrite (bigD1 i1) ?inE ?eqxx ?andbF //= -lerBlDl.
   rewrite (le_trans (y := 0)) //.
     rewrite opprB /ea -def_h1 -eh -/h -/e addrA subrK subr_le0.
     by rewrite -(cfnorm_sign eps) -linearZ -def_chi1.
@@ -771,9 +770,9 @@ suffices{min_rho1} sumB_max: sumB <= (e - 1) / (h + 2%:R).
   have [[_ _ Zbeta_i] _ /(_ _ (mem_irr t))[|_ ->]] := betaP i.
     apply/orthoPr=> _ /mapP[xi Sxi ->]; rewrite -['chi_t](signrZK eps).
     by rewrite -def_chi1 cfdotZr o_nu ?mulr0 ?Sr.
-  rewrite -[ea i]mulr1 /ea ler_wpmul2l ?mulr_ge0 ?invr_ge0 ?ler0n //.
+  rewrite -[ea i]mulr1 /ea ler_wpM2l ?mulr_ge0 ?invr_ge0 ?ler0n //.
   by rewrite -/(tau i) -/(beta i) sqr_Cint_ge1 ?Cint_cfdot_vchar_irr.
-rewrite -(mulfK nzh2 sumB) -{2 3}natrD ler_wpmul2r ?invr_ge0 ?ler0n //.
+rewrite -(mulfK nzh2 sumB) -{2 3}natrD ler_wpM2r ?invr_ge0 ?ler0n //.
 apply: le_trans maxGamma; rewrite mulr_suml.
 pose phi i : 'CF(G) := \sum_(xi <- S i) xi 1%g / e_ i / '[xi] *: nu i xi.
 have o_phi_nu i j xi: i != j -> xi \in S j -> '[phi i, nu j xi] = 0.
@@ -811,8 +810,8 @@ have n_phi: '[phi i] = (h_ i - 1) / e_ i.
 rewrite subr_ge0 cfdotZr cfdot_suml (bigD1 i) //=.
 rewrite big1 ?addr0 => [|j /andP[_ ne_j]]; last by rewrite cfdotZl o_phi ?mulr0.
 rewrite cfdotZl invfM 2!mulrA -n_phi -[_ * _]mulrA mulrC.
-rewrite ler_wpmul2r ?cfnorm_ge0 // (le_trans (y := 1)) //.
-  by rewrite -{2}(mulVf (nzh i)) ler_wpmul2l ?invr_ge0 ?ler0n ?min_i1.
+rewrite ler_wpM2r ?cfnorm_ge0 // (le_trans (y := 1)) //.
+  by rewrite -{2}(mulVf (nzh i)) ler_wpM2l ?invr_ge0 ?ler0n ?min_i1.
 rewrite mulrC -normCK expr_ge1 ?normr_ge0 // norm_Cint_ge1 //.
   rewrite Cint_cfdot_vchar ?Znu ?seqInd_zcharW ?Sr //.
 suffices []: c i i1 != 0 \/ c i1 i != 0 by rewrite ?ci1_0.
@@ -825,9 +824,9 @@ Theorem no_coherent_Frobenius_partition : G0 != 1%G.
 Proof.
 have [i] := coherent_Frobenius_bound; apply: contraTneq => ->.
 have [] := e_bounds i; set e := e_ i; set h := h_ i => e_gt1 le_e_h2.
-rewrite cards1 subrr mul0r lt_geF // pmulr_rgt0 ?subr_gt0 // ltr_paddl //.
+rewrite cards1 subrr mul0r lt_geF // pmulr_rgt0 ?subr_gt0 // ltr_wpDl //.
   rewrite ?(mulr_ge0, invr_ge0) ?ler0n // addrAC subr_ge0.
-  by rewrite -[_ - 1](@divfK _ 2%:R) ?pnatr_eq0 // mulrC ler_wpmul2r ?ler0n.
+  by rewrite -[_ - 1](@divfK _ 2%:R) ?pnatr_eq0 // mulrC ler_wpM2r ?ler0n.
 by rewrite -natrD addnC ?(pmulr_rgt0, invr_gt0) ?ltr0n.
 Qed.
 

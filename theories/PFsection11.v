@@ -233,7 +233,7 @@ Lemma bounded_proper_coherent H1 :
 Proof.
 move=> nsH1_M psH1_M' cohH1; have [nsHHU _ _ _ _] := sdprod_context defHU.
 suffices: #|HU : H1|%:R - 1 <= 2%:R * #|M : HC|%:R * sqrtC #|HC : HC|%:R :> algC.
-  rewrite indexgg sqrtC1 mulr1 -leC_nat natrD -ler_subl_addr -mulnA natrM.
+  rewrite indexgg sqrtC1 mulr1 -leC_nat natrD -lerBlDr -mulnA natrM.
   congr (_ <= _ * _%:R); apply/eqP; rewrite -(eqn_pmul2l (cardG_gt0 HC)).
   rewrite Lagrange ?normal_sub // mulnCA -(dprod_card defHC) -mulnA mulnC.
   by rewrite Lagrange ?subsetIl // (sdprod_card defHU) (sdprod_card defM).
@@ -900,10 +900,10 @@ have tau_alpha i: tau (alpha_ i j) = eta_ i j - eta_ i 0 - n *: zeta1.
       by rewrite -!(can_eq (subrK 1) a) add0r addrK orbC -eqf_sqr expr1n.
     have S1gt0: (0 < size S1)%N by case: (S1) S1zeta.
     have: n * b ^+ 2 <= n *+ 3.
-      have: 2%:R + n <= n *+ 3 by rewrite addrC ler_add2l ler_muln2r Dn ler1n.
+      have: 2%:R + n <= n *+ 3 by rewrite addrC lerD2l lerMn2r Dn ler1n.
       apply: le_trans; rewrite sqrrB1 -(mulr_natr a) -mulrBr mulrDr mulrA mulr1.
-      rewrite ler_add2r -(ler_add2r (n ^+ 2 + '[X])) !addrA -nY -cfnormDd //.
-      by rewrite -Dphi norm_FTtype345_bridge ?S1_1 // ler_addl cfnorm_ge0.
+      rewrite lerD2r -(lerD2r (n ^+ 2 + '[X])) !addrA -nY -cfnormDd //.
+      by rewrite -Dphi norm_FTtype345_bridge ?S1_1 // lerDl cfnorm_ge0.
     have Zb: b \in Cint by rewrite rpredB ?rpred1 ?Za.
     have nz_b: b != 0 by rewrite subr_eq0 (memPn _ a a_even) ?(dvdC_nat 2 1).
     rewrite eq_le sqr_Cint_ge1 {nz_b}//= andbT -Cint_normK // Dn -mulrnA.
@@ -1047,12 +1047,12 @@ have bridgeS1: {in S1, forall zeta, eq_proj_eta (tau (bridge0 zeta)) eta0row}.
     case/(cfExp_prime_transitive pr_q nz_i1) => k co_k_wi1 Dwi.
     rewrite -(cforder_dprodl defW) -dprod_IirrEl in co_k_wi1.
     have [[nu eta10nu] _] := cycTIiso_aut_exists ctiWG co_k_wi1.
-    by rewrite /a_ dprod_IirrEl Dwi rmorphX /= -dprod_IirrEl eta10nu a_aut.
+    by rewrite /a_ dprod_IirrEl Dwi rmorphXn /= -dprod_IirrEl eta10nu a_aut.
   have Da01 j: j != 0 -> a_ 0 j = a01.
     case/(cfExp_prime_transitive pr_p nz_j1) => k co_k_wj1 Dwj.
     rewrite -(cforder_dprodr defW) -dprod_IirrEr in co_k_wj1.
     have [[nu eta01nu] _] := cycTIiso_aut_exists ctiWG co_k_wj1.
-    by rewrite /a_ dprod_IirrEr Dwj rmorphX /= -dprod_IirrEr eta01nu a_aut.
+    by rewrite /a_ dprod_IirrEr Dwj rmorphXn /= -dprod_IirrEr eta01nu a_aut.
   have DaB1 i j: a_ i j = a_ i 0 + a_ 0 j - a_ 0 0.
     apply: (canRL (addrK _)); rewrite !Da cycTIiso_cfdot_exchange // => x Vx.
     have /setDP[A0x A'x]: x \in 'A0(M) :\: 'A(M).
@@ -1070,7 +1070,7 @@ have bridgeS1: {in S1, forall zeta, eq_proj_eta (tau (bridge0 zeta)) eta0row}.
     apply: eq_bigr => i /Da10-Dai0; rewrite (bigD1 0) //= Dai0; congr (_ + _).
     by apply: eq_bigr => j /Da01-Da0j; rewrite DaB1 Dai0 Da0j -DaB1.
   have normX_le_q: '[X] <= q%:R.
-    rewrite -(ler_add2r '[chi]) -cfnormDd // -Dchi -ler_subl_addl.
+    rewrite -(lerD2r '[chi]) -cfnormDd // -Dchi -lerBlDl.
     have ->: '[tau phi] - q%:R = 1.
       rewrite Dade_isometry ?A0bridge0 // cfnormBd; last by rewrite omuS1.
       by rewrite cfnorm_prTIred cfdotS1 // eqxx addrC addKr.
@@ -1097,9 +1097,9 @@ have bridgeS1: {in S1, forall zeta, eq_proj_eta (tau (bridge0 zeta)) eta0row}.
     have: ('[X] < (2 * q.-1)%:R).
       rewrite (le_lt_trans normX_le_q) // ltC_nat -subn1 mulnBr ltn_subRL.
       by rewrite !mul2n -!addnn ltn_add2r odd_prime_gt2 ?mFT_odd.
-    apply: contraTeq => nz_a11; rewrite le_gtF // normX ler_paddl //.
+    apply: contraTeq => nz_a11; rewrite le_gtF // normX ler_wpDl //.
       by rewrite !mulr_natl ?addr_ge0 ?ler01 ?mulrn_wge0 ?a2_ge0.
-    rewrite -mulr_natl -natrM ?ler_pmul ?natr_ge0 ?sqr_Cint_ge1 ?Za //.
+    rewrite -mulr_natl -natrM ?ler_pM ?natr_ge0 ?sqr_Cint_ge1 ?Za //.
     by rewrite leC_nat leq_mul // -subn1 ltn_subRL odd_prime_gt2 ?mFT_odd.
   rewrite a11_0 expr0n /= mulr0 addr0 in normX.
   have a10_a01: a10 + a01 = 1.
@@ -1110,10 +1110,10 @@ have bridgeS1: {in S1, forall zeta, eq_proj_eta (tau (bridge0 zeta)) eta0row}.
     apply: contraNeq (FTtype34_not_ortho_cycTIiso S1zeta) => nz_a10.
     have a01_0: a01 = 0.
       apply: contraTeq normX_le_q => nz_a01; rewrite normX lt_geF //.
-      rewrite ltr_spaddr 1?mulr_gt0 ?ltr0n -?subn1 ?subn_gt0 ?prime_gt1 //.
+      rewrite ltr_pwDr 1?mulr_gt0 ?ltr0n -?subn1 ?subn_gt0 ?prime_gt1 //.
         by rewrite lt_def sqrf_eq0 nz_a01 a2_ge0.
-      rewrite -ler_subl_addl -(natrB _ (prime_gt0 pr_q)) subn1 -mulr_natl.
-      by rewrite ler_wpmul2l ?ler0n // sqr_Cint_ge1 ?Za.
+      rewrite -lerBlDl -(natrB _ (prime_gt0 pr_q)) subn1 -mulr_natl.
+      by rewrite ler_wpM2l ?ler0n // sqr_Cint_ge1 ?Za.
     suffices <-: X = eta_col 0 by rewrite Dchi /eq_proj_eta addrC addKr.
     rewrite defX sum_etaW exchange_big (bigD1 0) //= addrC.
     rewrite big1 ?add0r => [|j nz_j]; first apply: eq_bigr => i _; last first.

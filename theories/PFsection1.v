@@ -27,8 +27,6 @@ Unset Printing Implicit Defensive.
 Import GroupScope Order.TTheory GRing.Theory Num.Theory.
 Local Open Scope ring_scope.
 
-Local Notation algCF := [fieldType of algC].
-
 Section Main.
 
 Variable gT : finGroupType.
@@ -82,7 +80,7 @@ have{regHg}: sum_norm2 gT G g <= sum_norm2 _ (G / H)%G (coset H g).
   suffices /card_isog->: 'C_G[g] \isog 'C_G[g] / H.
     exact/subset_leq_card/quotient_subcent1.
   by apply/quotient_isog; rewrite ?subIset 1?normal_norm // setICA regHg setIg1.
-rewrite /sum_norm2 (bigID kerH) ?sum_norm_irr_quo //= -ler_subr_addl subrr.
+rewrite /sum_norm2 (bigID kerH) ?sum_norm_irr_quo //= -lerBrDl subrr.
 rewrite le_eqVlt psumr_eq0 ?le_gtF ?sumr_ge0 // orbF => /allP/(_ t)/implyP.
 by rewrite mem_index_enum kerH't expf_eq0 normr_eq0.
 Qed.
@@ -590,8 +588,8 @@ have I1B: 'chi_i1 1%g ^+ 2 <= #|C : D|%:R.
 have IC': 'Ind[G] 'chi_i1 \is a character := cfInd_char G (irr_char i1).
 move: (char1_ge_constt IC' CIr); rewrite cfInd1 //= => /le_trans-> //.
 have chi1_1_ge0: 0 <= 'chi_i1 1%g by rewrite ltW ?irr1_gt0.
-rewrite ler_pmul2l ?gt0CiG //.
-by rewrite -(@ler_pexpn2r _ 2) -?topredE /= ?sqrtC_ge0 ?ler0n ?sqrtCK.
+rewrite ler_pM2l ?gt0CiG //.
+by rewrite -(@ler_pXn2r _ 2) -?topredE /= ?sqrtC_ge0 ?ler0n ?sqrtCK.
 Qed.
 
 (* This is Peterfalvi (1.9)(a). *)
@@ -607,17 +605,17 @@ Proof.
 move=> coab [pr_w_a genQa] [pr_w_b genQb].
 have [k co_k_a Dmu]: {k | coprime k a & mu (QaC w_a) = QaC (w_a ^+ k)}.
   have prCw: a.-primitive_root (QaC w_a) by rewrite fmorph_primitive_root.
-  by have [k coka ->] := aut_prim_rootP mu prCw; rewrite -rmorphX; exists k.
+  by have [k coka ->] := aut_prim_rootP mu prCw; rewrite -rmorphXn; exists k.
 pose k1 := chinese a b k 1; have /Qn_aut_exists[nu Dnu]: coprime k1 (a * b).
   rewrite coprimeMr -!(coprime_modl k1) chinese_modl ?chinese_modr //.
   by rewrite !coprime_modl co_k_a coprime1n.
 exists nu => [x | y].
   have /Fadjoin_polyP[p Qp ->]: x \in <<1; w_a>>%VS by rewrite genQa memvf.
-  rewrite -!horner_map -!map_poly_comp !map_Qnum_poly // Dmu Dnu -rmorphX /=.
+  rewrite -!horner_map -!map_poly_comp !map_Qnum_poly // Dmu Dnu -rmorphXn /=.
     by rewrite -[in LHS](prim_expr_mod pr_w_a) /k1 chinese_modl // prim_expr_mod.
   by rewrite exprM (prim_expr_order pr_w_a) expr1n rmorph1.
 have /Fadjoin_polyP[p Qp ->]: y \in <<1; w_b>>%VS by rewrite genQb memvf.
-rewrite -!horner_map -!map_poly_comp !map_Qnum_poly // Dnu -rmorphX /=.
+rewrite -!horner_map -!map_poly_comp !map_Qnum_poly // Dnu -rmorphXn /=.
   by rewrite -(prim_expr_mod pr_w_b) chinese_modr // prim_expr_mod.
 by rewrite mulnC exprM (prim_expr_order pr_w_b) expr1n rmorph1.
 Qed.

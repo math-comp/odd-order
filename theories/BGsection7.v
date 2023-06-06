@@ -84,7 +84,7 @@ move: {2}_.+1 (ltnSn #|G|) => n.
 elim: n => // n IHn in gT G *; rewrite ltnS => leGn oddG.
 have oG: #|[subg G]| = #|G| by rewrite (card_isog (isog_subg G)).
 apply/idPn=> nsolG; apply: IH_FT.
-pose gT' := [finGroupType of subg_of G].
+pose gT' : finGroupType := subg_of G.
 apply: (HB.pack gT' (IsMinSimpleOddGroup.Build gT' _ _ _ _));
     do ?[move=> /= ??????].
 - by rewrite oG.

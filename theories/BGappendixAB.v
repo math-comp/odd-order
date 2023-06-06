@@ -155,7 +155,7 @@ have cAG: centgmx rG A.
   by rewrite -!mulmxA Ax2 Ay2 !mulmx0 !mulmxA Ax2 Ay2 !mul0mx !addr0 !add0r.
 have irrG: mx_irreducible rG by apply/abelem_mx_irrP.
 pose FA := gen_of irrG cAG; pose dA := gen_dim A.
-pose rAG : mx_representation [fieldType of FA] G dA := gen_repr irrG cAG.
+pose rAG : mx_representation FA G dA := gen_repr irrG cAG.
 pose inFA m W : 'M[FA]_(m, dA) := in_gen irrG cAG W.
 pose valFA m (W : 'M[FA]_(m, dA)) := val_gen W.
 rewrite -(rker_abelem abelE ntE nEG) -/rG -(rker_gen irrG cAG) -/rAG.
@@ -197,7 +197,7 @@ move: (kquo_repr _) (kquo_mx_faithful rAG) => /=; set K := rker _.
 rewrite def_dA => r2G; move/der1_odd_GL2_charf; move/implyP.
 rewrite quotient_odd //= -/G; apply: etrans; apply: eq_pgroup => p'.
 have [p_pr _ _] := pgroup_pdiv pE ntE.
-by rewrite (fmorph_char [rmorphism of gen _ _]) (charf_eq (char_Fp _)).
+by rewrite (fmorph_char (gen _ _)) (charf_eq (char_Fp _)).
 Qed.
 
 Section A5.

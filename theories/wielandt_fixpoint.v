@@ -247,7 +247,7 @@ have dim_lt0 : 'dim V > 0 by rewrite (dim_abelemE abelV) // Vpexpn pfactorK.
 have q_gt1: q > 1 by rewrite (ltn_exp2l 0) // prime_gt1.
 have p_q: p.-nat q by rewrite pnatX pnat_id.
 have p_dv_q: p %| q := dvdn_exp2l p m_gt0.
-pose rG := regular_repr [comUnitRingType of 'Z_q] G; pose MR_G := ('MR rG)%gact.
+pose rG := regular_repr 'Z_q G; pose MR_G := ('MR rG)%gact.
 have [wT [fL injL [fX injX fJ]]]: exists wT : finGroupType,
     exists2 fL : {morphism setT >-> wT}, 'injm fL &
     exists2 fX : {morphism G >-> wT}, 'injm fX &
@@ -296,7 +296,7 @@ have kerg: 'ker (Morphism gM) = 'Phi(L).
   rewrite mulmxnE -{1}(natr_Zp (v 0 i)) {1}(divn_eq (v 0 i) p) addnC.
   by have:= congr1 val (vp0 i); rewrite !mxE -mulrnA /= val_Fp_nat // => ->.
 have [gX [DgX KgX _ imgX]] := domP (invm_morphism injX) (congr_group imfX).
-pose aG := regular_repr [fieldType of 'F_p] G.
+pose aG := regular_repr 'F_p G.
 have GgX: {in X, forall x, gX x \in G}.
   by rewrite DgX -imfX => _ /morphimP[x Gx _ ->]; rewrite /= invmE.
 have XfX: {in G, forall x, fX x \in X}.
@@ -616,8 +616,8 @@ have /mkMx[Pu defPu]: setT \subset 'dom (invm injfW \o invm injhR).
   by rewrite -sub_morphim_pre -im_hR // im_invm //= im_fW.
 have /mkMx[Pd defPd]: setT \subset 'dom (invm injfW \o invm injhC).
   by rewrite -sub_morphim_pre -im_hC //= im_fW im_invm subsetIl.
-pose fUl := pairg1 [finGroupType of 'rV['Z_q]_(rC i)] \o hR.
-pose fUr := @pair1g [finGroupType of 'rV['Z_q]_rR] _ \o hC.
+pose fUl := pairg1 ('rV['Z_q]_(rC i) : finGroupType) \o hR.
+pose fUr := @pair1g ('rV['Z_q]_rR : finGroupType) _ \o hC.
 have cRCW: fUr @* 'C_W(Ai1) \subset 'C(fUl @* [~: W, Ai1]).
   rewrite !morphim_comp morphim_pair1g morphim_pairg1.
   set UR := hR @* _; set UC := hC @* _.

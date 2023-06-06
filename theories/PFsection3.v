@@ -505,13 +505,13 @@ have <-: '[X] = norm%:R.
     by rewrite !big_map; apply: eq_big_seq => kv /clP[_ /eqP->].
   rewrite unlock /=; elim: (kvs) => //= [[k v] kvs' ->].
   by rewrite -intr_norm -natrX -natrD.
-rewrite defXY cfnormDd //; split; first by rewrite ler_paddr ?cfnorm_ge0.
+rewrite defXY cfnormDd //; split; first by rewrite ler_wpDr ?cfnorm_ge0.
   by rewrite eq_sym addrC -subr_eq0 addrK cfnorm_eq0 => /eqP->; rewrite addr0.
 have{ZmL} Zbeta: beta \in 'Z[irr G] by apply: ZmL.
 have Z_X: X \in 'Z[irr G].
   rewrite defX big_seq rpred_sum // => xi /sAm/ZmR Zxi.
   by rewrite rpredZ_Cint ?Cint_cfdot_vchar.
-rewrite -ltr_subl_addl subrr cnorm_dconstt; last first.
+rewrite -ltrBlDl subrr cnorm_dconstt; last first.
   by rewrite -[Y](addKr X) -defXY addrC rpredB.
 have [-> | [dk Ydk] _ /eqP sz_kvs] := set_0Vmem (dirr_constt Y).
   by rewrite big_set0 ltxx.
@@ -626,9 +626,9 @@ move=> gl12; apply: IHkvs; case: ifP gl12 => [/(norm_cl_eq3 m_th th_cl1)->|_].
   have [[ltk1 _] [/orthonormalP[Um oom] _]] := (cl1P _ kvs1_kv1, RmodelP m).
   rewrite -!scaler_int cfdotZl cfdotZr oom ?mem_nth ?nth_uniq // mulrb.
   by rewrite ifN ?mulr0 //; apply: contraNneq kvs1'k => <-; apply: map_f.
-rewrite /goal -(ler_add2r 1) -mulrSr; case: (cl2eq) => //; apply: le_trans.
-set s := '[_, _]; rewrite -[_ + _](addrK s) (le_trans (ler_norm_sub _ _)) //.
-rewrite 2![_ + s]addrAC addrA ler_add2l {}/s -scaler_int cfdotZr rmorph_int.
+rewrite /goal -(lerD2r 1) -mulrSr; case: (cl2eq) => //; apply: le_trans.
+set s := '[_, _]; rewrite -[_ + _](addrK s) (le_trans (ler_normB _ _)) //.
+rewrite 2![_ + s]addrAC addrA lerD2l {}/s -scaler_int cfdotZr rmorph_int.
 have [|v1 _] := sat_cases k m_th th_cl1; first exact/andP.
 have [th1 -> /= [th1_cl1 _] m_th1] := ext_clP k v1 th_cl1.
 have [_ _ /(_ _ (mem_head _ _))[_ /eqP->]] := satP m_th1 _ th1_cl1.
@@ -1422,8 +1422,8 @@ by rewrite alphaE linearD !linearB sigma1 !Deta.
 Qed.
 
 Fact cyclicTIiso_key : unit. Proof. by []. Qed.
-Definition cyclicTIiso :=
-  locked_with cyclicTIiso_key [linear of (sval cyclicTIiso_exists)].
+Definition cyclicTIiso := locked_with cyclicTIiso_key
+  (sval cyclicTIiso_exists : GRing.Linear.type _ _ _ _).
 Local Notation sigma := cyclicTIiso.
 Let im_sigma := map sigma (irr W).
 Let eta_ i j := sigma (w_ i j).

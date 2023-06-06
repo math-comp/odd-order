@@ -195,7 +195,7 @@ have ->: [set u | uval u \in Fp] = galFpU.
   by apply: val_inj; rewrite /= insubdK ?unitfE.
 have oFpU: #|galFpU| = p.-1.
   rewrite card_injm ?card_finField_unit ?oF_p //.
-  by apply/injmP=> v1 v2 _ _ []/(fmorph_inj [rmorphism of in_alg F])/val_inj.
+  by apply/injmP=> v1 v2 _ _ []/(fmorph_inj (in_alg F))/val_inj.
 have oUU: #|sigmaU @* U| = nU by rewrite card_injm.
 rewrite dprodE ?coprime_TIg ?oUU ?oFpU //; last first.
   by rewrite (sub_abelian_cent2 (cyclic_abelian (cycFU [set: _]))) ?subsetT.
@@ -361,23 +361,23 @@ have [q_gt4 | q_le4] := ltnP 4 q.
     `|(#|P| * e)%:R - #|U|%:R ^+ 2 : algC| <= #|P|%:R * sqrtC #|P|%:R.
     rewrite natrM De mulrCA mulrA divfK ?neq0CG // (bigID linH) /= sum_linH.
     rewrite mulrDr addrC addKr mulrC mulr_suml /chi_s2.
-    rewrite (le_trans (ler_norm_sum _ _ _)) // -ler_pdivr_mulr // mulr_suml.
+    rewrite (le_trans (ler_norm_sum _ _ _)) // -ler_pdivrMr // mulr_suml.
     apply: le_trans (ub_linH' 1%N isT); apply: ler_sum => i linH'i.
-    rewrite ler_pdivr_mulr // degU ?divfK ?neq0CG //.
-    rewrite normrM -normrX norm_conjC ler_wpmul2l ?normr_ge0 //.
+    rewrite ler_pdivrMr // degU ?divfK ?neq0CG //.
+    rewrite normrM -normrX norm_conjC ler_wpM2l ?normr_ge0 //.
     rewrite -ler_sqr ?qualifE /= ?normr_ge0 ?(ltW (x := 0)) // ?sqrtCK.
-    apply: le_trans (ub_linH' 2%N isT); rewrite (bigD1 i) ?ler_paddr //=.
+    apply: le_trans (ub_linH' 2%N isT); rewrite (bigD1 i) ?ler_wpDr //=.
     by apply: sumr_ge0 => i1 _; rewrite exprn_ge0 ?normr_ge0.
   rewrite natrM real_ler_distl ?rpredB ?rpredM ?rpred_nat // => /andP[lb_Pe _].
-  rewrite -ltC_nat -(ltr_pmul2l (gt0CG P)) {lb_Pe}(lt_le_trans _ lb_Pe) //.
-  rewrite ltr_subr_addl (le_lt_trans (y := (p ^ q.-1)%:R ^+ 2)) //; last first.
+  rewrite -ltC_nat -(ltr_pM2l (gt0CG P)) {lb_Pe}(lt_le_trans _ lb_Pe) //.
+  rewrite ltrBrDl (le_lt_trans (y := (p ^ q.-1)%:R ^+ 2)) //; last first.
     rewrite -!natrX ltC_nat ltn_sqr oU ltn_divRL ?dvdn_pred_predX //.
     rewrite -(subnKC qgt1) /= -!subn1 mulnBr muln1 -expnSr.
     by rewrite ltn_sub2l ?(ltn_exp2l 0) // prime_gt1.
   rewrite -mulrDr -natrX -expnM muln2 -subn1 doubleB -addnn -addnBA // subn2.
-  rewrite expnD natrM -oP ler_wpmul2l ?ler0n //.
+  rewrite expnD natrM -oP ler_wpM2l ?ler0n //.
   apply: le_trans (_ : 2%:R * sqrtC #|P|%:R <= _).
-    rewrite mulrDl mul1r ler_add2l -(@expr_ge1 _ 2) ?(ltW sqrtP_gt0) // sqrtCK.
+    rewrite mulrDl mul1r lerD2l -(@expr_ge1 _ 2) ?(ltW sqrtP_gt0) // sqrtCK.
     by rewrite oP natrX expr_ge1 ?ler0n ?ler1n.
   rewrite -ler_sqr ?rpredM ?rpred_nat ?qualifE ?(ltW sqrtP_gt0) //.
   rewrite exprMn sqrtCK -!natrX -natrM leC_nat -expnM muln2 oP.
@@ -406,17 +406,17 @@ have irr_fc: irreducible_poly (f c) by apply: cubic_irreducible; rewrite ?sz_fc.
 have fc_monic : f c \is monic.
   rewrite monicE lead_coefDl ?size_XsubC ?sz_fc_lhs // -monicE.
   by rewrite !monicMl ?monicXsubC ?monicX.
-pose inF := [rmorphism of in_alg F]; pose fcF := map_poly inF (f c).
+pose inF : {rmorphism _ -> _} := in_alg F; pose fcF := map_poly inF (f c).
 have /existsP[a fcFa_0]: [exists a : F, root fcF a].
   suffices: ~~ coprimep (f c) ('X ^+ #|F| - 'X).
     apply: contraR; rewrite -(coprimep_map inF) negb_exists => /forallP-nz_fcF.
-    rewrite -/fcF rmorphB rmorphX /= map_polyX finField_genPoly.
+    rewrite -/fcF rmorphB rmorphXn /= map_polyX finField_genPoly.
     elim/big_rec: _ => [|x gF _ co_fcFg]; first exact: coprimep1.
     by rewrite coprimepMr coprimep_XsubC nz_fcF.
   have /irredp_FAdjoin[L dimL [z /coprimep_root fcz0 _]] := irr_fc.
-  pose finL := [vectType 'F_p of FinFieldExtType L].
-  set fcL := map_poly _ _ in fcz0; pose inL := [rmorphism of in_alg L].
-  rewrite -(coprimep_map inL) -/fcL rmorphB rmorphX /= map_polyX.
+  pose finL := Vector.clone 'F_p (FinFieldExtType L) _.
+  set fcL := map_poly _ _ in fcz0; pose inL : {rmorphism _ -> _} := in_alg L.
+  rewrite -(coprimep_map inL) -/fcL rmorphB rmorphXn /= map_polyX.
   apply: contraL (fcz0 _) _; rewrite hornerD hornerN hornerXn hornerX subr_eq0.
   have ->: #|F| = #|{: finL}%VS| by rewrite oF card_vspace dimL sz_fc oF_p q3.
   by rewrite card_vspacef (expf_card (z : finL)).

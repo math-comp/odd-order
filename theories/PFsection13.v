@@ -565,10 +565,10 @@ exists alpha => //; split=> //.
   rewrite (cfnormE (cfun_onG _)) mulVKf ?neq0CG // mulrC.
   rewrite (cfnormE (seqInd_on nsHS S1zeta1)) mulVKf ?neq0CG //.
   by apply: eq_bigr => x Hx; rewrite cfResE.
-rewrite -subn1 natrB // -Cint_normK ?Cint_vchar1 // mulrBl mul1r ler_subl_addl.
+rewrite -subn1 natrB // -Cint_normK ?Cint_vchar1 // mulrBl mul1r lerBlDl.
 apply: le_trans (_ : \sum_(x in H) `|alpha x| ^+ 2 <= _); last first.
   by rewrite (big_setD1 1%g).
-rewrite (big_setID P) /= (setIidPr sPH) ler_paddr ?sumr_ge0 // => [x _|].
+rewrite (big_setID P) /= (setIidPr sPH) ler_wpDr ?sumr_ge0 // => [x _|].
   by rewrite mulr_ge0 ?normr_ge0.
 rewrite mulr_natl -sumr_const ler_sum // => y Py.
 suffices ->: alpha y = alpha 1%g by apply: lexx.
@@ -593,8 +593,8 @@ Qed.
 Let P1_int2_lb b : b \in Cint -> 2%:R * u%:R * b <= #|P|.-1%:R * b ^+ 2.
 Proof.
 move=> Zb; rewrite -natrM; apply: le_trans (_ : (2 * u)%:R * b ^+ 2 <= _).
-  by rewrite ler_wpmul2l ?ler0n ?Cint_ler_sqr.
-rewrite ler_wpmul2r -?realEsqr ?Creal_Cint // leC_nat mulnC -leq_divRL //.
+  by rewrite ler_wpM2l ?ler0n ?Cint_ler_sqr.
+rewrite ler_wpM2r -?realEsqr ?Creal_Cint // leC_nat mulnC -leq_divRL //.
 have [_ [_ ->] /leq_trans-> //] := FTtypeP_facts.
 by rewrite leq_div2l // -subn1 ltn_subRL.
 Qed.
@@ -616,7 +616,7 @@ have [|alpha [Zalpha kerPalpha]] := calS1_split1 cohS S1lam Zlam1.
   suffices: pairwise_orthogonal calS1 by case/pairwise_orthogonalP=> _ ->.
   by rewrite seqInd_orthogonal ?gFnormal.
 rewrite Itau1 ?mem_zchar // irrWnorm // expr1n !divr1 mul1r => [[Dlam ->]].
-rewrite mulr1 -ler_subl_addl addrC opprB subrK calHuq //; apply: le_trans.
+rewrite mulr1 -lerBlDl addrC opprB subrK calHuq //; apply: le_trans.
 have [[x W2x ntx] [y W1y nty]] := (trivgPn _ ntW2, trivgPn _ ntW1).
 have [_ _ _ [_ _ sW2P _ _] _] := StypeP; have Px := subsetP sW2P x W2x.
 have [eps pr_eps] := C_prim_root_exists (prime_gt0 pr_q).
@@ -651,7 +651,7 @@ have{x ntx Px lamAmod} alphaAmod: (alpha 1%g == 0 %[mod 1 - eps])%A.
   by rewrite !inE => /subset_trans-> //; apply: cfker_scale.
 have /dvdCP[b Zb ->]: (q %| alpha 1%g)%C.
   by rewrite (int_eqAmod_prime_prim pr_eps) // Cint_vchar1.
-rewrite natrM mulrACA exprMn !mulrA 2?ler_pmul2r ?gt0CG //.
+rewrite natrM mulrACA exprMn !mulrA 2?ler_pM2r ?gt0CG //.
 by rewrite -[_ * b * b]mulrA P1_int2_lb.
 Qed.
 
@@ -703,17 +703,17 @@ apply: wlog_neg => suma_lt_H.
 suffices{ub_alpha} lb_a1_2: a1_2 >= #|H^#|%:R.
   have Pgt2: (2 < #|P|)%N by apply: leq_trans (subset_leq_card sW2P).
   apply: le_trans (le_trans lb_a1_2 _) ub_alpha.
-  rewrite ler_pmull ?(lt_le_trans _ lb_a1_2) ?ler1n ?ltr0n //.
+  rewrite ler_pMl ?(lt_le_trans _ lb_a1_2) ?ler1n ?ltr0n //.
     by rewrite -(subnKC Pgt2).
   have:= leq_trans (ltnW Pgt2) (subset_leq_card sPH).
   by rewrite (cardsD1 1%g) group1.
 have /CnatP[n Dn]: '[alpha] \in Cnat by rewrite Cnat_cfnorm_vchar.
 have /CnatP[m Dm]: a1_2 \in Cnat by rewrite Cnat_exp_even ?Cint_vchar1.
 rewrite Dm leC_nat leqNgt; apply: contra suma_lt_H => a1_2_lt_H.
-rewrite {1}Dsum_alpha Dn Dm -natrM ler_subr_addl (cardsD1 1%g H) group1 /=.
+rewrite {1}Dsum_alpha Dn Dm -natrM lerBrDl (cardsD1 1%g H) group1 /=.
 case Dn1: n => [|[|n1]]; first by rewrite -cfnorm_eq0 Dn Dn1 eqxx in nz_alpha.
   have /dirrP[b [i Dalpha]]: alpha \in dirr H by rewrite dirrE Zalpha Dn Dn1 /=.
-  rewrite -Dm /a1_2 Dalpha cfunE exprMn sqrr_sign mul1r muln1 mulrS ler_add2r.
+  rewrite -Dm /a1_2 Dalpha cfunE exprMn sqrr_sign mul1r muln1 mulrS lerD2r.
   by rewrite lin_char1 ?expr1n //; apply/char_abelianP.
 rewrite -natrD leC_nat -add2n mulnDr (addnC 1%N) mulnDl -addnA.
 by apply: leq_trans (leq_addr _ _); rewrite muln2 -addnn leq_add2r ltnW.
@@ -746,7 +746,7 @@ have [zeta | alpha [Zalpha kerPalpha [_]]] := calS1_split1 cohS S1mu1 Zeta01.
   case/S1cases=> [[j nz_j ->] | /o_tau1_eta-> //].
   by rewrite o_mu_eta01 // (inj_eq (prTIred_inj _)) => /negPf->.
 rewrite o_mu_eta01 // eqxx mulrb => -> lb_alpha.
-rewrite -ler_subl_addl cfnorm_prTIred -/q mulrAC sqrr_sign mul1r.
+rewrite -lerBlDl cfnorm_prTIred -/q mulrAC sqrr_sign mul1r.
 rewrite mu1uq // natrM exprMn (mulrAC _ q%:R) (mulrA _ q%:R) !mulfK ?neq0CG //.
 rewrite natrX -(sdprod_card defS) natrM -mulrBl mulfK ?neq0CG //.
 rewrite addrC opprB subrK mulrACA; apply: le_trans lb_alpha.
@@ -799,7 +799,7 @@ have nz_i1 : #1 != 0 :> Iirr W1 by rewrite Iirr1_neq0.
 have eta_x_0 i: i != 0 -> eta_ i 0 x = 0.
   rewrite /w_ dprod_IirrEl => /(cfExp_prime_transitive pr_q nz_i1)[k co_k_p ->].
   have: coprime k #[w_ #1 0]%CF by rewrite /w_ dprod_IirrEl cforder_sdprod.
-  rewrite rmorphX /= -dprod_IirrEl => /(cycTIiso_aut_exists ctiWG)[[uu ->] _].
+  rewrite rmorphXn /= -dprod_IirrEl => /(cycTIiso_aut_exists ctiWG)[[uu ->] _].
   by rewrite cfunE /= -/sigma eta1x_0 rmorph0.
 have eta_i1 i: i != 0 -> eta_ i #1 x = eta_ 0 #1 x - 1.
   move=> nz_i; apply/eqP; pose alpha := cfCyclicTIset defW i #1.
@@ -832,7 +832,7 @@ suffices A_ub xi: xi \in dirr G -> #|A xi|%:R <= \sum_(x in G0) `|xi x| ^+ 2.
     rewrite leC_nat -cardsUI /A !setIdE -setIUr (leq_trans _ (leq_addr _ _)) //.
     rewrite subset_leq_card // subsetIidl.
     by apply/subsetP=> x /cover_G0/orP; rewrite !inE.
-  rewrite natrD big_split ler_add ?A_ub ?cycTIiso_dirr //.
+  rewrite natrD big_split lerD ?A_ub ?cycTIiso_dirr //.
   have [[[Itau1 Ztau1] _] [Ilam _]] := (cohS, andP irrHlam).
   by rewrite dirrE Ztau1 ?Itau1 ?mem_zchar //= irrWnorm.
 case/dirrP=> d [t Dxi]; rewrite (big_setID [set x | xi x != 0]) /= addrC.
@@ -1099,7 +1099,7 @@ pose invJ (f : gT -> algC) := forall y x, f (x ^ y) = f x.
 pose nm2 (chi : 'CF(G)) x := `|chi x| ^+ 2; pose g : algC := #|G|%:R.
 have injJnm2 chi: invJ (nm2 chi) by move=> y x; rewrite /nm2 cfunJ ?inE.
 have nm2_dirr chi: chi \in dirr G -> g^-1 <= nm2 chi 1%g / g.
-  case/dIrrP=> d ->; rewrite -{1}[g^-1]mul1r ler_pmul2r ?invr_gt0 ?gt0CG //.
+  case/dIrrP=> d ->; rewrite -{1}[g^-1]mul1r ler_pM2r ?invr_gt0 ?gt0CG //.
   rewrite expr_ge1 ?normr_ge0 // cfunE normrMsign.
   by rewrite irr1_degree normr_nat ler1n irr_degree_gt0.
 pose mean (F M : {set gT}) (f : gT -> algC) := (\sum_(x in F) f x) / #|M|%:R.
@@ -1129,37 +1129,37 @@ have lam1_ub: mean G0 G (nm2 lam1) <= lambda 1%g ^+ 2 / #|S|%:R - g^-1.
   have [[Itau1 Ztau1] _] := cohS.
   have{Itau1} n1lam1: '[lam1] = 1 by rewrite Itau1 ?mem_zchar ?irrWnorm.
   have{Ztau1} Zlam1: lam1 \in 'Z[irr G] by rewrite Ztau1 ?mem_zchar.
-  rewrite -ler_opp2 opprB -(ler_add2l '[lam1]) {1}n1lam1 addrCA.
+  rewrite -lerN2 opprB -(lerD2l '[lam1]) {1}n1lam1 addrCA.
   rewrite (cfnormE (cfun_onG _)) (mulrC g^-1) [_ / g](meanG (nm2 _)) // addrK.
-  rewrite -addrA ler_add ?nm2_dirr //; first by rewrite dirrE Zlam1 n1lam1 /=.
-  rewrite ler_paddr ?divr_ge0 ?ler0n //.
+  rewrite -addrA lerD ?nm2_dirr //; first by rewrite dirrE Zlam1 n1lam1 /=.
+  rewrite ler_wpDr ?divr_ge0 ?ler0n //.
     by apply: sumr_ge0 => x _; rewrite exprn_ge0 ?normr_ge0.
-  rewrite ler_pdivl_mulr ?gt0CG // mulrBl mul1r divfK ?neq0CG //.
+  rewrite ler_pdivlMr ?gt0CG // mulrBl mul1r divfK ?neq0CG //.
   by rewrite (FTtypeP_sum_Ind_Fitting_lb StypeP).
 pose ub_lam1 : algC := (#|T^`(1)%g|%:R - (v ^ 2)%:R - #|Q|.-1%:R) / #|T|%:R.
 have [_ D_1 Dv] := T_Galois.
 have defK : K = Q by have [<-] := typeP_context TtypeP; rewrite D_1 dprodg1.
 have eta10_ub: mean G0 G (nm2 (eta_ #1 0)) <= #|G0|%:R / g - ub_lam1.
-  rewrite -ler_opp2 opprB -(ler_add2l '[eta_ #1 0]) {2}(cfnormE (cfun_onG _)).
+  rewrite -lerN2 opprB -(lerD2l '[eta_ #1 0]) {2}(cfnormE (cfun_onG _)).
   rewrite (mulrC g^-1) [_ / g in rhs in _ <= rhs](meanG (nm2 _)) // addrK.
   have ->: '[eta_ #1 0] = mean G G (fun _ => 1).
     by rewrite /mean sumr_const cfdot_cycTIiso eqxx divff ?neq0CG.
   rewrite meanG // [in lhs in lhs <= _]/mean !sumr_const addrACA subrr addr0.
   rewrite [lhs in lhs <= _]addrAC -addrA -mulrDl (cardsD1 1%g Q) group1 -defK.
-  rewrite mul1r subrK ?ler_add ?ler_pmul2r ?invr_gt0 ?gt0CG //.
+  rewrite mul1r subrK ?lerD ?ler_pM2r ?invr_gt0 ?gt0CG //.
   - by rewrite nm2_dirr ?cycTIiso_dirr.
   - exact: (FTtypeP_sum_cycTIiso10_lb _ StypeP).
   congr (_ <= _): (FTtypeP_sum_cycTIiso01_lb maxT TtypeP).
   by apply: eq_bigr => x _; congr (nm2 _ x); apply: cycTIisoC.
 have: ub_lam1 < lambda 1%g ^+ 2 / #|S|%:R.
-  rewrite -[_ / _](subrK g^-1) ltr_spaddr ?invr_gt0 ?gt0CG //.
-  rewrite -(ler_add2r (#|G0|%:R / g)) -ler_subr_addl -addrA.
-  apply: le_trans (ler_add lam1_ub eta10_ub).
-  rewrite -mulrDl -big_split /= ler_pmul2r ?invr_gt0 ?gt0CG //.
+  rewrite -[_ / _](subrK g^-1) ltr_pwDr ?invr_gt0 ?gt0CG //.
+  rewrite -(lerD2r (#|G0|%:R / g)) -lerBrDl -addrA.
+  apply: le_trans (lerD lam1_ub eta10_ub).
+  rewrite -mulrDl -big_split /= ler_pM2r ?invr_gt0 ?gt0CG //.
   exact: FTtypeP_sum_nonFitting_lb.
 rewrite calHuq // -/u -(sdprod_card defS) -/q -(sdprod_card defPU) oU mulnC.
 rewrite mulnCA mulnAC !natrM !invfM expr2 !mulrA !mulfK ?neq0CG ?neq0CiG //.
-rewrite mulrAC ltr_pdivl_mulr ?ltr_pdivr_mulr ?gt0CG //.
+rewrite mulrAC ltr_pdivlMr ?ltr_pdivrMr ?gt0CG //.
 congr (_ < _); last by rewrite -mulrA mulrC.
 have [_ [_ ->] _ _ _] := Sfacts; rewrite -/p -/q.
 rewrite -{1}(ltn_predK qgt2) expnS natrM mulrA; congr (_ * _).
@@ -1197,14 +1197,14 @@ pose mkrat b d := fracq (b, d%:Z).
 pose test r b d := 1 - mkrat 1 r.-1 - mkrat 1 (r ^ 2)%N > mkrat b%:Z d.
 have lb_m r b d: test r.+2 b d -> (q >= r.+2)%N -> m > b%:R / d%:R.
   rewrite /test /mkrat !fracqE !CratrE/= => ub_bd le_r_q.
-  apply: lt_le_trans ub_bd _; rewrite ler_paddr ?invr_ge0 ?ler0n //.
-  rewrite -!addrA ler_add2l -!opprD ler_opp2 ler_add //.
-    rewrite mul1r lef_pinv ?qualifE/= ?ltr0n //; last by rewrite -(subnKC qgt2).
+  apply: lt_le_trans ub_bd _; rewrite ler_wpDr ?invr_ge0 ?ler0n //.
+  rewrite -!addrA lerD2l -!opprD lerN2 lerD //.
+    rewrite mul1r lef_pV2 ?qualifE/= ?ltr0n //; last by rewrite -(subnKC qgt2).
     by rewrite leC_nat -ltnS (ltn_predK qgt2).
   rewrite -(ltn_predK pgt2) expnSr natrM invfM mulrA.
-  rewrite ler_pdivr_mulr ?gt0CG // mulrAC mul1r -subn1.
-  rewrite ler_pmul ?invr_ge0 ?ler0n ?leC_nat ?leq_subr //.
-  rewrite lef_pinv ?qualifE/= ?ltr0n ?leC_nat ?expn_gt0 ?(prime_gt0 pr_q) //.
+  rewrite ler_pdivrMr ?gt0CG // mulrAC mul1r -subn1.
+  rewrite ler_pM ?invr_ge0 ?ler0n ?leC_nat ?leq_subr //.
+  rewrite lef_pV2 ?qualifE/= ?ltr0n ?leC_nat ?expn_gt0 ?(prime_gt0 pr_q) //.
   apply: leq_trans (_ : q ^ 2 <= _)%N; first by rewrite leq_exp2r.
   by rewrite -(subnKC qgt2) leq_pexp2l // -subn1 ltn_subRL.
 split=> [||q3]; try by apply: lb_m; compute.
@@ -1216,21 +1216,21 @@ have Dm: m = (1 - d p) / 2%:R.
 split; last apply: le_lt_trans gen_lb_uc.
   apply: lt_le_trans (_ : (1 - d 5%N) / 2%:R <= _).
     by rewrite /d -!CratrE; compute.
-  rewrite Dm ler_pmul2r ?invr_gt0 ?ltr0n // ler_add2l ler_opp2.
-  rewrite lef_pinv ?qualifE/= ?ltr0n ?expn_gt0 // leC_nat leq_pexp2l //=.
+  rewrite Dm ler_pM2r ?invr_gt0 ?ltr0n // lerD2l lerN2.
+  rewrite lef_pV2 ?qualifE/= ?ltr0n ?expn_gt0 // leC_nat leq_pexp2l //=.
   by rewrite -subn1 ltn_subRL odd_geq ?mFT_odd //= ltn_neqAle pgt2 andbT -q3.
 rewrite -mulrA mulrCA Dm -mulrA -invfM -natrM mulrA q3 mulrBr mulr1.
-rewrite ler_pmul2r ?invr_gt0 ?ltr0n //= -subn1 natrB ?expn_gt0 ?prime_gt0 //.
-rewrite ler_add2l ler_opp2 -/(f p) -(subnKC pgt2).
+rewrite ler_pM2r ?invr_gt0 ?ltr0n //= -subn1 natrB ?expn_gt0 ?prime_gt0 //.
+rewrite lerD2l lerN2 -/(f p) -(subnKC pgt2).
 elim: (p - 3)%N => [|r]; first by rewrite /f /d -!CratrE; compute.
 apply: le_trans; rewrite addnS /f /d; set x := (3 + r)%N.
-rewrite ler_pdivr_mulr ?ltr0n ?expn_gt0 // mulrAC (expnS 3) (natrM _ 3).
+rewrite ler_pdivrMr ?ltr0n ?expn_gt0 // mulrAC (expnS 3) (natrM _ 3).
 rewrite mulrA mulfK ?gt_eqF ?ltr0n ?expn_gt0 //.
-rewrite -ler_pdivr_mull ?ltr0n // !natrX -exprVn -exprMn.
+rewrite -ler_pdivrMl ?ltr0n // !natrX -exprVn -exprMn.
 rewrite mulrS mulrDr mulr1 mulVf ?pnatr_eq0 //.
 apply: le_trans (_ : (3%:R^-1 + 1) ^+ 2 <= _); last by rewrite -!CratrE; reflexivity.
-rewrite ler_sqr ?rpredD ?rpred1 ?rpredV ?rpred_nat // ler_add2r.
-by rewrite lef_pinv ?qualifE/= ?ltr0n ?leC_nat.
+rewrite ler_sqr ?rpredD ?rpred1 ?rpredV ?rpred_nat // lerD2r.
+by rewrite lef_pV2 ?qualifE/= ?ltr0n ?leC_nat.
 Qed.
 
 (* This corollary of (13.11) is used in both (13.12) and (13.15). *)
@@ -1242,7 +1242,7 @@ have [p3 | p_neq3] := eqVneq p 3%N.
     rewrite lt_gtF // (lt_le_trans ub_m) // p3 /=.
     apply: le_trans (_ : 3%:R / 4%:R <= _); last first.
       by rewrite -!CratrE; compute.
-    rewrite ler_pdivl_mulr ?ltr0n // mulrAC ler_pdivr_mulr ?ltr0n ?muln_gt0 //.
+    rewrite ler_pdivlMr ?ltr0n // mulrAC ler_pdivrMr ?ltr0n ?muln_gt0 //.
     by rewrite -!natrM leC_nat mulnCA mulSn -muln2 -!mulnA leq_addl.
   have{ub7_m} q5: q = 5%N.
     apply: contraNeq ub7_m; rewrite neq_ltn odd_ltn ?mFT_odd //= ltnS leqNgt.
@@ -1254,11 +1254,11 @@ have ub5_m: ~~ (7%:R / 10%:R < m).
   rewrite lt_gtF // (lt_le_trans ub_m) //.
   apply: le_trans (_ : 2%:R^-1 * (1 + 4%:R^-1) <= _); last first.
     by rewrite -!CratrE; compute.
-  rewrite !natrM invfM mulrACA ler_pmul ?divr_ge0 ?ler0n //.
-    rewrite ler_pdivr_mulr ?ler_pdivl_mull ?ltr0n // -natrM mul2n leC_nat.
+  rewrite !natrM invfM mulrACA ler_pM ?divr_ge0 ?ler0n //.
+    rewrite ler_pdivrMr ?ler_pdivlMl ?ltr0n // -natrM mul2n leC_nat.
     by rewrite ltnW.
-  rewrite -(subnKC pge5) [_%:R]mulrSr mulrDl divff ?pnatr_eq0 // ler_add2l.
-  by rewrite mul1r lef_pinv ?qualifE/= ?ltr0n // leC_nat.
+  rewrite -(subnKC pge5) [_%:R]mulrSr mulrDl divff ?pnatr_eq0 // lerD2l.
+  by rewrite mul1r lef_pV2 ?qualifE/= ?ltr0n // leC_nat.
 split=> //; apply: contraNeq ub5_m.
 by rewrite neq_ltn ltnNge qgt2 -(odd_geq 5) ?mFT_odd.
 Qed.
@@ -1266,8 +1266,8 @@ Qed.
 (* A more usable form for (13.10). *)
 Let gen_ub_m : m < (q * u)%:R / (c * p ^ q.-1)%:R.
 Proof.
-rewrite !natrM invfM mulrA ltr_pdivl_mulr ?ltr0n ?expn_gt0 ?cardG_gt0 //.
-by rewrite -mulrA -ltr_pdivr_mull ?gt0CG // mulrC.
+rewrite !natrM invfM mulrA ltr_pdivlMr ?ltr0n ?expn_gt0 ?cardG_gt0 //.
+by rewrite -mulrA -ltr_pdivrMl ?gt0CG // mulrC.
 Qed.
 
 (* This is the bulk of the proof of Peterfalvi (13.12). *)
@@ -1276,7 +1276,7 @@ Proof.
 apply/eqP/wlog_neg; rewrite eqn_leq cardG_gt0 andbT -ltnNge => c_gt1.
 have ub_m: m < (q * (p ^ q).-1)%:R / (c * p ^ q.-1 * p.-1)%:R.
   rewrite 2!natrM invfM mulrACA mulrAC -natf_div ?dvdn_pred_predX // -natrM.
-  rewrite (lt_le_trans gen_ub_m) // ler_pmul ?invr_ge0 ?ler0n // leC_nat.
+  rewrite (lt_le_trans gen_ub_m) // ler_pM ?invr_ge0 ?ler0n // leC_nat.
   by rewrite leq_mul //; case: Sfacts.
 have regCW1: semiregular C W1.
   have [[_ _ /Frobenius_reg_ker regUW1 _] _ _ _] := FTtypeP_facts maxS StypeP.
@@ -1289,11 +1289,11 @@ have{regCW1} dv_2q_c1: q.*2 %| c.-1.
   by rewrite (subset_trans sW1S) ?norms_cent ?gFnorm.
 have [q3 pge5]: q = 3%N /\ (p >= 5)%N.
   apply: small_m_q3; apply: (lt_le_trans ub_m).
-  rewrite !natrM -!mulrA ler_pmul2l ?gt0CG //.
-  rewrite !invfM !mulrA -(subnKC pgt2) ler_pmul2r ?invr_gt0 ?ltr0n //.
-  rewrite ler_pdivr_mulr ?ltr0n ?expn_gt0 // mulrAC -natrM -expnS.
-  rewrite prednK ?cardG_gt0 // ler_pmul ?invr_ge0 ?ler0n ?leC_nat ?leq_pred //.
-  rewrite lef_pinv ?qualifE/= ?gt0CG ?ltr0n // leC_nat.
+  rewrite !natrM -!mulrA ler_pM2l ?gt0CG //.
+  rewrite !invfM !mulrA -(subnKC pgt2) ler_pM2r ?invr_gt0 ?ltr0n //.
+  rewrite ler_pdivrMr ?ltr0n ?expn_gt0 // mulrAC -natrM -expnS.
+  rewrite prednK ?cardG_gt0 // ler_pM ?invr_ge0 ?ler0n ?leC_nat ?leq_pred //.
+  rewrite lef_pV2 ?qualifE/= ?gt0CG ?ltr0n // leC_nat.
   by rewrite -(subnKC c_gt1) ltnS dvdn_leq //= -subSn ?subn2.
 have [_ _ [//|lb_m lb_uc]] := lb_m_cases.
 pose sum3 r : algC := (r.+1 ^ 2)%:R^-1 + r.+1%:R^-1 + 1.
@@ -1301,14 +1301,14 @@ have [b Dc1] := dvdnP dv_2q_c1; rewrite q3 in Dc1.
 have [b0 | b_gt0] := posnP b; first by rewrite b0 -(subnKC c_gt1) in Dc1.
 have ub3_m r a: (r < p)%N -> (a <= b)%N -> m < 3%:R / (a * 6).+1%:R * sum3 r.
   move=> lb_p lb_b; apply: lt_le_trans ub_m _.
-  rewrite !natrM !invfM mulrACA -!mulrA q3 ler_pmul2l ?ltr0n //.
-  rewrite -(ltn_predK c_gt1) Dc1 ler_pmul ?mulr_ge0 ?invr_ge0 ?ler0n //.
-    by rewrite lef_pinv ?qualifE/= ?ltr0n // leC_nat ltnS leq_mul.
+  rewrite !natrM !invfM mulrACA -!mulrA q3 ler_pM2l ?ltr0n //.
+  rewrite -(ltn_predK c_gt1) Dc1 ler_pM ?mulr_ge0 ?invr_ge0 ?ler0n //.
+    by rewrite lef_pV2 ?qualifE/= ?ltr0n // leC_nat ltnS leq_mul.
   rewrite predn_exp mulnC natrM 2!big_ord_recl big_ord1 /= /bump /= expn1.
   rewrite -(subnKC (ltnW pgt2)) add2n in lb_p *.
   rewrite mulfK ?pnatr_eq0 // addnA 2!natrD 2!mulrDr mulr1 {-1}natrM invfM.
-  rewrite mulrA divfK ?mulVf ?pnatr_eq0 // ler_add2r.
-  by rewrite ler_add ?lef_pinv ?qualifE/= ?ltr0n ?leC_nat ?leq_sqr.
+  rewrite mulrA divfK ?mulVf ?pnatr_eq0 // lerD2r.
+  by rewrite lerD ?lef_pV2 ?qualifE/= ?ltr0n ?leC_nat ?leq_sqr.
 have beq1: b = 1%N.
   apply: contraTeq lb_m; rewrite neq_ltn ltnNge b_gt0 => /(ub3_m 4%N) ub41.
   by rewrite lt_gtF // (lt_trans (ub41 _)) // /sum3 -!CratrE; compute.
@@ -1361,27 +1361,27 @@ have [_ lb5_m lb3_m] := lb_m_cases.
 pose f r : algC := r%:R / (2 ^ r.-1)%:R.
 have ub_m: m < f q.
   apply: lt_le_trans gen_ub_m _; rewrite c1 mul1n.
-  rewrite natrM ler_pdivr_mulr ?ltr0n ?expn_gt0 ?cardG_gt0 // -mulrA.
-  rewrite ler_wpmul2l ?ler0n // mulrC !natrX -expr_div_n.
+  rewrite natrM ler_pdivrMr ?ltr0n ?expn_gt0 ?cardG_gt0 // -mulrA.
+  rewrite ler_wpM2l ?ler0n // mulrC !natrX -expr_div_n.
   apply: le_trans (_ : (p.-1 %/ 2)%:R ^+ q.-1 <= _).
     by rewrite -natrX leC_nat divn2 dvdn_leq // expn_gt0 -(subnKC pgt2).
-  rewrite -(subnKC qgt2) ler_pexpn2r ?rpred_div ?rpred_nat // natf_div //.
-  by rewrite ler_wpmul2r ?invr_ge0 ?ler0n // leC_nat leq_pred.
+  rewrite -(subnKC qgt2) ler_pXn2r ?rpred_div ?rpred_nat // natf_div //.
+  by rewrite ler_wpM2r ?invr_ge0 ?ler0n // leC_nat leq_pred.
 have{ub_m} q3: q = 3%N.
   apply: contraTeq ub_m; rewrite neq_ltn ltnNge qgt2 -(odd_geq 5) ?mFT_odd //=.
   move=> qge5; rewrite lt_gtF // -(subnKC qge5).
   elim: (q - 5)%N => [|r]; last apply: le_lt_trans.
     by apply: lt_trans (lb5_m qge5); rewrite /f -!CratrE; compute.
-  rewrite addnS ler_pdivr_mulr ?ltr0n ?expn_gt0 // natrM mulrACA mulrA.
-  by rewrite divfK ?pnatr_eq0 ?expn_eq0 // mulr_natr mulrS ler_add2r ler1n.
+  rewrite addnS ler_pdivrMr ?ltr0n ?expn_gt0 // natrM mulrACA mulrA.
+  by rewrite divfK ?pnatr_eq0 ?expn_eq0 // mulr_natr mulrS lerD2r ler1n.
 have [[]] := dvdnP u_dv_p2q; rewrite q3; first by rewrite -(subnKC pgt2).
 case=> [|b] Du; first by rewrite oU c1 Du muln1 mul1n.
 have [_ /idPn[]] := lb3_m q3; rewrite c1 divr1 le_gtF //.
 apply: le_trans (_ : (p.-1 ^ 2)%:R / 8%:R <= _).
   rewrite (natrX _ 2 3) exprSr invfM mulrA natrX -expr_div_n -natf_div // divn2.
-  by rewrite -natrX Du ler_pdivl_mulr ?ltr0n // mulrC -natrM leC_nat leq_mul.
-rewrite -!subn1 (subn_sqr p 1) !natrM -!mulrA ler_wpmul2l ?ler0n //.
-rewrite ler_pdivr_mulr 1?mulrAC ?ler_pdivl_mulr ?ltr0n // -!natrM leC_nat.
+  by rewrite -natrX Du ler_pdivlMr ?ltr0n // mulrC -natrM leC_nat leq_mul.
+rewrite -!subn1 (subn_sqr p 1) !natrM -!mulrA ler_wpM2l ?ler0n //.
+rewrite ler_pdivrMr 1?mulrAC ?ler_pdivlMr ?ltr0n // -!natrM leC_nat.
 rewrite (mulnA _ 3%N 2%N) (mulnA _ 4%N 2%N) leq_mul // mulnBl mulnDl leq_subLR.
 by rewrite addnCA (mulnSr p 3) -addnA leq_addr.
 Qed.
@@ -1396,14 +1396,14 @@ move=> Dbu; have: U :!=: 1%g by have [[_ _ /Frobenius_context[]]] := Sfacts.
 rewrite trivg_card1 oU c1 muln1 leqNgt; apply: contra => bgt2q.
 have [|q3 pge5] := small_m_q3.
   apply: lt_le_trans gen_ub_m _; rewrite c1 mul1n !natrM -!mulrA.
-  rewrite ler_wpmul2l ?ler0n // ler_pdivr_mulr ?ltr0n ?expn_gt0 ?cardG_gt0 //.
+  rewrite ler_wpM2l ?ler0n // ler_pdivrMr ?ltr0n ?expn_gt0 ?cardG_gt0 //.
   rewrite mulrAC invfM -natrM -expnS prednK ?cardG_gt0 // mulrCA.
-  rewrite ler_pdivl_mull ?ltr0n // -natrM.
+  rewrite ler_pdivlMl ?ltr0n // -natrM.
   apply: le_trans (_ : (b * u)%:R <= _); first by rewrite leC_nat leq_mul.
-  rewrite -Dbu natf_div ?dvdn_pred_predX // ler_wpmul2r ?invr_ge0 ?ler0n //.
+  rewrite -Dbu natf_div ?dvdn_pred_predX // ler_wpM2r ?invr_ge0 ?ler0n //.
   by rewrite leC_nat leq_pred.
 have ub_p: ((p - 3) ^ 2 < 4 ^ 2)%N.
-  have [_ _ [] // _] := lb_m_cases; rewrite c1 divr1 ltr_pdivr_mulr ?ltr0n //.
+  have [_ _ [] // _] := lb_m_cases; rewrite c1 divr1 ltr_pdivrMr ?ltr0n //.
   rewrite -natrM ltC_nat prednK ?expn_gt0 ?cardG_gt0 // => /(leq_mul bgt2q).
   rewrite mulnC mulnA -Dbu q3 predn_exp mulKn; last by rewrite -(subnKC pgt2).
   rewrite 2!big_ord_recl big_ord1 /= /bump /= !mulnDl expn0 expn1.
@@ -1928,12 +1928,12 @@ have{} oYeta j: '[Y, eta_ 0 j] = 0.
 have o_eta1s1: '[eta01^*, eta01] = 0.
   rewrite Deta01s cfdot_cycTIiso /= -(inj_eq irr_inj) aut_IirrE.
   by rewrite odd_eq_conj_irr1 ?mFT_odd // irr_eq1 (negPf nzj1).
-rewrite -(ler_add2r 2%:R) -natrD -(norm_beta #1) //.
+rewrite -(lerD2r 2%:R) -natrD -(norm_beta #1) //.
 have ->: '[beta_ #1] = '[Gamma - eta01 + 1].
   by rewrite addrK subrK Dade_isometry ?A0beta.
-rewrite addrA cfnormDd ?cfnorm1 ?ler_add2r; last first.
+rewrite addrA cfnormDd ?cfnorm1 ?lerD2r; last first.
   by rewrite cfdotBl oeta01_1 oGamma1 subrr.
-rewrite defXY addrAC addrC cfnormDd ?ler_add2r; last first.
+rewrite defXY addrAC addrC cfnormDd ?lerD2r; last first.
   by rewrite cfdotBl oXY cfdotC oYeta conjC0 subrr.
 have oXeta j: '[X, eta_ 0 j] = '[Gamma, eta_ 0 j].
   by rewrite defXY cfdotDl oYeta addr0.
@@ -1947,9 +1947,9 @@ rewrite cfnormDd; last first.
   rewrite cfdotZr !cfdotBl !cfdotZl Deta01s cfnorm_cycTIiso oXeta -Deta01s.
   rewrite !cfdot_conjCr o_eta1s1 conjC0 mulr0 ((_ =P Gamma) GammaReal) -/a.
   by rewrite conj_Cint // mulr1 subr0 subrr mulr0.
-rewrite -addrA ler_paddl ?cfnorm_ge0 // !cfnormZ Deta01s !cfnorm_cycTIiso.
+rewrite -addrA ler_wpDl ?cfnorm_ge0 // !cfnormZ Deta01s !cfnorm_cycTIiso.
 rewrite !mulr1 !Cint_normK ?rpredB ?rpred1 // sqrrB1 !addrA -mulr2n.
-by rewrite -subr_ge0 addrK subr_ge0 ler_pmuln2r ?Cint_ler_sqr.
+by rewrite -subr_ge0 addrK subr_ge0 ler_pMn2r ?Cint_ler_sqr.
 Qed.
 
 (* The assumptions of Peterfalvi (13.19). *)
@@ -2159,7 +2159,7 @@ case is_c1: bS; [left | right].
       exact: memv_span.
     rewrite defX cfnormZ cfnorm_sum_orthonormal // mulr_sumr !big_seq.
     apply: ler_sum => psi Lpsi; rewrite -{1}(norm_Cnat (Na_ _ _)) //.
-    by rewrite ler_pemull ?exprn_ge0 ?normr_ge0 // Cint_normK // sqr_Cint_ge1.
+    by rewrite ler_peMl ?exprn_ge0 ?normr_ge0 // Cint_normK // sqr_Cint_ge1.
   congr (_ <= _): ub_a; do 2!apply: (mulIf (neq0CiG L H)); rewrite -/e.
   rewrite divfK ?neq0CiG // -mulrA -expr2 mulr_suml.
   rewrite -subn1 natrB ?neq0CG // -indexg1 mulrC.
@@ -2169,7 +2169,7 @@ case is_c1: bS; [left | right].
 rewrite is_c1 /= in xor_bS_bL; rewrite xor_bS_bL in DbL; split=> //.
 have nz_bL: bLeta != 0 by apply: contraTneq DbL => ->.
 have{ub_betaL} [X [otau1X oX1 [a Za defX]] [//|_ ubX]] := ub_betaL.
-rewrite -/e in defX; rewrite -leC_nat -(ler_add2r (-1)); apply: le_trans ubX.
+rewrite -/e in defX; rewrite -leC_nat -(lerD2r (-1)); apply: le_trans ubX.
 pose calX0 := [seq w_ 0 j | j in predC1 0].
 have ooX0: orthonormal calX0.
   apply: sub_orthonormal (irr_orthonormal W).
@@ -2178,7 +2178,7 @@ have ooX0: orthonormal calX0.
 have Isigma: {in 'Z[calX0] &, isometry sigma}.
   by apply: in2W; apply: cycTIisometry.
 rewrite -[X](subrK (bLeta *: (\sum_(xi <- calX0) sigma xi))).
-rewrite cfnormDd ?ler_paddl ?cfnorm_ge0 //; last first.
+rewrite cfnormDd ?ler_wpDl ?cfnorm_ge0 //; last first.
   rewrite cfdotZr cfdot_sumr big1_seq ?mulr0 // => xi X0xi.
   apply/eqP; rewrite cfdotBl scaler_sumr cfproj_sum_orthonormal // subr_eq0.
   have {xi X0xi}[j nzj ->] := imageP X0xi; rewrite inE /= in nzj.
@@ -2190,7 +2190,7 @@ rewrite cfnormDd ?ler_paddl ?cfnorm_ge0 //; last first.
   by move=> xi Lxi; rewrite rpredZ ?memv_span ?map_f.
 rewrite cfnormZ cfnorm_map_orthonormal // size_image cardC1 nirrW2.
 rewrite -(natrB _ (prime_gt0 pr_p)) Cint_normK // subn1.
-by rewrite ler_pemull ?ler0n ?sqr_Cint_ge1.
+by rewrite ler_peMl ?ler0n ?sqr_Cint_ge1.
 Qed.
 
 End Thirteen_17_to_19.
