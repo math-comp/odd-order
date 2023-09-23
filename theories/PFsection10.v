@@ -539,7 +539,7 @@ have odd_zeta_g: (zeta^\tau1 g == 1 %[mod 2])%C.
   pose eW1 := [pred i : Iirr W1 | conjC_Iirr i < i]%N.
   rewrite (bigID eW1) (reindex_inj (can_inj (@conjC_IirrK _ _))) /=.
   set s1 := \sum_(i | _) _; set s2 := \sum_(i | _) _; suffices ->: s1 = s2.
-    by rewrite -mulr2n addrC -(mulr_natr _ 2) eqCmod_addl_mul ?rpred_sum.
+    by rewrite -mulr2n addrC -[X in X + 1]mulr_natr eqCmod_addl_mul ?rpred_sum.
   apply/eq_big=> [i | i _].
     rewrite (canF_eq (@conjC_IirrK _ _)) conjC_Iirr0 conjC_IirrK -leqNgt.
     rewrite ltn_neqAle val_eqE -irr_eq1 (eq_sym i) -(inj_eq irr_inj) andbA.
