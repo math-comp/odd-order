@@ -542,7 +542,7 @@ have toWlin a1: linear (fun u => fW' (fW u ^ val (subg G1 a1))).
   rewrite -(natr_Zp z) !scaler_nat morphX ?in_setT // conjXg morphX //.
   by rewrite memJ_norm // (subsetP nWG1) ?subgP.
 pose toWlM a1 := GRing.isLinear.Build _ _ _ _ _ (toWlin a1).
-pose rWL a1 : GRing.Linear.type _ _ _ _ :=
+pose rWL a1 : {linear _ -> _} :=
   HB.pack (fun u => fW' (fW u ^ val (subg G1 a1))) (toWlM a1).
 pose rW a1 := lin1_mx (rWL a1).
 pose fG := restrm sG1D f; have im_fG : fG @* G1 = G by rewrite im_restrm.
@@ -610,7 +610,7 @@ have mkMx m1 m2 (U : {group 'rV['Z_q]_m1}) (g : {morphism U >-> 'rV['Z_q]_m2}):
     move=> z u v; rewrite morphM ?allU ?in_setT //.
     by rewrite -(natr_Zp z) !scaler_nat -zmodXgE morphX ?allU ?in_setT.
   pose glM := GRing.isLinear.Build _ _ _ _ _ lin_g.
-  pose gL : GRing.Linear.type _ _ _ _ := HB.pack (mfun g) glM.
+  pose gL : {linear _ -> _} := HB.pack (mfun g) glM.
   by exists (lin1_mx gL) => u; rewrite mul_rV_lin1.
 have /mkMx[Pu defPu]: setT \subset 'dom (invm injfW \o invm injhR).
   by rewrite -sub_morphim_pre -im_hR // im_invm //= im_fW.
