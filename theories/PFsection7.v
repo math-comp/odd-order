@@ -515,7 +515,7 @@ Proof.
 move=> [Zphi Rphi] [Zpsi Rpsi]; rewrite cfdot_vchar_r // (bigD1 (0 : 'I__)) //=.
 rewrite addrC -irr0 (bigID [pred i | conjC_Iirr i < i]%N) /=.
 set a1 := \sum_(i | _) _; set a2 := \sum_(i | _) _; suffices ->: a1 = a2.
-  rewrite -mulr2n -mulr_natr (rpredDl _ (dvdC_mull _ _)) //; last first.
+  rewrite -mulr2n -[_ *+ 2]mulr_natr (rpredDl _ (dvdC_mull _ _)) //; last first.
     by rewrite rpred_sum // => i; rewrite rpredM ?Cint_cfdot_vchar_irr.
   have /CintP[m1 ->] := Cint_cfdot_vchar_irr 0 Zphi.
   have /CintP[m2 ->] := Cint_cfdot_vchar_irr 0 Zpsi.
