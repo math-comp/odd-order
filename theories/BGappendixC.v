@@ -31,7 +31,7 @@ Let nU := ((p ^ q).-1 %/ p.-1)%N.
 (* External statement of the finite field assumption. *)
 Variant finFieldImage : Prop :=
   FinFieldImage (F : finFieldType) (sigma : {morphism P >-> F}) of
-     isom P [set: F] sigma & sigma @*^-1 <[1 : F]> = P0
+     isom P [set: F] sigma & sigma @*^-1 <[1%R : F]> = P0
    & exists2 sigmaU : {morphism U >-> {unit F}},
      'injm sigmaU & {in P & U, morph_act 'J 'U sigma sigmaU}.
 

@@ -35,7 +35,7 @@ Variable gT : finGroupType.
 Lemma odd_eq_conj_irr1 (G : {group gT}) t :
   odd #|G| -> (('chi[G]_t)^*%CF == 'chi_t) = ('chi_t == 1).
 Proof.
-rewrite -coprimen2 => oddG; pose A := <[1 : 'Z_2]>.
+rewrite -coprimen2 => oddG; pose A := <[1%R : 'Z_2]>.
 have Z2P (a : 'Z_2): a = 0 \/ a = 1 by apply/pred2P; case: a => -[|[]].
 pose Ito (t : Iirr G) := [fun a : 'Z_2 => iter a (@conjC_Iirr _ G) t].
 pose Cto (C : {set gT}) := [fun a : 'Z_2 => iter a invg C].
