@@ -69,7 +69,7 @@ Local Open Scope ring_scope.
 
 (* Supercedes the notation in BGsection14. *)
 Notation "''R' [ x ]" := 'C_((gval 'N[x])`_\F)[x]
- (at level 8, format "''R' [ x ]")  : group_scope.
+ (at level 0, format "''R' [ x ]")  : group_scope.
 Notation "''R' [ x ]" := 'C_('N[x]%g`_\F)[x]%G : Group_scope.
 
 Section Definitions.

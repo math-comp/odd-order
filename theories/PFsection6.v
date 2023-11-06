@@ -172,7 +172,7 @@ Qed.
 Definition odd_Frobenius_quotient M (H1 := K^`(1) <*> M) :=
   [/\ (*a*) odd #|L|,
       (*b*) [/\ M <| L, M \subset K & nilpotent (K / M)]
-    & (*c*) [Frobenius L / H1 with kernel K / H1] ]%g.
+    & (*c*) [Frobenius L / H1 with kernel (K / H1)] ]%g.
 
 (* This is Peterfalvi (6.5). *)
 Lemma non_coherent_chief M (H1 := (K^`(1) <*> M)%G) :

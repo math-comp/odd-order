@@ -49,15 +49,15 @@ Unset Printing Implicit Defensive.
 
 Import GroupScope.
 
-Reserved Notation "''M'" (at level 8, format "''M'").
-Reserved Notation "''M' ( H )" (at level 8, format "''M' ( H )").
-Reserved Notation "''U'" (at level 8).
+Reserved Notation "''M'" (at level 0, format "''M'").
+Reserved Notation "''M' ( H )" (at level 0, format "''M' ( H )").
+Reserved Notation "''U'" (at level 0).
 Reserved Notation "''SCN_' n [ p ]"
-  (at level 8, n at level 2, format "''SCN_' n [ p ]").
+  (at level 0, n at level 2, format "''SCN_' n [ p ]").
 Reserved Notation "|/|_ X ( A ; pi )"
-  (at level 8, X at level 2, format "|/|_ X ( A ;  pi )").
+  (at level 0, X at level 2, format "|/|_ X ( A ;  pi )").
 Reserved Notation "|/|* ( A ; pi )"
-  (at level 8, format "|/|* ( A ;  pi )").
+  (at level 0, format "|/|* ( A ;  pi )").
 
 (* The generic setup for the whole Odd Order Theorem proof. *)
 

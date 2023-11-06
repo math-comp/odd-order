@@ -35,7 +35,7 @@ Unset Printing Implicit Defensive.
 Import GroupScope Order.TTheory GRing.Theory Num.Theory.
 Local Open Scope ring_scope.
 
-Reserved Notation "alpha ^\rho" (at level 2, format "alpha ^\rho").
+Reserved Notation "alpha ^\rho" (at level 1, format "alpha ^\rho").
 
 Section Seven.
 

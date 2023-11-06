@@ -50,11 +50,11 @@ Definition sigma_complement E E1 E2 E3 :=
 End Definitions.
 
 Notation "\tau1 ( M )" := (tau1 M)
-  (at level 2, format "\tau1 ( M )") : group_scope.
+  (at level 0, format "\tau1 ( M )") : group_scope.
 Notation "\tau2 ( M )" := (tau2 M)
-  (at level 2, format "\tau2 ( M )") : group_scope.
+  (at level 0, format "\tau2 ( M )") : group_scope.
 Notation "\tau3 ( M )" := (tau3 M)
-  (at level 2, format "\tau3 ( M )") : group_scope.
+  (at level 0, format "\tau3 ( M )") : group_scope.
 
 Section Section12.
 
