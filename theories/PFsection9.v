@@ -531,8 +531,8 @@ have cEE A: A \in E_U -> centgmx rU A.
   apply/row_matrixP=> i; rewrite row_mul; move: (row i _) => h.
   have cHbH': (U / H0)^`(1) \subset 'C(Hbar).
     by rewrite -quotient_der ?quotient_cents.
-  apply: rVabelem_inj; rewrite rVabelemJ ?groupR //.
-  by apply: (canLR (mulKg _)); rewrite -(centsP cHbH') ?mem_commg ?mem_rVabelem.
+  apply: rVabelem_inj; rewrite rVabelemJ ?groupR //; apply: (canLR (mulKg _)).
+  by rewrite -[LHS](centsP cHbH')// ?mem_commg ?mem_rVabelem.
 have{cEE} [F [outF [inF outFK inFK] E_F]]:
   {F : finFieldType & {outF : {rmorphism F -> 'M(Hbar)%Mg}
    & {inF : {additive _ -> _} | cancel outF inF & {in E_U, cancel inF outF}}
@@ -1013,7 +1013,7 @@ have sW1_Imu i: W1 \subset 'I[theta (mu_f i) %% H0]%CF.
   have W1w1w: (w1 * (inMb w)^-1)%g \in W1bar by rewrite !in_group.
   rewrite -(cfResE _ (sH1wH _ W1w1w)) -?mem_conjg -?conjsgM ?mulgKV ?H1x //.
   rewrite -(cfResE _ (sH1wH _ W1w1)) ?H1x ?cfBigdprodKabelian //.
-  rewrite !ffunE W1w1 W1w1w -[x w1](conjgKV w1) -conjgM !isom_IirrE.
+  rewrite !ffunE W1w1 W1w1w -[x w1](conjgKV w1) -(conjgM _ w1) !isom_IirrE.
   by rewrite !cfIsomE -?mem_conjg ?H1x.
 have inj_mu: {in predC1 0 &, injective (fun i => cfIirr (mk_mu i))}.
   move=> i1 i2 nz_i1 nz_i2 /(congr1 (tnth (irr HU))).
