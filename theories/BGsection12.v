@@ -306,7 +306,7 @@ have SylowE3 P: Sylow E3 P -> [/\ cyclic P, P \subset E^`(1) & 'C_P(E) = 1].
     have sP_Ep'P: P \subset 'O_p^'(E) <*> P := joing_subr _ _.
     have sylP_Ep'P := pHall_subl sP_Ep'P (normal_sub nsEp'P_E) sylP_E.
     rewrite -{2}(Frattini_arg nsEp'P_E sylP_Ep'P) /= !norm_joinEr //.
-    by rewrite -mulgA (normC nPK) -mulPK -{1}(mulGid P) !mulgA.
+    by rewrite -[LHS]mulgA (normC nPK) -mulPK -{1}(mulGid P) !mulgA.
   have ntPE': P :&: E^`(1) != 1.
     have sylPE' := Hall_setI_normal (der_normal 1 E) sylP_E.
     rewrite -rank_gt0 (rank_Sylow sylPE') p_rank_gt0.

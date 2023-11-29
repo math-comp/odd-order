@@ -548,7 +548,7 @@ have irrK'K: mx_absolutely_irreducible rK'K.
       by rewrite mem_enum.
     by rewrite PackSocleK.
   have [i def_i]: exists i, [set: sK'G'] = [set i].
-    apply/cards1P; rewrite -dvdn1 -{7}(eqnP coKp) dvdn_gcd.
+    apply/cards1P; rewrite -dvdn1 -[X in _ %| X](eqnP coKp) dvdn_gcd.
     by rewrite -{1}eq_sK' sK'_dv_K sK'_dv_p.
   pose M := socle_base i; have simM : mxsimple rK'G' M := socle_simple i.
   have cycGq: cyclic (G' / K^`(1)).

@@ -706,7 +706,7 @@ suffices{ub_alpha} lb_a1_2: a1_2 >= #|H^#|%:R.
   rewrite ler_pMl ?(lt_le_trans _ lb_a1_2) ?ler1n ?ltr0n //.
     by rewrite -(subnKC Pgt2).
   have:= leq_trans (ltnW Pgt2) (subset_leq_card sPH).
-  by rewrite (cardsD1 1%g) group1.
+  by rewrite [in X in X -> _](cardsD1 1%g) group1.
 have /CnatP[n Dn]: '[alpha] \in Cnat by rewrite Cnat_cfnorm_vchar.
 have /CnatP[m Dm]: a1_2 \in Cnat by rewrite Cnat_exp_even ?Cint_vchar1.
 rewrite Dm leC_nat leqNgt; apply: contra suma_lt_H => a1_2_lt_H.
