@@ -1282,7 +1282,7 @@ have regCW1: semiregular C W1.
   have [[_ _ /Frobenius_reg_ker regUW1 _] _ _ _] := FTtypeP_facts maxS StypeP.
   by move=> _ y /regUW1 regUx; rewrite setIAC regUx setI1g.
 have{regCW1} dv_2q_c1: q.*2 %| c.-1.
-  rewrite -(subnKC c_gt1) -mul2n Gauss_dvd ?coprime2n ?dvdn2 ?mFT_odd //=.
+  rewrite -(subnKC c_gt1) -mul2n Gauss_dvd ?coprime2n ?dvdn2 ?mFT_odd //= ?add1n.
   rewrite oddB ?mFT_odd -?subSn // subn2 regular_norm_dvd_pred //.
   have /mulG_sub[_ sW1S] := sdprodW defS.
   apply: normsI; first by have [_ []] := StypeP.
