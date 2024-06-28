@@ -47,6 +47,10 @@
     coq.override.version = "8.18";
     mathcomp.override.version = "mathcomp-2.1.0";
   };
+  bundles."8.19".coqPackages = {
+    coq.override.version = "8.19";
+    mathcomp.override.version = "mathcomp-2.2.0";
+  };
   bundles."master".coqPackages = {
     coq.override.version = "master";
     coq-elpi.override.version = "coq-master";
