@@ -898,7 +898,7 @@ have [u defU]: exists u : 'rV_2, (u :=: U)%MS.
   by move: (row_base U) (eq_row_base U); rewrite Uscal => u; exists u.
 have{dxUV Uscal} [v defV]: exists v : 'rV_2, (v :=: V)%MS.
   move/mxdirectP: dxUV; rewrite /= Uscal sumUV mxrank1 => [[Vscal]].
-  by move: (row_base V) (eq_row_base V); rewrite -Vscal => v; exists v.
+  by move: (row_base V) (eq_row_base V); rewrite -[\rank V]Vscal => v; exists v.
 pose B : 'M_(1 + 1) := col_mx u v; have{sumUV} uB: B \in unitmx.
   rewrite -row_full_unit /row_full eqn_leq rank_leq_row {1}addn1.
   by rewrite -addsmxE -(mxrank1 F 2) -sumUV mxrankS // addsmxS ?defU ?defV.
