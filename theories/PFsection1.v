@@ -1,20 +1,16 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
-From mathcomp
-Require Import tuple finfun bigop prime order ssralg finset fingroup morphism.
-From mathcomp
-Require Import perm automorphism quotient action zmodp finalg center commutator.
-From mathcomp
-Require Import poly cyclic pgroup nilpotent matrix mxalgebra mxrepresentation.
-From mathcomp
-Require Import vector falgebra fieldext ssrnum algC rat algnum galois.
-From mathcomp
-Require Import classfun character inertia integral_char vcharacter.
-From mathcomp
-Require ssrint.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div choice fintype tuple finfun bigop prime finset.
+From mathcomp Require Import order.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action.
+From mathcomp Require Import ssralg finalg zmodp poly ssrnum ssrint archimedean.
+From mathcomp Require Import rat matrix mxalgebra vector.
+From mathcomp Require Import cyclic center commutator pgroup nilpotent hall.
+From mathcomp Require Import falgebra fieldext galois algC algnum.
+From mathcomp Require Import mxrepresentation classfun character inertia.
+From mathcomp Require Import integral_char vcharacter.
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 1: Preliminary results.               *)
@@ -177,10 +173,10 @@ move=> /= Hjk; wlog ->: eps n m / eps = false.
   by apply: IH; rewrite // -opprB cfdotNl (nm_ji, nm_ki) opprK.
 rewrite !cfdotBl !cfdotBr !cfdot_irr !opprB addrAC addrA.
 do 2!move/(canRL (subrK _)); rewrite -(natrD _ 1) -!natrD.
-move/(can_inj natCK); case: (m == i) => //.
+move/(can_inj natrK); case: (m == i) => //.
 case: eqP => // ->; case: (j == i) => // _.
 rewrite subr0 add0r => /(canRL (subrK _)); rewrite -(natrD _ 1).
-by move/(can_inj natCK); rewrite (negbTE Hjk).
+by move/(can_inj natrK); rewrite (negbTE Hjk).
 Qed.
 
 (* This is Peterfalvi (1.4). *)
@@ -476,7 +472,7 @@ Hypothesis abTbar : abelian (T / H).
 
 (* This is Peterfalvi (1.7)(b). *)
 Lemma cfInd_central_Inertia :
-   exists2 e, [/\ e \in Cnat, e != 0 & {in calA, forall t, e_ t = e}]
+   exists2 e, [/\ e \in Num.nat, e != 0 & {in calA, forall t, e_ t = e}]
            & [/\ 'Ind[G] theta = e *: \sum_(j in calB) 'chi_j,
                  #|calB|%:R = #|T : H|%:R / e ^+ 2
                & {in calB, forall i, 'chi_i 1%g = #|G : T|%:R * e * theta 1%g}].
@@ -484,11 +480,11 @@ Proof.
 have [t1 At1] := constt_cfInd_irr s sHT; pose psi1 := 'chi_t1.
 pose e := '['Ind theta, psi1].
 have NthT: 'Ind[T] theta \is a character by rewrite cfInd_char ?irr_char.
-have Ne: e \in Cnat by rewrite Cnat_cfdot_char_irr.
+have Ne: e \in Num.nat by rewrite Cnat_cfdot_char_irr.
 have Dpsi1H: 'Res[H] psi1 = e *: theta.
   have psi1Hs: s \in irr_constt ('Res psi1) by rewrite -constt_Ind_Res.
   rewrite (Clifford_Res_sum_cfclass nsHT psi1Hs) cfclass_invariant ?subsetIr //.
-  by rewrite big_seq1 cfdot_Res_l cfdotC conj_Cnat.
+  by rewrite big_seq1 cfdot_Res_l cfdotC conj_natr.
 have linL j: 'chi[T / H]_j \is a linear_char by apply/char_abelianP.
 have linLH j: ('chi_j %% H)%CF \is a linear_char := cfMod_lin_char (linL j).
 pose LtoT (j : Iirr (T / H)) := mul_mod_Iirr t1 j.
@@ -541,7 +537,7 @@ have ITtheta: T \subset 'I[theta] := subsetIr _ _.
 have solT: solvable (T / H) := abelian_sol abTbar.
 have [|t []] := extend_solvable_coprime_irr nsHT solT ITtheta; last by exists t.
 rewrite coprime_sym coprimeMl !(coprime_dvdl _ hallH) ?cfDet_order_dvdG //.
-by rewrite -dvdC_nat !CdivE truncCK ?Cnat_irr1 // dvd_irr1_cardG.
+by rewrite -dvdC_nat !CdivE truncK ?Cnat_irr1 // dvd_irr1_cardG.
 Qed.
   
 End IndSumInertia.
@@ -630,7 +626,7 @@ Lemma dvd_restrict_cfAut a (v : {rmorphism algC -> algC}) :
 Proof.
 have [-> | a_gt0] := posnP a.
   exists v => // chi x Zchi; rewrite /coprime gcdn0 order_eq1 => /eqP->.
-  by rewrite aut_Cint ?Cint_vchar1.
+  by rewrite aut_intr ?Cint_vchar1.
 pose b := (#|G|`_(\pi(a)^'))%N.
 have co_a_b: coprime a b := pnat_coprime (pnat_pi a_gt0) (part_pnat _ _).
 have [Qa _ [QaC _ [w_a genQa memQa]]] := group_num_field_exists [group of Zp a].
@@ -680,12 +676,11 @@ have [sXG0 | G0'x] := boolP (<[x]> \subset G0); last first.
 rewrite -!(cfResE chi sXG0) ?cycle_id ?mem_cycle //.
 rewrite ['Res _]cfun_sum_cfdot !sum_cfunE rmorph_sum; apply: eq_bigr => i _.
 have chiX := lin_charX (char_abelianP _ (cycle_abelian x) i) _ (cycle_id x).
-rewrite !cfunE/= rmorphM/= aut_Cnat ?Cnat_cfdot_char_irr ?cfRes_char //.
+rewrite !cfunE/= rmorphM/= aut_natr ?Cnat_cfdot_char_irr ?cfRes_char //.
 by congr (_ * _); rewrite Dv -chiX // -expg_mod_order (eqnP a_x) chiX.
 Qed.
 
 Section ANT.
-Import ssrint.
 
 (* This section covers Peterfalvi (1.10). *)
 (* We have simplified the statement somewhat by substituting the global ring  *)
@@ -710,7 +705,7 @@ suffices{chi Zchi} IHiX i: ('chi[X]_i (x * y)%g == 'chi_i y %[mod e])%A.
   have irr_free := (free_uniq (basis_free (irr_basis X))).
   have [c Zc ->] := (zchar_expansion irr_free (cfRes_vchar X Zchi)).
   rewrite !sum_cfunE /eqAmod -sumrB big_seq rpred_sum // => _  /irrP[i ->].
-  by rewrite !cfunE [(_ %| _)%A]eqAmodMl // rpred_Cint.
+  by rewrite !cfunE [(_ %| _)%A]eqAmodMl // rpred_int_num.
 have lin_chi: 'chi_i \is a linear_char.
   apply/char_abelianP; rewrite -[gval X]joing_idl -joing_idr abelianY.
   by rewrite !cycle_abelian cycle_subG /= cent_cycle.
@@ -724,14 +719,14 @@ Qed.
 
 (* This is Peterfalvi (1.10)(b); the primality condition is only needed here. *)
 Lemma int_eqAmod_prime_prim n :
-  prime p -> n \in Cint -> (n == 0 %[mod e])%A -> (p %| n)%C.
+  prime p -> n \in Num.int -> (n == 0 %[mod e])%A -> (p %| n)%C.
 Proof.
 move=> p_pr Zn; rewrite /eqAmod unfold_in subr0.
 have p_gt0 := prime_gt0 p_pr.
 case: ifPn => [_ /eqP->// | nz_e e_dv_n].
 suffices: (n ^+ p.-1 == 0 %[mod p])%A.
-  rewrite eqAmod0_rat ?rpredX ?rpred_nat 1?rpred_Cint // !dvdC_int ?rpredX //.
-  by rewrite floorCX // abszX Euclid_dvdX // => /andP[].
+  rewrite eqAmod0_rat ?rpredX ?rpred_nat 1?rpred_int_num ?dvdC_int ?rpredX //.
+  by rewrite floorX // abszX Euclid_dvdX // => /andP[].
 rewrite /eqAmod subr0 unfold_in pnatr_eq0 eqn0Ngt p_gt0 /=.
 pose F := \prod_(1 <= i < p) ('X - (eps ^+ i)%:P).
 have defF: F = \sum_(i < p) 'X^i.
@@ -756,5 +751,3 @@ Qed.
 End ANT.
 
 End Main.
-
-

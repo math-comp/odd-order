@@ -1,21 +1,15 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
 From HB Require Import structures.
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div.
-From mathcomp
-Require Import fintype bigop prime binomial finset ssralg fingroup finalg.
-From mathcomp
-Require Import morphism perm automorphism quotient action gfunctor commutator.
-From mathcomp
-Require Import gproduct zmodp cyclic center pgroup gseries nilpotent sylow.
-From mathcomp
-Require Import finalg finmodule abelian frobenius maximal extremal hall.
-From mathcomp
-Require Import matrix mxalgebra mxrepresentation mxabelem.
-From odd_order
-Require Import BGsection1.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div fintype bigop prime finset binomial.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct ssralg finalg zmodp matrix.
+From mathcomp Require Import mxalgebra.
+From mathcomp Require Import cyclic center gfunctor commutator finmodule.
+From mathcomp Require Import gseries pgroup nilpotent sylow abelian maximal.
+From mathcomp Require Import hall frobenius extremal mxrepresentation mxabelem.
+From odd_order Require Import BGsection1.
 
 (******************************************************************************)
 (*   This file provides the proof of the Wielandt fixpoint order formula,     *)

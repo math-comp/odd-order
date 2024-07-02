@@ -1,22 +1,14 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div fintype.
-From mathcomp
-Require Import bigop prime binomial finset fingroup morphism perm automorphism.
-From mathcomp
-Require Import quotient action gfunctor commutator gproduct.
-From mathcomp
-Require Import ssralg finalg zmodp cyclic center pgroup gseries nilpotent.
-From mathcomp
-Require Import sylow abelian maximal hall.
-From mathcomp
-Require poly ssrint.
-From mathcomp
-Require Import matrix mxalgebra mxrepresentation mxabelem.
-From odd_order
-Require Import BGsection1.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div fintype bigop prime finset binomial.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct ssralg finalg zmodp ssrint poly.
+From mathcomp Require Import matrix mxalgebra.
+From mathcomp Require Import cyclic center gfunctor commutator gseries pgroup.
+From mathcomp Require Import nilpotent sylow abelian maximal.
+From mathcomp Require Import hall mxrepresentation mxabelem.
+From odd_order Require Import BGsection1.
 
 (******************************************************************************)
 (* This file covers the useful material in B & G, Section 2. This excludes    *)

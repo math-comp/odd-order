@@ -1,20 +1,17 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype choice ssrnat seq div fintype tuple finfun.
-From mathcomp
-Require Import bigop order ssralg finset prime binomial poly polydiv.
-From mathcomp
-Require Import fingroup morphism quotient automorphism action finalg zmodp.
-From mathcomp
-Require Import gfunctor gproduct cyclic commutator pgroup abelian frobenius.
-From odd_order
-Require Import BGsection1.
-From mathcomp
-Require Import matrix mxalgebra mxabelem vector falgebra fieldext galois.
-From mathcomp
-Require Import finfield ssrnum algC classfun character integral_char inertia.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq div.
+From mathcomp Require Import choice fintype tuple finfun bigop prime finset.
+From mathcomp Require Import binomial order.
+From mathcomp Require Import fingroup morphism automorphism quotient action.
+From mathcomp Require Import gproduct.
+From mathcomp Require Import ssralg finalg zmodp poly polydiv ssrnum matrix.
+From mathcomp Require Import mxalgebra vector.
+From mathcomp Require Import cyclic gfunctor commutator pgroup abelian.
+From mathcomp Require Import frobenius.
+From mathcomp Require Import falgebra fieldext galois algC finfield.
+From mathcomp Require Import mxabelem classfun character integral_char inertia.
+From odd_order Require Import BGsection1.
 
 Set Implicit Arguments.
 Unset Strict Implicit.

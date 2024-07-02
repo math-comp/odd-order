@@ -1,20 +1,14 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq div path fintype bigop order.
-From mathcomp
-Require Import finset prime fingroup morphism perm automorphism quotient.
-From mathcomp
-Require Import action gproduct gfunctor pgroup cyclic center commutator.
-From mathcomp
-Require Import gseries nilpotent sylow abelian maximal hall frobenius.
-From mathcomp
-Require Import ssralg ssrnum ssrint rat.
-From odd_order
-Require Import BGsection1 BGsection3 BGsection4 BGsection5 BGsection6.
-From odd_order
-Require Import BGsection7 BGsection9 BGsection10 BGsection12 BGsection13.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div fintype bigop prime finset order.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct ssralg ssrnum ssrint rat.
+From mathcomp Require Import cyclic center gfunctor commutator gseries pgroup.
+From mathcomp Require Import nilpotent sylow abelian maximal hall frobenius.
+From odd_order Require Import BGsection1 BGsection3 BGsection4 BGsection5.
+From odd_order Require Import BGsection6 BGsection7 BGsection9 BGsection10.
+From odd_order Require Import BGsection12 BGsection13.
 
 (******************************************************************************)
 (*   This file covers B & G, section 14, starting with the definition of the  *)

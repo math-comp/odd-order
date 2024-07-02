@@ -1,13 +1,10 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
 From HB Require structures.
-Require mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require ssrbool ssrfun eqtype ssrnat fintype finset fingroup.
-From mathcomp
-Require morphism quotient action gfunctor gproduct commutator gseries nilpotent.
-From odd_order
-Require PFsection14.
+From mathcomp Require ssreflect ssrfun ssrbool eqtype ssrnat fintype finset.
+From mathcomp Require fingroup morphism quotient action gproduct.
+From mathcomp Require gfunctor commutator gseries nilpotent.
+From odd_order Require PFsection14.
 
 (******************************************************************************)
 (* This file contains a minimal, self-contained reformulation of the Odd      *)

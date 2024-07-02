@@ -1,21 +1,16 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
 From HB Require Import structures.
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice.
-From mathcomp
-Require Import fintype tuple finfun bigop prime ssralg poly finset center.
-From mathcomp
-Require Import fingroup morphism perm automorphism quotient action zmodp.
-From mathcomp
-Require Import gfunctor gproduct cyclic pgroup frobenius ssrnum.
-From mathcomp
-Require Import matrix mxalgebra mxrepresentation vector algC classfun character.
-From mathcomp
-Require Import inertia vcharacter.
-From odd_order
-Require Import PFsection1.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div choice fintype tuple finfun bigop prime finset.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct.
+From mathcomp Require Import ssralg zmodp poly ssrnum matrix mxalgebra vector.
+From mathcomp Require Import cyclic center gfunctor pgroup frobenius.
+From mathcomp Require Import algC.
+From mathcomp Require Import mxrepresentation classfun character inertia.
+From mathcomp Require Import vcharacter.
+From odd_order Require Import PFsection1.
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 2: the Dade isometry                  *)
