@@ -1,34 +1,22 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice.
-From mathcomp
-Require Import fintype tuple finfun bigop order prime ssralg finset center.
-From mathcomp
-Require Import fingroup morphism perm automorphism quotient action finalg zmodp.
-From mathcomp
-Require Import gfunctor gproduct cyclic commutator gseries nilpotent pgroup.
-From mathcomp
-Require Import sylow hall abelian maximal frobenius.
-From mathcomp
-Require Import matrix mxalgebra mxpoly mxrepresentation mxabelem vector.
-From mathcomp
-Require Import falgebra fieldext finfield.
-From odd_order
-Require Import BGsection1 BGsection2 BGsection3 BGsection4 BGsection7.
-From odd_order
-Require Import BGsection14 BGsection15 BGsection16.
-From mathcomp
-Require Import ssrnum ssrint algC cyclotomic algnum.
-From mathcomp
-Require Import classfun character inertia vcharacter.
-From odd_order
-Require Import PFsection1 PFsection2 PFsection3 PFsection4 PFsection5.
-From odd_order
-Require Import PFsection6 PFsection7 PFsection8 PFsection9 PFsection10.
-From odd_order
-Require Import PFsection11.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div choice fintype tuple finfun bigop prime finset.
+From mathcomp Require Import order.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct.
+From mathcomp Require Import ssralg finalg zmodp ssrnum ssrint archimedean.
+From mathcomp Require Import matrix mxalgebra mxpoly vector.
+From mathcomp Require Import cyclic center gfunctor commutator gseries pgroup.
+From mathcomp Require Import nilpotent sylow abelian maximal hall frobenius.
+From mathcomp Require Import falgebra fieldext algC cyclotomic algnum finfield.
+From mathcomp Require Import mxrepresentation mxabelem classfun character.
+From mathcomp Require Import inertia vcharacter.
+From odd_order Require Import BGsection1 BGsection2 BGsection3 BGsection4.
+From odd_order Require Import BGsection7 BGsection14 BGsection15 BGsection16.
+From odd_order Require Import PFsection1 PFsection2 PFsection3 PFsection4.
+From odd_order Require Import PFsection5 PFsection6 PFsection7 PFsection8.
+From odd_order Require Import PFsection9 PFsection10 PFsection11.
 
 Set Implicit Arguments.
 Unset Strict Implicit.
@@ -307,7 +295,7 @@ have{t S_chi1t et} /eqP{2}->: '[a, psi2] == '[a^*%CF, psi2].
   rewrite (cfdot_complement (Dade_cfunS _ _)) ?(cfun_onS _ (Dade_cfunS _ _)) //.
   by rewrite FT_Dade_supportE FT_Dade1_supportE setTD -disjoints_subset.
 rewrite -2!raddfN opprB /= cfdot_conjCl -Dade_conjC rmorphB /= cfConjCK -/tau2.
-rewrite conj_Cint ?Cint_cfdot_vchar ?(Z_R1 a) // Dade_vchar //.
+rewrite conj_intr ?Cint_cfdot_vchar ?(Z_R1 a) // Dade_vchar //.
 rewrite (zchar_onS (FTsupp1_sub _)) // (zchar_sub_irr _ A1bchi2) //.
 exact: seqInd_vcharW.
 Qed.
@@ -1003,12 +991,12 @@ pose h := #|H|; have ub_a: a ^+ 2 * ((h%:R - 1) / e%:R) - 2%:R * a <= e%:R - 1.
     rewrite cfdotBl cfdotZl cfdot_suml (orthoPr o_tau1_Ga) ?map_f // subr0.
     rewrite big1_seq ?mulr0 // => xi Sxi; rewrite cfdotZl.
     by rewrite (orthoPr o_tau1_Ga) ?map_f ?mulr0.
-  rewrite cfnormB cfnormZ Cint_normK // cfdotZl cfproj_sum_orthonormal //.
+  rewrite cfnormB cfnormZ intr_normK // cfdotZl cfproj_sum_orthonormal //.
   rewrite cfnorm_sum_orthonormal // Itau1 ?mem_zchar // irrWnorm ?irrS // divr1.
-  rewrite chi1 divff ?neq0CG // mulr1 conj_Cint // addrAC mulr_natl.
+  rewrite chi1 divff ?neq0CG // mulr1 conj_intr // addrAC mulr_natl.
   rewrite !lerD2r !(mulr_suml, mulr_sumr) !big_seq ler_sum // => xi Sxi.
   rewrite irrWnorm ?irrS // !divr1 (mulrAC _^-1) -expr2 -!exprMn (mulrC _^-1).
-  by rewrite normf_div normr_nat norm_Cnat // (Cnat_seqInd1 Sxi).
+  by rewrite normf_div normr_nat norm_natr // (Cnat_seqInd1 Sxi).
 have [pr_p p_dv_M]: prime p /\ p %| #|M|.
   have: p \in \pi(M) by rewrite -p_rank_gt0 ltnW.
   by rewrite mem_primes => /and3P[].
@@ -1029,7 +1017,7 @@ have{ub_e} ub_a: p.-1.*2%:R * a ^+ 2 - 2%:R * a <= p.-1%:R / 2%:R :> algC.
   apply: le_trans (le_trans ub_a _); last first.
     rewrite -subn1 -subSS natrB ?ltnS ?prime_gt0 // mulrSr mulrBl.
     by rewrite divff ?pnatr_eq0 ?lerD2r.
-  rewrite lerD2r mulrC -Cint_normK // -!mulrA !ler_wpM2l ?normr_ge0 //.
+  rewrite lerD2r mulrC -intr_normK // -!mulrA !ler_wpM2l ?normr_ge0 //.
   rewrite ler_pdivlMr ?gt0CG // lerBrDr (le_trans _ lb_h) //.
   rewrite -muln2 natrM -mulrA -lerBrDr subr_sqr_1.
   rewrite -(natrB _ (prime_gt0 pr_p)) subn1 ler_wpM2l ?ler0n //.
@@ -1040,16 +1028,16 @@ have a0: a = 0.
   rewrite -ltrBrDr -mulrBr mulr_natl mulrA -expr2 -exprMn.
   apply: lt_le_trans (_ : 2%:R * ((a *+ 2) ^+ 2 - 1) <= _); last first.
     rewrite (mulr_natl a 2) ler_wpM2r // ?subr_ge0.
-      by rewrite sqr_Cint_ge1 ?rpredMn // mulrn_eq0.
+      by rewrite sqr_intr_ge1 ?rpredMn // mulrn_eq0.
     by rewrite leC_nat -subn1 ltn_subRL.
   rewrite -(@ltr_pM2l _ 2%:R) ?ltr0n // !mulrA -expr2 mulrBr -exprMn mulr1.
   rewrite -natrX 2!mulrnAr -[in rhs in _ < rhs]mulrnAl -mulrnA.
   rewrite ltrBrDl -ltrBrDr -(ltrD2r 1) -mulrSr -sqrrB1.
-  rewrite -Cint_normK ?rpredB ?rpredM ?rpred_nat ?rpred1 //.
+  rewrite -intr_normK ?rpredB ?rpredM ?rpred_nat ?rpred1 //.
   rewrite (lt_le_trans (y := (3 ^ 2)%:R)) ?ltC_nat // natrX.
   rewrite ler_sqr ?qualifE/= ?ler0n ?normr_ge0 //.
   rewrite (le_trans _ (lerB_dist _ _)) // normr1 normrM normr_nat.
-  by rewrite lerBrDl -mulrS mulr_natl ler_pMn2r ?norm_Cint_ge1.
+  by rewrite lerBrDl -mulrS mulr_natl ler_pMn2r ?norm_intr_ge1.
 pose chi0 := 'Ind[L, H] 1.
 have defS1: perm_eq (seqIndT H L) (chi0 :: calS).
   by rewrite [calS]seqIndC1_rem // perm_to_rem ?seqIndT_Ind1.
@@ -1068,7 +1056,7 @@ rewrite linearD linearZ /= cfdotDr cfdotZr psi_alpha_1 mulrN1 rmorphN opprK.
 rewrite -/tauL_H -Dtau1 ?zcharD1_seqInd ?(seqInd_sub_lin_vchar _ Schi) ?De //.
 have [_ ooS] := orthonormalP o1calS.
 rewrite raddfB cfdotBr Itau1 ?mem_zchar // ooS // mulrb ifN_eqC // add0r.
-rewrite -De raddfZ_Cnat ?(dvd_index_seqInd1 _ Sxi) // De cfdotZr.
+rewrite -De raddfZ_nat ?(dvd_index_seqInd1 _ Sxi) // De cfdotZr.
 by rewrite Itau1 ?mem_zchar ?ooS // eqxx mulr1 subrr !mul0r.
 Qed.
 
@@ -1077,7 +1065,7 @@ Let rhoM := invDade (FT_DadeF_hyp maxM).
 Let rhoM_psi :
   [/\ {in K^#, rhoM psi =1 psi},
       {in K :\: K' &, forall g1 g2, psi g1 = psi g2}
-    & {in K :\: K', forall g, psi g \in Cint}].
+    & {in K :\: K', forall g, psi g \in Num.int}].
 Proof.
 have pr_p: prime p.
   by have:= ltnW prankM; rewrite p_rank_gt0 mem_primes => /andP[].
@@ -1142,7 +1130,7 @@ have Dpsi_g: nK * '['Res[K] psi, 1] = nK' * '['Res[K'] psi, 1] + nKK' * psi g.
   exact: part2.
 have{} Zpsi: psi \in 'Z[irr G] by have [[_ ->//]] := cohS; apply: mem_zchar.
 have Qpsi1 R: '['Res[R] psi, 1] \in Crat.
-  by rewrite rpred_Cint ?Cint_cfdot_vchar ?rpred1 ?cfRes_vchar.
+  by rewrite rpred_int_num ?Cint_cfdot_vchar ?rpred1 ?cfRes_vchar.
 apply: Cint_rat_Aint (Aint_vchar g Zpsi).
 rewrite -[psi g](mulKf nzKK') -(canLR (addKr _) Dpsi_g) addrC mulrC.
 by rewrite rpred_div ?rpredB 1?rpredM ?rpred_nat ?Qpsi1.
@@ -1183,7 +1171,7 @@ have lb_psiM: '[rhoM psi] >= #|K :\: K'|%:R / #|M|%:R * e.-1%:R ^+ 2.
   rewrite -[e%:R]opprK (le_trans _ (lerB_dist _ _)) // normrN normrM.
   rewrite lerBrDl !normr_nat -natrD.
   apply: le_trans (_ : 1 * p%:R <= _); last first.
-    by rewrite ler_wpM2r ?ler0n ?norm_Cint_ge1.
+    by rewrite ler_wpM2r ?ler0n ?norm_intr_ge1.
   rewrite mul1r leC_nat -subn1 addnBA ?cardG_gt0 // leq_subLR addnn -ltnS.
   have [b e_dv_pb]: exists b : bool, e %| (b.*2 + p).-1.
     by have [_ /orP[]] := Ecyclic_le_p; [exists false | exists true].

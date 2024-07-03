@@ -1,32 +1,22 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
-From mathcomp
-Require Import tuple finfun bigop order prime binomial ssralg poly finset.
-From mathcomp
-Require Import fingroup morphism perm automorphism quotient action finalg zmodp.
-From mathcomp
-Require Import gfunctor gproduct center cyclic commutator gseries nilpotent.
-From mathcomp
-Require Import pgroup sylow hall abelian maximal frobenius.
-From mathcomp
-Require Import matrix mxalgebra mxrepresentation mxabelem vector.
-From odd_order
-Require Import BGsection1 BGsection3 BGsection7.
-From odd_order
-Require Import BGsection14 BGsection15 BGsection16 BGappendixC.
-From mathcomp
-Require Import ssrnum rat algC cyclotomic algnum.
-From mathcomp
-Require Import classfun character integral_char inertia vcharacter.
-From odd_order
-Require Import PFsection1 PFsection2 PFsection3 PFsection4.
-From odd_order
-Require Import PFsection5 PFsection6 PFsection7 PFsection8 PFsection9.
-From odd_order
-Require Import PFsection10 PFsection11 PFsection12 PFsection13.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div choice fintype tuple finfun bigop prime finset.
+From mathcomp Require Import binomial order.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct.
+From mathcomp Require Import ssralg finalg zmodp poly ssrnum archimedean rat.
+From mathcomp Require Import matrix mxalgebra vector.
+From mathcomp Require Import cyclic center gfunctor commutator gseries pgroup.
+From mathcomp Require Import nilpotent sylow abelian maximal hall frobenius.
+From mathcomp Require Import algC cyclotomic algnum.
+From mathcomp Require Import mxrepresentation mxabelem classfun character.
+From mathcomp Require Import integral_char inertia vcharacter.
+From odd_order Require Import BGsection1 BGsection3 BGsection7 BGsection14.
+From odd_order Require Import BGsection15 BGsection16 BGappendixC PFsection1.
+From odd_order Require Import PFsection2 PFsection3 PFsection4 PFsection5.
+From odd_order Require Import PFsection6 PFsection7 PFsection8 PFsection9.
+From odd_order Require Import PFsection10 PFsection11 PFsection12 PFsection13.
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 14: Non_existence of G.               *)
@@ -234,12 +224,12 @@ have lb_b ij (b_ij := b (sigma 'chi_ij)):
     rewrite /a /w_ -Dij Dbeta defGa 2!cfdotDl.
     have ->: '[X, sigma 'chi_ij] = b_ij by rewrite /b_ij Db.
     by rewrite (orthoPl oYeta) ?(orthoPl oZeta) ?map_f ?mem_irr // !addr0.
-  have Zaij: a i j \in Cint by rewrite Cint_cfdot_vchar ?cycTIiso_vchar.
-  rewrite Cint_normK //; split.
-    rewrite sqr_Cint_ge1 //; apply: contraTneq (a_odd i j) => ->.
+  have Zaij: a i j \in Num.int by rewrite Cint_cfdot_vchar ?cycTIiso_vchar.
+  rewrite intr_normK //; split.
+    rewrite sqr_intr_ge1 //; apply: contraTneq (a_odd i j) => ->.
     by rewrite (eqCmod_nat 2 0 1).
   apply/eqP/exists_eqP=> [a2_1|[n ->]]; last by rewrite sqrr_sign.
-  rewrite (CintEsign Zaij) normC_def conj_Cint // -expr2 -a2_1 sqrtC1 mulr1.
+  rewrite (intrEsign Zaij) normC_def conj_intr // -expr2 -a2_1 sqrtC1 mulr1.
   by exists (a i j < 0).
 have ub_e: e%:R <= #|Iirr W|%:R ?= iff (e == p * q)%N :> algC.
   rewrite leif_nat_r card_Iirr_cyclic //; last by have [] := ctiWG.
@@ -350,19 +340,19 @@ have Lgt1: (1 < size calL)%N by apply: seqInd_nontrivial (mFT_odd _ ) _ Lphi.
 have [[_ _]] := Dade_Ind1_sub_lin cohL Lgt1 irr_phi Lphi phi1.
 rewrite -/tauL -/betaL -/calL => ZbetaL [Gamma [_ _ [b _ Dbeta]]]. 
 rewrite odd_Frobenius_index_ler ?mFT_odd // -/u => -[]// _ ub_Ga _ nz_a.
-have Za: a \in Cint by rewrite Cint_cfdot_vchar // ?Ztau1 ?mem_zchar.
+have Za: a \in Num.int by rewrite Cint_cfdot_vchar // ?Ztau1 ?mem_zchar.
 have [X M_X [Del [defGa oXD oDM]]] := orthogonal_split (map tau1M calM) Gamma.
 apply: le_trans ub_Ga; rewrite defGa cfnormDd // ler_wpDr ?cfnorm_ge0 //.
 suffices ->: '[X] = (a / v) ^+ 2 * (\sum_(xi <- calM) xi 1%g ^+ 2 / '[xi]).
   rewrite sum_seqIndC1_square // -(natrB _ (cardG_gt0 K)) subn1.
   rewrite exprMn !mulrA divfK ?neq0CiG // mulrAC -mulrA.
-  by rewrite ler_peMl ?sqr_Cint_ge1 // divr_ge0 ?ler0n.
+  by rewrite ler_peMl ?sqr_intr_ge1 // divr_ge0 ?ler0n.
 have [_ -> defX] := orthonormal_span o1M M_X.
 have Mgt1: (1 < size calM)%N by apply: seqInd_nontrivial (mFT_odd _ ) _ Mpsi.
 have [[oM1 _ _] _ _] := Dade_Ind1_sub_lin cohM Mgt1 irr_psi Mpsi psi1.
-rewrite exprMn -(Cint_normK Za) -[v]normr_nat -normfV -/v mulr_sumr.
+rewrite exprMn -(intr_normK Za) -[v]normr_nat -normfV -/v mulr_sumr.
 rewrite defX cfnorm_sum_orthonormal // big_map; apply: eq_big_seq => xi Mxi.
-have Zxi1 := Cint_seqInd1 Mxi; rewrite -(Cint_normK Zxi1) -(conj_Cint Zxi1).
+have Zxi1 := Cint_seqInd1 Mxi; rewrite -(intr_normK Zxi1) -(conj_intr Zxi1).
 rewrite irrWnorm ?irrM // divr1 -!exprMn -!normrM; congr (`|_| ^+ 2).
 rewrite -mulrA mulrC -mulrA; apply: canRL (mulKf (neq0CiG _ _)) _.
 rewrite -(canLR (addrK _) defGa) cfdotBl (orthoPl oDM) ?map_f // subr0.
@@ -371,7 +361,7 @@ rewrite (orthoPr oM1) ?map_f // (orthogonalP oML) ?map_f // subrr add0r.
 rewrite cfdotZr cfdot_sumr big1_seq ?mulr0 ?oppr0 => [|nu Mnu]; last first.
   by rewrite cfdotZr (orthogonalP oML) ?map_f ?mulr0.
 apply/eqP; rewrite conjC0 oppr0 add0r -subr_eq0 -conjC_nat -!cfdotZr.
-rewrite -raddfZnat -raddfZ_Cint // -cfdotBr -raddfB -/v -psi1.
+rewrite -raddfZnat -raddfZ_int // -cfdotBr -raddfB -/v -psi1.
 rewrite Dtau1 ?zcharD1_seqInd ?sub_seqInd_zchar //.
 rewrite (cfdotElr (Dade_cfunS _ _) (Dade_cfunS _ _)) setIC.
 by have:= TItauML; rewrite -setI_eq0 => /eqP->; rewrite big_set0 mulr0.
@@ -780,7 +770,7 @@ have nzT1_Ga zeta: zeta \in calT1 -> `|'[Gamma, tau1T zeta]| ^+ 2 >= 1.
   have Z_Ga: Gamma \in 'Z[irr G].
     rewrite rpredD ?cycTIiso_vchar // rpredB ?rpred1 ?Dade_vchar // zchar_split.
     by rewrite A0betaS ?Iirr1_neq0 // rpredB ?cfInd_vchar ?rpred1 ?irr_vchar.
-  move=> T1zeta; rewrite expr_ge1 ?normr_ge0 // norm_Cint_ge1 //.
+  move=> T1zeta; rewrite expr_ge1 ?normr_ge0 // norm_intr_ge1 //.
     by rewrite Cint_cfdot_vchar ?Ztau1T ?(mem_zchar T1zeta).
   suffices: ('[Gamma, tau1T zeta] == 1 %[mod 2])%C.
     by apply: contraTneq => ->; rewrite (eqCmod_nat 2 0 1).
@@ -955,12 +945,12 @@ have lbG0 g: g \in G0 -> 1 <= `|tau1M psi g| ^+ 2.
     rewrite -[\sum_i _](subrK chi) -DbetaM !cfunE betaMg0 add0r.
     case: Dchi => -> //; rewrite cfunE normrN.
     by rewrite -(cfConjC_Dade_coherent cohM) ?mFT_odd ?cfunE ?norm_conjC.
-  have{co_p_g} Zeta_g ij: sigma 'chi_ij g \in Cint.
+  have{co_p_g} Zeta_g ij: sigma 'chi_ij g \in Num.int.
     apply/Cint_cycTIiso_coprime/(coprime_dvdr (cforder_lin_char_dvdG _)).
       by apply: irr_cyclic_lin; have [] := ctiWG.
     rewrite -(dprod_card defW) coprimeMr.
     by apply/andP; split; [apply: co_p_g galT _ | apply: co_p_g galS _].
-  rewrite sum_cfunE norm_Cint_ge1 ?rpred_sum // => [ij _|].
+  rewrite sum_cfunE norm_intr_ge1 ?rpred_sum // => [ij _|].
     by rewrite cfunE rpredMsign.
   set a := \sum_i _; suffices: (a == 1 %[mod 2%N])%C.
     by apply: contraTneq=> ->; rewrite (eqCmod_nat 2 0 1).
@@ -981,7 +971,7 @@ have lbG0 g: g \in G0 -> 1 <= `|tau1M psi g| ^+ 2.
     by rewrite odd_eq_conj_irr1 ?mFT_odd // irr_eq1 nz_ij.
   rewrite -signr_odd -[odd _]negbK signrN !cfunE mulNr addrC.
   apply: eqCmod_trans (signCmod2 _ _) _.
-  by rewrite eqCmod_sym conjC_IirrE -cfAut_cycTIiso cfunE /= conj_Cint.
+  by rewrite eqCmod_sym conjC_IirrE -cfAut_cycTIiso cfunE /= conj_intr.
 have cardG_D1 R: #|R^#| = #|R|.-1 by rewrite [#|R|](cardsD1 1%g) group1.
 pose rho := invDade ddMK; pose nG : algC := #|G|%:R.
 pose sumG0 := \sum_(g in G0) `|tau1M psi g| ^+ 2.

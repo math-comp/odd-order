@@ -1,20 +1,13 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq div.
-From mathcomp
-Require Import fintype finfun bigop ssralg finset prime binomial.
-From mathcomp
-Require Import fingroup morphism automorphism perm quotient action gproduct.
-From mathcomp
-Require Import gfunctor commutator zmodp cyclic center pgroup gseries nilpotent.
-From mathcomp
-Require Import sylow abelian maximal extremal hall.
-From mathcomp
-Require Import matrix mxalgebra mxrepresentation mxabelem.
-From odd_order
-Require Import BGsection1 BGsection2.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq div.
+From mathcomp Require Import fintype finfun bigop prime finset binomial.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct ssralg zmodp matrix mxalgebra.
+From mathcomp Require Import cyclic center gfunctor commutator.
+From mathcomp Require Import gseries pgroup nilpotent sylow abelian maximal.
+From mathcomp Require Import hall extremal mxrepresentation mxabelem.
+From odd_order Require Import BGsection1 BGsection2.
 
 (******************************************************************************)
 (*   This file covers B & G, Section 4, i.e., the proof of structure theorems *)

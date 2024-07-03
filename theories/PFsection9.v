@@ -1,27 +1,21 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
 From HB Require Import structures.
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
-From mathcomp
-Require Import tuple finfun bigop order prime binomial ssralg poly finset.
-From mathcomp
-Require Import fingroup morphism perm automorphism quotient action finalg zmodp.
-From mathcomp
-Require Import gfunctor gproduct cyclic commutator center gseries nilpotent.
-From mathcomp
-Require Import pgroup sylow hall abelian maximal frobenius.
-From mathcomp
-Require Import matrix mxalgebra mxrepresentation mxabelem vector.
-From odd_order
-Require Import BGsection1 BGsection3 BGsection7 BGsection15 BGsection16.
-From mathcomp
-Require Import algC classfun character inertia vcharacter.
-From odd_order
-Require Import PFsection1 PFsection2 PFsection3 PFsection4.
-From odd_order
-Require Import PFsection5 PFsection6 PFsection8.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div choice fintype tuple finfun bigop prime finset.
+From mathcomp Require Import binomial order.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct.
+From mathcomp Require Import ssralg finalg zmodp poly ssrnum archimedean matrix.
+From mathcomp Require Import mxalgebra vector.
+From mathcomp Require Import cyclic center gfunctor commutator gseries pgroup.
+From mathcomp Require Import nilpotent sylow abelian maximal hall frobenius.
+From mathcomp Require Import algC.
+From mathcomp Require Import mxrepresentation mxabelem classfun character.
+From mathcomp Require Import inertia vcharacter.
+From odd_order Require Import BGsection1 BGsection3 BGsection7 BGsection15.
+From odd_order Require Import BGsection16 PFsection1 PFsection2 PFsection3.
+From odd_order Require Import PFsection4 PFsection5 PFsection6 PFsection8.
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 9: On the maximal subgroups of Types  *)
@@ -841,6 +835,8 @@ rewrite sz_mu size_filter nb_redM //= norm_joinEr ?(subset_trans sCM) //.
 by rewrite -group_modl //= setIC [C]unlock setIA tiHU setI1g mulg1.
 Qed.
 
+Import Num.Theory.
+
 Let isIndHC (zeta : 'CF(M)) :=
   [/\ zeta 1%g = (q * u)%:R, zeta \in S_ H0C
     & exists2 xi : 'CF(HC), xi \is a linear_char & zeta = 'Ind xi].
@@ -900,7 +896,7 @@ have Part_a: part_a.
     have [_ defInd_t _ imInd_t _] := cfInd_sum_Inertia t nsHHU.
     have /imsetP[r tTr ->]: s \in Ind_Iirr HU @: irr_constt ('Ind[T] 'chi_t).
       by rewrite imInd_t constt_Ind_Res.
-    by rewrite defInd_t ?cfInd1 // dvdC_mulr ?dvdC_nat // Cint_Cnat ?Cnat_irr1.
+    by rewrite defInd_t ?cfInd1 // dvdC_mulr ?dvdC_nat // intr_nat ?Cnat_irr1.
   have /exists_inP[w W1w nt_t_w]: [exists w in W1bar, 'Res[H1 :^ w] theta != 1].
     rewrite -negb_forall_in; apply: contra t_neq0 => /forall_inP=> tH1w1.
     rewrite -irr_eq1 -(cfQuoK nsH0H kertH0) -/theta -Dtheta.
@@ -1257,8 +1253,6 @@ rewrite (subsetP sXthetaXH0U') // !andbT inertia_Ind_irr ?gFnormal //.
 by apply/subsetP=> y /setIP[My /inertiaJ/esym/injXtheta->].
 Qed.
 
-Import ssrnum Num.Theory.
-
 (* This is Peterfalvi (9.9); we have exported the fact that HU / H0 is a      *)
 (* Frobenius group in case (c), as this is directly used in (9.10).           *)
 Lemma typeP_Galois_characters (is_Galois : typeP_Galois) :
@@ -1360,7 +1354,7 @@ have Part_a': part_a'.
   rewrite -quotientSK ?gFsub_trans ?quotient_der //= -/C.
   by rewrite -(der_dprod 1 defHCbar) (derG1P abHbar) dprod1g.
 split=> // [s /Part_a[r ->] | | {Part_a' part_a'}red_H0C'].
-- by rewrite Du cfInd1 // dvdC_mulr // Cint_Cnat ?Cnat_irr1.
+- by rewrite Du cfInd1 // dvdC_mulr // intr_nat ?Cnat_irr1.
 - split=> // mu_j /H0C_mu H0C_mu_j; have [s XH0Cs Dmuj] := seqIndP H0C_mu_j.
   have [|s1u [xi lin_xi Ds]] := Part_a' s.
     by rewrite (subsetP _ _ XH0Cs) ?Iirr_kerDS // genS ?setUS ?der_sub.
@@ -1551,7 +1545,7 @@ have sS10: cfConjC_subset S1 (S_ H0C').
   split=> [||chi]; first by rewrite filter_uniq.
     by apply: mem_subseq; apply: filter_subseq.
   rewrite !mem_filter !inE cfunE /= => /andP[/eqP <- S0chi].
-  by rewrite cfAut_seqInd // andbT conj_Cnat ?(Cnat_seqInd1 S0chi).
+  by rewrite cfAut_seqInd // andbT conj_natr ?(Cnat_seqInd1 S0chi).
 have cohS1: coherent S1 M^# tau.
   apply: uniform_degree_coherence (subset_subcoherent scohS0 sS10) _.
   by apply: all_pred1_constant (q * a)%:R _ _; rewrite all_map filter_all.
@@ -1656,7 +1650,7 @@ without loss [[eqS12 irrS1 H0C_S1] [Da_p defC] [S3qu ne_qa_qu] [oS1 oS1ua]]:
     apply: leif_sum => i _; apply/leifP; rewrite lt0r !mulf_eq0 invr_eq0.
     set psi := tnth _ i; have Spsi := sS20 psi (mem_tnth _ _).
     rewrite !negb_or (seqInd1_neq0 _ Spsi) //= (cfnorm_seqInd_neq0 _ Spsi) //=.
-    by rewrite divr_ge0 ?exprn_ge0 ?cfnorm_ge0 ?Cnat_ge0 ?(Cnat_seqInd1 Spsi).
+    by rewrite divr_ge0 ?exprn_ge0 ?cfnorm_ge0 ?natr_ge0 ?(Cnat_seqInd1 Spsi).
   have [lb0S2 | ] := boolP (lb0 < sumnS S2).
     exists chi => //; have /hasP[xi S1xi _]: has predT S1 by rewrite has_predT.
     have xi1: xi 1%g = (q * a)%:R.
@@ -2024,9 +2018,10 @@ have o_alpha_S3: orthogonal alpha^\tau (map tau3 S3).
   rewrite /orthogonal /= andbT all_map.
   apply: contraFT (lt_geF gtS4alpha) => /allPn[lam0 S3lam0 /= alpha_lam0].
   set ca := '[_, _] in alpha_lam0; pose al0 := (-1) ^+ (ca < 0)%R *: alpha.
-  have{alpha_lam0} al0_lam0: '[al0^\tau, tau3 lam0] > 0.
-    have Zca: ca \in Cint by rewrite Cint_cfdot_vchar ?Ztau // Ztau3 ?mem_zchar.
-    by rewrite linearZ cfdotZl (canLR (signrMK _) (CintEsign Zca)) normr_gt0.
+  have Zca: ca \in Num.int.
+    by rewrite Cint_cfdot_vchar ?Ztau // Ztau3 ?mem_zchar.
+  have{alpha_lam0 Zca} al0_lam0: '[al0^\tau, tau3 lam0] > 0.
+    by rewrite linearZ cfdotZl (canLR (signrMK _) (intrEsign Zca)) normr_gt0.
   rewrite -Itau // -(cfnorm_sign (ca < 0)%R) -linearZ /= -/al0.
   have S4_dIirrK: {in map tau3 S4, cancel (dirr_dIirr id) (@dchi _ _)}.
     apply: dirr_dIirrPE => _ /mapP[lam S4lam ->].
@@ -2042,7 +2037,7 @@ have o_alpha_S3: orthogonal alpha^\tau (map tau3 S3).
   apply: le_trans (_ : #|dirr_constt al0^\tau|%:R <= _); last first.
     have Zal0: al0^\tau \in 'Z[irr G] by rewrite Ztau ?rpredZsign.
     rewrite cnorm_dconstt // -sumr_const ler_sum // => i al0_i.
-    by rewrite sqr_Cint_ge1 ?gt_eqF -?dirr_consttE // Cint_Cnat ?Cnat_dirr.
+    by rewrite sqr_intr_ge1 ?gt_eqF -?dirr_consttE // intr_nat ?Cnat_dirr.
   rewrite leC_nat subset_leq_card //; apply/subsetP=> _ /mapP[nu S4nu ->].
   rewrite dirr_consttE S4_dIirrK //; congr (_ > 0): al0_lam0.
   rewrite {al0}linearZ !cfdotZl /=; congr (_ * _) => {ca}; apply/eqP.
@@ -2098,7 +2093,7 @@ have [Gamma [S4_Gamma normGamma [b Dbeta]]]:
   have [Itau34 Ztau34] := sub_iso_to sZS43 sub_refl IZtau3.
   have Z_G: G \in 'Z[map tau3 S4].
     have [_ -> ->] := orthonormal_span (map_orthonormal Itau34 o1S4) S4G.
-    rewrite big_seq rpred_sum // => xi S4xi; rewrite rpredZ_Cint ?mem_zchar //.
+    rewrite big_seq rpred_sum // => xi S4xi; rewrite rpredZ_int ?mem_zchar //.
     rewrite -(addrK G' G) -Dbeta cfdotBl (orthoPl oG'4) // subr0.
     rewrite Cint_cfdot_vchar ?Ztau //.
     by have{xi S4xi} [xi S4xi ->] := mapP S4xi; rewrite Ztau34 ?mem_zchar.
@@ -2111,7 +2106,7 @@ have [Gamma [S4_Gamma normGamma [b Dbeta]]]:
     move=> psi S1psi; rewrite Dbeta dG' !cfdotDl (orthoPl oD1) ?map_f // addr0.
     rewrite cfdotC (span_orthogonal oS14tau) ?rmorph0 ?add0r //.
     by rewrite memv_span ?map_f.
-  have Zb: b \in Cint.
+  have Zb: b \in Num.int.
     rewrite rpredD ?rpred_nat // -betaS1_B // Cint_cfdot_vchar ?Ztau //.
     by rewrite Ztau1 ?mem_zchar.
   have{} dB: B = - (u %/ a)%:R *: tau1 psi1 + b *: \sum_(psi <- S1) tau1 psi.
@@ -2129,10 +2124,10 @@ have [Gamma [S4_Gamma normGamma [b Dbeta]]]:
     by rewrite add0r n1psi1 oSS // subr0 mulr1 rmorphN conjCK subrr scale0r.
   have Gge1: 1 <= '[G] ?= iff ('[G] == 1).
     rewrite eq_sym; apply: leif_eq.
-    have N_G: '[G] \in Cnat.
+    have N_G: '[G] \in Num.nat.
       apply: Cnat_cfnorm_vchar; apply: zchar_sub_irr Z_G => _ /mapP[nu S4nu ->].
       by rewrite Ztau34 ?mem_zchar.
-    rewrite -(truncCK N_G) ler1n lt0n -eqC_nat truncCK {N_G}// cfnorm_eq0.
+    rewrite -(truncK N_G) ler1n lt0n -eqC_nat truncK {N_G}// cfnorm_eq0.
     have: '[beta^\tau, (lam1 - lam1^*%CF)^\tau] != 0.
       rewrite Itau // cfdotBl cfdotZl !cfdotBr n1lam1.
       rewrite (seqInd_conjC_ortho _ _ _ Slam1) ?mFT_odd // subr0.
@@ -2150,9 +2145,9 @@ have [Gamma [S4_Gamma normGamma [b Dbeta]]]:
       congr (_ + _); rewrite !addrA dG' cfnormDd; last first.
         by rewrite cfdotC (span_orthogonal oD1) ?rmorph0 // memv_span ?inE.
       congr (_ + _); rewrite dB scaleNr [- _ + _]addrC cfnormB !cfnormZ.
-      rewrite normr_nat Cint_normK // scaler_sumr cfdotZr rmorph_nat.
+      rewrite normr_nat intr_normK // scaler_sumr cfdotZr rmorph_nat.
       rewrite cfnorm_map_orthonormal // cfproj_sum_orthonormal //.
-      rewrite Itau1 ?mem_zchar// n1psi1 mulr1 rmorphM/= rmorph_nat conj_Cint //.
+      rewrite Itau1 ?mem_zchar// n1psi1 mulr1 rmorphM/= rmorph_nat conj_intr //.
       rewrite -mulr2n oS1ua -muln_divA // mul2n -addrA addrCA -natrX mulrBl.
       by congr (_ + (_ - _)); rewrite -mulrnAl -mulrnA muln2 mulrC.
     rewrite Itau // cfnormBd; last first.
@@ -2168,8 +2163,8 @@ have [Gamma [S4_Gamma normGamma [b Dbeta]]]:
     rewrite /= -(subr_eq0 b 1) -mulf_eq0 mulrBr mulr1 eq_sym.
     apply: leif_eq; rewrite subr_ge0.
     have [-> | nz_b] := eqVneq b 0; first by rewrite expr2 mul0r.
-    rewrite (le_trans (real_ler_norm _)) ?Creal_Cint // -[`|b|]mulr1.
-    by rewrite -Cint_normK // ler_pM2l ?normr_gt0 // norm_Cint_ge1.
+    rewrite (le_trans (real_ler_norm _)) ?Rreal_int // -[`|b|]mulr1.
+    by rewrite -intr_normK // ler_pM2l ?normr_gt0 // norm_intr_ge1.
   have [_ /esym] := leif_trans Gge1 (leif_trans ubDelta ubDeltaG).
   rewrite eqxx => /and3P[/eqP normG1 /eqP Delta0 /pred2P b01].
   exists G; split=> //; exists (b != 0).
@@ -2183,7 +2178,7 @@ have [X S1X [Delta [Dalpha _ oD1]]]:= orthogonal_split (map tau1 S1) alpha^\tau.
 pose x := 1 + '[X, tau1 psi1].
 have alphaS1_X: {in S1, forall psi, '[alpha^\tau, tau1 psi] = '[X, tau1 psi]}.
   by move=> psi S1psi; rewrite Dalpha cfdotDl (orthoPl oD1) ?map_f // addr0.
-have Zx: x \in Cint.
+have Zx: x \in Num.int.
   rewrite rpredD ?rpred1 // -alphaS1_X // Cint_cfdot_vchar ?Ztau //.
   by rewrite Ztau1 ?mem_zchar.
 have{alphaS1_X S1X} defX: X = x *: (\sum_(psi <- S1) tau1 psi) - tau1 psi1.

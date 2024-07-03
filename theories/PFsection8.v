@@ -1,28 +1,18 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice.
-From mathcomp
-Require Import fintype tuple finfun bigop prime ssralg poly finset center.
-From mathcomp
-Require Import fingroup morphism perm automorphism quotient action finalg zmodp.
-From mathcomp
-Require Import gfunctor gproduct cyclic commutator nilpotent pgroup.
-From mathcomp
-Require Import sylow hall abelian maximal frobenius.
-From mathcomp
-Require Import matrix mxalgebra mxrepresentation vector.
-From odd_order
-Require Import BGsection1 BGsection3 BGsection7 BGsection10.
-From odd_order
-Require Import BGsection14 BGsection15 BGsection16.
-From mathcomp
-Require ssrnum.
-From mathcomp
-Require Import algC classfun character inertia vcharacter.
-From odd_order
-Require Import PFsection1 PFsection2 PFsection3 PFsection4 PFsection5.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div choice fintype tuple finfun bigop prime finset.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct.
+From mathcomp Require Import ssralg finalg zmodp poly matrix mxalgebra vector.
+From mathcomp Require ssrnum.
+From mathcomp Require Import cyclic center gfunctor commutator pgroup nilpotent.
+From mathcomp Require Import sylow abelian maximal hall frobenius algC.
+From mathcomp Require Import mxrepresentation classfun character inertia.
+From mathcomp Require Import vcharacter.
+From odd_order Require Import BGsection1 BGsection3 BGsection7 BGsection10.
+From odd_order Require Import BGsection14 BGsection15 BGsection16 PFsection1.
+From odd_order Require Import PFsection2 PFsection3 PFsection4 PFsection5.
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 8: Structure of a Minimal Simple      *)

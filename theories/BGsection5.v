@@ -1,16 +1,12 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq div.
-From mathcomp
-Require Import fintype finset prime fingroup morphism perm automorphism action.
-From mathcomp
-Require Import quotient cyclic gfunctor pgroup gproduct center commutator.
-From mathcomp
-Require Import gseries nilpotent sylow abelian maximal hall.
-From odd_order
-Require Import BGsection1 BGsection4.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq div.
+From mathcomp Require Import fintype prime finset.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct.
+From mathcomp Require Import cyclic center gfunctor commutator gseries pgroup.
+From mathcomp Require Import nilpotent sylow abelian maximal hall.
+From odd_order Require Import BGsection1 BGsection4.
 
 (******************************************************************************)
 (*   This file covers Section 5 of B & G, except for some technical results   *)

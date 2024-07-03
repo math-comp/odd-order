@@ -1,14 +1,11 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq div fintype path.
-From mathcomp
-Require Import finset prime fingroup automorphism action gproduct gfunctor.
-From mathcomp
-Require Import center commutator pgroup gseries nilpotent sylow abelian maximal.
-From odd_order
-Require Import BGsection1 BGsection5 BGsection6 BGsection7.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div fintype prime finset.
+From mathcomp Require Import fingroup automorphism action gproduct.
+From mathcomp Require Import center gfunctor commutator gseries pgroup.
+From mathcomp Require Import nilpotent sylow abelian maximal.
+From odd_order Require Import BGsection1 BGsection5 BGsection6 BGsection7.
 
 (******************************************************************************)
 (*   This file covers B & G, section 8, i.e., the proof of two special cases  *)

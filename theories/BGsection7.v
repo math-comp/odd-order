@@ -1,17 +1,12 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
 From HB Require Import structures.
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq div choice fintype bigop.
-From mathcomp
-Require Import finset prime fingroup morphism automorphism action quotient.
-From mathcomp
-Require Import gfunctor cyclic pgroup center commutator gseries nilpotent.
-From mathcomp
-Require Import sylow abelian maximal hall.
-From odd_order
-Require Import BGsection1 BGsection6.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq div.
+From mathcomp Require Import choice fintype bigop prime finset.
+From mathcomp Require Import fingroup morphism automorphism quotient action.
+From mathcomp Require Import cyclic center gfunctor commutator gseries pgroup.
+From mathcomp Require Import nilpotent sylow abelian maximal hall.
+From odd_order Require Import BGsection1 BGsection6.
 
 (******************************************************************************)
 (*   This file covers B & G, section 7, i.e., the proof of the Thompson       *)

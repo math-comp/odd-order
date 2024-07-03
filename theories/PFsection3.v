@@ -1,22 +1,17 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
-From mathcomp
-Require Import tuple finfun bigop order prime ssralg matrix poly finset.
-From mathcomp
-Require Import fingroup morphism perm automorphism quotient action finalg zmodp.
-From mathcomp
-Require Import gfunctor center gproduct cyclic pgroup abelian frobenius.
-From mathcomp
-Require Import mxalgebra mxrepresentation vector falgebra fieldext galois.
-From mathcomp
-Require Import ssrnum rat algC algnum classfun character.
-From mathcomp
-Require Import integral_char inertia vcharacter.
-From odd_order
-Require Import PFsection1 PFsection2.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div choice fintype tuple finfun bigop prime finset.
+From mathcomp Require Import order.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct.
+From mathcomp Require Import ssralg zmodp finalg poly ssrnum archimedean rat.
+From mathcomp Require Import matrix mxalgebra vector.
+From mathcomp Require Import cyclic center gfunctor pgroup abelian frobenius.
+From mathcomp Require Import falgebra fieldext galois algC algnum.
+From mathcomp Require Import mxrepresentation classfun character integral_char.
+From mathcomp Require Import inertia vcharacter.
+From odd_order Require Import PFsection1 PFsection2.
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 3: TI-Subsets with Cyclic Normalizers *)
@@ -510,7 +505,7 @@ rewrite defXY cfnormDd //; split; first by rewrite ler_wpDr ?cfnorm_ge0.
 have{ZmL} Zbeta: beta \in 'Z[irr G] by apply: ZmL.
 have Z_X: X \in 'Z[irr G].
   rewrite defX big_seq rpred_sum // => xi /sAm/ZmR Zxi.
-  by rewrite rpredZ_Cint ?Cint_cfdot_vchar.
+  by rewrite rpredZ_int ?Cint_cfdot_vchar.
 rewrite -ltrBlDl subrr cnorm_dconstt; last first.
   by rewrite -[Y](addKr X) -defXY addrC rpredB.
 have [-> | [dk Ydk] _ /eqP sz_kvs] := set_0Vmem (dirr_constt Y).
@@ -565,7 +560,7 @@ Proof.
 case: cl => ij kvs /satP thP th_cl /andP[cl'k ltkm].
 have [[_ ZmL _] [o1m ZmR]] := (LmodelP m, RmodelP m).
 have [m_ij Uij clP] := thP _ th_cl.
-have /CintP[v Dv]: '[m ij, m`_k] \in Cint.
+have /intrP[v Dv]: '[m ij, m`_k] \in Num.int.
   by rewrite Cint_cfdot_vchar ?ZmL ?ZmR ?mem_nth.
 have [/= th1 Dthx [th1_cl Dth1]] := ext_clP k v th_cl.
 suffices{Dthx} m_th1: sat m th1.
@@ -1401,7 +1396,7 @@ suffices /sigW[f /and3P[]]: exists f : {ffun _}, sigma_spec f.
   split=> [|_ /zchar_tuple_expansion[z Zz ->]].
     apply: isometry_in_zchar=> _ _ /irrP[k1 ->] /irrP[k2 ->] /=.
     by rewrite !lfunE dot_sigma ?map_f ?mem_irr // cfdot_irr (inj_eq inj_sigma).
-  rewrite linear_sum rpred_sum // => k _; rewrite linearZ rpredZ_Cint //=.
+  rewrite linear_sum rpred_sum // => k _; rewrite linearZ rpredZ_int //=.
   by rewrite -tnth_nth lfunE [sigma _]Dsigma ?mem_enum ?dchi_vchar.
 have [xi_ [xi00 Zxi Dxi o1xi]] := cyclicTIiso_basis_exists.
 pose f := [ffun k => dirr_dIirr (uncurry xi_) (inv_dprod_Iirr defW k)].
@@ -1595,7 +1590,7 @@ move=> Zphi ub_phi; apply: leq_trans (_ : #|dirr_constt phi| <= n)%N.
   elim/big_rec2: _ => [|/= i n1 phi1 _]; first by rewrite cycTI_NC_0.
   by apply: cycTI_NC_add; rewrite cycTI_NC_scale ?cycTI_NC_dchi.
 rewrite -leC_nat (le_trans _ ub_phi) ?cnorm_dconstt // -sumr_const.
-apply: ler_sum => i phi_i; rewrite sqr_Cint_ge1 ?Cint_Cnat ?Cnat_dirr //.
+apply: ler_sum => i phi_i; rewrite sqr_intr_ge1 ?intr_nat ?Cnat_dirr //.
 by rewrite gt_eqF -?dirr_consttE.
 Qed.
 
@@ -1704,7 +1699,7 @@ suffices /eqP eqIrho: Irho == Iphi by rewrite Drho eqIrho -Dphi signrZK.
 have psi_phi'_lt0 di: di \in Irho :\: Iphi -> '[psi, dchi di] < 0.
   case/setDP=> rho_di phi'di; rewrite cfdotBl subr_lt0.
   move: rho_di; rewrite dirr_consttE; apply: le_lt_trans.
-  rewrite real_leNgt -?dirr_consttE ?real0 ?Creal_Cint //.
+  rewrite real_leNgt -?dirr_consttE ?real0 ?Rreal_int //.
   by rewrite Cint_cfdot_vchar ?dchi_vchar.
 have NCpsi: (NC psi < 2 * minn w1 w2)%N.
   suffices NCpsi4: (NC psi <= 2 + 2)%N.
@@ -1816,7 +1811,7 @@ by rewrite [a]cforder_lin_char // dvdn_exponent.
 Qed.
 
 (* This is Peterfalvi (3.9)(c). *)
-Lemma Cint_cycTIiso_coprime x : coprime #[x] a -> sigma w x \in Cint.
+Lemma Cint_cycTIiso_coprime x : coprime #[x] a -> sigma w x \in Num.int.
 Proof.
 move=> co_x_a; apply: Cint_rat_Aint (Aint_vchar _ Zsigw).
 have [Qb galQb [QbC AutQbC [w_b genQb memQb]]] := group_num_field_exists <[x]>.

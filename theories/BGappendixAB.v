@@ -1,18 +1,13 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq div.
-From mathcomp
-Require Import fintype bigop prime finset ssralg fingroup morphism.
-From mathcomp
-Require Import automorphism quotient gfunctor commutator zmodp center pgroup.
-From mathcomp
-Require Import sylow gseries nilpotent abelian maximal.
-From mathcomp
-Require Import matrix mxalgebra mxrepresentation mxabelem.
-From odd_order
-Require Import BGsection1 BGsection2.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq div.
+From mathcomp Require Import fintype bigop prime finset.
+From mathcomp Require Import fingroup morphism automorphism quotient.
+From mathcomp Require Import ssralg zmodp matrix mxalgebra.
+From mathcomp Require Import center gfunctor commutator gseries pgroup.
+From mathcomp Require Import nilpotent sylow abelian maximal.
+From mathcomp Require Import mxrepresentation mxabelem.
+From odd_order Require Import BGsection1 BGsection2.
 
 (******************************************************************************)
 (* This file contains the useful material in B & G, appendices A and B, i.e., *)

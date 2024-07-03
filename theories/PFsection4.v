@@ -1,20 +1,17 @@
 (* (c) Copyright 2006-2016 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-Require Import mathcomp.ssreflect.ssreflect.
-From mathcomp
-Require Import ssrbool ssrfun eqtype ssrnat seq path div choice fintype.
-From mathcomp
-Require Import tuple finfun bigop order prime ssralg poly finset fingroup.
-From mathcomp
-Require Import morphism perm automorphism quotient action gfunctor gproduct.
-From mathcomp
-Require Import center commutator zmodp cyclic pgroup nilpotent hall frobenius.
-From mathcomp
-Require Import matrix mxalgebra mxrepresentation vector ssrnum algC classfun.
-From mathcomp
-Require Import character inertia vcharacter.
-From odd_order
-Require Import PFsection1 PFsection2 PFsection3.
+From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq path.
+From mathcomp Require Import div choice fintype tuple finfun bigop prime finset.
+From mathcomp Require Import order.
+From mathcomp Require Import fingroup morphism perm automorphism quotient.
+From mathcomp Require Import action gproduct.
+From mathcomp Require Import ssralg zmodp poly ssrnum archimedean matrix.
+From mathcomp Require Import mxalgebra vector.
+From mathcomp Require Import cyclic center gfunctor commutator pgroup nilpotent.
+From mathcomp Require Import hall frobenius algC.
+From mathcomp Require Import mxrepresentation classfun character inertia.
+From mathcomp Require Import vcharacter.
+From odd_order Require Import PFsection1 PFsection2 PFsection3.
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 4: The Dade isometry of a certain     *)
@@ -575,10 +572,10 @@ have lb_mu_1: w1%:R * 'chi_k 1%g <= mu_ j 1%g ?= iff (chi_j == 'chi_k).
   by apply: leif_eq; rewrite char1_ge0.
 pose psi := 'Ind 'chi_k - mu_ j; have Npsi: psi \is a character.
   apply/forallP=> l; rewrite coord_cfdot cfdotBl; set a := '['Ind _, _].
-  have Na: a \in Cnat by rewrite Cnat_cfdot_char_irr ?cfInd_char ?irr_char.
+  have Na: a \in Num.nat by rewrite Cnat_cfdot_char_irr ?cfInd_char ?irr_char.
   have [[i /eqP Dl] | ] := altP (@existsP _ (fun i => 'chi_l == mu2_ i j)).
-    have [n Da] := CnatP a Na; rewrite Da cfdotC Dl cfdot_prTIirr_red.
-    rewrite rmorph_nat -natrB ?Cnat_nat // eqxx lt0n -eqC_nat -Da.
+    have [n Da] := natrP Na; rewrite Da cfdotC Dl cfdot_prTIirr_red.
+    rewrite rmorph_nat -natrB ?natr_nat // eqxx lt0n -eqC_nat -Da.
     by rewrite -irr_consttE constt_Ind_Res Dl cfRes_prTIirr_eq0.
   rewrite negb_exists => /forallP muj'l.
   rewrite cfdot_suml big1 ?subr0 // => i _.
@@ -832,7 +829,7 @@ move=> eqjk; have{eqjk}: (delta_ j == delta_ k %[mod #|W1|])%C.
   apply: eqCmod_trans (prTIirr1_mod ptiWL i k).
   by rewrite eqCmod_sym -eqjk (prTIirr1_mod ptiWL).
 have /negP: ~~ (#|W1| %| 2) by rewrite gtnNdvd.
-rewrite /eqCmod -![delta_ _]intr_sign -rmorphB dvdC_int ?Cint_int //= intCK.
+rewrite /eqCmod -![delta_ _]intr_sign -rmorphB dvdC_int //= intrKfloor.
 by do 2!case: (primeTI_Isign _ _).
 Qed.
 
@@ -922,7 +919,7 @@ have real'T: ~~ has cfReal calT.
   by apply/hasPn=> _ /imageP[j /andP[nzj _] ->]; apply: prTIred_not_real.
 have ccT: cfConjC_closed calT.
   move=> _ /imageP[j Tj ->]; rewrite -prTIred_aut image_f // inE aut_Iirr_eq0.
-  by rewrite prTIred_aut cfunE/= conj_Cnat ?Cnat_char1 ?prTIred_char.
+  by rewrite prTIred_aut cfunE/= conj_natr ?Cnat_char1 ?prTIred_char.
 have TonA: 'Z[calT, L^#] =i 'Z[calT, A].
   have A'1: 1%g \notin A by apply: contra (subsetP sAA0 _) _; have [] := ddA0.
   move=> psi; rewrite zcharD1E -(setU1K A'1) zcharD1; congr (_ && _).
