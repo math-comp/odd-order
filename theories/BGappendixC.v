@@ -383,8 +383,9 @@ have [q_gt4 | q_le4] := ltnP 4 q.
 have q3: q = 3%N by apply/eqP; rewrite eqn_leq qgt2 andbT -ltnS -(odd_ltn 5).
 rewrite (cardsD1 1) E_1 ltnS card_gt0; apply/set0Pn => /=.
 pose f (c : 'F_p) : {poly 'F_p} := 'X * ('X - 2%:R%:P) * ('X - c%:P) + ('X - 1).
-have fc0 c: (f c).[0] = -1 by rewrite !hornerE /= !hornerE.
-have fc2 c: (f c).[2%:R] = 1 by rewrite !(subrr, hornerE) /= addrK.
+have fc0 c: (f c).[0] = -1 by rewrite !hornerE /= !hornerE; apply/val_inj.
+have fc2 c: (f c).[2%:R] = 1.
+  by rewrite !(subrr, hornerE) /= addrK; apply/val_inj.
 have /existsP[c nz_fc]: [exists c, ~~ [exists d, root (f c) d]].
   have nz_f_0 c: ~~ root (f c) 0 by rewrite /root fc0 oppr_eq0.
   rewrite -negb_forall; apply/negP=> /'forall_existsP/fin_all_exists[/= rf rfP].
