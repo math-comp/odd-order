@@ -330,7 +330,7 @@ rewrite exchange_big; apply: eq_bigr => xi _; rewrite exchange_big /=.
 apply: eq_big_seq => mu Smu; have Tmu := sST mu Smu.
 rewrite /u eh (cfdotEr _ (seqInd_on nsHL Tmu)) (mulrC _^-1) -mulrBl mulrA.
 rewrite -mulr_suml -mulr_sumr (big_setD1 1%g (group1 H)) /=; congr (_ * _ * _).
-by rewrite addrC conj_natr ?addKr // (Cnat_seqInd1 Tmu).
+by rewrite [RHS]addrC conj_natr ?addKr // (Cnat_seqInd1 Tmu).
 Qed.
 
 End InvDadeSeqInd.
@@ -460,7 +460,7 @@ split=> // [ | chi /irrP[t def_chi] o_chiSnu].
     do 2!apply: canRL (addrK _) _; rewrite -addrA; congr (_ + _).
     rewrite defX (addrC (- nu _)) cfnormB cfnormZ intr_normK // InuS //.
     rewrite cfdotZl cfproj_sum_orthogonal // Nzeta1 zeta1 divff // divr1.
-    rewrite !mulr1 aut_intr // mulrBr mulrDr mulVKf // addrAC.
+    rewrite !mulr1 aut_intr // mulrBr mulrDr mulVKf // [RHS]addrAC.
     rewrite mulrA mulrC hu -[e^-1](divfK nze) -expr2; congr (_ * _ - _ + 1).
     rewrite -mulrA -sum_seqIndC1_square // mulr_sumr cfnorm_sum_orthogonal //.
     apply: eq_big_seq => xi Sxi.
@@ -722,8 +722,9 @@ have nzh2: h + 2%:R != 0 by rewrite -natrD addnC pnatr_eq0.
 have{lhs} ->: lhs = 1 - e / h - (h - 1) / (e * h) - (e - 1) / (h + 2%:R).
   rewrite {}/lhs -{2}(addrK h 2%:R) !invfM (mulrBl _ _ h) mulVKf ?nzh //.
   rewrite addrCA (addrC _ h) mulrCA mulrA addrA mulrBr; congr (_ - _).
-  rewrite mulfK // mulrDr addrAC addrC mulrC mulrBl -mulrA mulVKf ?nze //.
-  rewrite mulrC mulrBr mulrBl mul1r addrAC addrC addrA; congr (_ - _).
+  rewrite mulfK // mulrDr addrAC [LHS]addrC mulrC mulrBl -mulrA mulVKf ?nze //.
+  rewrite mulrC mulrBr mulrBl mul1r [X in X + _]addrAC addrC addrA.
+  congr (_ - _).
   rewrite mulrCA mulVKf ?nze // addrCA mulrCA mulr_natl opprD addNKr.
   by rewrite !mulrBl opprB addrA subrK divff ?nzh.
 pose beta i := tau i ('Ind[L i, H i] 1 - 'chi_(r i)).
@@ -755,7 +756,7 @@ suffices{min_rho1} sumB_max: sumB <= (e - 1) / (h + 2%:R).
   apply: (le_trans (y := \sum_i ('[rho i 'chi_t] - ea i))); last first.
     rewrite -subr_ge0 -opprB oppr_ge0 -mulNr opprB addrC mulrC.
     by rewrite /sumG0 defG0 Dade_cover_inequality ?cfnorm_irr.
-  rewrite (bigID (mem calB)) /= addrC lerD //.
+  rewrite (bigID (mem calB)) /= [leLHS]addrC lerD //.
     rewrite -subr_ge0 opprK -big_split sumr_ge0 //= => i _.
     by rewrite def_h1 eh subrK cfnorm_ge0.
   rewrite (bigD1 i1) ?inE ?eqxx ?andbF //= -lerBlDl.

@@ -999,7 +999,7 @@ have{rho sumG0 sumG0_diff ub_rho lb_rho} []:
   rewrite /sumG0_diff -!addnA natrD opprD [in leLHS]addrA mulrBr opprB.
   rewrite [in leLHS]addrA lerBlDr ler_wpDr //.
     by rewrite mulr_ge0 ?invr_ge0 ?ler0n // subr_ge0 -sumr_const ler_sum.
-  rewrite mulrDl -!addrA addrCA [1 + _]addrA [_ + (_ - _)]addrA lerD //.
+  rewrite mulrDl -!addrA [leRHS]addrCA [1 + _]addrA [_ + (_ - _)]addrA lerD //.
     rewrite -(Lagrange (normal_sub nsKM)) natrM invfM mulrA -/k -/e /pq -De.
     rewrite ler_pM2r ?invr_gt0 ?gt0CiG // ler_pdivrMr ?gt0CG //.
     by rewrite mul1r leC_nat leq_pred.
@@ -1015,7 +1015,7 @@ rewrite -!addrA ler_ltD //; last first.
   pose q2 : algC := (q ^ 2)%:R.
   apply: lt_le_trans (_ : 2%:R / q2 + (2%:R * q2)^-1 *+ 2 <= _); last first.
     rewrite addrC -[_ *+ 2]mulr_natl invfM mulVKf ?pnatr_eq0 //.
-    rewrite mulr_natl -mulrS -mulr_natl [q2]natrM.
+    rewrite mulr_natl -mulrS -[leLHS]mulr_natl [q2]natrM.
     by rewrite ler_pdivrMr ?mulr_gt0 ?gt0CG // mulKf ?neq0CG ?leC_nat.
   rewrite -natrM !addrA ltrD ?(FTtypeP_complV_ltr _ TtypeP) 1?ltnW //.
   rewrite ltrD ?(FTtypeP_complV_ltr _ StypeP) // /pq mulnC /q2 !natrM !invfM.
