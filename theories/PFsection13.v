@@ -663,7 +663,7 @@ have{} Deta10: {in H^#, eta10 =1 alpha}.
 set a1_2 := alpha 1%g ^+ 2 in ub_alpha.
 have Dsum_alpha: \sum_(x in H^#) `|alpha x| ^+ 2 = #|H|%:R * '[alpha] - a1_2.
   rewrite (cfnormE (cfun_onG _)) mulVKf ?neq0CG // (big_setD1 _ (group1 H)) /=.
-  by rewrite addrC intr_normK ?addKr ?Cint_vchar1.
+  by rewrite [RHS]addrC intr_normK ?addKr ?Cint_vchar1.
 have [/mulG_sub[sPH _] [_ _ _ [_ _ sW2P _ _] _]] := (dprodW defH, StypeP).
 have nz_alpha: alpha != 0.
   have [[x W2x ntx] [y W1y nty]] := (trivgPn _ ntW2, trivgPn _ ntW1).
@@ -1164,7 +1164,7 @@ rewrite Dv natf_div ?dvdn_pred_predX // oQ.
 rewrite invfM invrK -mulrA -subn1 mulVKf ?gt_eqF ?ltr0n //; last first.
   by rewrite subn_gt0 -(exp1n p) ltn_exp2r ltnW // ltnW.
 rewrite -oQ natrB ?cardG_gt0 // !mulrBl mul1r mulrC mulKf ?neq0CG // -invfM.
-by rewrite -natrM oQ opprD opprK addrA addrAC.
+by rewrite -natrM oQ opprD opprK addrA [LHS]addrAC.
 Qed.
 
 End Thirteen_4_10.
@@ -1218,7 +1218,7 @@ apply: le_trans; rewrite addnS /f /d; set x := (3 + r)%N.
 rewrite ler_pdivrMr ?ltr0n ?expn_gt0 // mulrAC (expnS 3) (natrM _ 3).
 rewrite mulrA mulfK ?gt_eqF ?ltr0n ?expn_gt0 //.
 rewrite -ler_pdivrMl ?ltr0n // !natrX -exprVn -exprMn.
-rewrite mulrS mulrDr mulr1 mulVf ?pnatr_eq0 //.
+rewrite [X in _ * X]mulrS mulrDr mulr1 mulVf ?pnatr_eq0 //.
 apply: le_trans (_ : (3%:R^-1 + 1) ^+ 2 <= _); last by rewrite -!CratrE; reflexivity.
 rewrite ler_sqr ?rpredD ?rpred1 ?rpredV ?rpred_nat // lerD2r.
 by rewrite lef_pV2 ?qualifE/= ?ltr0n ?leC_nat.

@@ -828,7 +828,8 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
   have DsumXd: sumXd = (xi1 1%g)^-1 *: (cfReg L - cfReg (L / Z) %% Z)%CF.
     apply/(canRL (scalerK nz_xi1_1))/(canRL (addrK _)); rewrite !cfReg_sum.
     pose kerZ := [pred i : Iirr L | Z \subset cfker 'chi_i].
-    rewrite 2!linear_sum (bigID kerZ) (reindex _ (mod_Iirr_bij nsZL)) /= addrC.
+    rewrite 2!linear_sum (bigID kerZ) (reindex _ (mod_Iirr_bij nsZL)) /=.
+    rewrite [LHS]addrC.
     congr (_ + _).
       apply: eq_big => [i | i _]; first by rewrite mod_IirrE ?cfker_mod.
       by rewrite linearZ mod_IirrE // cfMod1.
@@ -1027,7 +1028,8 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
       exists (tau (gamma i) + #|H : Z|%:R *: Y1); last by rewrite addrK.
       apply/orthoPl=> _ /mapP[eta Yeta ->].
       rewrite scalerN cfdotBl cfdotZl cfproj_sum_orthonormal // [x]addrAC.
-      rewrite -addrA mulrDr mulrBr mulrC -Dx0 -Da opprD addrA -!raddfB /=.
+      rewrite -[_ + 1 - _]addrA mulrDr mulrBr mulrC -Dx0 -Da opprD addrA.
+      rewrite -!raddfB /=.
       have Yeta_1: eta - eta1 \in 'Z[Y, L^#].
         by rewrite zcharD1E rpredB ?seqInd_zcharW //= !cfunE !uniY ?subrr.
       rewrite Dtau1 ?Itau // ?(zchar_subset sYS) // cfdotBl cfdotZl.

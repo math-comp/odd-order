@@ -1035,7 +1035,8 @@ case/andP=> /(zchar_expansion (free_uniq (orthogonal_free oS3)))[b Zb {eta}->].
 pose bS Si := \sum_(xi <- Si) b xi *: xi.
 have ZbS Si: bS Si \in 'Z[Si].
   by rewrite /bS big_seq rpred_sum // => eta /mem_zchar/rpredZ_int->.
-rewrite big_cat /= -!/(bS _) cfunE addrC addr_eq0 linearD => /eqP-bS2_1.
+rewrite big_cat /= -!/(bS _) cfunE [X in X == 0]addrC addr_eq0 linearD.
+move=> /eqP-bS2_1.
 transitivity (tau1 (bS S1) + tau2 (bS S2)).
   by rewrite !raddf_sum; congr (_ + _); apply/eq_big_seq=> xi Si_xi /=;
      rewrite !raddfZ_int // -(defY1, defY2).

@@ -767,7 +767,7 @@ have ub_G1: #|G1|%:R / #|G|%:R <= #|H|%:R / #|S|%:R + #|V|%:R / #|W|%:R :> algC.
   rewrite !oTI // !card_conjugates defNH defNV /= leq_add2r ?leq_mul //.
   by rewrite subset_leq_card ?subsetDl.
 rewrite le_gtF // addrAC lerBrDl -lerBrDr (le_trans ub_G1) //.
-rewrite -(sdprod_card defS) -(sdprod_card defHU) addrC.
+rewrite -(sdprod_card defS) -(sdprod_card defHU) [leLHS]addrC.
 rewrite -mulnA !natrM invfM mulVKf ?natrG_neq0 // -/w1 -/w2.
 have sW12_W: W1 :|: W2 \subset W by rewrite -(dprodWY defW) sub_gen.
 rewrite cardsD (setIidPr sW12_W) natrB ?subset_leq_card // mulrBl.
