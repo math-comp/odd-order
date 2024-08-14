@@ -57,7 +57,7 @@
   };
   bundles."master".coqPackages = {
     coq.override.version = "master";
-    coq-elpi.override.version = "coq-master";
+    coq-elpi.override.version = "master";
     hierarchy-builder.override.version = "master";
     mathcomp.override.version = "master";
   };
