@@ -181,7 +181,7 @@ Proof.
 have fP v: in_alg F (uval v) \is a GRing.unit by rewrite rmorph_unit ?(valP v).
 pose f (v : {unit 'F_p}) := FinRing.unit F (fP v).
 have fM: {in setT &, {morph f: v1 v2 / (v1 * v2)%g}}.
-  by move=> v1 v2 _ _; apply: val_inj; rewrite /= -in_algE rmorphM.
+  by move=> v1 v2 _ _; apply: val_inj; rewrite /= -1?in_algE rmorphM.
 pose galFpU := Morphism fM @* [set: {unit 'F_p}].
 have ->: [set u | uval u \in Fp] = galFpU.
   apply/setP=> u; rewrite inE /galFpU morphimEdom.

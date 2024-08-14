@@ -1828,7 +1828,7 @@ have oS4: (q * u * size S4 + p.-1 * (q + u))%N = (p ^ q).-1.
       have /S3qu/eqP: 'Ind 'chi_s \in S3.
         by rewrite mem_filter /= S2's sH0CC' ?mem_seqInd.
       by rewrite natrM cfInd1 // -(index_sdprod defM) => /(mulfI (neq0CG _)).
-    rewrite sumr_const -mulr_natl natrM natrX -nb_mu; congr (_%:R * _).
+    rewrite sumr_const -[LHS]mulr_natl natrM natrX -nb_mu; congr (_%:R * _).
     have [_ s_mu_H0C] := nb_redM_H0.
     rewrite (size_red_subseq_seqInd_typeP MtypeP _ s_mu_H0C); last first.
     - by apply/allP; apply: filter_all.
@@ -2202,7 +2202,7 @@ have{x Zx X defX Delta Dalpha oD1} b_mod_ua: (b == 0 %[mod u %/ a])%C.
   - by rewrite memv_span ?inE.
   - apply: subvP (zchar_span S4_Gamma); apply: sub_span; apply: mem_subseq.
     by rewrite map_subseq ?filter_subseq.
-  rewrite Dalpha addrC cfdotDl (span_orthogonal oD1); first 1 last.
+  rewrite Dalpha [X + _]addrC cfdotDl (span_orthogonal oD1); first 1 last.
   - by rewrite memv_span ?inE.
   - rewrite addrC rpredB ?rpredZ //; last by rewrite memv_span ?map_f.
     by rewrite big_seq rpred_sum // => psi S1psi; rewrite memv_span ?map_f.

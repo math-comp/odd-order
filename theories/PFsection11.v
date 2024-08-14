@@ -889,7 +889,7 @@ have tau_alpha i: tau (alpha_ i j) = eta_ i j - eta_ i 0 - n *: zeta1.
     rewrite cfnorm_map_orthonormal // -Dn Itau1 ?mem_zchar ?n1S1 // mulr1.
     rewrite scaler_sumr cfproj_sum_orthonormal // rmorphN addrAC.
     rewrite Dn rmorphM/= !intr_normK ?rpred_nat // !rmorph_nat conj_intr // -Dn.
-    by rewrite -mulr2n mulrC mulrA -mulr_natr mulNr -mulrBr.
+    by rewrite -mulr2n mulrC mulrA -[in LHS]mulr_natr mulNr -mulrBr.
   have{a_even} Da: (a == 0) || (a == 2%:R). (* Second part of (11.8.2). *)
     suffices (b := a - 1): b ^+ 2 == 1.
       by rewrite -!(can_eq (subrK 1) a) add0r addrK orbC -eqf_sqr expr1n.
@@ -1002,7 +1002,7 @@ Lemma FTtype34_structure (eta0row := \sum_j eta_ 0 j) :
       (*b*) (p < q)%N
     & (*c*) FTtype M == 3%N /\ typeP_Galois MtypeP].
 Proof.
-have sum_etaW F: \sum_(eta <- etaW) F eta = \sum_i \sum_j F (eta_ i j).
+have sum_etaW (t : nmodType) (F : _ -> t): \sum_(eta <- etaW) F eta = \sum_i \sum_j F (eta_ i j).
   rewrite big_map big_tuple (reindex (dprod_Iirr defW)) /=.
     by rewrite pair_bigA; apply: eq_bigr => -[i j].
   by exists (inv_dprod_Iirr defW) => ij; rewrite ?dprod_IirrK ?inv_dprod_IirrK.
