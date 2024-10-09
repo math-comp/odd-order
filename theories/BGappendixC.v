@@ -55,7 +55,10 @@ Let Fp : {vspace F} := 1%VS.
 
 Hypothesis oF : #|F| = (p ^ q)%N.
 Let oF_p : #|'F_p| = p. Proof. exact: card_Fp. Qed.
-Let oFp : #|Fp| = p. Proof. by rewrite card_vspace1. Qed.
+Let oFp : #|Fp| = p.
+Proof.
+by rewrite (@card_vspace1 _ _ (Falgebra.class (PrimeCharType _))).
+Qed.
 Let oFpq : #|Fpq| = (p ^ q)%N. Proof. by rewrite card_vspacef. Qed.
 Let dimFpq : \dim Fpq = q. Proof. by rewrite primeChar_dimf oF pfactorK. Qed.
 
