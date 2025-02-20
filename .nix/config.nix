@@ -55,12 +55,23 @@
     coq.override.version = "8.20";
     mathcomp.override.version = "mathcomp-2.2.0";
   };
-  bundles."master".coqPackages = {
+  bundles."9.0".coqPackages = {
+    coq.override.version = "9.0";
+    mathcomp.override.version = "mathcomp-2.3.0";
+  };
+  bundles."master" = { rocqPackages = {
+    rocq-core.override.version = "master";
+    rocq-elpi.override.version = "master";
+    rocq-elpi.override.elpi-version = "2.0.7";
+    stdlib.override.version = "master";
+  }; coqPackages = {
     coq.override.version = "master";
     coq-elpi.override.version = "master";
+    coq-elpi.override.elpi-version = "2.0.7";
     hierarchy-builder.override.version = "master";
     mathcomp.override.version = "master";
-  };
+    stdlib.override.version = "master";
+  }; };
 
   ## you may mark a package as a CI job as follows
   #  coqPackages.<another-pkg>.ci.job = "test";
