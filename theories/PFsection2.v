@@ -49,7 +49,7 @@ Unset Printing Implicit Defensive.
 Import GroupScope GRing.Theory Num.Theory.
 Local Open Scope ring_scope.
 
-Reserved Notation "alpha ^\tau" (at level 2, format "alpha ^\tau").
+Reserved Notation "alpha ^\tau" (format "alpha ^\tau").
 
 Section Two.
 
@@ -419,11 +419,11 @@ Qed.
 
 Definition Dade_set_signalizer (B : {set gT}) := \bigcap_(a in B) H a.
 Local Notation "''H' ( B )" := (Dade_set_signalizer B)
-  (at level 8, format "''H' ( B )") : group_scope.
+  (format "''H' ( B )") : group_scope.
 Canonical Dade_set_signalizer_group B := [group of 'H(B)].
 Definition Dade_set_normalizer B := 'H(B) <*> 'N_L(B).
 Local Notation "''M' ( B )" := (Dade_set_normalizer B)
-  (at level 8, format "''M' ( B )") : group_scope.
+  (format "''M' ( B )") : group_scope.
 Canonical Dade_set_normalizer_group B := [group of 'M(B)].
 
 Let calP := [set B : {set gT} | B \subset A & B != set0].

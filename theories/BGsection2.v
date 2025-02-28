@@ -221,11 +221,9 @@ Let E2_ i t :=
 Local Notation "''V_' i" := (V_ i) (at level 8, i at level 2, format "''V_' i").
 Local Notation "''n_' i" := (n_ i) (at level 8, i at level 2, format "''n_' i").
 Local Notation "''E_' i" := (E_ i) (at level 8, i at level 2, format "''E_' i").
-Local Notation "'E_ ( i )" := (E_ i) (at level 8, only parsing).
-Local Notation "e ^g" := (g^-1 *m (e *m g))
-  (at level 8, format "e ^g") : ring_scope.
-Local Notation "'E_ ( i , t )" := (E2_ i t)
-  (at level 8, format "''E_' ( i ,  t )").
+Local Notation "'E_ ( i )" := (E_ i) (only parsing).
+Local Notation "e ^g" := (g^-1 *m (e *m g)) (format "e ^g") : ring_scope.
+Local Notation "'E_ ( i , t )" := (E2_ i t) (format "''E_' ( i ,  t )").
 
 Let inj_g : g \in GRing.unit.
 Proof. by rewrite -(unitrX_pos _ h_gt0) gh1 unitr1. Qed.

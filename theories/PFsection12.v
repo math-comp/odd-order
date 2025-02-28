@@ -39,9 +39,9 @@ Variable L : {group gT}.
 
 Hypotheses (maxL : L \in 'M) (Ltype1 : FTtype L == 1%N).
 
-Local Notation "` 'L'" := (gval L) (at level 0, only parsing) : group_scope.
+Local Notation "` 'L'" := (gval L) (only parsing) : group_scope.
 Local Notation H := `L`_\F%G.
-Local Notation "` 'H'" := `L`_\F (at level 0) : group_scope.
+Local Notation "` 'H'" := `L`_\F : group_scope.
 
 Let nsHL : H <| L. Proof. exact: gFnormal. Qed.
 Let calS := seqIndD H L H 1%G.
@@ -305,11 +305,11 @@ Section Twelve_4_to_6.
 Variable L : {group gT}.
 Hypothesis maxL : L \in 'M .
 
-Local Notation "` 'L'" := (gval L) (at level 0, only parsing) : group_scope.
+Local Notation "` 'L'" := (gval L) (only parsing) : group_scope.
 Local Notation H := `L`_\F%G.
-Local Notation "` 'H'" := `L`_\F (at level 0) : group_scope.
+Local Notation "` 'H'" := `L`_\F : group_scope.
 Local Notation H' := H^`(1)%G.
-Local Notation "` 'H''" := `H^`(1) (at level 0) : group_scope.
+Local Notation "` 'H''" := `H^`(1) : group_scope.
 
 Let calS := seqIndD H L H 1%G.
 Let tau := FT_Dade maxL.
@@ -625,7 +625,7 @@ Hypotheses (P0_1s_x : x \in 'Ohm_1(P0)^#) (not_sCxK' : ~~ ('C_K[x] \subset K')).
 Hypotheses (sNxM : 'N(<[x]>) \subset M) (not_sCxL : ~~ ('C[x] \subset L)).
 
 Let H := L`_\F%G.
-Local Notation "` 'H'" := (gval L)`_\F (at level 0, format "` 'H'").
+Local Notation "` 'H'" := (gval L)`_\F (format "` 'H'").
 Let nsHL : H <| L. Proof. exact: gFnormal. Qed.
 
 (* This is Peterfalvi (12.10). *)

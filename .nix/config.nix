@@ -35,14 +35,6 @@
   ## write one `bundles.name` attribute set per
   ## alternative configuration, the can be used to
   ## compute several ci jobs as well
-  bundles."8.18".coqPackages = {
-    coq.override.version = "8.18";
-    mathcomp.override.version = "mathcomp-2.1.0";
-  };
-  bundles."8.19".coqPackages = {
-    coq.override.version = "8.19";
-    mathcomp.override.version = "mathcomp-2.2.0";
-  };
   bundles."8.20".coqPackages = {
     coq.override.version = "8.20";
     mathcomp.override.version = "mathcomp-2.2.0";

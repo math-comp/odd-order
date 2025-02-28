@@ -37,7 +37,7 @@ Unset Printing Implicit Defensive.
 
 Import GroupScope.
 
-Reserved Notation "p .-narrow" (at level 2, format "p .-narrow").
+Reserved Notation "p .-narrow" (format "p .-narrow").
 
 Section Definitions.
 

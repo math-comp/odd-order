@@ -32,9 +32,9 @@ Unset Printing Implicit Defensive.
 
 Import GroupScope.
 
-Reserved Notation "\alpha ( M )" (at level 2, format "\alpha ( M )").
-Reserved Notation "\beta ( M )" (at level 2, format "\beta ( M )").
-Reserved Notation "\sigma ( M )" (at level 2, format "\sigma ( M )").
+Reserved Notation "\alpha ( M )" (format "\alpha ( M )").
+Reserved Notation "\beta ( M )" (format "\beta ( M )").
+Reserved Notation "\sigma ( M )" (format "\sigma ( M )").
 
 Reserved Notation "M `_ \alpha" (at level 3, format "M `_ \alpha").
 Reserved Notation "M `_ \beta" (at level 3, format "M `_ \beta").

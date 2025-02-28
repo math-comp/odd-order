@@ -66,24 +66,24 @@ Qed.
 Let Mtype_gt2 : (FTtype M > 2)%N. Proof. by case/pred2P: Mtype34 => ->. Qed.
 
 Local Notation H0 := (Ptype_Fcore_kernel MtypeP).
-Local Notation "` 'H0'" := (gval H0) (at level 0, only parsing) : group_scope.
-Local Notation "` 'M'" := (gval M) (at level 0, only parsing) : group_scope.
-Local Notation "` 'U'" := (gval U) (at level 0, only parsing) : group_scope.
-Local Notation "` 'W'" := (gval W) (at level 0, only parsing) : group_scope.
-Local Notation "` 'W1'" := (gval W1) (at level 0, only parsing) : group_scope.
-Local Notation "` 'W2'" := (gval W2) (at level 0, only parsing) : group_scope.
+Local Notation "` 'H0'" := (gval H0) (only parsing) : group_scope.
+Local Notation "` 'M'" := (gval M) (only parsing) : group_scope.
+Local Notation "` 'U'" := (gval U) (only parsing) : group_scope.
+Local Notation "` 'W'" := (gval W) (only parsing) : group_scope.
+Local Notation "` 'W1'" := (gval W1) (only parsing) : group_scope.
+Local Notation "` 'W2'" := (gval W2) (only parsing) : group_scope.
 Local Notation H := `M`_\F%G.
-Local Notation "` 'H'" := `M`_\F (at level 0) : group_scope.
+Local Notation "` 'H'" := `M`_\F : group_scope.
 Local Notation HU := M^`(1)%G.
-Local Notation "` 'HU'" := `M^`(1)%g (at level 0) : group_scope.
+Local Notation "` 'HU'" := `M^`(1)%g : group_scope.
 Local Notation U' := U^`(1)%G.
-Local Notation "` 'U''" := `U^`(1)%g (at level 0) : group_scope.
+Local Notation "` 'U''" := `U^`(1)%g : group_scope.
 Local Notation C := 'C_U(`H)%G.
-Local Notation "` 'C'" := 'C_`U(`H) (at level 0) : group_scope.
+Local Notation "` 'C'" := 'C_`U(`H) : group_scope.
 Local Notation HC := (`H <*> `C)%G.
-Local Notation "` 'HC'" := (`H <*> `C) (at level 0) : group_scope.
+Local Notation "` 'HC'" := (`H <*> `C) : group_scope.
 Local Notation H0C := (`H0 <*> `C)%G.
-Local Notation "` 'H0C'" := (`H0 <*> `C) (at level 0) : group_scope.
+Local Notation "` 'H0C'" := (`H0 <*> `C) : group_scope.
 Local Notation Hbar := (`H / `H0)%g.
 
 Local Notation S_ := (seqIndD HU M HU).

@@ -36,7 +36,7 @@ Local Notation G := (TheMinSimpleOddGroup gT).
 Implicit Types (p q : nat) (x y z : gT).
 Implicit Types H K L N P Q R S T U W : {group gT}.
 
-Local Notation "#1" := (inord 1) (at level 0).
+Local Notation "#1" := (inord 1).
 
 (* Supplementary results that apply to both S and T, but that are not         *)
 (* formally stated as such; T, V, L, tau1L and phi are only used at the end   *)
@@ -50,14 +50,14 @@ Variables (tau1L : {additive 'CF(L) -> 'CF(G)}) (phi : 'CF(L)).
 (* Implicit (dependent) forward assuptions. *)
 Hypotheses (defW : W1 \x W2 = W) (xdefW : W2 \x W1 = W) (maxL : L \in 'M).
 
-Local Notation "` 'S'" := (gval S) (at level 0, only parsing) : group_scope.
+Local Notation "` 'S'" := (gval S) (only parsing) : group_scope.
 Local Notation P := `S`_\F%G.
-Local Notation "` 'P'" := `S`_\F (at level 0) : group_scope.
+Local Notation "` 'P'" := `S`_\F : group_scope.
 Local Notation PU := S^`(1)%G.
-Local Notation "` 'PU'" := `S^`(1)%g (at level 0) : group_scope.
-Local Notation "` 'L'" := (gval L) (at level 0, only parsing).
+Local Notation "` 'PU'" := `S^`(1)%g : group_scope.
+Local Notation "` 'L'" := (gval L) (only parsing).
 Local Notation H := `L`_\F%G.
-Local Notation "` 'H'" := `L`_\F%g (at level 0, format "` 'H'") : group_scope.
+Local Notation "` 'H'" := `L`_\F%g (format "` 'H'") : group_scope.
 
 Let p := #|W2|.
 Let q := #|W1|.
@@ -375,24 +375,24 @@ Hypotheses (defW : W1 \x W2 = W) (xdefW : W2 \x W1 = W).
 Hypotheses (pairST : typeP_pair S T defW) (maxS : S \in 'M) (maxT : T \in 'M).
 Hypotheses (StypeP : of_typeP S U defW) (TtypeP : of_typeP T V xdefW).
 
-Local Notation "` 'W1'" := (gval W1) (at level 0, only parsing) : group_scope.
-Local Notation "` 'W2'" := (gval W2) (at level 0, only parsing) : group_scope.
-Local Notation "` 'W'" := (gval W) (at level 0, only parsing) : group_scope.
+Local Notation "` 'W1'" := (gval W1) (only parsing) : group_scope.
+Local Notation "` 'W2'" := (gval W2) (only parsing) : group_scope.
+Local Notation "` 'W'" := (gval W) (only parsing) : group_scope.
 Local Notation What := (cyclicTIset defW).
 
-Local Notation "` 'S'" := (gval S) (at level 0, only parsing) : group_scope.
+Local Notation "` 'S'" := (gval S) (only parsing) : group_scope.
 Local Notation P := `S`_\F%G.
-Local Notation "` 'P'" := `S`_\F (at level 0) : group_scope.
+Local Notation "` 'P'" := `S`_\F : group_scope.
 Local Notation PU := S^`(1)%G.
-Local Notation "` 'PU'" := `S^`(1) (at level 0) : group_scope.
-Local Notation "` 'U'" := (gval U) (at level 0, only parsing) : group_scope.
+Local Notation "` 'PU'" := `S^`(1) : group_scope.
+Local Notation "` 'U'" := (gval U) (only parsing) : group_scope.
 
-Local Notation "` 'T'" := (gval T) (at level 0, only parsing) : group_scope.
+Local Notation "` 'T'" := (gval T) (only parsing) : group_scope.
 Local Notation Q := `T`_\F%G.
-Local Notation "` 'Q'" := `T`_\F (at level 0) : group_scope.
+Local Notation "` 'Q'" := `T`_\F : group_scope.
 Local Notation QV := T^`(1)%G.
-Local Notation "` 'QV'" := `T^`(1) (at level 0) : group_scope.
-Local Notation "` 'V'" := (gval V) (at level 0, only parsing) : group_scope.
+Local Notation "` 'QV'" := `T^`(1) : group_scope.
+Local Notation "` 'V'" := (gval V) (only parsing) : group_scope.
 
 Let defS : PU ><| W1 = S. Proof. by have [[]] := StypeP. Qed.
 Let defPU : P ><| U = PU. Proof. by have [_ []] := StypeP. Qed.
@@ -492,9 +492,9 @@ Let Stype2 := FTtypeP_max_typeII.
 
 (* These correspond to Peterfalvi, Hypothesis (14.3). *)
 Variables (L : {group gT}) (tau1L : {additive 'CF(L) -> 'CF(G)}) (phi : 'CF(L)).
-Local Notation "` 'L'" := (gval L) (at level 0, only parsing).
+Local Notation "` 'L'" := (gval L) (only parsing).
 Local Notation H := `L`_\F%G.
-Local Notation "` 'H'" := `L`_\F%g (at level 0, format "` 'H'") : group_scope.
+Local Notation "` 'H'" := `L`_\F%g (format "` 'H'") : group_scope.
 
 Hypothesis maxNU_L : L \in 'M('N(U)).
 
@@ -856,9 +856,9 @@ Let Ttype2 := FTtypeP_min_typeII.
 Variables (M : {group gT}) (tau1M : {additive 'CF(M) -> 'CF(G)}) (psi : 'CF(M)).
 Hypothesis maxNV_M : M \in 'M('N(V)).
 
-Local Notation "` 'M'" := (gval M) (at level 0, only parsing).
+Local Notation "` 'M'" := (gval M) (only parsing).
 Local Notation K := `M`_\F%G.
-Local Notation "` 'K'" := `M`_\F%g (at level 0, format "` 'K'") : group_scope.
+Local Notation "` 'K'" := `M`_\F%g (format "` 'K'") : group_scope.
 
 (* Consequences of the above. *)
 Hypotheses (maxM : M \in 'M) (sNVM : 'N(V) \subset M).
