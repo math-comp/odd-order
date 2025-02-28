@@ -52,7 +52,7 @@ Local Notation G := (TheMinSimpleOddGroup gT).
 Implicit Types (p q : nat) (x y z : gT).
 Implicit Types H K L N P Q R S T U W : {group gT}.
 
-Local Notation "#1" := (inord 1) (at level 0).
+Local Notation "#1" := (inord 1).
 
 Section OneMaximal.
 
@@ -64,15 +64,15 @@ Variables M U_M W W1 W2 : {group gT}.
 Hypotheses (maxM : M \in 'M) (defW : W1 \x W2 = W).
 Hypotheses (MtypeP : of_typeP M U_M defW) (notMtype2: FTtype M != 2).
 
-Local Notation "` 'M'" := (gval M) (at level 0, only parsing) : group_scope.
-Local Notation "` 'W1'" := (gval W1) (at level 0, only parsing) : group_scope.
-Local Notation "` 'W2'" := (gval W2) (at level 0, only parsing) : group_scope.
-Local Notation "` 'W'" := (gval W) (at level 0, only parsing) : group_scope.
+Local Notation "` 'M'" := (gval M) (only parsing) : group_scope.
+Local Notation "` 'W1'" := (gval W1) (only parsing) : group_scope.
+Local Notation "` 'W2'" := (gval W2) (only parsing) : group_scope.
+Local Notation "` 'W'" := (gval W) (only parsing) : group_scope.
 Local Notation V := (cyclicTIset defW).
 Local Notation M' := M^`(1)%G.
-Local Notation "` 'M''" := `M^`(1) (at level 0) : group_scope.
+Local Notation "` 'M''" := `M^`(1) : group_scope.
 Local Notation M'' := M^`(2)%G.
-Local Notation "` 'M'''" := `M^`(2) (at level 0) : group_scope.
+Local Notation "` 'M'''" := `M^`(2) : group_scope.
 
 Let defM : M' ><| W1 = M. Proof. by have [[]] := MtypeP. Qed.
 Let nsM''M' : M'' <| M'. Proof. exact: (der_normal 1 M'). Qed.
@@ -389,8 +389,7 @@ Section NonCoherence.
 Variable tau1 : {additive 'CF(M) -> 'CF(G)}.
 Hypothesis cohS : coherent_with calS M^# tau tau1.
 
-Local Notation "mu ^\tau1" := (tau1 mu%CF)
-  (at level 2, format "mu ^\tau1") : ring_scope.
+Local Notation "mu ^\tau1" := (tau1 mu%CF) (format "mu ^\tau1") : ring_scope.
 
 Let Dtau1 : {in 'Z[calS, M'^#], tau1 =1 tau}.
 Proof. by case: cohS => _; apply: sub_in1; apply: zchar_onS; apply: setSD. Qed.
@@ -876,9 +875,9 @@ by rewrite expr1n big1 ?addr0 // => j1 _; rewrite Da a_j normCK !mul0r.
 Qed.
 
 Local Notation H := M'.
-Local Notation "` 'H'" := `M' (at level 0) : group_scope.
+Local Notation "` 'H'" := `M' : group_scope.
 Local Notation H' := M''.
-Local Notation "` 'H''" := `M'' (at level 0) : group_scope.
+Local Notation "` 'H''" := `M'' : group_scope.
 
 (* This is the bulk of the proof of Peterfalvi, Theorem (10.10); as with      *)
 (* (10.8), it will be restated below in order to remove dependencies on zeta, *)

@@ -105,24 +105,20 @@ Definition Puig_inf (gT : finGroupType) (G : {set gT}) := Puig_at #|G|.*2 G.
 
 Definition Puig (gT : finGroupType) (G : {set gT}) := Puig_at #|G|.*2.+1 G.
 
-Notation "p .-length_1" := (plength_1 p)
-  (at level 2, format "p .-length_1") : group_scope.
+Notation "p .-length_1" := (plength_1 p) (format "p .-length_1") : group_scope.
 
 Notation "p .-constrained" := (p_constrained p)
-  (at level 2, format "p .-constrained") : group_scope.
+  (format "p .-constrained") : group_scope.
 Notation "p .-abelian_constrained" := (p_abelian_constrained p)
-  (at level 2, format "p .-abelian_constrained") : group_scope.
-Notation "p .-stable" := (p_stable p)
-  (at level 2, format "p .-stable") : group_scope.
+  (format "p .-abelian_constrained") : group_scope.
+Notation "p .-stable" := (p_stable p) (format "p .-stable") : group_scope.
 
 Notation "''L_[' G ] ( L )" := (Puig_succ G L)
-  (at level 8, format  "''L_[' G ] ( L )") : group_scope.
+  (format  "''L_[' G ] ( L )") : group_scope.
 Notation "''L_{' n } ( G )" := (Puig_at n G)
-  (at level 8, format "''L_{' n } ( G )") : group_scope.
-Notation "''L_*' ( G )" := (Puig_inf G)
-  (at level 8, format "''L_*' ( G )") : group_scope.
-Notation "''L' ( G )" := (Puig G)
-  (at level 8, format "''L' ( G )") : group_scope.
+  (format "''L_{' n } ( G )") : group_scope.
+Notation "''L_*' ( G )" := (Puig_inf G) (format "''L_*' ( G )") : group_scope.
+Notation "''L' ( G )" := (Puig G) (format "''L' ( G )") : group_scope.
 
 Section BGsection1.
 
@@ -1250,7 +1246,7 @@ End PuigSeriesGroups.
 
 Notation "''L_[' G ] ( L )" := (Puig_succ_group G L) : Group_scope.
 Notation "''L_{' n } ( G )" := (Puig_at_group n G)
-  (at level 8, format "''L_{' n } ( G )") : Group_scope.
+  (format "''L_{' n } ( G )") : Group_scope.
 Notation "''L_*' ( G )" := (Puig_inf_group G) : Group_scope.
 Notation "''L' ( G )" := (Puig_group G) : Group_scope.
 
