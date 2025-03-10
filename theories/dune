@@ -1,0 +1,8 @@
+(coq.theory
+ (name odd_order)
+ (package coq-mathcomp-odd-order)
+ (theories mathcomp.solvable mathcomp.character)
+ (flags
+   -w -ambiguous-paths
+   -w -deprecated-syntactic-definition
+   -w -notation-overridden))
