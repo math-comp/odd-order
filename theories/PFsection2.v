@@ -582,7 +582,7 @@ rewrite big1 ?add0r => [|x /andP[calAx not_nBaLx]]; last first.
   by apply/pred0Pn; exists g; apply/andP.
 rewrite (partition_big fBg (mem nBaL)) /= => [|x]; last by case/andP.
 apply: eq_bigr => b; case/setIP=> Nb aLb; rewrite mulr_natr -sumr_const.
-apply: eq_big => x; rewrite ![x \in _]inE -!andbA.
+apply: eq_big => x; rewrite ![_ \in calA _ _]inE -!andbA.
   apply: andb_id2l=> Gx; apply/and3P/idP=> [[Mgx _] /eqP <- | HBb_gx].
     by rewrite mem_rcoset mem_divgr ?mulHNB.
   suffices ->: fBg x = b.
