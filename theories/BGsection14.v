@@ -1326,7 +1326,7 @@ Theorem Ptype_embedding M K :
                 {in Kstar^#, forall y, 'C_Mstar[y] = Z}
               & {in K^# & Kstar^#, forall x y, 'C[x * y] = Z}]
 & [/\ (*e*) [/\ normedTI Zhat G Z, {in ~: M, forall g, [disjoint Zhat & M :^ g]}
-              & (#|G|%:R / 2%:R < #|class_support Zhat G|%:R :> rat)%R ],
+              & (#|G|%:R / 2 < #|class_support Zhat G|%:R :> rat)%R ],
       (*f*) M \in 'M_'P2 /\ prime #|K| \/ Mstar \in 'M_'P2 /\ prime #|Kstar|,
       (*g*) {in 'M_'P, forall H, gval H \in M :^: G :|: Mstar :^: G}
     & (*h*) M^`(1) ><| K = M]].
@@ -1768,7 +1768,7 @@ have hallKs: \sigma(M).-Hall(Mstar) Ks.
     by rewrite subsetI sYMs (subset_trans sYMstar) ?gFnorm.
   rewrite subsetI -{1}defKs_star subsetIl.
   by rewrite (subset_trans (pHall_sub hallK)) ?gFnorm.
-have oTGgt_g2: (g / 2%:R < #|TG|%:R)%R.
+have oTGgt_g2: (g / 2 < #|TG|%:R)%R.
   rewrite oTG big_setU1 //= /n defMNX big_set1 cards1 mulrC mul1r.
   rewrite ltr_pM2r ?(ltr_nat _ 0) ?cardG_gt0 //  /k_ K0 -defKs.
   rewrite /z -defZ -(dprod_card defNK) natrM invfM opprD.
@@ -1867,7 +1867,7 @@ split=> // [||H PmaxH].
 have [maxH _] := setDP PmaxH.
 have{maxH}[L hallL] := Hall_exists \kappa(H) (mmax_sol maxH).
 pose Ls := 'C_(H`_\sigma)(L); pose S := (L <*> Ls) :\: (L :|: Ls).
-have{IHn} oSGgt_g2: (g / 2%:R < #|class_support S G|%:R)%R.
+have{IHn} oSGgt_g2: (g / 2 < #|class_support S G|%:R)%R.
   have [|nTG_leS] := ltnP #|class_support S G| nTG.
     by case/IHn=> // Sstar _ [_ _ _ _ [[_ _ -> //]]].
   apply: lt_le_trans oTGgt_g2 _; rewrite ler_nat /TG -defZhat.
@@ -1875,7 +1875,7 @@ have{IHn} oSGgt_g2: (g / 2%:R < #|class_support S G|%:R)%R.
 have{oSGgt_g2 oTGgt_g2} meetST: ~~ [disjoint TG & class_support S G].
   rewrite -leq_card_setU; apply: contraTneq (leqnn #|G|) => tiTGS.
   rewrite -ltnNge -(ltr_nat rat) -/g.
-  rewrite -{1}[g](@divfK _ 2%:R) // mulr_natr.
+  rewrite -{1}[g](@divfK _ 2) // mulr_natr.
   apply: lt_le_trans (ltrD oTGgt_g2 oSGgt_g2) _.
   by rewrite -natrD -tiTGS ler_nat cardsT max_card.
 have{meetST} [x Tx [a Sx]]: exists2 x, x \in T & exists a, x \in S :^ a.

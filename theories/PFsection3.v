@@ -493,7 +493,7 @@ have ->: eval_cl m kvs = X.
   rewrite {}defX !big_map; apply: eq_big_seq => kv /clP[_ /eqP->].
   by rewrite scaler_int.
 rewrite -leC_nat -ltC_nat -eqC_nat /=.
-have <-: '[beta] = 3%:R by rewrite Dm // /dot_ref !eqxx.
+have <-: '[beta] = 3 by rewrite Dm // /dot_ref !eqxx.
 have <-: '[X] = norm%:R.
   rewrite {}defX {}/norm cfnorm_sum_orthonormal // {o1Aij oYij sAm}/Aij.
   transitivity (\sum_(kv <- kvs) `|kv.2%:~R : algC| ^+ 2).
@@ -930,7 +930,7 @@ move=> nzi nzj; rewrite alphaE -w_00 !cfdotDl !cfdotNl !cfdot_w.
 by rewrite !eqxx andbT /= (negPf nzi) (negPf nzj) addr0 !subr0.
 Qed.
 
-Let cfnorm_alpha i j : i != 0 -> j != 0 -> '[alpha_ i j] = 4%:R.
+Let cfnorm_alpha i j : i != 0 -> j != 0 -> '[alpha_ i j] = 4.
 Proof.
 move=> nzi nzj; rewrite -[4%N]/(size [:: 1; - w_ i 0; - w_ 0 j; w_ i j]).
 rewrite -cfnorm_orthonormal 3?big_cons ?big_seq1 ?addrA -?alphaE //.
@@ -1679,7 +1679,7 @@ Qed.
 (* Another consequence of (3.8), used in (4.8), (10.5), (10.10) and (11.8). *)
 Lemma eq_signed_sub_cTIiso phi e i j1 j2 :
     let rho := (-1) ^+ e *: (eta_ i j1 - eta_ i j2) in
-    phi \in 'Z[irr G] -> '[phi] = 2%:R -> j1 != j2 ->
+    phi \in 'Z[irr G] -> '[phi] = 2 -> j1 != j2 ->
   {in V, phi =1 rho} -> phi = rho.
 Proof.
 set rho := _ - _; move: phi => phi0 /= Zphi0 n2phi0 neq_j12 eq_phi_rho.
@@ -1687,9 +1687,9 @@ pose phi := (-1) ^+ e *: phi0; pose psi := phi - rho.
 have{eq_phi_rho} psiV0 z: z \in V -> psi z = 0.
   by move=> Vz; rewrite !cfunE eq_phi_rho // !cfunE signrMK subrr.
 have{Zphi0} Zphi: phi \in 'Z[irr G] by rewrite rpredZsign.
-have{n2phi0} n2phi: '[phi] = 2%:R by rewrite cfnorm_sign.
+have{n2phi0} n2phi: '[phi] = 2 by rewrite cfnorm_sign.
 have Zrho: rho \in 'Z[irr G] by rewrite rpredB ?cycTIiso_vchar.
-have n2rho: '[rho] = 2%:R.
+have n2rho: '[rho] = 2.
   by rewrite cfnormBd !cfdot_cycTIiso ?eqxx ?(negPf neq_j12) ?andbF.
 have [oIphi _ Dphi] := dirr_small_norm Zphi n2phi isT.
 have [oIrho _ Drho] := dirr_small_norm Zrho n2rho isT.

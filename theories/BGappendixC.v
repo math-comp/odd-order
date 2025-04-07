@@ -237,7 +237,7 @@ have [_ /(mem_dprod defQ)[z [y [/setIP[_ cP0z] QP0y -> _]]]] := nU_P0Q.
 by rewrite conjsgM (normsP (cent_sub P0)) //; exists y.
 Qed.
 
-Let E := [set x : galF | Nm x == 1 & Nm (2%:R - x) == 1].
+Let E := [set x : galF | Nm x == 1 & Nm (2 - x) == 1].
 
 Let E_1 : 1 \in E.
 Proof. by rewrite !inE -addrA subrr addr0 galNorm1 eqxx. Qed.
@@ -246,7 +246,7 @@ Proof. by rewrite !inE -addrA subrr addr0 galNorm1 eqxx. Qed.
 Let Einv_gt1_le_pq : E = [set x^-1 | x in E] -> (1 < #|E|)%N -> (p <= q)%N.
 Proof.
 rewrite (cardsD1 1) E_1 ltnS card_gt0 => Einv /set0Pn[/= a /setD1P[not_a1 Ea]].
-pose tau (x : F) := (2%:R - x)^-1.
+pose tau (x : F) := (2 - x)^-1.
 have Etau x: x \in E -> tau x \in E.
   rewrite inE => Ex; rewrite Einv (imset_f (fun y => y^-1)) //.
   by rewrite inE andbC opprD addNKr opprK.
@@ -376,7 +376,7 @@ have [q_gt4 | q_le4] := ltnP 4 q.
     by rewrite ltn_sub2l ?(ltn_exp2l 0) // prime_gt1.
   rewrite -mulrDr -natrX -expnM muln2 -subn1 doubleB -addnn -addnBA // subn2.
   rewrite expnD natrM -oP ler_wpM2l ?ler0n //.
-  apply: le_trans (_ : 2%:R * sqrtC #|P|%:R <= _).
+  apply: le_trans (_ : 2 * sqrtC #|P|%:R <= _).
     rewrite mulrDl mul1r lerD2l -(@expr_ge1 _ 2) ?(ltW sqrtP_gt0) // sqrtCK.
     by rewrite oP natrX expr_ge1 ?ler0n ?ler1n.
   rewrite -ler_sqr ?rpredM ?rpred_nat ?qualifE ?(ltW sqrtP_gt0) //.
@@ -385,10 +385,9 @@ have [q_gt4 | q_le4] := ltnP 4 q.
   by rewrite ?leq_exp2l // !doubleS !ltnS -addnn leq_addl.
 have q3: q = 3%N by apply/eqP; rewrite eqn_leq qgt2 andbT -ltnS -(odd_ltn 5).
 rewrite (cardsD1 1) E_1 ltnS card_gt0; apply/set0Pn => /=.
-pose f (c : 'F_p) : {poly 'F_p} := 'X * ('X - 2%:R%:P) * ('X - c%:P) + ('X - 1).
+pose f (c : 'F_p) : {poly 'F_p} := 'X * ('X - 2%:P) * ('X - c%:P) + ('X - 1).
 have fc0 c: (f c).[0] = -1 by rewrite !hornerE /= !hornerE; apply/val_inj.
-have fc2 c: (f c).[2%:R] = 1.
-  by rewrite !(subrr, hornerE) /= addrK; apply/val_inj.
+have fc2 c: (f c).[2] = 1 by rewrite !(subrr, hornerE) /= addrK; apply/val_inj.
 have /existsP[c nz_fc]: [exists c, ~~ [exists d, root (f c) d]].
   have nz_f_0 c: ~~ root (f c) 0 by rewrite /root fc0 oppr_eq0.
   rewrite -negb_forall; apply/negP=> /'forall_existsP/fin_all_exists[/= rf rfP].
@@ -400,7 +399,7 @@ have /existsP[c nz_fc]: [exists c, ~~ [exists d, root (f c) d]].
   rewrite mulf_neq0 ?subr_eq0 1?(contraTneq _ (rfP a)) // => -> //.
   by rewrite /root fc2.
 have{nz_fc} /= nz_fc: ~~ root (f c) _ by apply/forallP; rewrite -negb_exists.
-have sz_fc_lhs: size ('X * ('X - 2%:R%:P) * ('X - c%:P)) = 4%N.
+have sz_fc_lhs: size ('X * ('X - 2%:P) * ('X - c%:P)) = 4%N.
   by rewrite !(size_mul, =^~ size_poly_eq0) ?size_polyX ?size_XsubC.
 have sz_fc: size (f c) = 4%N by rewrite size_addl ?size_XsubC sz_fc_lhs.
 have irr_fc: irreducible_poly (f c) by apply: cubic_irreducible; rewrite ?sz_fc.
@@ -448,7 +447,7 @@ exists a; rewrite !inE; apply/and3P; split.
     rewrite DfcF horner_prod -prodrN; apply: eq_bigr => beta _.
     by rewrite rmorph0 hornerXsubC add0r opprK.
   by rewrite -signr_odd mulr_sign oG horner_map fc0 rmorphN1 opprK.
-apply/eqP; transitivity (fcF.[inF 2%:R]); last by rewrite horner_map fc2 rmorph1.
+apply/eqP; transitivity (fcF.[inF 2]); last by rewrite horner_map fc2 rmorph1.
 rewrite DfcF horner_prod; apply: eq_bigr => beta _.
 by rewrite hornerXsubC rmorphB !rmorph_nat.
 Qed.
@@ -615,7 +614,7 @@ suffices EpsiV a: a \in U -> psi a \in E -> psi (a^-1 ^ t ^+ 3) \in E.
   rewrite -(odd_double_half #|P|) odd_P addnC.
   elim: _./2 => [|n /EpsiV/EpsiV/=]; first by rewrite EpsiV -?Dx.
   by rewrite conjVg invgK -!conjgM -!expgD -!mulnSr !(groupV, nUtn) //; apply.
-move=> Ua Ea; have{Ea} [b Ub Dab]: exists2 b, b \in U & psi a + psi b = 2%:R.
+move=> Ua Ea; have{Ea} [b Ub Dab]: exists2 b, b \in U & psi a + psi b = 2.
   case/setIdP: Ea => _; rewrite -im_psi => /imsetP[b Ub Db]; exists b => //.
   by rewrite -Db addrC subrK.
 (* In the book k is arbitrary in Fp; however only k := 3 is used. *)

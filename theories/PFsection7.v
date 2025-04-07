@@ -351,7 +351,7 @@ Lemma Dade_Ind1_sub_lin (nu : {additive 'CF(L) -> 'CF(G)}) zeta :
       (*a2*) [/\ orthogonal calSnu Gamma, '[Gamma, 1] = 0
              & exists2 a, a \in Num.int
              & beta = 1 - nu zeta + a *: sumSnu + Gamma]
-    & (*b*) e <= (h - 1) / 2%:R ->
+    & (*b*) e <= (h - 1) / 2 ->
             '[(nu zeta)^\rho] >= 1 - e / h /\ '[Gamma] <= e - 1
     & (*c*) {in irr G, forall chi : 'CF(G), orthogonal calSnu chi ->
         [/\ {in A, forall x, chi^\rho x = '[beta, chi]}
@@ -477,7 +477,7 @@ split=> // [ | chi /irrP[t def_chi] o_chiSnu].
     by rewrite -mulrN -sqrrN addr_ge0 ?(u_ge0, mulr_ge0) ?oppr_ge0 ?ler0n.
   rewrite -real_ltNge ?Rreal_int // lt_def => /andP[].
   move/(norm_intr_ge1 Za)=> a_ge1 a_ge0; rewrite mulrA -mulrBl.
-  rewrite (normr_idP _) // -(@mulVf _ 2%:R) ?pnatr_eq0 // in a_ge1.
+  rewrite (normr_idP _) // -(@mulVf _ 2) ?pnatr_eq0 // in a_ge1.
   rewrite mulr_ge0 // subr_ge0 (le_trans _ (ler_wpM2l u_ge0 a_ge1)) // mulrA.
   by rewrite ler_wpM2r ?ler0n // -(ler_pM2l L_gt0) mulrA Lu -eh mulfK.
 have Zchi: chi \in 'Z[irr G] by rewrite def_chi irr_vchar.
@@ -614,7 +614,7 @@ End DisjointDadeOrtho.
 (* A numerical fact used in Sections 7 and 14. *)
 Lemma odd_Frobenius_index_ler (R : numFieldType) (K L : {group gT}) :
     odd #|L| -> [Frobenius L with kernel K] ->
-  #|L : K|%:R <= (#|K|%:R - 1) / 2%:R :> R.
+  #|L : K|%:R <= (#|K|%:R - 1) / 2 :> R.
 Proof.
 move=> oddL /existsP[H frobL]; rewrite ler_pdivlMr ?ltr0n // lerBrDl.
 have ->: #|L : K| = #|H| by have [/index_sdprod] := Frobenius_context frobL.
@@ -644,7 +644,7 @@ Hypothesis k_ge2: (k >= 2)%N.
 (*c*) Hypothesis card_coprime : forall i j, i != j -> coprime #|H i| #|H j|.
 
 (* A numerical fact that is used in both (7.10) and (7.11) *)
-Let e_bounds i : 1 < e_ i /\ e_ i <= (h_ i - 1) / 2%:R.
+Let e_bounds i : 1 < e_ i /\ e_ i <= (h_ i - 1) / 2.
 Proof.
 have [/oddSg/(_ oddG)oddL _ frobL] := frobeniusL_G i.
 rewrite ltr1n odd_Frobenius_index_ler ?(FrobeniusWker frobL) //.
@@ -653,7 +653,7 @@ Qed.
 
 (* This is Peterfalvi (7.10). *)
 Lemma coherent_Frobenius_bound : exists i, let e := e_ i in let h := h_ i in
-  (e - 1) * ((h - 2%:R * e - 1) / (e * h) + 2%:R / (h * (h + 2%:R)))
+  (e - 1) * ((h - 2 * e - 1) / (e * h) + 2 / (h * (h + 2)))
      <= (#|G0|%:R - 1) / #|G|%:R.
 Proof.
 have [sLG solL frobL] := all_and3 frobeniusL_G.
@@ -708,7 +708,7 @@ have h_gt1 i: 1 < h_ i by rewrite ltr1n cardG_gt1.
 have eh i: e_ i * h_ i = #|L i|%:R by rewrite -natrM mulnC Lagrange.
 have def_h1 i: h_ i - 1 = #|A i|%:R.
   by rewrite /h_ (cardsD1 1%g) group1 addnC natrD addrK.
-have [i1 min_i1]: {i1 | forall i, i != i1 -> h_ i1 + 2%:R <= h_ i}.
+have [i1 min_i1]: {i1 | forall i, i != i1 -> h_ i1 + 2 <= h_ i}.
   exists [arg min_(i < Ordinal k_ge2) #|H i|].
   case: fintype.arg_minnP => // i1 _ min_i1.
   have oddH i: #|H i| = #|H i|./2.*2.+1.
@@ -718,9 +718,9 @@ have [i1 min_i1]: {i1 | forall i, i != i1 -> h_ i1 + 2%:R <= h_ i}.
   apply: contraTneq (card_coprime neq_i) => eqHii1.
   by rewrite oddH -eqHii1 -oddH /coprime gcdnn -trivg_card1.
 exists i1 => e h; set lhs := (e - 1) * _.
-have nzh2: h + 2%:R != 0 by rewrite -natrD addnC pnatr_eq0.
-have{lhs} ->: lhs = 1 - e / h - (h - 1) / (e * h) - (e - 1) / (h + 2%:R).
-  rewrite {}/lhs -{2}(addrK h 2%:R) !invfM (mulrBl _ _ h) mulVKf ?nzh //.
+have nzh2: h + 2 != 0 by rewrite -natrD addnC pnatr_eq0.
+have{lhs} ->: lhs = 1 - e / h - (h - 1) / (e * h) - (e - 1) / (h + 2).
+  rewrite {}/lhs -{2}(addrK h 2) !invfM (mulrBl _ _ h) mulVKf ?nzh //.
   rewrite addrCA (addrC _ h) mulrCA mulrA addrA mulrBr; congr (_ - _).
   rewrite mulfK // mulrDr addrAC [LHS]addrC mulrC mulrBl -mulrA mulVKf ?nze //.
   rewrite mulrC mulrBr mulrBl mul1r [X in X + _]addrAC addrC addrA.
@@ -736,7 +736,7 @@ have [_ lt_e_h2] := e_bounds i1; rewrite -/(rho _) -/(h_ _) -/h.
 case/(_ lt_e_h2)=> min_rho1 maxGamma _ {lt_e_h2}.
 pose calB := [set i | (i != i1) && (c i i1 == 0)].
 pose sumB := \sum_(i in calB) (h_ i - 1) / (e_ i * h_ i).
-suffices{min_rho1} sumB_max: sumB <= (e - 1) / (h + 2%:R).
+suffices{min_rho1} sumB_max: sumB <= (e - 1) / (h + 2).
   rewrite -subr_ge0 opprB addrCA -[_ / _ - _]opprB subr_ge0.
   apply: le_trans sumB_max.
   rewrite -subr_ge0 opprB addrCA -(opprB _ sumB) subr_ge0.
@@ -824,7 +824,7 @@ have [i] := coherent_Frobenius_bound; apply: contraTneq => ->.
 have [] := e_bounds i; set e := e_ i; set h := h_ i => e_gt1 le_e_h2.
 rewrite cards1 subrr mul0r lt_geF // pmulr_rgt0 ?subr_gt0 // ltr_wpDl //.
   rewrite ?(mulr_ge0, invr_ge0) ?ler0n // addrAC subr_ge0.
-  by rewrite -[_ - 1](@divfK _ 2%:R) ?pnatr_eq0 // mulrC ler_wpM2r ?ler0n.
+  by rewrite -[_ - 1](@divfK _ 2) ?pnatr_eq0 // mulrC ler_wpM2r ?ler0n.
 by rewrite -natrD addnC ?(pmulr_rgt0, invr_gt0) ?ltr0n.
 Qed.
 

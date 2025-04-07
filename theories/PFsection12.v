@@ -982,7 +982,7 @@ have norm_alpha: '[tauL_H alpha] = e%:R + 1.
   rewrite Dade_isometry ?(cfInd1_sub_lin_on _ Schi) ?De //.
   rewrite cfnormBd; last by rewrite cfdotC (seqInd_ortho_Ind1 _ _ Schi) ?conjC0.
   by rewrite cfnorm_Ind_cfun1 // De irrWnorm.
-pose h := #|H|; have ub_a: a ^+ 2 * ((h%:R - 1) / e%:R) - 2%:R * a <= e%:R - 1.
+pose h := #|H|; have ub_a: a ^+ 2 * ((h%:R - 1) / e%:R) - 2 * a <= e%:R - 1.
   rewrite -[h%:R - 1](mulKf (neq0CiG L H)) -sum_seqIndC1_square // De -/calS.
   rewrite -[lhs in lhs - 1](addrK 1) -norm_alpha -[tauL_H _](subrK 1).
   rewrite cfnormDd; last by rewrite cfdotBl tau_alpha_1 cfnorm1 subrr.
@@ -1002,7 +1002,7 @@ have [pr_p p_dv_M]: prime p /\ p %| #|M|.
   by rewrite mem_primes => /and3P[].
 have odd_p: odd p by rewrite (dvdn_odd p_dv_M) ?mFT_odd.
 have pgt2: (2 < p)%N := odd_prime_gt2 odd_p pr_p.
-have ub_e: e%:R <= (p%:R + 1) / 2%:R :> algC.
+have ub_e: e%:R <= (p%:R + 1) / 2 :> algC.
   rewrite ler_pdivlMr ?ltr0n // -natrM -mulrSr leC_nat muln2.
   have [b e_dv_pb]: exists b : bool, e %| (b.*2 + p).-1.
     by have [_ /orP[]] := Ecyclic_le_p; [exists false | exists true].
@@ -1013,7 +1013,7 @@ have ub_e: e%:R <= (p%:R + 1) / 2%:R :> algC.
 have lb_h: p%:R ^+ 2 <= h%:R :> algC.
   rewrite -natrX leC_nat dvdn_leq ?pfactor_dvdn ?cardG_gt0 //.
   by rewrite -prankP0 (leq_trans (p_rankS p sP0H)) ?p_rank_le_logn.
-have{ub_e} ub_a: p.-1.*2%:R * a ^+ 2 - 2%:R * a <= p.-1%:R / 2%:R :> algC.
+have{ub_e} ub_a: p.-1.*2%:R * a ^+ 2 - 2 * a <= p.-1%:R / 2 :> algC.
   apply: le_trans (le_trans ub_a _); last first.
     rewrite -subn1 -subSS natrB ?ltnS ?prime_gt0 // mulrSr mulrBl.
     by rewrite divff ?pnatr_eq0 ?lerD2r.
@@ -1026,11 +1026,11 @@ have a0: a = 0.
   apply: contraTeq ub_a => nz_a; rewrite lt_geF // ltr_pdivrMr ?ltr0n //.
   rewrite mulrC -{1}mulr_natl -muln2 natrM -mulrA mulrBr mulrCA ltrBrDl.
   rewrite -ltrBrDr -mulrBr mulr_natl mulrA -expr2 -exprMn.
-  apply: lt_le_trans (_ : 2%:R * ((a *+ 2) ^+ 2 - 1) <= _); last first.
+  apply: lt_le_trans (_ : 2 * ((a *+ 2) ^+ 2 - 1) <= _); last first.
     rewrite (mulr_natl a 2) ler_wpM2r // ?subr_ge0.
       by rewrite sqr_intr_ge1 ?rpredMn // mulrn_eq0.
     by rewrite leC_nat -subn1 ltn_subRL.
-  rewrite -(@ltr_pM2l _ 2%:R) ?ltr0n // !mulrA -expr2 mulrBr -exprMn mulr1.
+  rewrite -(@ltr_pM2l _ 2) ?ltr0n // !mulrA -expr2 mulrBr -exprMn mulr1.
   rewrite -natrX 2!mulrnAr -[in rhs in _ < rhs]mulrnAl -mulrnA.
   rewrite ltrBrDl -ltrBrDr -(ltrD2r 1) -mulrSr -sqrrB1.
   rewrite -intr_normK ?rpredB ?rpredM ?rpred_nat ?rpred1 //.
@@ -1228,7 +1228,7 @@ have{lb_psiM lb_psiL ub_rhoML ubM} ubK: (#|K / K'|%g < 4)%N.
     rewrite ler_pdivrMr ?gt0CG // ler_pdivlMl ?gt0CG //.
     by rewrite ler_pdivrMr ?gt0CG // mulrC -natrM leC_nat.
   rewrite -(ler_pM2l (gt0CG E)) -/e mulrA -expr2 invfM -exprMn.
-  apply: le_trans (_ : (1 + 2%:R^-1) ^+ 2 <= _).
+  apply: le_trans (_ : (1 + 2^-1) ^+ 2 <= _).
     rewrite ler_sqr ?rpred_div ?rpredD ?rpred1 ?rpredV ?rpred_nat //.
     rewrite -{1}(ltn_predK egt2) mulrSr mulrDl divff ?gt_eqF // lerD2l.
     rewrite ler_pdivrMr // ler_pdivlMl ?ltr0n //.

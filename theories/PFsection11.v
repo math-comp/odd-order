@@ -227,7 +227,7 @@ Lemma bounded_proper_coherent H1 :
     (#|HU : H1| <= 2 * q * #|U : C| + 1)%N.
 Proof.
 move=> nsH1_M psH1_M' cohH1; have [nsHHU _ _ _ _] := sdprod_context defHU.
-suffices: #|HU : H1|%:R - 1 <= 2%:R * #|M : HC|%:R * sqrtC #|HC : HC|%:R :> algC.
+suffices: #|HU : H1|%:R - 1 <= 2 * #|M : HC|%:R * sqrtC #|HC : HC|%:R :> algC.
   rewrite indexgg sqrtC1 mulr1 -leC_nat natrD -lerBlDr -mulnA natrM.
   congr (_ <= _ * _%:R); apply/eqP; rewrite -(eqn_pmul2l (cardG_gt0 HC)).
   rewrite Lagrange ?normal_sub // mulnCA -(dprod_card defHC) -mulnA mulnC.
@@ -884,18 +884,18 @@ have tau_alpha i: tau (alpha_ i j) = eta_ i j - eta_ i 0 - n *: zeta1.
     rewrite cfRes_cfun1 !cfdotBl deltaZ !cfdotZl -!/(mu2_ 0 _).
     rewrite -(prTIirr00 ptiWM) !cfdot_prTIirr cfdotC omu2S1 // conjC0 mulr0.
     by rewrite (negPf nz_j1) add0r subr0 subrr rpred0.
-  have nY: '[Y] = n * a * (a - 2%:R) + n ^+ 2. (* Resuming step (11.8.2). *)
+  have nY: '[Y] = n * a * (a - 2) + n ^+ 2. (* Resuming step (11.8.2). *)
     rewrite defY cfnormD cfnormN !cfnormZ cfdotNr cfdotZr.
     rewrite cfnorm_map_orthonormal // -Dn Itau1 ?mem_zchar ?n1S1 // mulr1.
     rewrite scaler_sumr cfproj_sum_orthonormal // rmorphN addrAC.
     rewrite Dn rmorphM/= !intr_normK ?rpred_nat // !rmorph_nat conj_intr // -Dn.
     by rewrite -mulr2n mulrC mulrA -[in LHS]mulr_natr mulNr -mulrBr.
-  have{a_even} Da: (a == 0) || (a == 2%:R). (* Second part of (11.8.2). *)
+  have{a_even} Da: (a == 0) || (a == 2). (* Second part of (11.8.2). *)
     suffices (b := a - 1): b ^+ 2 == 1.
       by rewrite -!(can_eq (subrK 1) a) add0r addrK orbC -eqf_sqr expr1n.
     have S1gt0: (0 < size S1)%N by case: (S1) S1zeta.
     have: n * b ^+ 2 <= n *+ 3.
-      have: 2%:R + n <= n *+ 3 by rewrite addrC lerD2l lerMn2r Dn ler1n.
+      have: 2 + n <= n *+ 3 by rewrite addrC lerD2l lerMn2r Dn ler1n.
       apply: le_trans; rewrite sqrrB1 -(mulr_natr a) -mulrBr mulrDr mulrA mulr1.
       rewrite lerD2r -(lerD2r (n ^+ 2 + '[X])) !addrA -nY -cfnormDd //.
       by rewrite -Dphi norm_FTtype345_bridge ?S1_1 // lerDl cfnorm_ge0.

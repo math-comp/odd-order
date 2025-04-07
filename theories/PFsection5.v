@@ -651,7 +651,7 @@ pose Zortho R := all (mem 'Z[irr G]) R && orthonormal R.
 have R chi: {R : 2.-tuple 'CF(G) | (chi \in S) ==> sum_beta chi R && Zortho R}.
   apply: sigW; case Schi: (chi \in S) => /=; last by exists [tuple 0; 0].
   move/(_ _ Schi) in Zbeta; have /irrP[i def_chi] := irrS _ Schi.
-  have: '[beta chi] = 2%:R.
+  have: '[beta chi] = 2.
     rewrite isoL // cfnormBd ?dotSS ?ccS ?eqxx // eq_sym -/(cfReal _).
     by rewrite (negPf (hasPn nrS _ _)).
   case/zchar_small_norm; rewrite ?(zcharW (Ztau _ _)) // => R [oR ZR sumR].
@@ -758,7 +758,7 @@ have oS1sigma phi: phi \in S1 -> orthogonal (R1 phi) (map sigma (irr W)).
     by move=> ? /sSS0/seqInd_vcharW.
   have NCpsi_le2: (NC (tau psi) <= 2)%N.
     have{Itau} [Itau Ztau] := Itau.
-    suff: '[tau psi] <= 2%:R by apply: cycTI_NC_norm; apply: zcharW (Ztau _ _).
+    suff: '[tau psi] <= 2 by apply: cycTI_NC_norm; apply: zcharW (Ztau _ _).
     rewrite Itau // cfnormBd; first by rewrite cfnorm_conjC Dphi cfnorm_irr.
     have /pairwise_orthogonalP[_ -> //] := orthoS; first exact: ccS.
     by rewrite eq_sym (hasPn nrS).
@@ -1124,7 +1124,7 @@ Lemma extend_coherent S1 xi1 chi :
     cfConjC_subset S1 S -> xi1 \in S1 -> chi \in S -> chi \notin S1 ->
     [/\ (*a*) coherent S1 L^# tau,
         (*b*) (xi1 1%g %| chi 1%g)%C
-      & (*c*) 2%:R * chi 1%g * xi1 1%g < \sum_(xi <- S1) xi 1%g ^+ 2 / '[xi]] ->
+      & (*c*) 2 * chi 1%g * xi1 1%g < \sum_(xi <- S1) xi 1%g ^+ 2 / '[xi]] ->
   coherent (chi :: chi^*%CF :: S1) L^# tau.
 Proof.
 move=> ccsS1S S1xi1 Schi notS1chi [[tau1 cohS1] xi1_dv_chi1 ub_chi1].
@@ -1210,7 +1210,7 @@ suffices lam0: lam = 0; last apply: contraFeq lb_2_lam_a => nz_lam.
 rewrite ltr_wpDr ?cfnorm_ge0 // -mulr2n -mulr_natl mulrCA.
 have xi11_gt0: xi1 1%g > 0 by rewrite char1_gt0 ?N_S ?sS1S -?cfnorm_eq0 ?nz_nS1.
 have a_gt0: a > 0 by rewrite -(ltr_pM2r xi11_gt0) mul0r -chi1 char1_gt0.
-apply: le_lt_trans (_ : lam ^+ 2 * (2%:R * a) < _).
+apply: le_lt_trans (_ : lam ^+ 2 * (2 * a) < _).
   by rewrite ler_pM2r ?mulr_gt0 ?ltr0n ?intr_ler_sqr.
 rewrite ltr_pM2l ?(lt_le_trans ltr01) ?sqr_intr_ge1 {lam Zlam nz_lam}//.
 rewrite -(ltr_pM2r xi11_gt0) -mulrA -chi1 -(ltr_pM2r xi11_gt0).
@@ -1528,7 +1528,7 @@ pose mu j := 'chi_j 1%g *: 'chi_i - 'chi_i 1%g *: 'chi_j.
 have ZAmu j: 'chi_j \in calS -> mu j \in 'Z[calS, L^#].
   move=> Sxj; rewrite zcharD1E !cfunE mulrC subrr.
   by rewrite rpredB //= scale_zchar ?sSZS // ?intr_nat ?Cnat_irr1.
-have Npsi j: 'chi_j \in calS -> '[tau1 'chi_j] = 1%:R.
+have Npsi j: 'chi_j \in calS -> '[tau1 'chi_j] = 1.
   by move=> Sxj; rewrite Itau1 ?sSZS ?cfnorm_irr.
 have{Npsi} Dtau1 Sxj := vchar_norm1P (Ztau1 _ (sSZS _ Sxj)) (Npsi _ Sxj).
 have [e [r tau1_chi]] := Dtau1 _ Schi; set eps := (-1) ^+ e in tau1_chi.
@@ -1590,7 +1590,7 @@ have Zphi: phi \in 'Z[irr L, A].
   by rewrite -(setU1K notA1) sub_conjC_vchar // zchar_split irr_vchar.
 have Zphi_tau: phi^\tau \in 'Z[irr G, G^#].
   by rewrite zchar_split Dade_cfun Dade_vchar ?Zphi.
-have norm_phi_tau : '[phi^\tau] = 2%:R.
+have norm_phi_tau : '[phi^\tau] = 2.
   rewrite Dade_isometry ?(zchar_on Zphi) // cfnormB -conjC_IirrE.
   by rewrite !cfdot_irr !eqxx eq_sym (negPf notRchi) add0r rmorph0 subr0.
 have [j [k ne_kj phi_tau]] := vchar_norm2 Zphi_tau norm_phi_tau.

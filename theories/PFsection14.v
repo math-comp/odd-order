@@ -993,7 +993,7 @@ have lb_rho: 1 - pq / k%:R <= '[rho (tau1M psi)].
   rewrite odd_Frobenius_index_ler ?mFT_odd // => -[_ _ [|/(le_trans _)->] //].
   by rewrite lerD2l lerN2 ler_pM2r ?invr_gt0 ?gt0CG // leC_nat.
 have{rho sumG0 sumG0_diff ub_rho lb_rho} []:
-  ~ pq / k%:R + 2%:R / pq + (u * q)%:R^-1 + (v * p)%:R^-1 < p%:R^-1 + q%:R^-1.
+  ~ pq / k%:R + 2 / pq + (u * q)%:R^-1 + (v * p)%:R^-1 < p%:R^-1 + q%:R^-1.
 - rewrite le_gtF // -!addrA -lerBlDl -lerBrDl -(lerD2l 1).
   apply: le_trans {ub_rho lb_rho}(le_trans lb_rho ub_rho) _.
   rewrite /sumG0_diff -!addnA natrD opprD [in leLHS]addrA mulrBr opprB.
@@ -1013,7 +1013,7 @@ have{rho sumG0 sumG0_diff ub_rho lb_rho} []:
   by rewrite addrACA -opprB opprK.
 rewrite -!addrA ler_ltD //; last first.
   pose q2 : algC := (q ^ 2)%:R.
-  apply: lt_le_trans (_ : 2%:R / q2 + (2%:R * q2)^-1 *+ 2 <= _); last first.
+  apply: lt_le_trans (_ : 2 / q2 + (2 * q2)^-1 *+ 2 <= _); last first.
     rewrite addrC -[_ *+ 2]mulr_natl invfM mulVKf ?pnatr_eq0 //.
     rewrite mulr_natl -mulrS -[leLHS]mulr_natl [q2]natrM.
     by rewrite ler_pdivrMr ?mulr_gt0 ?gt0CG // mulKf ?neq0CG ?leC_nat.

@@ -140,8 +140,7 @@ by rewrite cfdotZl [d in _ * d]cfdotC Cmu rmorph0 mulr0.
 Qed.
 
 Let vchar_isometry_base3 f f' : 
-  f \in 'Z[irr G, G^#] -> '[f]_G = 2%:R ->
-  f' \in 'Z[irr G, G^#] -> '[f']_G = 2%:R ->
+  f \in 'Z[irr G, G^#] -> '[f]_G = 2 -> f' \in 'Z[irr G, G^#] -> '[f']_G = 2 ->
   '[f, f'] = 1 ->
    exists es : _ * bool, let: (i, j, k, epsilon) := es in
      [/\  f = (-1) ^+ epsilon *: ('chi_j - 'chi_i),
@@ -206,7 +205,7 @@ pose F i j := chi i - chi j.
 have DF i j : F i j =  F i 0 - F j 0 by rewrite /F opprB addrA subrK.
 have ZF i j: F i j \in 'Z[Chi, L].
   by rewrite zchar_split rpredB ?mem_zchar // DF memvB // /F !chiE.
-have htau2 i j: i != j -> '[tau (F i j)] = 2%:R.
+have htau2 i j: i != j -> '[tau (F i j)] = 2.
   rewrite iso_tau // cfnormB -cfdotC !dot_chi !eqxx eq_sym => /negbTE->.
   by rewrite -!natrD subr0.
 have htau1 i j: j != 0 -> j != i -> i != 0 -> '[tau (F i 0), tau (F j 0)] = 1.
