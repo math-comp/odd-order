@@ -312,8 +312,7 @@ Local Notation Zalpha_tau := vchar_Dade_FTtype345_bridge.
 (* This covers the last paragraph in the proof of (10.5); it's isolated here  *)
 (* because it is reused in the proof of (10.10) and (11.8).                   *)
 
-Lemma norm_FTtype345_bridge i j :
-  j != 0 -> '[(alpha_ i j)^\tau] = 2%:R + n ^+ 2.
+Lemma norm_FTtype345_bridge i j : j != 0 -> '[(alpha_ i j)^\tau] = 2 + n ^+ 2.
 Proof.
 move=> nz_j; rewrite Dade_isometry ?alpha_on // cfnormBd ?cfnormZ; last first.
   by rewrite cfdotZr cfdotBl cfdotZl !o_mu2_zeta !(mulr0, subr0).
@@ -337,7 +336,7 @@ have [[_ Ddelta _ Nn] [[Itau1 Ztau1] _]] := (FTtype345_constants, cohS1).
 have [|z Zz defY] := zchar_expansion _ S1_Y.
   rewrite map_inj_in_uniq; first by case: sS10.
   by apply: sub_in2 (Zisometry_inj Itau1); apply: mem_zchar.
-have nX_2: '[X] = 2%:R.
+have nX_2: '[X] = 2.
   apply: (addrI '[Y]); rewrite -cfnormDd // addrC -Dalpha norm_alpha //.
   by rewrite addrC nY_n2.
 have Z_X: X \in 'Z[irr G].
@@ -417,7 +416,7 @@ have al_ij_zeta_s: '[al_ij^\tau, zeta^*^\tau1] = a.
 have Zal_ij: al_ij^\tau \in 'Z[irr G] by apply: Zalpha_tau.
 have Za: a \in Num.int.
   by rewrite rpredD ?(intr_nat Nn) ?Cint_cfdot_vchar ?Ztau1 ?(mem_zchar Szeta).
-have{al_ij_zeta_s} ub_da2: (d ^ 2)%:R * a ^+ 2 <= (2%:R + n ^+ 2) * w1%:R.
+have{al_ij_zeta_s} ub_da2: (d ^ 2)%:R * a ^+ 2 <= (2 + n ^+ 2) * w1%:R.
   have [k nz_k j'k]: exists2 k, k != 0 & k != j.
     have:= w2gt2; rewrite -nirrW2 (cardD1 0) (cardD1 j) !inE nz_j !ltnS lt0n.
     by case/pred0Pn=> k /and3P[]; exists k.
@@ -431,7 +430,7 @@ have{al_ij_zeta_s} ub_da2: (d ^ 2)%:R * a ^+ 2 <= (2%:R + n ^+ 2) * w1%:R.
     rewrite !(cfdot_prTIirr_red pddM) cfdotC o_mu_zeta conjC0 !mulr0 mulr1.
     by rewrite 2![_ == k](negPf _) 1?eq_sym // mulr0 -mulrN opprB !subr0 add0r.
   have ZSmuk: mu_ k \in 'Z[calS] by rewrite mem_zchar ?calSmu.
-  have <-: '[al_ij^\tau] * '[(mu_ k)^\tau1] = (2%:R + n ^+ 2) * w1%:R.
+  have <-: '[al_ij^\tau] * '[(mu_ k)^\tau1] = (2 + n ^+ 2) * w1%:R.
     by rewrite Itau1 // cfdot_prTIred eqxx mul1n norm_alpha.
   by rewrite -intr_normK ?cfCauchySchwarz // Cint_cfdot_vchar // Ztau1.
 suffices a0 : a = 0.
@@ -460,7 +459,7 @@ apply: le_lt_trans (_ : n ^+ 2 * (w1%:R - 1) < _).
 rewrite -(ltr_pM2l (gt0CG W1)) -/w1 2!mulrBr mulr1 mulrCA -exprMn.
 rewrite mulrDr ltrBlDl addrCA -mulrDr mulrCA mulrA -ltrBlDl.
 rewrite -mulrBr mulNr opprK divfK ?neq0CG // mulr_natr addrA subrK -subr_sqr.
-rewrite sqrr_sign mulrC [_ + 2%:R]addrC (lt_le_trans _ ub_da2) //.
+rewrite sqrr_sign mulrC [_ + 2]addrC (lt_le_trans _ ub_da2) //.
 apply: lt_le_trans (ler_wpM2l (ler0n _ _) a2_ge1).
 by rewrite mulr1 ltrBlDl -mulrS -natrX ltC_nat.
 Qed.
@@ -777,14 +776,14 @@ rewrite cards1 natrB ?addn_gt0 ?cardG_gt0 // addnC natrD -addrA mulrDl mulrBl.
 rewrite {1}mulnC !natrM !invfM !mulVKf ?natrG_neq0 // opprD -addrA lerD2l.
 rewrite mul1r -{1}[_^-1]mul1r addrC lerNr [- _]opprB -!mulrBl.
 rewrite -addrA -opprD ler_pdivlMr; last by rewrite natrG_gt0.
-apply: le_trans (_ : 1 - (3%:R^-1 + 7%:R^-1) <= _); last first.
+apply: le_trans (_ : 1 - (3^-1 + 7^-1) <= _); last first.
   rewrite lerD2l lerN2.
   rewrite lerD // lef_pV2 ?qualifE/= ?gt0CG ?ltr0n ?ler_nat //.
   have notStype5: FTtype S != 5%N by rewrite (eqP Stype2).
   have frobUW2 := Ptype_compl_Frobenius maxS StypeP notStype5.
   apply: leq_ltn_trans (ltn_odd_Frobenius_ker frobUW2 (mFT_odd _)).
   by rewrite (leq_double 3).
-apply: le_trans (_ : 2%:R^-1 <= _); last by rewrite -!CratrE; compute.
+apply: le_trans (_ : 2^-1 <= _); last by rewrite -!CratrE; compute.
 rewrite mulrAC ler_pdivrMr 1?gt0CG // ler_pdivlMl ?ltr0n //.
 rewrite -!natrM ler_nat mulnA -(Lagrange (normal_sub nsM''M')) mulnC leq_mul //.
   by rewrite subset_leq_card //; have [_ _ _ []] := MtypeP.
@@ -964,7 +963,7 @@ have [j nz_j] := has_nonprincipal_irr ntW2.
 have [Dmu2_1 Ddelta_ lt1d Nn] := FTtype345_constants.
 have{lt1d} [defS szS1 Dd Ddel Dn]:
         [/\ perm_eq calS (S1 ++ S2), size S1 = (p ^ 2 - 1) %/ w1,
-            d = p, delta = -1 & n = 2%:R].
+            d = p, delta = -1 & n = 2].
 - pose X_ (S0 : seq 'CF(M)) := [set s | 'Ind[M, H] 'chi_s \in S0].
   pose sumX_ cS0 := \sum_(s in X_ cS0) 'chi_s 1%g ^+ 2.
   have defX1: X_ S1 = Iirr_kerD H H H'.
@@ -1076,17 +1075,17 @@ have Dalpha i (al_ij := alpha_ i j) :
       by rewrite Da_z' // intr_normK.
     rewrite big_tnth sumr_const card_ord size_rem ?map_f // size_map.
     by rewrite mulr_natl subn1.
-  have{lb_n2alij} ub_a2: (size S1)%:R * a ^+ 2 <= 2%:R * a * n + 2%:R.
+  have{lb_n2alij} ub_a2: (size S1)%:R * a ^+ 2 <= 2 * a * n + 2.
     rewrite norm_alpha // addrC sqrrB !addrA lerD2r in lb_n2alij.
     rewrite mulr_natl -mulrSr lerBlDl subn1 in lb_n2alij.
     by rewrite -mulrA !mulr_natl; case: (S1) => // in S1zeta lb_n2alij *.
-  have{ub_a2} ub_8a2: 8%:R * a ^+ 2 <= 4%:R * a + 2%:R.
+  have{ub_a2} ub_8a2: 8 * a ^+ 2 <= 4 * a + 2.
     rewrite mulrAC Dn -natrM in ub_a2; apply: le_trans ub_a2.
     rewrite -intr_normK // ler_wpM2r ?exprn_ge0 ?normr_ge0 // leC_nat szS1.
     rewrite (subn_sqr p 1) def_p_w1 subnK ?muln_gt0 // mulnA mulnK // mulnC.
     by rewrite -subnDA -(mulnBr 2%N _ 1%N) mulnA (@leq_pmul2l 4 2) ?ltn_subRL.
-  have Z_4a1: 4%:R * a - 1%:R \in Num.int by rewrite rpredB ?rpredM ?rpred_nat.
-  have{ub_8a2} ub_4a1: `|4%:R * a - 1| < 3%:R.
+  have Z_4a1: 4 * a - 1 \in Num.int by rewrite rpredB ?rpredM ?rpred_nat/=.
+  have{ub_8a2} ub_4a1: `|4 * a - 1| < 3.
     rewrite -ltr_sqr ?rpred_nat ?qualifE/= ?normr_ge0 // -natrX intr_normK //.
     rewrite sqrrB1 exprMn -natrX -mulrnAl -mulrnA (natrD _ 8 1) ltrD2r.
     rewrite (natrM _ 2 4) (natrM _ 2 8) -!mulrA -mulrBr ltr_pM2l ?ltr0n //.

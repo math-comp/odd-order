@@ -80,7 +80,7 @@ Lemma coherent_seqIndD_bound (A B C D : {group gT}) :
   (*a*) [/\ A \proper K, B \subset D, D \subset C, C \subset K
           & D / B \subset 'Z(C / B)]%g ->
   (*b*) coherent (S A) L^# tau -> \unless coherent (S B) L^# tau,
-  #|K : A|%:R - 1 <= 2%:R * #|L : C|%:R * sqrtC #|C : D|%:R :> algC.
+  #|K : A|%:R - 1 <= 2 * #|L : C|%:R * sqrtC #|C : D|%:R :> algC.
 Proof.
 move=> [nsAL nsBL nsCL nsDL] [ltAK sBD sDC sCK sDbZC] cohA.
 have sBC := subset_trans sBD sDC; have sBK := subset_trans sBC sCK.
@@ -152,7 +152,7 @@ have ltAH: A \proper H.
   by rewrite properEneq sAH (contraTneq _ lbHA) // => ->; rewrite indexgg addn1.
 set x : algC := sqrtC #|H : A|%:R.
 have [nz_x x_gt0]: x != 0 /\ 0 < x by rewrite gt_eqF sqrtC_gt0 gt0CiG.
-without loss{cohA} ubKA: / #|K : A|%:R - 1 <= 2%:R * #|L : H|%:R * x.
+without loss{cohA} ubKA: / #|K : A|%:R - 1 <= 2 * #|L : H|%:R * x.
   have [sAK ltAK] := (subset_trans sAH sHK, proper_sub_trans ltAH sHK).
   exact: coherent_seqIndD_bound id.
 suffices{lbHA}: (x - x^-1) ^+ 2 <= (2 * #|L : K|)%:R ^+ 2.
@@ -713,7 +713,7 @@ have oYtau: orthonormal (map tau1 Y) by apply: map_orthonormal.
 have [[_ oYY] [_ oYYt]] := (orthonormalP oY, orthonormalP oYtau).
 have [eta1 Yeta1]: {eta1 | eta1 \in Y} by apply: seqIndD_nonempty.
 pose m : algC := (size Y)%:R; pose m_ub2 a := (a - 1) ^+ 2 + (m - 1) * a ^+ 2.
-have m_ub2_lt2 a: a \in Num.int -> m_ub2 a < 2%:R ->
+have m_ub2_lt2 a: a \in Num.int -> m_ub2 a < 2 ->
                   a = 0 \/ a = 1 /\ size Y = 2%N.
   move=> Za ub_a; have [|nza] := eqVneq a 0; [by left | right].
   have ntY: (1 < size Y)%N by apply: seqInd_nontrivial Yeta1.
@@ -873,7 +873,7 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
     rewrite addrC cfnormB !cfnormZ intr_normK ?norm_natr // cfdotZr.
     rewrite cfnorm_map_orthonormal // -/m linear_sum cfproj_sum_orthonormal //.
     by rewrite oYYt ?map_f // eqxx mulr1 rmorphM/= conjCK aut_natr ?aut_intr.
-  have{norm_tau_psi1} mq2_lt2: m_ub2 q < 2%:R.
+  have{norm_tau_psi1} mq2_lt2: m_ub2 q < 2.
     suffices a2_gt1: a ^+ 2 > 1.
       have /ltr_pM2l <-: a ^+ 2 > 0 by apply: lt_trans a2_gt1.
       rewrite -(ltrD2l '[X1]) -norm_tau_psi1 ltr_wpDl ?cfnorm_ge0 //.
@@ -1057,8 +1057,8 @@ have{caseA_cohXY Itau1 Ztau1 Dtau1 oYYt} cohXY: coherent (X ++ Y) L^# tau.
       rewrite -oW1 (card_isog (quotient_isog nZW1 tiZW1)) -card_quotient //.
       rewrite dvdn_leq ?(Frobenius_dvd_ker1 frobL2) // -subn1 subn_gt0.
       by rewrite cardG_gt1; case/Frobenius_context: frobL2.
-    have{ub_norm_gamma} ub_xm: m_ub2 x < 2%:R.
-      have: '[Y1] < 2%:R.
+    have{ub_norm_gamma} ub_xm: m_ub2 x < 2.
+      have: '[Y1] < 2.
         rewrite -2!(ltr_pM2l (gt0CiG H Z)) -!natrM mulnA muln2.
         apply: le_lt_trans ub_norm_gamma; rewrite Dgamma cfnormBd.
           by rewrite cfnormZ normCK rmorph_nat mulrA -subr_ge0 addrK cfnorm_ge0.
