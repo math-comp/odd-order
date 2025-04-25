@@ -198,14 +198,11 @@ End Definitions.
 Notation "M `_ \s" := (FTcore M) (at level 3, format "M `_ \s") : group_scope.
 Notation "M `_ \s" := (FTcore_group M) : Group_scope.
 
-Notation "''A1' ( M )" := (FTsupport1 M)
-  (at level 8, format "''A1' ( M )") : group_scope.
+Notation "''A1' ( M )" := (FTsupport1 M) (format "''A1' ( M )") : group_scope.
 
-Notation "''A' ( M )" := (FTsupport M)
-  (at level 8, format "''A' ( M )") : group_scope.
+Notation "''A' ( M )" := (FTsupport M) (format "''A' ( M )") : group_scope.
 
-Notation "''A0' ( M )" := (FTsupport0 M)
-  (at level 8, format "''A0' ( M )") : group_scope.
+Notation "''A0' ( M )" := (FTsupport0 M) (format "''A0' ( M )") : group_scope.
 
 Notation "''M^' G" := (mmax_transversal G)
   (at level 3, format "''M^' G") : group_scope.

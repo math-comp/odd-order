@@ -55,16 +55,16 @@ Variables M U W W1 W2 : {group gT}.
 Hypotheses (maxM : M \in 'M) (defW : W1 \x W2 = W) (MtypeP: of_typeP M U defW).
 Hypothesis notMtype5 : FTtype M != 5.
 
-Local Notation "` 'M'" := (gval M) (at level 0, only parsing) : group_scope.
-Local Notation "` 'U'" := (gval U) (at level 0, only parsing) : group_scope.
-Local Notation "` 'W1'" := (gval W1) (at level 0, only parsing) : group_scope.
+Local Notation "` 'M'" := (gval M) (only parsing) : group_scope.
+Local Notation "` 'U'" := (gval U) (only parsing) : group_scope.
+Local Notation "` 'W1'" := (gval W1) (only parsing) : group_scope.
 Local Notation H := `M`_\F%G.
-Local Notation "` 'H'" := `M`_\F (at level 0) : group_scope.
-Local Notation "` 'W2'" := (gval W2) (at level 0, only parsing) : group_scope.
+Local Notation "` 'H'" := `M`_\F : group_scope.
+Local Notation "` 'W2'" := (gval W2) (only parsing) : group_scope.
 Local Notation HU := M^`(1)%G.
-Local Notation "` 'HU'" := `M^`(1) (at level 0) : group_scope.
+Local Notation "` 'HU'" := `M^`(1) : group_scope.
 Local Notation U' := U^`(1)%G.
-Local Notation "` 'U''" := `U^`(1) (at level 0) : group_scope.
+Local Notation "` 'U''" := `U^`(1) : group_scope.
 
 Let q := #|W1|.
 
@@ -147,9 +147,9 @@ Qed.
 Definition Ptype_Fcore_kernel of of_typeP M U defW :=
   odflt 1%G [pick H0 : {group gT} | chief_factor M H0 H & 'C_H(U) \subset H0].
 Let H0 := (Ptype_Fcore_kernel MtypeP).
-Local Notation "` 'H0'" := (gval H0) (at level 0, only parsing) : group_scope.
+Local Notation "` 'H0'" := (gval H0) (only parsing) : group_scope.
 Local Notation Hbar := (H / `H0)%G.
-Local Notation "` 'Hbar'" := (`H / `H0)%g (at level 0) : group_scope.
+Local Notation "` 'Hbar'" := (`H / `H0)%g : group_scope.
 Let p := pdiv #|Hbar|.
 
 (* This corresponds to Peterfalvi (9.4). *)
@@ -191,13 +191,13 @@ Fact Ptype_Fcompl_kernel_key : unit. Proof. by []. Qed.
 Definition Ptype_Fcompl_kernel :=
   locked_with Ptype_Fcompl_kernel_key 'C_U(Hbar | 'Q)%G.
 Local Notation C := Ptype_Fcompl_kernel.
-Local Notation "` 'C'" := (gval C) (at level 0, only parsing) : group_scope.
+Local Notation "` 'C'" := (gval C) (only parsing) : group_scope.
 Local Notation Ubar := (U / `C)%G.
-Local Notation "` 'Ubar'" := (`U / `C)%g (at level 0) : group_scope.
+Local Notation "` 'Ubar'" := (`U / `C)%g : group_scope.
 Local Notation W1bar := (W1 / `H0)%G.
-Local Notation "` 'W1bar'" := (`W1 / `H0)%g (at level 0) : group_scope.
+Local Notation "` 'W1bar'" := (`W1 / `H0)%g : group_scope.
 Local Notation W2bar := 'C_Hbar(`W1bar)%G.
-Local Notation "` 'W2bar'" := 'C_`Hbar(`W1bar) (at level 0) : group_scope.
+Local Notation "` 'W2bar'" := 'C_`Hbar(`W1bar) : group_scope.
 Let c := #|C|.
 Let u := #|Ubar|.
 Local Notation tau := (FT_Dade0 maxM).
@@ -210,13 +210,13 @@ Let S_ Y := seqIndD M^`(1) M M`_\F Y.
 Local Notation inMb := (coset (gval H0)).
 
 Local Notation H0C := (`H0 <*> `C)%G.
-Local Notation "` 'H0C'" := (`H0 <*> `C) (at level 0) : group_scope.
+Local Notation "` 'H0C'" := (`H0 <*> `C) : group_scope.
 Local Notation HC := (`H <*> `C)%G.
-Local Notation "` 'HC'" := (`H <*> `C) (at level 0) : group_scope.
+Local Notation "` 'HC'" := (`H <*> `C) : group_scope.
 Local Notation H0U' := (`H0 <*> `U')%G.
-Local Notation "` 'H0U''" := (gval H0 <*> `U')%G (at level 0) : group_scope.
+Local Notation "` 'H0U''" := (gval H0 <*> `U')%G : group_scope.
 Local Notation H0C' := (`H0 <*> `C^`(1)%g)%G.
-Local Notation "` 'H0C''" := (`H0 <*> `C^`(1)) (at level 0) : group_scope.
+Local Notation "` 'H0C''" := (`H0 <*> `C^`(1)) : group_scope.
 
 Let defW2bar : W2bar :=: W2 / H0.
 Proof.

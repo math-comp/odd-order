@@ -115,43 +115,40 @@ Definition TypeP2_maxgroups := TypeP_maxgroups :\: TypeP1_maxgroups.
 End Definitons.
 
 Notation "\ell_ \sigma ( x )" := (sigma_length x)
-  (at level 8, format "\ell_ \sigma ( x )") : group_scope.
+  (format "\ell_ \sigma ( x )") : group_scope.
 
 Notation "''M_' \sigma ( X )" := (sigma_mmax_of X)
-  (at level 8, format "''M_' \sigma ( X )") : group_scope.
+  (format "''M_' \sigma ( X )") : group_scope.
 
 Notation "''M_' \sigma [ x ]" := (sigma_mmax_of <[x]>)
-  (at level 8, format "''M_' \sigma [ x ]") : group_scope.
+  (format "''M_' \sigma [ x ]") : group_scope.
 
 Notation "''N' [ x ]" := (FT_signalizer_base x)
-  (at level 8, format "''N' [ x ]") : group_scope.
+  (format "''N' [ x ]") : group_scope.
 
 Notation "''R' [ x ]" := (FT_signalizer x)
-  (at level 8, format "''R' [ x ]") : group_scope.
+  (format "''R' [ x ]") : group_scope.
 
-Notation "M ^~~" := (sigma_cover M)
-  (at level 2, format "M ^~~") : group_scope.
+Notation "M ^~~" := (sigma_cover M) (format "M ^~~") : group_scope.
 
-Notation "\tau13 ( M )" := (tau13 M)
-  (at level 8, format "\tau13 ( M )") : group_scope.
+Notation "\tau13 ( M )" := (tau13 M) (format "\tau13 ( M )") : group_scope.
 
-Notation "\kappa ( M )" := (kappa M)
-  (at level 8, format "\kappa ( M )") : group_scope.
+Notation "\kappa ( M )" := (kappa M) (format "\kappa ( M )") : group_scope.
 
 Notation "\sigma_kappa ( M )" := (sigma_kappa M)
-  (at level 8, format "\sigma_kappa ( M )") : group_scope.
+  (format "\sigma_kappa ( M )") : group_scope.
 
 Notation "''M_' ''F'" := (TypeF_maxgroups _)
-  (at level 2, format "''M_' ''F'") : group_scope.
+  (format "''M_' ''F'") : group_scope.
 
 Notation "''M_' ''P'" := (TypeP_maxgroups _)
-  (at level 2, format "''M_' ''P'") : group_scope.
+  (format "''M_' ''P'") : group_scope.
 
 Notation "''M_' ''P1'" := (TypeP1_maxgroups _)
-  (at level 2, format "''M_' ''P1'") : group_scope.
+  (format "''M_' ''P1'") : group_scope.
 
 Notation "''M_' ''P2'" := (TypeP2_maxgroups _)
-  (at level 2, format "''M_' ''P2'") : group_scope.
+  (format "''M_' ''P2'") : group_scope.
 
 Section Section14.
 

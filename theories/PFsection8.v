@@ -59,7 +59,7 @@ Local Open Scope ring_scope.
 
 (* Supercedes the notation in BGsection14. *)
 Notation "''R' [ x ]" := 'C_((gval 'N[x])`_\F)[x]
- (at level 8, format "''R' [ x ]")  : group_scope.
+  (format "''R' [ x ]")  : group_scope.
 Notation "''R' [ x ]" := 'C_('N[x]%g`_\F)[x]%G : Group_scope.
 
 Section Definitions.
@@ -80,14 +80,14 @@ Definition FT_Dade_support M X :=
 End Definitions.
 
 Notation "''R_' M" := (FTsignalizer M)
- (at level 8, M at level 2, format "''R_' M") : group_scope.
+  (at level 8, M at level 2, format "''R_' M") : group_scope.
 
 Notation "''A~' ( M , A )" := (FT_Dade_support M A)
-  (at level 8, format "''A~' ( M ,  A )").
+  (format "''A~' ( M ,  A )").
 
-Notation "''A1~' ( M )" := 'A~(M, 'A1(M)) (at level 8, format "''A1~' ( M )").
-Notation "''A~' ( M )" := 'A~(M, 'A(M)) (at level 8, format "''A~' ( M )").
-Notation "''A0~' ( M )" := 'A~(M, 'A0(M)) (at level 8, format "''A0~' ( M )").
+Notation "''A1~' ( M )" := 'A~(M, 'A1(M)) (format "''A1~' ( M )").
+Notation "''A~' ( M )" := 'A~(M, 'A(M)) (format "''A~' ( M )").
+Notation "''A0~' ( M )" := 'A~(M, 'A0(M)) (format "''A0~' ( M )").
 
 Section Eight.
 
