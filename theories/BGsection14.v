@@ -411,7 +411,8 @@ Lemma sigma'_kappa'_facts M p S (A := 'Ohm_1(S)) (Ms := M`_\sigma) :
  [/\ M \in 'M_'F :|: 'M_'P2, logn p #|A| <= 2, 'C_Ms(A) = 1 & nilpotent Ms].
 Proof.
 move=> maxM sylS /and3P[piMp sM'p kM'p]; have [sSM pS _] := and3P sylS.
-rewrite 8!(maxM, inE) /= !andbT negb_and orb_andr orbN andbT negbK.
+rewrite 6!(maxM, inE) [M \in 'M_'F]inE maxM /=.
+rewrite !andbT negb_and orb_andr orbN andbT negbK.
 rewrite (contra (fun skM => pnatPpi skM piMp)) ?orbT; last exact/norP.
 rewrite partition_pi_mmax // (negPf sM'p) orbF orbCA in piMp.
 have{piMp} [t2p | t13p] := orP piMp.
@@ -1265,7 +1266,7 @@ have{sg_x} [ntx /imsetP[M maxM def_x]] := setD1P sg_x.
 wlog MSxM: M maxM def_x / M \in 'M_\sigma[x].
   have sMx: \sigma(M).-elt x by rewrite def_x p_elt_constt.
   have [|[z Ms_xz] _] := sigma_Jsub maxM sMx; first by rewrite cycle_eq1.
-  move/(_ (M :^ z^-1)%G)->; rewrite ?mmaxJ ?(eq_constt _ (sigmaJ M _)) //.
+  move/(_ (M :^ z^-1)%G)-> => //; [by rewrite mmaxJ | by rewrite (eq_constt _ (sigmaJ M _)) | ].
   by rewrite inE mmaxJ maxM MsigmaJ -sub_conjg.
 have ell1x: \ell_\sigma(x) == 1%N.
   by apply/ell_sigma1P; split=> //; apply/set0Pn; exists M.
@@ -1799,7 +1800,7 @@ have oTGgt_g2: (g / 2 < #|TG|%:R)%R.
   by rewrite ler_pM ?hm_inc ?hm_ge0 //= odd_geq ?(leq_trans _ ltpq).
 have defZhat: Z :\: (K :|: Ks) = T.
   rewrite /T cover_imset big_setU1 //= defMNX big_set1 defKs_star Ks0.
-  by rewrite -setDUl setDDl setUC setD1K // inE group1.
+  by rewrite -setDUl setDDl setUC setD1K // inE /Ks group1.
 rewrite defZhat {1}defKs; split; first 2 [by split].
 - by rewrite -defKs_star; case/Ptype_structure: hallKstar => // _ _ [].
 - split=> [|p]; first by rewrite -defKs_star defKs.
@@ -1963,7 +1964,7 @@ have tiPcover: trivIset Pcover.
   rewrite -!{1}sigma_supportJ setI_eq0 sigma_support_disjoint ?mmaxJ //.
   apply: contra notMGH; rewrite {a Ga}(orbit_transl _ (mem_orbit _ _ Ga)).
   rewrite {b Gb}(orbit_eqP (mem_orbit _ _ Gb))=> /imsetP[c Gc ->] /=.
-  by rewrite sigma_supportJ class_supportGidl.
+  by rewrite [in X in _ == X]sigma_supportJ class_supportGidl.
 have ntPcover: cover Pcover \subset G^#.
   apply/bigcupsP=> _ /imsetP[M maxM ->]; rewrite class_supportEr.
   apply/bigcupsP=> a _; rewrite subsetD1 subsetT mem_conjg conj1g {a}//=.

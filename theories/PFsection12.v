@@ -1025,7 +1025,7 @@ have{ub_e} ub_a: p.-1.*2%:R * a ^+ 2 - 2 * a <= p.-1%:R / 2 :> algC.
 have a0: a = 0.
   apply: contraTeq ub_a => nz_a; rewrite lt_geF // ltr_pdivrMr ?ltr0n //.
   rewrite mulrC -{1}mulr_natl -muln2 natrM -mulrA mulrBr mulrCA ltrBrDl.
-  rewrite -ltrBrDr -mulrBr mulr_natl mulrA -expr2 -exprMn.
+  rewrite -ltrBrDr -mulrBr (mulr_natl a) mulrA -expr2 -exprMn.
   apply: lt_le_trans (_ : 2 * ((a *+ 2) ^+ 2 - 1) <= _); last first.
     rewrite (mulr_natl a 2) ler_wpM2r // ?subr_ge0.
       by rewrite sqr_intr_ge1 ?rpredMn // mulrn_eq0.
