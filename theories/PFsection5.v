@@ -673,7 +673,7 @@ apply: vchar_pairs_orthonormal 1 (-1) _ _ _ _.
 - by split; apply/allP; rewrite //= rpredN.
 - by rewrite o_cd andbT /orthonormal/= cfnormN /orthogonal /= cfdotNr !oppr_eq0.
 - by rewrite oppr_eq0 oner_eq0 rpredN rpred1.
-rewrite !(big_seq1, big_cons) in sum_ab sum_cd.
+rewrite !big_cons !big_nil !addr0 in sum_ab sum_cd.
 rewrite scale1r scaleN1r !opprK sum_ab sum_cd obpx eqxx /=.
 by rewrite !(cfun_on0 (zchar_on (Ztau _ _))) ?Zbeta ?inE ?eqxx.
 Qed.

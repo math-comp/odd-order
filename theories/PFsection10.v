@@ -782,7 +782,7 @@ apply: le_trans (_ : 1 - (3^-1 + 7^-1) <= _); last first.
   have frobUW2 := Ptype_compl_Frobenius maxS StypeP notStype5.
   apply: leq_ltn_trans (ltn_odd_Frobenius_ker frobUW2 (mFT_odd _)).
   by rewrite (leq_double 3).
-apply: le_trans (_ : 2^-1 <= _); last by rewrite -!CratrE; compute.
+apply: le_trans (_ : 2^-1 <= _); last by rewrite -11!CratrE; compute.
 rewrite mulrAC ler_pdivrMr 1?gt0CG // ler_pdivlMl ?ltr0n //.
 rewrite -!natrM ler_nat mulnA -(Lagrange (normal_sub nsM''M')) mulnC leq_mul //.
   by rewrite subset_leq_card //; have [_ _ _ []] := MtypeP.

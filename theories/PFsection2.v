@@ -370,7 +370,7 @@ apply: eq_bigr => a /sTA=> {T sTA}Aa.
 have [La def_Ca] := (subsetP sAL a Aa, defCA Aa).
 rewrite (eq_bigr (fun _ => alpha a * (psi a)^*)) => [|ax]; last first.
   by case/imsetP=> x Lx ->{ax}; rewrite !cfunJ.
-rewrite sumr_const -index_cent1 mulrC -[_ *+ #|_|]mulr_natr -!mulrA.
+rewrite sumr_const -index_cent1 mulrC -[_ *+ #|L : _|]mulr_natr -!mulrA.
 rewrite (eq_bigr (fun xa => alpha a * (phi xa)^*)) => [|xa Fa_xa]; last first.
   by rewrite (DadeE _ Aa).
 rewrite -big_distrr /= -rmorph_sum; congr (_ * _).

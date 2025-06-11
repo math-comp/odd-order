@@ -749,7 +749,7 @@ exists (k * g); last first.
   by apply: val_inj; rewrite /= conjsgM -(normP nQ2g) defQ2.
 rewrite /KP -defK // (subsetP (subsetIl _ 'C(B))) //= setIAC defK // -/KB.
 rewrite -coprime_norm_cent 1?coprime_sym ?(pnat_coprime piP) //= -/KB.
-rewrite inE groupM //; apply/normP.
+rewrite inE /KB groupM //; apply/normP.
 by rewrite -{2}(conjsgK z P) (conjGid Pz) {2}defP /= !conjsgM conjsgK.
 Qed.
 
@@ -937,7 +937,7 @@ have cYKq: Y / K \subset 'C('O_p(X / K)).
   - by rewrite coprime_sym.
   - exact: pgroup_nil (pcore_pgroup _ _).
   apply: subset_trans (cYAq); rewrite -defCA -['C_P(A) / K](morphim_restrm nKP).
-  rewrite injm_cent ?ker_restrm ?ker_coset ?morphim_restrm -?quotientE //.
+  rewrite injm_cent ?ker_restrm ?ker_coset ?(morphim_restrm nKP) -?quotientE //.
     rewrite setIid (setIidPr sAP) setISS ?centS //.
     by rewrite pcore_sub_Hall ?morphim_pHall.
   by rewrite coprime_TIg ?(pnat_coprime _ (pcore_pgroup _ _)).

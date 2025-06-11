@@ -596,7 +596,7 @@ suffices <-: 'N_Cq(T) = C.
   rewrite -quotientSK ?subsetIl // cosetpreK.
   by rewrite -coprime_norm_quotient_pgroup cent_sub.
 apply/eqP; rewrite eqEsubset subsetI -sub_quotient_pre ?subsetIr //.
-rewrite quotientInorm quotient_cents //= andbC subIset ?cent_sub //=.
+rewrite quotientInorm quotient_cents //= andbC /C subIset ?cent_sub //=.
 have nMC': 'N_Cq(T) \subset 'N(M) by rewrite subIset ?subsetIl.
 rewrite subsetI nMC' andbT (sameP commG1P trivgP) /=.
 rewrite -(coprime_TIg coMT) subsetI commg_subr subsetIr andbT.
