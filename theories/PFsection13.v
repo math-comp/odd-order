@@ -1161,7 +1161,7 @@ have ->: #|V| = v by rewrite /v D_1 indexg1.
 rewrite mulnC !natrM invfM mulrA mulfK ?neq0CiG //.
 have [_ [_ oQ] _ _ _] := FTtypeP_facts maxT TtypeP; rewrite -/p -/q /= in oQ.
 rewrite Dv natf_div ?dvdn_pred_predX // oQ.
-rewrite invfM invrK -mulrA -subn1 mulVKf ?gt_eqF ?ltr0n //; last first.
+rewrite invfM invrK -(mulrA _ (q.-1)%:R) -subn1 mulVKf ?gt_eqF ?ltr0n //; last first.
   by rewrite subn_gt0 -(exp1n p) ltn_exp2r ltnW // ltnW.
 rewrite -oQ natrB ?cardG_gt0 // !mulrBl mul1r mulrC mulKf ?neq0CG // -invfM.
 by rewrite -natrM oQ opprD opprK addrA [LHS]addrAC.
@@ -1203,10 +1203,14 @@ pose d r : algC := (3 ^ r.-1)%:R^-1; pose f r := (r ^ 2)%:R * d r.
 have Dm: m = (1 - d p) / 2.
   rewrite mulrBl mul1r -mulrN mulrC /m q3 /= addrAC -addrA natrM invfM -mulrBl.
   rewrite -{1}(ltn_predK pgt2) expnS natrM invfM mulrA.
-  by congr (_ + _ / _); apply/eqP; rewrite -!CratrE; compute.
+    Set SsrMatching LegacyFoUnif.
+    by congr (_ + _ / _); rewrite -!CratrE.
+    Unset SsrMatching LegacyFoUnif.
 split; last apply: le_lt_trans gen_lb_uc.
-  apply: lt_le_trans (_ : (1 - d 5%N) / 2 <= _).
+apply: lt_le_trans (_ : (1 - d 5%N) / 2 <= _).
+    Set SsrMatching LegacyFoUnif.
     by rewrite /d -!CratrE; compute.
+    Unset SsrMatching LegacyFoUnif.
   rewrite Dm ler_pM2r ?invr_gt0 ?ltr0n // lerD2l lerN2.
   rewrite lef_pV2 ?qualifE/= ?ltr0n ?expn_gt0 // leC_nat leq_pexp2l //=.
   by rewrite -subn1 ltn_subRL odd_geq ?mFT_odd //= ltn_neqAle pgt2 andbT -q3.
@@ -1303,11 +1307,15 @@ have ub3_m r a: (r < p)%N -> (a <= b)%N -> m < 3 / (a * 6).+1%:R * sum3 r.
   by rewrite lerD ?lef_pV2 ?qualifE/= ?ltr0n ?leC_nat ?leq_sqr.
 have beq1: b = 1%N.
   apply: contraTeq lb_m; rewrite neq_ltn ltnNge b_gt0 => /(ub3_m 4%N) ub41.
+  Set SsrMatching LegacyFoUnif.
   by rewrite lt_gtF // (lt_trans (ub41 _)) // /sum3 -!CratrE; compute.
+  Unset SsrMatching LegacyFoUnif.
 have c7: c = 7%N by rewrite -(ltn_predK c_gt1) Dc1 beq1.
 have plt11: (p < 11)%N.
   rewrite ltnNge; apply: contraL lb_m => /ub3_m/(_ b_gt0) ub100.
+  Set SsrMatching LegacyFoUnif.
   by rewrite lt_gtF // (lt_trans ub100) // /sum3 -!CratrE; compute.
+  Unset SsrMatching LegacyFoUnif.
 have{plt11} p5: p = 5%N.
   suffices: p \in [seq r <- iota q.+1 7 | prime r & coprime r c].
     by rewrite c7 q3 inE => /eqP.
@@ -1818,7 +1826,7 @@ have q_dv_u1: q %| u.-1 := Frobenius_dvd_ker1 frobUW1.
 have [nP_UW1 /isomP[/=]] := sdprod_isom defS_P; set h := restrm _ _ => injh hS.
 have /joing_sub[sUUW1 sW1UW1] := erefl (U <*> W1).
 have [hU hW1]: h @* U = Ubar /\ h @* W1 = W1bar.
-  by rewrite !morphim_restrm /= !(setIidPr _).
+  by rewrite /h !(morphim_restrm nP_UW1) /= !(setIidPr _).
 have{hS} frobSbar: [Frobenius Sbar = Ubar ><| W1bar].
   by rewrite -[Sbar]hS -hU -hW1 injm_Frobenius.
 have tiW1bar: normedTI W1bar^# Sbar W1bar by have /and3P[] := frobSbar.
