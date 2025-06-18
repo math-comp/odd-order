@@ -1104,9 +1104,10 @@ have lam_q Pi b:
   by rewrite !exprS mulmxA rQ_lam // -scalemxAl IHk scalerA.
 pose f b := (lam P1 b, lam P2 b).
 have inj_f: {in Q &, injective f}.
-  move=> b c Qb Qc /= [eq_bc1 eq_bc2]; apply: (mx_faithful_inj ffulQ) => //.
+  move=> b c Qb Qc; rewrite /f [lam]lock => [=]; rewrite -lock => eq_bc1 eq_bc2.
+  apply: (mx_faithful_inj ffulQ Qb Qc).
   rewrite -[rQ b]mul1mx -[rQ c]mul1mx {}def1 !mulmxDl -!mulmxA.
-  by rewrite !{1}rQ_lam ?eq_bc1 ?eq_bc2.
+  by rewrite ![P1 *m _]rQ_lam ?[P2 *m _]rQ_lam ?eq_bc1 ?eq_bc2.
 pose rs := [set x : 'F_p | x ^+ q == 1].
 have s_fQ_rs: f @: Q \subset setX rs rs.
   apply/subsetP=> _ /imsetP[b Qb ->].
