@@ -856,7 +856,7 @@ have tau_alpha i: tau (alpha_ i j) = eta_ i j - eta_ i 0 - n *: zeta1.
   have{psi_phi} col0_beta: '[eta_col 0, beta] = a. (* Also part of (11.8.5). *)
     apply/(addIr (-1 + n))/(canRL (addNKr _)).
     rewrite addrCA addrA addrACA -{}psi_phi Dpsi cfdotBl; congr (_ + _).
-      rewrite -(betaE i j) // cfdotDr !cfdotBr -/phi cfdotZr -!addrA.
+      rewrite -(betaE i j) // cfdotDr 2!cfdotBr -/phi (cfdotZr n _ zeta1) -!addrA.
       apply/(canLR (addNKr _)); rewrite addNr !cfdot_suml.
       rewrite big1 ?add0r ?opprK => [|k _]; last first.
         by rewrite cfdot_cycTIiso andbC eq_sym (negPf nz_j1).
