@@ -36,9 +36,9 @@ Reserved Notation "\alpha ( M )" (format "\alpha ( M )").
 Reserved Notation "\beta ( M )" (format "\beta ( M )").
 Reserved Notation "\sigma ( M )" (format "\sigma ( M )").
 
-Reserved Notation "M `_ \alpha" (at level 3, format "M `_ \alpha").
-Reserved Notation "M `_ \beta" (at level 3, format "M `_ \beta").
-Reserved Notation "M `_ \sigma" (at level 3, format "M `_ \sigma").
+Reserved Notation "M `_ \alpha" (format "M `_ \alpha").
+Reserved Notation "M `_ \beta" (format "M `_ \beta").
+Reserved Notation "M `_ \sigma" (format "M `_ \sigma").
 
 Section Def.
 

@@ -2,7 +2,7 @@
 (* Distributed under the terms of CeCILL-B.                                  *)
 From HB Require Import structures.
 From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq div.
-From mathcomp Require Import choice fintype bigop prime finset.
+From mathcomp Require Import choice fintype bigop prime finset finalg mxabelem.
 From mathcomp Require Import fingroup morphism automorphism quotient action.
 From mathcomp Require Import cyclic center gfunctor commutator gseries pgroup.
 From mathcomp Require Import nilpotent sylow abelian maximal hall.
@@ -46,7 +46,6 @@ Import GroupScope.
 
 Reserved Notation "''M'" (format "''M'").
 Reserved Notation "''M' ( H )" (format "''M' ( H )").
-Reserved Notation "''U'".
 Reserved Notation "''SCN_' n [ p ]" (n at level 2, format "''SCN_' n [ p ]").
 Reserved Notation "|/|_ X ( A ; pi )"
   (X at level 2, format "|/|_ X ( A ;  pi )").

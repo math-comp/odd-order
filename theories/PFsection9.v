@@ -312,7 +312,7 @@ Proof.
 by have:= typeII_IV_core => /=; case: ifP => // _ [/def_Ptype_factor_prime].
 Qed.
 
-Let frobUW1c : [Frobenius U <*> W1 / C = Ubar ><| W1 / C].
+Let frobUW1c : [Frobenius U <*> W1 / C = Ubar ><| (W1 / C)].
 Proof.
 apply: Frobenius_quotient frobUW1 _ nsCUW1 _.
   by apply: nilpotent_sol; have [_ []] := MtypeP.

@@ -36,8 +36,7 @@ Canonical Structure Fitting_core_group := [group of Fitting_core].
 
 End Definitions.
 
-Notation "M `_ \F" := (Fitting_core M)
-  (at level 3, format "M `_ \F") : group_scope.
+Notation "M `_ \F" := (Fitting_core M) (format "M `_ \F") : group_scope.
 Notation "M `_ \F" := (Fitting_core_group M) : Group_scope.
 
 Section FittingCore.

@@ -442,9 +442,9 @@ Lemma RmodelP (m : model) : is_Rmodel m. Proof. by case: m. Qed.
 
 Fact nil_RmodelP : is_Rmodel nil. Proof. by []. Qed.
 
-Definition eval_cl (m : model) kvs := \sum_(kv <- kvs) m`_kv.1 *~ kv.2.
+Definition eval_cl (m : model) kvs := \sum_(kv <- kvs) m`_(kv.1) *~ kv.2.
 
-Definition sat_lit (m : model) ij kv := '[m ij, m`_kv.1] == kv.2%:~R.
+Definition sat_lit (m : model) ij kv := '[m ij, m`_(kv.1)] == kv.2%:~R.
 Definition sat_cl m cl := uniq (unzip1 cl.2) && all (sat_lit m cl.1) cl.2.
 
 Definition sat (m : model) th :=
@@ -1242,7 +1242,7 @@ have /dIrrP[dk Ddk]: m`_0 \in dirr G.
   have [[/andP[/allP n1m _] Zm] [_ m_gt0 _]] := (RmodelP m, and3P m_th).
   by rewrite dirrE Zm ?[_ == 1]n1m ?mem_nth.
 exists dk => [][i j] /andP[/= lti ltj]; apply/eqP.
-suffices{dk Ddk}: sat_cl m (& (Lit 1 (j == 0))%N in (i, j)).
+suffices{dk Ddk}: sat_cl m (& ((Lit 1 (j == 0))%N) in (i, j)).
   by rewrite /sat_cl /= andbT /sat_lit Ddk.
 without loss{i lti} ->: m i ltj m_th / i = 0%N.
   have [bb21_m m_gt0 m11_x1 m21_x1 _] := and5P m_th.
