@@ -792,8 +792,8 @@ have nzT1_Ga zeta: zeta \in calT1 -> `|'[Gamma, tau1T zeta]| ^+ 2 >= 1.
   pose Delta := tauT betaT0 - 1 + tau1T zeta.
   have nz_i1: #1 != 0 := Iirr1_neq0 ntW2.
   rewrite -(canLR (addKr _) (erefl Delta)) opprB cfdotDr cfdotBr oGa1 add0r.
-  rewrite cfdotDl cfdotBl -/betaS o_eta0_betaT0 (negPf nz_i1) // addr0 opprB.
-  rewrite -(cycTIiso1 pddS) -(cycTIirr00 defW) {}o_eta0_betaT0 mulr1n.
+  rewrite cfdotDl cfdotBl -/betaS [X in _ - _ + X]o_eta0_betaT0 (negPf nz_i1) // addr0 opprB.
+  rewrite -(cycTIiso1 pddS) -(cycTIirr00 defW) {}[X in X + _ + _]o_eta0_betaT0 mulr1n.
   have QV'betaS: tauS betaS \in 'CF(G, ~: class_support QV^# G).
     have [_ [pP _] _ _ [_ ->]] := FTtypeP_facts _ StypeP; rewrite ?A0betaS //.
     apply: cfun_onS (cfInd_on (subsetT S) (PVbetaS _ nz_i1)).
