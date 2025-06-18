@@ -275,7 +275,8 @@ Remark conj_of_typeP x :
 Proof.
 have defWx: W1 :^ x \x W2 :^ x = W :^ x by rewrite -dprodJ defW.
 exists defWx; rewrite /of_typeP !derJ FcoreJ FittingJ centJ -conjIg normJ.
-rewrite !cyclicJ !conjsg_eq1 /Hall !conjSg indexJg cardJg -[_ && _]/(Hall M W1).
+rewrite (cyclicJ W1 x) (cyclicJ M`_\F x) (cyclicJ W2 x). 
+rewrite !conjsg_eq1 /Hall !conjSg indexJg cardJg -[_ && _]/(Hall M W1).
 rewrite -(isog_nil (conj_isog U x)) -!sdprodJ -conjsMg -conjD1g.
 rewrite -(conjGid (in_setT x)) -conjUg -conjDg normedTI_J.
 have [[-> -> -> ->] [-> -> -> ->] [-> -> -> ->] [-> -> -> -> prW1] ->]:= MtypeP.
