@@ -485,7 +485,7 @@ have{Fp_w Dz} [n Dz]: exists n, sigma z = sigma ((s ^+ n) ^ u).
   by rewrite -{1}(natr_Zp n) scaler_nat mulr_natr conjXg !sigmaE ?in_PU.
 exists u^-1; last exists (u * v); rewrite ?groupV ?groupM //.
 exists (s ^+ n); rewrite ?groupX // mulgA; congr (_ * _).
-by apply: (injmP inj_sigma); rewrite -?mulgA ?in_PU.
+by apply: (injmP inj_sigma); rewrite // -?mulgA // -conjgE ?in_PU.
 Qed.
 
 (* This is B & G, Appendix C, Lemma C.3, Step 2. *)

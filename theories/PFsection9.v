@@ -256,7 +256,7 @@ split=> //; first by rewrite /= -{1}(joing_idPl sH0H) -joingA normalY ?gFnormal.
   rewrite -defM sdprodEY //= -defHU sdprodEY //=.
   by rewrite !join_subG gFnorm cents_norm ?gFnorm_trans // centsC.
 suffices ->: H0C' :=: H0 <*> H0C^`(1) by rewrite normalY ?gFnormal_trans.
-by rewrite /= -!quotientYK ?gFsub_trans ?quotient_der ?subsetIl //= cosetpreK.
+by rewrite /= -(quotientYK nH0C) -!(@quotientYK _ H0) ?gFsub_trans // ?quotient_der ?subsetIl // cosetpreK.
 Qed.
 Local Notation nsH0xx_M := Ptype_Fcore_extensions_normal.
 
@@ -284,7 +284,7 @@ have frobUW1b: [Frobenius U <*> W1 / H0 = (U / H0) ><| W1bar].
   have tiH0UW1 := coprime_TIg (coprimeSg sH0H coH_UW1).
   have /isomP[inj_f im_f] := quotient_isom nH0UW1 tiH0UW1.
   have:= injm_Frobenius (subxx _) inj_f frobUW1.
-  by rewrite im_f !morphim_restrm !(setIidPr _) ?joing_subl ?joing_subr.
+  by rewrite im_f !(morphim_restrm nH0UW1) !(setIidPr _) ?joing_subl ?joing_subr.
 have{frobUW1b} oHbar: #|Hbar| = (#|W2bar| ^ q)%N.
   have nHbUW1 : U <*> W1 / H0 \subset 'N(Hbar) := quotient_norms H0 nHUW1.
   have coHbUW1 : coprime #|Hbar| #|U <*> W1 / H0| by apply: coprime_morph.
@@ -618,7 +618,7 @@ have phiJ: {in Hbar & U, forall h x, phi (h ^ inMb x) = phi h * val (psi x)}%R.
   apply: inj_phi'; rewrite phiK ?memJ_norm ?(subsetP nHbU) // /phi' rmorphM /=.
   by rewrite psiK // mulmxA [inHb _]rVabelemJ // -/inHb [inHb _]phiK.
 have Kpsi: 'ker psi = C.
-  apply/setP=> x; rewrite [C]unlock 2!in_setI /= astabQ; apply: andb_id2l => Ux.
+  apply/setP=> x; rewrite [C]unlock. rewrite in_setI /= in_setI astabQ; apply: andb_id2l => Ux.
   have Ubx := mem_quotient H0 Ux; rewrite 3!inE (subsetP nH0U) //= inE.
   apply/eqP/centP=> [psi_x1 h Hh | cHx]; last first.
     by apply/val_inj; rewrite -[val _]mul1r -phi_s -phiJ // conjgE -cHx ?mulKg.
@@ -1164,7 +1164,7 @@ have <-: #|Clam| = #|'C_U(H1 | 'Q) : U'|.
   by rewrite coprime_TIg ?(coprimeSg sH0H).
 pose Mtheta := [set mod_Iirr (cfIirr (theta i j)) | i in [set~ 0], j in setT].
 have ->: (p.-1 * #|Clam|)%N = #|Mtheta|.
-  rewrite [Mtheta]curry_imset2X card_imset ?cardsX => [|[i1 j1] [i2 j2] /=/eqP].
+  rewrite [Mtheta]curry_imset2X [RHS]card_imset ?cardsX => [|[i1 j1] [i2 j2] /=/eqP].
     by rewrite cardsC1 cardsT !card_Iirr_abelian ?(abelianS sH1H) ?oH1.
   rewrite (can_eq (mod_IirrK _)) // -(inj_eq irr_inj) !cfIirrE ?lin_char_irr //.
   rewrite (can_eq (cfSdprodK _)) -!dprod_IirrE (inj_eq irr_inj).
@@ -1400,7 +1400,7 @@ have ->: (p ^ q).-1 = (#|X_ H0| * u)%N.
   apply/eqP; rewrite Du /= C1 joingG1 mulnC eqn_pmul2r //.
   rewrite -(card_imset _ (can_inj (mod_IirrK _))) // -imset_comp.
   apply/eqP/eq_card=> s; apply/imsetP/idP=> [[i nz_i -> /=] | Xs].
-    rewrite !inE mod_IirrE 1?{1}cfker_mod // andbT in nz_i *.
+    rewrite !inE mod_IirrE // (@cfker_mod _ _ H0) // andbT in nz_i *.
     rewrite cfIirrE ?inertia_Ind_irr ?inertia_Frobenius_ker // sub_cfker_mod //.
     by rewrite sub_cfker_Ind_irr ?quotientS ?normal_norm // subGcfker.
   have [[]] := (Part_a s Xs, setDP Xs).
@@ -1937,7 +1937,7 @@ have [Aalpha Nalpha]: alpha \in 'CF(M, 'A(M)) /\ '[alpha] = nm_alpha.
     rewrite (reindex_acts 'R _ (groupVr W1w1)) ?astabsR //=.
     apply: eq_bigr => w2 _; rewrite inE !cfuniE // rmorph_nat -natrM mulnb.
     by congr (_ && _)%:R; rewrite invMg invgK conjgM -mem_conjg.
-  rewrite exchange_big /= mulr_natr -sumr_const; apply: eq_bigr => w1 W1w1.
+  rewrite exchange_big /= mulr_natr -[RHS]sumr_const; apply: eq_bigr => w1 W1w1.
   transitivity (\sum_(w in W1) #|U1 :&: U1 :^ w|%:R : algC).
     rewrite exchange_big /=; apply: eq_bigr => w W1w.
     rewrite (reindex_acts 'J _ (groupVr W1w1)) ?astabsJ ?normsG ?joing_subr //=.
@@ -1945,7 +1945,7 @@ have [Aalpha Nalpha]: alpha \in 'CF(M, 'A(M)) /\ '[alpha] = nm_alpha.
     apply: eq_bigr => x _; rewrite conjgKV.
     by case: setIP => [[/(subsetP sU1_UW1)-> //] | _]; rewrite if_same.
   rewrite (big_setD1 1%g) //= conjsg1 setIid; congr (_ + _).
-  rewrite [q](cardsD1 1%g) group1 /= mulr_natl -sumr_const.
+  rewrite [q](cardsD1 1%g) group1 /= mulr_natl -[RHS]sumr_const.
   by apply: eq_bigr => w W1w; rewrite tiU1.
 (* This is step (9.11.5). *)
 have [gtS4alpha s4gt0]: (size S4)%:R > '[alpha] /\ (size S4 > 0)%N.

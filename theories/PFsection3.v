@@ -1514,7 +1514,7 @@ have Vphi: phi \in 'CF(W, V).
     by rewrite addrC -[g]mulg1 /w_ !dprod_IirrE !cfDprodE ?lin_char1 ?addKr.
   by rewrite -[g]mul1g /w_ !dprod_IirrE !cfDprodE ?lin_char1 ?addrK.
 suffices: '[psi, 'Ind[G] phi] == 0.
-  rewrite -!cycTIiso_Ind // !linearB !linearD !cfdotBr !cfdotDr.
+  rewrite -!cycTIiso_Ind // !linearB !linearD 2!cfdotBr !cfdotDr.
   by rewrite -addrA -opprD subr_eq0 => /eqP.
 rewrite (cfdotEr _ (cfInd_on sWG Vphi)) big1 ?mulr0 //.
 by move=> _ /imset2P[x y Vx Gy ->]; rewrite cfunJ ?psiV_0 ?mul0r.
@@ -1865,7 +1865,8 @@ Lemma cycTIiso_irrel defW defW' ctiW ctiW' :
   @sigma_ defW ctiW = @sigma_ defW' ctiW'.
 Proof.
 have xdefW: W2 \x W1 = W by rewrite dprodC.
-by rewrite !(cycTIiso_irrelC _ (cyclicTIhyp_sym ctiW xdefW)).
+have E := (cycTIiso_irrelC _ (cyclicTIhyp_sym ctiW xdefW)).
+by rewrite [LHS]E [RHS]E.
 Qed.
 
 End ThreeSymmetry.

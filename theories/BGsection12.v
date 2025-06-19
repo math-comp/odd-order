@@ -1917,7 +1917,7 @@ have t1q: q \in \tau1(M).
   by rewrite -subG1 quotient_sub1.
 have cycQ1: cyclic Q1.
   have [x _ sQ1E1x] := Hall_psubJ hallE1 t1q sQ1E qQ1.
-  by rewrite (cyclicS sQ1E1x) ?cyclicJ.
+  by rewrite (cyclicS sQ1E1x) // cyclicJ cycE1.
 have defQ1: Q :&: E = Q1.
   apply: (sub_pHall sylQ1) (subsetIr Q E); last by rewrite subsetI sQ1Q.
   by rewrite (pgroupS (subsetIl Q _)).

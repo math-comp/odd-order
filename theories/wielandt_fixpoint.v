@@ -590,7 +590,7 @@ have{tiRCW} rCW : 'r('C_W(Ai1)) = rC i.
     by rewrite (subset_trans sAiG1) // gFnorm_trans.
   have ->: A i :=: fG @* Ai1.
     by rewrite /Ai1 morphim_invmE morphpreK // im_restrm imfG1.
-  rewrite -imfW morphim_restrm (setIidPr sAiG1).
+  rewrite -imfW [fG @* _]morphim_restrm (setIidPr sAiG1).
   have [f1 injf1 im_f1] := first_isom f.
   rewrite -!im_f1 -injm_subcent ?quotientS ?(subset_trans sAiG1) //.
   by rewrite -kerf isog_sym sub_isog // subIset ?quotientS.
