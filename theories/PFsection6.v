@@ -145,7 +145,7 @@ have sAbZH: (A / B \subset 'Z(H / B))%g.
     rewrite -(quotient_proper (normalS sBD sDL nsBL)) // -defDbar.
     by rewrite properEneq sDAbar neqDAbar.
   apply/setIidPl/minBbar; rewrite ?subsetIl {minBbar}//= andbC -/Abar -/Zbar.
-  rewrite normsI ?meet_center_nil ?quotient_normal ?(normalS sAH sHL) //=.
+  rewrite normsI // meet_center_nil // ?quotient_normal ?(normalS sAH sHL) //=.
   suffices /homgP[f /= <-]: (H / B)%g \homg (H / M)%g by rewrite morphim_nil.
   by apply: homg_quotientS; rewrite ?(subset_trans sHL) ?normal_norm.
 have ltAH: A \proper H.
