@@ -984,7 +984,7 @@ pose alpha := cfCyclicTIset defW i j; set beta := _ *: mu2_ i j - _ - _ + _.
 have Valpha: alpha \in 'CF(W, V) := cfCycTI_on ctiWL i j.
 have Dalpha: alpha = w_ i j - w_ 0 j - w_ i 0 + w_ 0 0.
   by rewrite addrC {1}cycTIirr00 addrA addrAC addrA addrAC -cfCycTI_E.
-rewrite -!(linearB sigma) -linearD -Dalpha cycTIiso_Ind //.
+rewrite -![in X in X + _](linearB sigma) -linearD -Dalpha cycTIiso_Ind //.
 suffices ->: beta = 'Ind[L] alpha by rewrite DtauV0 ?cfInd_on ?cfIndInd.
 rewrite Dalpha -addrA -[w_ 0 0]opprK -opprD linearB /= /beta -scalerBr.
 by rewrite !(cfInd_sub_prTIirr ptiWL) prTIsign0 scale1r opprD opprK addrA.
