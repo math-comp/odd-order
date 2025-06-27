@@ -1384,7 +1384,7 @@ have hallGp'pi: pi.-Hall(Gp') 'O_pi(Gp').
   rewrite (pgroupP p'G) ?pdiv_dvd ?pdiv_prime // cardG_gt1.
   by apply: contra not_pi_G; move/eqP->; rewrite (trivgP (pcore_sub _ _)).
 have defGp'pi: 'O_pi(Gp') = 'O_pi(G).
-  rewrite -pcoreI; apply: eq_pcore => q; apply: andb_idr.
+  rewrite -[LHS]pcoreI; apply: eq_pcore => q; apply: andb_idr.
   by apply: contraL => /=; move/eqnP->.
 have hallGp': p^'.-Hall(G) Gp' by rewrite rank2_min_p'core_Hall.
 rewrite pHallE pcore_sub /= -defGp'pi (card_Hall hallGp'pi) (card_Hall hallGp').

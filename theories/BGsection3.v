@@ -1004,7 +1004,7 @@ case cKK: (abelian K); last first.
     have Kx: x \in K by rewrite -cycle_subG -defCKR subsetIl.
     rewrite defCKR cycle_subG in not_sCKR_K' *.
     exact: nt_prime_order (exponentP eK x Kx) (group1_contra not_sCKR_K').
-  have tiCKR_K': 'C_K(R) :&: K' = 1 by rewrite prime_TIg ?oCKR.
+  have tiCKR_K': 'C_K(R) :&: K' = 1 by rewrite (@prime_TIg _ _ K') ?oCKR.
   have sKR_K: [~: K, R] \subset K by rewrite commg_subl nKR.
   have ziKRcR: 'C_K(R) :&: [~: K, R] \subset K'.
     rewrite -quotient_sub1 ?subIset ?nK'K // setIC.

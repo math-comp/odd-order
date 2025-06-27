@@ -313,7 +313,7 @@ rewrite actM (orbit_transl _ (mem_orbit _ _ _)); last first.
 have [|w x nM0Pw cPx ->] := imset2P (_ : u \in 'N_M0(P) * 'C(P)).
   rewrite normC ?part_c ?IHX //; first by case/setIP: nLPu.
   by rewrite setIC subIset ?cent_norm.
-rewrite actM /= conjGid ?mem_orbit //; last by case/setIP: nM0Pw.
+rewrite actM /= (@conjGid _ M0) ?mem_orbit //; last by case/setIP: nM0Pw.
 by rewrite (subsetP (centS (subset_trans (proper_sub ltXX1) sX1P))).
 Qed.
 

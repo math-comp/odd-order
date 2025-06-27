@@ -146,7 +146,7 @@ rewrite quotientGI ?subsetI ?sU'U ?dergS ?coprime_TIg //= -/G' -/U'.
 have sUG'_UKb: (U :&: G') / U' \subset (U :&: K) / U'.
   rewrite quotientSK // -normC ?group_modr ?setIS //.
   by rewrite -quotientSK ?comm_subG ?quotient_der // -defG quotientMidl.
-rewrite (coprimeSg sUG'_UKb) // -(card_isog (second_isog _)) //=.
+rewrite (coprimeSg sUG'_UKb) //= -(card_isog (second_isog _)) //=.
 rewrite setIA (setIidPl sU'U) coprime_morphl ?coprime_morphr //.
 exact: coprimeSg (subsetIr U K) coKH.
 Qed.

@@ -399,7 +399,7 @@ have defQ: 'O_q(Ms) = Q by rewrite -(setIidPl sQMs) pcore_setI_normal.
 have sylQ: q.-Sylow(Ms) Q.
   have nsQMs: Q <| Ms by rewrite -defQ pcore_normal.
   rewrite -(pquotient_pHall qQ) // /= -/Q -{3}defQ.
-  by rewrite -(pquotient_pcore _ qQ) ?nilpotent_pcore_Hall.
+  by rewrite -(pquotient_pcore nsQMs qQ) //= nilpotent_pcore_Hall.
 have{sMq hallMs} sylQ_M := subHall_Sylow hallMs sMq sylQ.
 have sQ_MF: Q \subset M`_\F.
   by rewrite sub_gen ?(bigcup_max [group of Q]) ?(p_Sylow sylQ_M) ?pcore_normal.
