@@ -85,6 +85,9 @@ Unset Printing Implicit Defensive.
 
 Import GroupScope.
 
+#[warning="-postfix-notation-not-level-1"]
+Reserved Notation "M `_ \s" (left associativity, format "M `_ \s").
+
 Section GeneralDefinitions.
 
 Variable gT : finGroupType.
@@ -195,7 +198,7 @@ Definition mmax_transversal U := orbit_transversal 'JG U 'M.
 
 End Definitions.
 
-Notation "M `_ \s" := (FTcore M) (format "M `_ \s") : group_scope.
+Notation "M `_ \s" := (FTcore M) : group_scope.
 Notation "M `_ \s" := (FTcore_group M) : Group_scope.
 
 Notation "''A1' ( M )" := (FTsupport1 M) (format "''A1' ( M )") : group_scope.

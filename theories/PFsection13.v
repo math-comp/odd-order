@@ -84,7 +84,7 @@ Local Notation "` 'W'" := (gval W) (only parsing) : group_scope.
 Local Notation V := (cyclicTIset defW).
 
 Local Notation "` 'S'" := (gval S) (only parsing) : group_scope.
-Local Notation P := `S`_\F%G.
+Local Notation P := (`S`_\F)%G.
 Local Notation "` 'P'" := `S`_\F : group_scope.
 Local Notation PU := S^`(1)%G.
 Local Notation "` 'PU'" := `S^`(1) : group_scope.
@@ -874,7 +874,7 @@ Local Notation "` 'W'" := (gval W) (only parsing) : group_scope.
 Local Notation V := (cyclicTIset defW).
 
 Local Notation "` 'S'" := (gval S) (only parsing) : group_scope.
-Local Notation P := `S`_\F%G.
+Local Notation P := (`S`_\F)%G.
 Local Notation "` 'P'" := `S`_\F : group_scope.
 Local Notation PU := S^`(1)%G.
 Local Notation "` 'PU'" := `S^`(1) : group_scope.
@@ -1590,7 +1590,7 @@ Local Notation "` 'W'" := (gval W) (only parsing) : group_scope.
 Local Notation V := (cyclicTIset defW).
 
 Local Notation "` 'S'" := (gval S) (only parsing) : group_scope.
-Local Notation P := `S`_\F%G.
+Local Notation P := (`S`_\F)%G.
 Local Notation "` 'P'" := `S`_\F : group_scope.
 Local Notation PU := S^`(1)%G.
 Local Notation "` 'PU'" := `S^`(1) : group_scope.
@@ -1950,7 +1950,7 @@ Variable L : {group gT}.
 Hypotheses (maxL : L \in 'M) (Ltype1 : FTtype L == 1%N).
 
 Local Notation "` 'L'" := (gval L) (only parsing) : group_scope.
-Local Notation H := `L`_\F%G.
+Local Notation H := (`L`_\F)%G.
 Local Notation "` 'H'" := `L`_\F : group_scope.
 
 Let e :=  #|L : H|.

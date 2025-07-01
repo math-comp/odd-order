@@ -701,7 +701,7 @@ Qed.
 
 (* Subcoherence and cyclicTI properties of type II-V subgroups. *)
 Hypotheses (defW : W1 \x W2 = W) (MtypeP : of_typeP M U defW).
-Let H := M`_\F%G.
+Let H := (M`_\F)%G.
 Let K := M^`(1)%G.
 
 Lemma FT_cyclicTI_hyp : cyclicTI_hypothesis G defW.

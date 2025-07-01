@@ -38,3 +38,5 @@ theories/wielandt_fixpoint.v
 -arg -w -arg -projection-no-head-constant
 -arg -w -arg -redundant-canonical-projection
 -arg -w -arg -notation-overridden
+# introduced in Rocq 9.2
+-arg -w -arg +level-tolerance

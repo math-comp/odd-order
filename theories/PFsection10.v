@@ -1193,7 +1193,7 @@ Qed.
 (* This is the remainder of Peterfalvi (10.11). *)
 Lemma FTtypeII_prime_facts M U W W1 W2 (defW : W1 \x W2 = W) (maxM : M \in 'M) :
     of_typeP M U defW -> FTtype M == 2 ->
-    let H := M`_\F%G in let HU := M^`(1)%G in
+    let H := (M`_\F)%G in let HU := M^`(1)%G in
     let calS := seqIndD HU M H 1 in let tau := FT_Dade0 maxM in
     let p := #|W2| in let q := #|W1| in
   [/\ p.-abelem H, (#|H| = p ^ q)%N & coherent calS M^# tau].

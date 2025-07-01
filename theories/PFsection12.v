@@ -40,7 +40,7 @@ Variable L : {group gT}.
 Hypotheses (maxL : L \in 'M) (Ltype1 : FTtype L == 1%N).
 
 Local Notation "` 'L'" := (gval L) (only parsing) : group_scope.
-Local Notation H := `L`_\F%G.
+Local Notation H := (`L`_\F)%G.
 Local Notation "` 'H'" := `L`_\F : group_scope.
 
 Let nsHL : H <| L. Proof. exact: gFnormal. Qed.
@@ -235,7 +235,7 @@ Local Notation Rgen := FTtype1_subcoherent.
 (* This is Peterfalvi (12.3) *)
 Lemma FTtype1_seqInd_ortho L1 L2 (maxL1 : L1 \in 'M) (maxL2 : L2 \in 'M)
     (L1type1 : FTtype L1 == 1%N) (L2type1 : FTtype L2 == 1%N)
-    (H1 := L1`_\F%G) (H2 := L2`_\F%G)
+    (H1 := (L1`_\F)%G) (H2 := (L2`_\F)%G)
     (calS1 := seqIndD H1 L1 H1 1) (calS2 := seqIndD H2 L2 H2 1)
     (R1 := sval (Rgen maxL1 L1type1)) (R2 := sval (Rgen maxL2 L2type1)) :
     gval L2 \notin L1 :^: G ->
@@ -306,7 +306,7 @@ Variable L : {group gT}.
 Hypothesis maxL : L \in 'M .
 
 Local Notation "` 'L'" := (gval L) (only parsing) : group_scope.
-Local Notation H := `L`_\F%G.
+Local Notation H := (`L`_\F)%G.
 Local Notation "` 'H'" := `L`_\F : group_scope.
 Local Notation H' := H^`(1)%G.
 Local Notation "` 'H''" := `H^`(1) : group_scope.
@@ -540,7 +540,7 @@ Hypothesis IHp :
 
 Variables M P0 : {group gT}.
 
-Let K := M`_\F%G.
+Let K := (M`_\F)%G.
 Let K' := K^`(1)%G.
 Let nsKM : K <| M. Proof. exact: gFnormal. Qed.
 
@@ -624,7 +624,7 @@ Hypotheses (maxL : L \in 'M) (sP0_Ls : P0 \subset L`_\s).
 Hypotheses (P0_1s_x : x \in 'Ohm_1(P0)^#) (not_sCxK' : ~~ ('C_K[x] \subset K')).
 Hypotheses (sNxM : 'N(<[x]>) \subset M) (not_sCxL : ~~ ('C[x] \subset L)).
 
-Let H := L`_\F%G.
+Let H := (L`_\F)%G.
 Local Notation "` 'H'" := (gval L)`_\F (format "` 'H'").
 Let nsHL : H <| L. Proof. exact: gFnormal. Qed.
 
@@ -1314,7 +1314,7 @@ have{partGpi exMG} kge2: (k >= 2)%N.
   have /eqP defMG: [set L] == 'M^G by rewrite eqEcard sub1set MG_L cards1.
   have [x] := exMG M maxM; rewrite -defMG => /set1P/(canRL (actK 'JG _))-> /=.
   by rewrite FTcoreJ cardJg FTcore_type1.
-pose L (i : 'I_k) : {group gT} := enum_val i; pose H i := (L i)`_\F%G.
+pose L (i : 'I_k) : {group gT} := enum_val i; pose H i := ((L i)`_\F)%G.
 have MG_L i: L i \in 'M^G by apply: enum_valP.
 have maxL i: L i \in 'M by apply: maxMG.
 have defH i: (L i)`_\s = H i by rewrite FTcore_type1 ?allT1.

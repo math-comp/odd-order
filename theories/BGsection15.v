@@ -26,6 +26,9 @@ Unset Printing Implicit Defensive.
 
 Import GroupScope.
 
+#[warning="-postfix-notation-not-level-1"]
+Reserved Notation "M `_ \F" (left associativity, format "M `_ \F").
+
 Section Definitions.
 
 Variables (gT : finGroupType) (M : {set gT}).
@@ -36,7 +39,7 @@ Canonical Structure Fitting_core_group := [group of Fitting_core].
 
 End Definitions.
 
-Notation "M `_ \F" := (Fitting_core M) (format "M `_ \F") : group_scope.
+Notation "M `_ \F" := (Fitting_core M) : group_scope.
 Notation "M `_ \F" := (Fitting_core_group M) : Group_scope.
 
 Section FittingCore.
@@ -1348,7 +1351,7 @@ have defL': L^`(1) = L`_\sigma.
     by rewrite (trivg_kappa maxL hallKs) //; case/setDP: PmaxL.
   suffices ->: Us :=: 1 by rewrite sdprodg1.
   by apply/eqP; rewrite (trivg_kappa_compl maxL complUs).
-have [ntK sKLs']: K :!=: 1 /\ K \subset L`_\sigma^`(1).
+have [ntK sKLs']: K :!=: 1 /\ K \subset (L`_\sigma)^`(1).
   by rewrite -defL' -defK; case/Ptype_cyclics: hallKs.
 have [sQL qQ _] := and3P sylQ.
 have not_cQQ: ~~ abelian Q.

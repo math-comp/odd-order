@@ -620,7 +620,7 @@ have{sCMbP_H rFH cPH} piFHs: s \in \pi('F(H)).
 without loss{bH} bMs: L u U M q Q maxM maxL notMGL notLGM t1Mp t1Lp sPM sPL
                nQP nUP regPQ regPU sNQL sNUM hypQ hypU hallH / s \in \beta(M).
 - move=> IH; have:= pnatPpi bH (piSg (Fitting_sub H) piFHs).
-  case/orP; [apply: IH hypQ hypU hallH | apply: IH hypU hypQ _] => //.
+  (case/orP; [apply: IH hypQ hypU hallH | apply: IH hypU hypQ _]) => //.
   by apply: etrans (eq_pHall _ _ _) hallH => ?; apply: orbC.
 without loss{bML_CMbP} sCMbP_H: H hallH piFHs / 'C_(M`_\beta)(P) \subset H.
   have [x cPx sCMbP_Hx] := Hall_subJ solCP hallH (subsetIr _ _) (bML_CMbP M L).
