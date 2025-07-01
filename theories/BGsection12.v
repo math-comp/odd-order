@@ -350,7 +350,7 @@ have{groupE21} defE: E3 ><| (E2 ><| E1) = E.
   apply/eqP; rewrite eqEcard mul_subG // coprime_cardMg //= -defE21.
   rewrite -(partnC \tau3(M) (cardG_gt0 E)) (card_Hall hallE3) leq_mul //.
   rewrite coprime_cardMg // (card_Hall hallE1) (card_Hall hallE2).
-  rewrite -[#|E|`__](partnC \tau2(M)) ?leq_mul ?(partn_part _ tau3'2) //.
+  rewrite -[(#|E|`__)%N](partnC \tau2(M)) ?leq_mul ?(partn_part _ tau3'2) //.
   rewrite -partnI dvdn_leq // sub_in_partn // => p piEp; apply/implyP.
   rewrite inE /= -negb_or /= orbC implyNb orbC.
   by rewrite -(partition_pi_sigma_compl maxM hallE).
