@@ -329,7 +329,7 @@ have{} p'nbyA_1 X:
   have [R] := max_normed_exists (pcore_pgroup q X) (gFnorm_trans _ nXA).
   by rewrite p'nbyA_1 // => /set1P->.
 apply/subsetPn=> -[H0 MA_H0 neH0M].
-pose H := [arg max_(H > H0 | (H \in 'M(A)) && (H != M)) #|H :&: M|`_p].
+pose H := [arg max_(H > H0 | (H \in 'M(A)) && (H != M)) (#|H :&: M|`_p)%N].
 case: arg_maxnP @H => [|H {H0 MA_H0 neH0M}]; first by rewrite MA_H0 -in_set1.
 rewrite /= inE -andbA => /and3P[maxH sAH neHM] maxHM.
 have prH: H \proper G by rewrite inE in maxH; apply: maxgroupp maxH.

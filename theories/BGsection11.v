@@ -164,7 +164,7 @@ move=> notMg sAMg; set Ms := M`_\sigma; set H := [group of Ms :&: M :^ g].
 have [H1 | ntH] := eqsVneq H 1.
   by split=> //; apply/trivgP; rewrite -H1 setIS //= centJ conjSg.
 pose q := pdiv #|H|.
-suffices: #|H|`_q == 1%N by rewrite p_part_eq1 pi_pdiv cardG_gt1 ntH.
+suffices: (#|H|`_q)%N == 1%N by rewrite p_part_eq1 pi_pdiv cardG_gt1 ntH.
 have nsMsM: Ms <| M := pcore_normal _ _; have [_ nMsM] := andP nsMsM.
 have sHMs: H \subset Ms := subsetIl _ _.
 have sHMsg: H \subset Ms :^ g.
