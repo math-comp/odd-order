@@ -75,10 +75,11 @@ have{fS gS} expMR_fg: {in R &, forall u v n (r := [~ v, u]),
   have ->: [~ v ^+ n, u] = r ^+ n * [~ r, v] ^+ 'C(n, 2).
     elim: n => [|n IHn]; first by rewrite comm1g mulg1.
     rewrite !expgS commMgR -/r {}IHn commgX; last exact: cRr.
-    rewrite binS bin1 addnC expgD -2!mulgA; congr (_ * _); rewrite 2!mulgA.
+    rewrite binS bin1 addnC expgD -mulgA -[RHS]mulgA; congr (_ * _); rewrite 2!mulgA.
     by rewrite commuteX2 // /commute cRr.
   rewrite commXg 1?commuteX2 -?[_ * v]commuteX; try exact: cRr.
-  rewrite mulgA {1}[mulg]lock mulgA -mulgA -(mulgA v) -!expgD -fS -lock.
+  rewrite mulgA {1}[mulg]lock [in LHS]mulgA -(mulgA _ (r ^+ n)) -(mulgA v).
+  rewrite -!expgD -fS -lock.
   rewrite -{2}(bin1 n) addnC -binS -2!mulgA (mulgA _ v) (commgC _ v).
   rewrite -commuteX; last by red; rewrite cRr ?(Rr, groupR, groupX, groupM).
   rewrite -3!mulgA; congr (_ * (_ * _)); rewrite 2!mulgA.
