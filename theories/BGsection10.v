@@ -36,9 +36,12 @@ Reserved Notation "\alpha ( M )" (format "\alpha ( M )").
 Reserved Notation "\beta ( M )" (format "\beta ( M )").
 Reserved Notation "\sigma ( M )" (format "\sigma ( M )").
 
-Reserved Notation "M `_ \alpha" (format "M `_ \alpha").
-Reserved Notation "M `_ \beta" (format "M `_ \beta").
-Reserved Notation "M `_ \sigma" (format "M `_ \sigma").
+#[warning="-postfix-notation-not-level-1"]
+Reserved Notation "M `_ \alpha" (left associativity, format "M `_ \alpha").
+#[warning="-postfix-notation-not-level-1"]
+Reserved Notation "M `_ \beta" (left associativity, format "M `_ \beta").
+#[warning="-postfix-notation-not-level-1"]
+Reserved Notation "M `_ \sigma" (left associativity, format "M `_ \sigma").
 
 Section Def.
 

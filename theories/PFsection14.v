@@ -51,13 +51,13 @@ Variables (tau1L : {additive 'CF(L) -> 'CF(G)}) (phi : 'CF(L)).
 Hypotheses (defW : W1 \x W2 = W) (xdefW : W2 \x W1 = W) (maxL : L \in 'M).
 
 Local Notation "` 'S'" := (gval S) (only parsing) : group_scope.
-Local Notation P := `S`_\F%G.
+Local Notation P := (`S`_\F)%G.
 Local Notation "` 'P'" := `S`_\F : group_scope.
 Local Notation PU := S^`(1)%G.
 Local Notation "` 'PU'" := `S^`(1)%g : group_scope.
 Local Notation "` 'L'" := (gval L) (only parsing).
-Local Notation H := `L`_\F%G.
-Local Notation "` 'H'" := `L`_\F%g (format "` 'H'") : group_scope.
+Local Notation H := (`L`_\F)%G.
+Local Notation "` 'H'" := (`L`_\F)%g (format "` 'H'") : group_scope.
 
 Let p := #|W2|.
 Let q := #|W1|.
@@ -293,8 +293,8 @@ Let ddL := FT_DadeF_hyp maxL.
 Let ddM := FT_DadeF_hyp maxM.
 Let tauL := Dade ddL.
 Let tauM := Dade ddM.
-Let H := L`_\F%G.
-Let K := M`_\F%G.
+Let H := (L`_\F)%G.
+Let K := (M`_\F)%G.
 Let calL := seqIndD H L H 1.
 Let calM := seqIndD K M K 1.
 Let u : algC := #|L : H|%:R.
@@ -381,14 +381,14 @@ Local Notation "` 'W'" := (gval W) (only parsing) : group_scope.
 Local Notation What := (cyclicTIset defW).
 
 Local Notation "` 'S'" := (gval S) (only parsing) : group_scope.
-Local Notation P := `S`_\F%G.
+Local Notation P := (`S`_\F)%G.
 Local Notation "` 'P'" := `S`_\F : group_scope.
 Local Notation PU := S^`(1)%G.
 Local Notation "` 'PU'" := `S^`(1) : group_scope.
 Local Notation "` 'U'" := (gval U) (only parsing) : group_scope.
 
 Local Notation "` 'T'" := (gval T) (only parsing) : group_scope.
-Local Notation Q := `T`_\F%G.
+Local Notation Q := (`T`_\F)%G.
 Local Notation "` 'Q'" := `T`_\F : group_scope.
 Local Notation QV := T^`(1)%G.
 Local Notation "` 'QV'" := `T^`(1) : group_scope.
@@ -493,8 +493,8 @@ Let Stype2 := FTtypeP_max_typeII.
 (* These correspond to Peterfalvi, Hypothesis (14.3). *)
 Variables (L : {group gT}) (tau1L : {additive 'CF(L) -> 'CF(G)}) (phi : 'CF(L)).
 Local Notation "` 'L'" := (gval L) (only parsing).
-Local Notation H := `L`_\F%G.
-Local Notation "` 'H'" := `L`_\F%g (format "` 'H'") : group_scope.
+Local Notation H := (`L`_\F)%G.
+Local Notation "` 'H'" := (`L`_\F)%g (format "` 'H'") : group_scope.
 
 Hypothesis maxNU_L : L \in 'M('N(U)).
 
@@ -857,8 +857,8 @@ Variables (M : {group gT}) (tau1M : {additive 'CF(M) -> 'CF(G)}) (psi : 'CF(M)).
 Hypothesis maxNV_M : M \in 'M('N(V)).
 
 Local Notation "` 'M'" := (gval M) (only parsing).
-Local Notation K := `M`_\F%G.
-Local Notation "` 'K'" := `M`_\F%g (format "` 'K'") : group_scope.
+Local Notation K := (`M`_\F)%G.
+Local Notation "` 'K'" := (`M`_\F)%g (format "` 'K'") : group_scope.
 
 (* Consequences of the above. *)
 Hypotheses (maxM : M \in 'M) (sNVM : 'N(V) \subset M).
