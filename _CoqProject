@@ -39,4 +39,5 @@ theories/wielandt_fixpoint.v
 -arg -w -arg -redundant-canonical-projection
 -arg -w -arg -notation-overridden
 # introduced in Rocq 9.2
--arg -w -arg +level-tolerance
+# Uncomment when https://github.com/math-comp/math-comp/pull/1110 gets merged
+# -arg -w -arg +level-tolerance
