@@ -34,21 +34,11 @@
 
   ## select an entry to build in the following `bundles` set
   ## defaults to "default"
-  default-bundle = "8.20";
+  default-bundle = "9.1";
 
   ## write one `bundles.name` attribute set per
   ## alternative configuration, the can be used to
   ## compute several ci jobs as well
-  bundles."8.20".coqPackages = {
-    coq.override.version = "8.20";
-    mathcomp.override.version = "mathcomp-2.2.0";
-  };
-  bundles."9.0" = { rocqPackages = {
-    rocq-core.override.version = "9.0";
-  }; coqPackages = {
-    coq.override.version = "9.0";
-    mathcomp.override.version = "mathcomp-2.3.0";
-  }; };
   bundles."9.1" = { rocqPackages = {
     rocq-core.override.version = "9.1";
   }; coqPackages = {
