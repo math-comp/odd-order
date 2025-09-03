@@ -77,17 +77,20 @@ elim: n => // n IHn in gT G *; rewrite ltnS => leGn oddG.
 have oG: #|[subg G]| = #|G| by rewrite (card_isog (isog_subg G)).
 apply/idPn=> nsolG; apply: IH_FT.
 pose gT' : finGroupType := subg_of G.
-apply: (HB.pack gT' (IsMinSimpleOddGroup.Build gT' _ _ _ _));
-    do ?[move=> /= ??????].
-- by rewrite oG.
-- rewrite -(isog_simple (isog_subg _)); apply/simpleP; split=> [|H nsHG].
+have godd: odd #|[set: [subg G]]| by rewrite oG.
+have gsimp: simple [set: [subg G]].
+  rewrite -(isog_simple (isog_subg _)).
+  apply/simpleP; split=> [|H nsHG].
     by apply: contra nsolG; move/eqP->; rewrite abelian_sol ?abelian1.
   have [sHG _]:= andP nsHG; apply/pred2P; apply: contraR nsolG; case/norP=> ntH.
   rewrite eqEcard sHG -ltnNge (series_sol nsHG) => ltHG.
   by rewrite !IHn ?(oddSg sHG) ?quotient_odd ?(leq_trans _ leGn) ?ltn_quotient.
-- by apply: contra nsolG => solG; rewrite -(im_sgval G) morphim_sol.
-move=> M; rewrite properEcard oG; case/andP=> sMG ltMG.
-by apply: IHn (leq_trans ltMG leGn) (oddSg sMG _); rewrite oG.
+have gsol: ~~ solvable [set: [subg G]].
+  by apply: contra nsolG => solG; rewrite -(im_sgval G) morphim_sol.
+have gmin (M : {group [subg G]}) : M \proper [set: [subg G]] -> solvable M.
+  rewrite properEcard oG; case/andP=> sMG ltMG.
+  by apply: IHn (leq_trans ltMG leGn) (oddSg sMG _); rewrite oG.
+exact: (HB.pack gT' (IsMinSimpleOddGroup.Build gT' godd gsimp gsol gmin)).
 Qed.
 
 Lemma minSimpleOdd_prime gT (G : {group gT}) :
@@ -731,7 +734,7 @@ have [qQ2 nQ2P] := mem_max_normed maxQ2.
 have hallP: pi.-Hall('N_KBP(Q2)) P.
   have sPN: P \subset 'N_KBP(Q2) by rewrite subsetI joing_subr.
   rewrite pHallE eqn_leq -{1}(part_pnat_id piP) dvdn_leq ?partn_dvd ?cardSg //.
-  have ->: #|P| = #|KBP|`_pi.
+  have ->: #|P| = (#|KBP|`_pi)%N.
     rewrite /KBP joingC norm_joinEl // coprime_cardMg ?(pnat_coprime piP) //.
     by rewrite partnM // part_pnat_id // part_p'nat // muln1.
   by rewrite sPN dvdn_leq ?partn_dvd ?cardSg ?cardG_gt0 ?subsetIl.
