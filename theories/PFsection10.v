@@ -375,7 +375,7 @@ have cohS2 : coherent_with S2 M^# tau tau1 := subset_coherent_with sS21 cohS1.
 have irrS2: {subset S2 <= irr M} by apply/allP; rewrite /= cfAut_irr irr_zeta.
 rewrite (FTtype345_bridge_coherence cohS2 Dalpha) //; last first.
   rewrite -[X]opprK cfdotNr opprD cfdotDr nY_n2 cfdotNl cfdotNr opprK cfdotZl.
-  by rewrite cfdotC alpha_zeta_n rmorphN conj_natr // mulrN addNr oppr0.
+  by rewrite cfdotC alpha_zeta_n rmorphN/= conj_natr // mulrN addNr oppr0.
 split=> [|_ /sS21/sS10//|]; last first.
   by apply/allP; rewrite /= !inE cfConjCK !eqxx orbT.
 by rewrite /= inE eq_sym; have [[_ /hasPn-> //]] := scohS0; apply: sS10.

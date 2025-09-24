@@ -26,7 +26,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory.
+Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory Num.Def.
 
 Section Eleven.
 
@@ -867,7 +867,7 @@ have tau_alpha i: tau (alpha_ i j) = eta_ i j - eta_ i 0 - n *: zeta1.
     rewrite cfdotC Dphi cfdotDl (orthoPl oXS1) ?map_f // addr0.
     rewrite defY cfdotBl scaler_sumr cfproj_sum_orthonormal //.
     rewrite cfdotZl Itau1 ?mem_zchar ?n1S1 // mulr1 rmorphB opprD opprK.
-    by rewrite Dn rmorph_nat conj_intr.
+    by rewrite Dn rmorph_nat/= conj_intr.
     have a_even: (2 %| a)%C. (* Third internal part of (11.8.5). *)
     have Zbeta: beta \in 'Z[irr G].
       rewrite -{1}(betaE i j) // rpredD ?rpredB ?Zphi ?cycTIiso_vchar //.

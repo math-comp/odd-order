@@ -38,7 +38,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory FinRing.Theory.
+Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory Num.Def.
 
 Section Nine.
 
@@ -2121,7 +2121,7 @@ have [Gamma [S4_Gamma normGamma [b Dbeta]]]:
     rewrite -raddfB Dtau1 // Itau //; last first.
       by rewrite sS0A // zchar_split rpredB ?mem_zchar ?(zchar_on Z1dpsi).
     rewrite cfdotC cfdotBr cfdotZr !cfdotBl 2?oSS ?(memPn S1'lam1) // subrr.
-    by rewrite add0r n1psi1 oSS // subr0 mulr1 rmorphN conjCK subrr scale0r.
+    by rewrite add0r n1psi1 oSS // subr0 mulr1 rmorphN/= conjCK subrr scale0r.
   have Gge1: 1 <= '[G] ?= iff ('[G] == 1).
     rewrite eq_sym; apply: leif_eq.
     have N_G: '[G] \in Num.nat.
@@ -2147,9 +2147,9 @@ have [Gamma [S4_Gamma normGamma [b Dbeta]]]:
       congr (_ + _); rewrite dB scaleNr [- _ + _]addrC cfnormB !cfnormZ.
       rewrite normr_nat intr_normK // scaler_sumr cfdotZr rmorph_nat.
       rewrite cfnorm_map_orthonormal // cfproj_sum_orthonormal //.
-      rewrite Itau1 ?mem_zchar// n1psi1 mulr1 rmorphM/= rmorph_nat conj_intr //.
-      rewrite -mulr2n oS1ua -muln_divA // mul2n -addrA addrCA -natrX mulrBl.
-      by congr (_ + (_ - _)); rewrite -mulrnAl -mulrnA muln2 mulrC.
+      rewrite Itau1 ?mem_zchar// n1psi1 mulr1 [conjC _]rmorphM/= rmorph_nat.
+      rewrite conj_intr // -mulr2n oS1ua -muln_divA // -addrA addrCA mulrBl.
+      by rewrite -mulrnAl -mulrnA mul2n muln2 -natrX [b * _]mulrC.
     rewrite Itau // cfnormBd; last first.
       by rewrite cfdotZr oSS ?mulr0 // (memPnC S1'lam1).
     by rewrite cfnormZ normr_nat n1psi1 n1lam1 mulr1 addrC -natrX.
