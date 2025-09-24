@@ -49,7 +49,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory Num.Theory.
+Import GroupScope Order.TTheory GRing.Theory Num.Theory Num.Def.
 Local Open Scope ring_scope.
 
 (* Results about the set of induced irreducible characters *)

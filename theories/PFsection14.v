@@ -27,7 +27,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory.
+Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory Num.Def.
 
 Section Fourteen.
 
@@ -1257,5 +1257,3 @@ Proof. exact: (minSimpleOdd_ind no_minSimple_odd_group). Qed.
 Theorem simple_odd_group_prime (gT : finGroupType) (G : {group gT}) :
   odd #|G| -> simple G -> prime #|G|.
 Proof. exact: (minSimpleOdd_prime no_minSimple_odd_group). Qed.
-
-
