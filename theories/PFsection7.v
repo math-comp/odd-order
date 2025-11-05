@@ -596,8 +596,8 @@ have Delta_context L H (A := H^#) ddA (tau := Dade ddA) nu zeta :
     Dade_Ind1_sub_lin cohS ntS irr_zeta Szeta zeta_1.
   rewrite cfdotDl {}beta1_1 {nuS1_0}(orthoPr nuS1_0) ?map_f // addr0.
   rewrite rpredD ?{}Znu ?seqInd_zcharW {Zbeta}// /cfReal; do !split=> //.
-  rewrite rmorphD /= -subr_eq0 opprD addrAC addrA -addrA addr_eq0 opprD.
-  rewrite (cfConjC_Dade_coherent cohS) // opprK -Dade_conjC -!raddfB /=.
+  rewrite rmorphD /= -subr_eq0 opprD addrACA addr_eq0 opprB.
+  rewrite (cfConjC_Dade_coherent cohS) // -Dade_conjC -!raddfB /=.
   rewrite nu_tau ?zcharD1_seqInd ?seqInd_sub_aut_zchar //=.
   by rewrite rmorphB /= conj_cfInd cfConjC_cfun1 opprB addrC addrA subrK.
 have: ~~ (2 %| '[Delta L1 H1 ddA1 nu1 zeta1, Delta L2 H2 ddA2 nu2 zeta2])%C.
