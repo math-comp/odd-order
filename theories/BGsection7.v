@@ -53,7 +53,7 @@ Reserved Notation "|/|* ( A ; pi )" (format "|/|* ( A ;  pi )").
 
 (* The generic setup for the whole Odd Order Theorem proof. *)
 
-HB.mixin Record IsMinSimpleOddGroup gT of FinGroup gT := {
+HB.mixin Record IsMinSimpleOddGroup gT & FinGroup gT := {
   mFT_odd_full : odd #|[set: gT]|;
   mFT_simple : simple [set: gT];
   mFT_nonSolvable : ~~ solvable [set: gT];

@@ -65,7 +65,7 @@ Section Definitions.
 
 Variables (gT : finGroupType) (G W W1 W2 : {set gT}).
 
-Definition cyclicTIset of W1 \x W2 = W := W :\: (W1 :|: W2).
+Definition cyclicTIset & W1 \x W2 = W := W :\: (W1 :|: W2).
 
 Definition cyclicTI_hypothesis (defW : W1 \x W2 = W) :=
   [/\ cyclic W, odd #|W| & normedTI (cyclicTIset defW) G W].
