@@ -144,7 +144,7 @@ by rewrite -(@leq_pmul2l (p ^ q)) -?oH ?cUW2 //= expn_gt0 cardG_gt0.
 Qed.
 
 (* Existential witnesses for Peterfalvi (9.4). *)
-Definition Ptype_Fcore_kernel of of_typeP M U defW :=
+Definition Ptype_Fcore_kernel & of_typeP M U defW :=
   odflt 1%G [pick H0 : {group gT} | chief_factor M H0 H & 'C_H(U) \subset H0].
 Let H0 := (Ptype_Fcore_kernel MtypeP).
 Local Notation "` 'H0'" := (gval H0) (only parsing) : group_scope.

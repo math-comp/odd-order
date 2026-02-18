@@ -139,7 +139,7 @@ by case/and3P=> _ _ /andP[] /andP[] /eqP.
 Qed.
 
 (* This is Peterfalvi, Hypothesis (4.2), with explicit parameters. *)
-Definition primeTI_hypothesis (L K W W1 W2 : {set gT}) of W1 \x W2 = W :=
+Definition primeTI_hypothesis (L K W W1 W2 : {set gT}) & W1 \x W2 = W :=
   [/\ (*a*) [/\ K ><| W1 = L, W1 != 1, Hall L W1 & cyclic W1],
       (*b*) [/\ W2 != 1, W2 \subset K & cyclic W2],
             {in W1^#, forall x, 'C_K[x] = W2}

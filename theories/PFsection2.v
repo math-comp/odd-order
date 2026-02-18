@@ -103,7 +103,7 @@ Qed.
 
 Fact Dade_signalizer_key : unit. Proof. by []. Qed.
 Definition Dade_signalizer_def a := 'O_pi^'('C_G[a])%G.
-Definition Dade_signalizer of Dade_hypothesis G L A :=
+Definition Dade_signalizer & Dade_hypothesis G L A :=
   locked_with Dade_signalizer_key Dade_signalizer_def.
 
 Hypothesis ddA : Dade_hypothesis G L A.
