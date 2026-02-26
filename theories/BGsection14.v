@@ -9,6 +9,7 @@ From mathcomp Require Import nilpotent sylow abelian maximal hall frobenius.
 From odd_order Require Import BGsection1 BGsection3 BGsection4 BGsection5.
 From odd_order Require Import BGsection6 BGsection7 BGsection9 BGsection10.
 From odd_order Require Import BGsection12 BGsection13.
+Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (*   This file covers B & G, section 14, starting with the definition of the  *)

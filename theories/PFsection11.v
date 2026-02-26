@@ -16,6 +16,7 @@ From odd_order Require Import BGsection1 BGsection3 BGsection7 BGsection15.
 From odd_order Require Import BGsection16 PFsection1 PFsection2 PFsection3.
 From odd_order Require Import PFsection4 PFsection5 PFsection6 PFsection7.
 From odd_order Require Import PFsection8 PFsection9 PFsection10.
+Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 11: Maximal subgroups of Types        *)

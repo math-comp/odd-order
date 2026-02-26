@@ -5,6 +5,7 @@ From mathcomp Require ssreflect ssrfun ssrbool eqtype ssrnat fintype finset.
 From mathcomp Require fingroup morphism quotient action gproduct.
 From mathcomp Require gfunctor commutator gseries nilpotent.
 From odd_order Require PFsection14.
+Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file contains a minimal, self-contained reformulation of the Odd      *)
