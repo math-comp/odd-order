@@ -12,6 +12,7 @@ From mathcomp Require Import cyclic center commutator pgroup nilpotent hall.
 From mathcomp Require Import falgebra fieldext galois algC algnum.
 From mathcomp Require Import mxrepresentation classfun character inertia.
 From mathcomp Require Import integral_char vcharacter.
+Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 1: Preliminary results.               *)

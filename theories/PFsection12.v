@@ -17,6 +17,7 @@ From odd_order Require Import BGsection7 BGsection14 BGsection15 BGsection16.
 From odd_order Require Import PFsection1 PFsection2 PFsection3 PFsection4.
 From odd_order Require Import PFsection5 PFsection6 PFsection7 PFsection8.
 From odd_order Require Import PFsection9 PFsection10 PFsection11.
+Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
 
 Set Implicit Arguments.
 Unset Strict Implicit.

@@ -14,6 +14,7 @@ From mathcomp Require Import mxrepresentation classfun character inertia.
 From mathcomp Require Import vcharacter.
 From odd_order Require Import BGsection3 PFsection1 PFsection2 PFsection4.
 From odd_order Require Import PFsection5 PFsection6.
+Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 7:                                    *)

@@ -17,6 +17,7 @@ From odd_order Require Import BGsection15 BGsection16 BGappendixC PFsection1.
 From odd_order Require Import PFsection2 PFsection3 PFsection4 PFsection5.
 From odd_order Require Import PFsection6 PFsection7 PFsection8 PFsection9.
 From odd_order Require Import PFsection10 PFsection11 PFsection12 PFsection13.
+Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 14: Non_existence of G.               *)

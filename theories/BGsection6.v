@@ -6,6 +6,7 @@ From mathcomp Require Import fingroup morphism automorphism quotient gproduct.
 From mathcomp Require Import cyclic center gfunctor commutator.
 From mathcomp Require Import pgroup nilpotent sylow abelian maximal hall.
 From odd_order Require Import BGsection1 BGappendixAB.
+Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (*   This file covers most of B & G section 6.                                *)

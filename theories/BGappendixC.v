@@ -12,6 +12,7 @@ From mathcomp Require Import frobenius.
 From mathcomp Require Import falgebra fieldext galois algC finfield.
 From mathcomp Require Import mxabelem classfun character integral_char inertia.
 From odd_order Require Import BGsection1.
+Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
 
 Set Implicit Arguments.
 Unset Strict Implicit.
