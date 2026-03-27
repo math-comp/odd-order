@@ -8,7 +8,7 @@ From mathcomp Require Import mxalgebra.
 From mathcomp Require Import cyclic center gfunctor commutator finmodule.
 From mathcomp Require Import gseries pgroup nilpotent sylow abelian maximal.
 From mathcomp Require Import hall extremal mxrepresentation mxabelem.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file contains most of the material in B & G, section 1, including the *)

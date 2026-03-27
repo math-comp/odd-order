@@ -6,7 +6,7 @@ From mathcomp Require Import fingroup automorphism action gproduct.
 From mathcomp Require Import center gfunctor commutator gseries pgroup.
 From mathcomp Require Import nilpotent sylow abelian maximal.
 From odd_order Require Import BGsection1 BGsection5 BGsection6 BGsection7.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (*   This file covers B & G, section 8, i.e., the proof of two special cases  *)

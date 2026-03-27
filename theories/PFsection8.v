@@ -13,7 +13,7 @@ From mathcomp Require Import vcharacter.
 From odd_order Require Import BGsection1 BGsection3 BGsection7 BGsection10.
 From odd_order Require Import BGsection14 BGsection15 BGsection16 PFsection1.
 From odd_order Require Import PFsection2 PFsection3 PFsection4 PFsection5.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 8: Structure of a Minimal Simple      *)

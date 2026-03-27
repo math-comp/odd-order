@@ -7,7 +7,7 @@ From mathcomp Require Import cyclic center gfunctor commutator gseries pgroup.
 From mathcomp Require Import nilpotent sylow abelian maximal hall.
 From odd_order Require Import BGsection1 BGsection4 BGsection5 BGsection6.
 From odd_order Require Import BGsection7 BGsection8.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (*   This file covers B & G, section 9, i.e., the proof the Uniqueness        *)

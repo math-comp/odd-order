@@ -8,7 +8,7 @@ From mathcomp Require Import cyclic center gfunctor commutator.
 From mathcomp Require Import gseries pgroup nilpotent sylow abelian maximal.
 From mathcomp Require Import hall extremal mxrepresentation mxabelem.
 From odd_order Require Import BGsection1 BGsection2.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (*   This file covers B & G, Section 4, i.e., the proof of structure theorems *)

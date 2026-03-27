@@ -8,7 +8,7 @@ From mathcomp Require Import center gfunctor commutator gseries pgroup.
 From mathcomp Require Import nilpotent sylow abelian maximal.
 From mathcomp Require Import mxrepresentation mxabelem.
 From odd_order Require Import BGsection1 BGsection2.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file contains the useful material in B & G, appendices A and B, i.e., *)

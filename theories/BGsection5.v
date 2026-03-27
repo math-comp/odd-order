@@ -7,7 +7,7 @@ From mathcomp Require Import action gproduct.
 From mathcomp Require Import cyclic center gfunctor commutator gseries pgroup.
 From mathcomp Require Import nilpotent sylow abelian maximal hall.
 From odd_order Require Import BGsection1 BGsection4.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (*   This file covers Section 5 of B & G, except for some technical results   *)

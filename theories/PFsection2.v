@@ -11,7 +11,7 @@ From mathcomp Require Import algC.
 From mathcomp Require Import mxrepresentation classfun character inertia.
 From mathcomp Require Import vcharacter.
 From odd_order Require Import PFsection1.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 2: the Dade isometry                  *)

@@ -12,7 +12,7 @@ From mathcomp Require Import falgebra fieldext galois algC algnum.
 From mathcomp Require Import mxrepresentation classfun character integral_char.
 From mathcomp Require Import inertia vcharacter.
 From odd_order Require Import PFsection1 PFsection2.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 3: TI-Subsets with Cyclic Normalizers *)

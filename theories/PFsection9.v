@@ -16,7 +16,7 @@ From mathcomp Require Import inertia vcharacter.
 From odd_order Require Import BGsection1 BGsection3 BGsection7 BGsection15.
 From odd_order Require Import BGsection16 PFsection1 PFsection2 PFsection3.
 From odd_order Require Import PFsection4 PFsection5 PFsection6 PFsection8.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 9: On the maximal subgroups of Types  *)
