@@ -344,7 +344,7 @@ exists U; split=> //.
   by apply: subHall_Hall hallE _ hallU => p; case/norP.
 suffices ->: U * K = E by apply: groupP.
 have [[sUE sk'U _] [sEM s'E _]] := (and3P hallU, and3P hallE).
-apply/eqP; rewrite eqEcard mulG_subG sUE sKE /= coprime_cardMg; last first.
+apply/eqP; rewrite eqEcard mulG_subG sUE sKE /= coprime_cardMg.
   by apply: p'nat_coprime (sub_pgroup _ sk'U) kK => p; case/norP.
 rewrite -(partnC \kappa(M) (cardG_gt0 E)) -{2}(part_pnat_id s'E) mulnC.
 rewrite -(card_Hall (pHall_subl sKE sEM hallK)) leq_mul // -partnI.
@@ -414,7 +414,7 @@ Proof.
 move=> maxM sylS /and3P[piMp sM'p kM'p]; have [sSM pS _] := and3P sylS.
 rewrite 6!(maxM, inE) [M \in 'M_'F]inE maxM /=.
 rewrite !andbT negb_and orb_andr orbN andbT negbK.
-rewrite (contra (fun skM => pnatPpi skM piMp)) ?orbT; last exact/norP.
+rewrite (contra (fun skM => pnatPpi skM piMp)) ?orbT; first exact/norP.
 rewrite partition_pi_mmax // (negPf sM'p) orbF orbCA in piMp.
 have{piMp} [t2p | t13p] := orP piMp.
   rewrite (tau2_Msigma_nil maxM t2p); have [_ rpM] := andP t2p.
@@ -526,7 +526,7 @@ have [have_a nK1K ntE1 sE1K]: [/\ part_a, b1_hyp, E1 :!=: 1 & E1 \subset K].
       rewrite -subcent_TImulg ?subsetI ?(subset_trans sYE1) // mulG_subG.
       rewrite !subG1 /= => /nandP[nregE3Y | nregE2Y].
         have pr13 := cent_semiprime (tau13_primact_Msigma maxM complEi _).
-        rewrite pr13 ?(subset_trans sYE1) ?joing_subr //; last first.
+        rewrite pr13 ?(subset_trans sYE1) ?joing_subr //.
           by move/cent_semiregular=> regE31; rewrite regE31 ?eqxx in nregE3Y.
         pose q := pdiv #|'C_E3(Y)|.
         have piE3q: q \in \pi(E3).
@@ -534,7 +534,7 @@ have [have_a nK1K ntE1 sE1K]: [/\ part_a, b1_hyp, E1 :!=: 1 & E1 \subset K].
         have /p_rank_geP[X]: 0 < 'r_q(M :&: E3).
           by rewrite (setIidPr sE3M) p_rank_gt0.
         rewrite pnElemI -setIdE => /setIdP[EqX sXE3].
-        rewrite -subG1 -(_ : 'C_Ms(X) = 1) ?setIS ?centS //.
+        rewrite -subG1 -(_ : 'C_Ms(X) = 1) ?setIS ?centS //; last first.
           by rewrite (subset_trans sXE3) ?joing_subl.
         apply: contraTeq (pnatPpi t3E3 piE3q) => nregMsX; apply: tau3'1.
         suffices kq: q \in \kappa(M).
@@ -566,8 +566,8 @@ have [have_a nK1K ntE1 sE1K]: [/\ part_a, b1_hyp, E1 :!=: 1 & E1 \subset K].
       by split; rewrite // -defK mulUE1 groupP.
     apply: abelianS (der_mmax_compl_abelian maxM hallE).
     rewrite -(coprime_cent_prod nUE1) ?(solvableS sUE) //.
-      by rewrite {2}defK (cent_semiregular regUK) // mulg1 commgSS.
-    by rewrite (coprime_sdprod_Hall_r defE); apply: pHall_Hall hallE1.
+      by rewrite (coprime_sdprod_Hall_r defE); apply: pHall_Hall hallE1.
+    by rewrite {2}defK (cent_semiregular regUK) // mulg1 commgSS.
   move: not_t1K; rewrite negb_and cardG_gt0 => /allPn[p piKp t1'p].
   have kp := pnatPpi kK piKp; have t3p := kappa_tau13 kp.
   rewrite [p \in _](negPf t1'p) /= in t3p.
@@ -584,7 +584,7 @@ have [have_a nK1K ntE1 sE1K]: [/\ part_a, b1_hyp, E1 :!=: 1 & E1 \subset K].
     have{q_dv_E} piEq: q \in \pi(E) by rewrite mem_primes q_pr cardG_gt0.
     rewrite unlock; apply/andP; split=> /=.
       apply: pnatPpi piEq; rewrite -pgroupE -(sdprodW defE).
-      rewrite pgroupM (sub_pgroup _ t3E3) => [|r t3r]; last by apply/orP; right.
+      rewrite pgroupM (sub_pgroup _ t3E3) => [r t3r|]; first by apply/orP; right.
       by rewrite (sub_pgroup _ t1E1) // => r t1r; apply/orP; left.
     have:= piEq; rewrite -p_rank_gt0 => /p_rank_geP[Y].
     rewrite -{1}(setIidPr sEM) pnElemI -setIdE => /setIdP[EqY sYE].
@@ -597,7 +597,7 @@ have [have_a nK1K ntE1 sE1K]: [/\ part_a, b1_hyp, E1 :!=: 1 & E1 \subset K].
   rewrite sdprod1g; do 2?split=> //; rewrite ?mul1g ?groupP -?defK //.
   rewrite pHallE sub1G cards1 eq_sym partG_eq1 pgroupNK /=.
   have{defM} [_ defM _ _] := sdprodP defM; rewrite -{2}defM defK pgroupM.
-  rewrite (sub_pgroup _ sMs) => [|r sr]; last by apply/orP; left.
+  rewrite (sub_pgroup _ sMs) => [r sr|]; first by apply/orP; left.
   by rewrite (sub_pgroup _ kK) // => r kr; apply/orP; right.
 set part_b := _ /\ _; set part_c := _ /\ _; set part_d := _ /\ _.
 have [U [complUK defM] [cUU prMsK regUK]] := have_a.
@@ -610,18 +610,18 @@ have have_b: part_b.
   case/andP=> nMsU nMsK _.
   have coMsU_K: coprime #|Ms <*> U| #|K|.
     rewrite norm_joinEr // (p'nat_coprime _ kK) // -pgroupE.
-    rewrite pgroupM // (sub_pgroup _ sMs) => [|r]; last first.
+    rewrite pgroupM // (sub_pgroup _ sMs) => [r|].
       by apply: contraL; apply: kappa_sigma'.
     by apply: sub_pgroup _ sk'U => r /norP[].
   have defNK X: X <| K -> X :!=: 1 -> 'N_M(X) = Ks * K.
     case/andP=> sXK nXK ntX; rewrite -defM -(norm_joinEr nMsU).
     rewrite setIC -group_modr // setIC.
-    rewrite coprime_norm_cent ?(subset_trans sXK) ?normsY //; last first.
+    rewrite coprime_norm_cent ?(subset_trans sXK) ?normsY //.
       by rewrite (coprimegS sXK).
-    rewrite /= norm_joinEr -?subcent_TImulg ?(coprime_TIg coMsU) //; last first.
+    rewrite /= norm_joinEr -?subcent_TImulg ?(coprime_TIg coMsU) //.
       by rewrite subsetI !(subset_trans sXK).
     by rewrite (cent_semiregular regUK) // mulg1 (cent_semiprime prMsK).
-  rewrite /part_b dprodE ?subsetIr //; last first.
+  rewrite /part_b dprodE ?subsetIr //.
     rewrite setICA setIA (coprime_TIg (coprimeSg _ coMsU_K)) ?setI1g //.
     by rewrite joing_subl.
   rewrite -centC ?subsetIr // defNK //; split=> // X Eq1X.
@@ -816,7 +816,7 @@ have [t2y | not_t2y] := boolP (\tau2(M).-elt y); [right | left].
   have [maxH _] := setIdP maxNH.
   have sHy: \sigma(H).-elt y by apply: sub_p_elt t2y => q /st2MsH/andP[].
   rewrite /sigma_length (cardsD1 y.`_(\sigma(H))).
-  rewrite mem_sigma_decomposition //; last by rewrite constt_p_elt.
+  rewrite mem_sigma_decomposition //; first by rewrite constt_p_elt.
   rewrite eqSS -sigma_decomposition_constt' //.
   by apply/ell_sigma0P; rewrite (constt1P _) ?p_eltNK.
 have{not_t2y} [p piYp t2'p]: exists2 p, p \in \pi(#[y]) & p \notin \tau2(M).
@@ -998,7 +998,7 @@ rewrite orbAC -2!andb_orr -(subnKC rpM) andbF /= => t2Mp.
 case/negP: ntX; rewrite -subG1 (subset_trans sXx) //.
 have [_ _ <- _ _] := tau2_context maxM t2Mp Ep2A.
 have [[sAM abelA _] [_ nAMN]] := (pnElemP Ep2A, andP nsAMN).
-rewrite -coprime_norm_cent ?(subset_trans sAM) ?gFnorm //.
+rewrite -coprime_norm_cent ?(subset_trans sAM) ?gFnorm //; last first.
   by rewrite cycle_subG inE Ms_x (subsetP nAMN).
 have [[sM'p _] [pA _]] := (andP t2Mp, andP abelA).
 exact: pnat_coprime (pcore_pgroup _ _) (pi_pgroup pA sM'p).
@@ -1160,7 +1160,7 @@ have->: class_support M^~~ G = cover P.
     by rewrite sigma_coverJ memJ_conjg.
   case/imsetP=> _ /imset2P[x z Ms_x Gz ->] ->; rewrite sigma_coverJ.
   by case/imsetP=> a xRa ->; exists a z => //; apply/bigcupP; exists x.
-rewrite -(eqnP tiP) big_imset /= => [|x y MsGx MsGy eq_xyR]; last first.
+rewrite -(eqnP tiP) big_imset /= => [x y MsGx MsGy eq_xyR|].
   have: x *: 'R[x] != set0 by rewrite -cards_eq0 -lt0n card_lcoset cardG_gt0.
   rewrite -[x *: _]setIid {2}eq_xyR setI_eq0.
   by apply: contraNeq => neq_xy; rewrite sigma_cover_disjoint ?ellMsG.
@@ -1169,7 +1169,7 @@ set MG := orbit _ G M; rewrite mulnC -sum_nat_const.
 transitivity (\sum_(Mz in MG) \sum_(x in (Mz`_\sigma)^#) 1); last first.
   apply: eq_bigr => _ /imsetP[z _ ->]; rewrite sum1_card MsigmaJ.
   by rewrite -conjD1g cardJg.
-rewrite (exchange_big_dep (mem MsG)) /= => [|Mz xz]; last first.
+rewrite (exchange_big_dep (mem MsG)) /= => [Mz xz|].
   case/imsetP=> z Gz ->; rewrite MsigmaJ -conjD1g => /imsetP[x Ms_x ->{xz}].
   exact: imset2_f.
 apply: eq_bigr => x MsGx; rewrite card_lcoset sum1dep_card.
@@ -1237,8 +1237,8 @@ have s'g M: M \in 'M -> g \in M -> g.`_\sigma(M) = 1.
   have ell1x: \ell_\sigma(x) == 1%N.
     rewrite /sigma_length (cardsD1 x.`_\sigma(M)).
     rewrite -sigma_decomposition_constt' // mem_sigma_decomposition //.
-      by apply/ell_sigma0P; apply/constt1P; rewrite p_eltNK p_elt_constt.
-    by rewrite sub_in_constt // => ?.
+      by rewrite sub_in_constt // => ?.
+    by apply/ell_sigma0P; apply/constt1P; rewrite p_eltNK p_elt_constt.
   apply: contra (not_sign_g _ ell1x) => Mg; rewrite def_x'.
   have [-> | ntx'] := eqVneq x' 1; first exact: group1.
   have cxx': x \in 'C[x'] by apply/cent1P; apply: commuteX2.
@@ -1472,7 +1472,7 @@ have dprodKs_eqZ: \big[dprod/1]_(Mi in MX) Ks_ Mi = Z; last clear dprodKs_eqZ.
     have [_ defZi cKiKs tiKiKs] := dprodP (defZX _ MXi).
     by rewrite dprodC joingC dprodEY.
   rewrite eqEsubset {1}(bigD1 M) //= Ks0 setUC -joingE -joing_idl.
-  rewrite genS ?setSU ?big_setU1 //=; last by rewrite -K0 sYKs_KX.
+  rewrite genS ?setSU ?big_setU1 //=; first by rewrite -K0 sYKs_KX.
   rewrite setUC -joingE -joing_idl Ks0 genS ?setSU // -(Sylow_gen K) gen_subG.
   apply/bigcupsP=> P; case/SylowP=> p p_pr /=; case/and3P=> sPK pP _.
   have [-> | ] := eqsVneq P 1; first exact: sub1G.
@@ -1533,7 +1533,7 @@ have oT: #|T| = #|Z| + #|MNX| - (\sum_(Mi in MX) #|Ks_ Mi|).
     move=> Mi Mj MXi MXj /= neqMji.
     by rewrite -setI_eq0 -setDIl setD_eq0 setIC tiKs.
   have{tiPZ} [tiPZ notPZ_T] := trivIsetU1 tiTPZ tiPZ notPZset0.
-  rewrite (eq_bigr (fun Mi : {group gT} => 1 + #|(Ks_ Mi)^#|)%N); last first.
+  rewrite (eq_bigr (fun Mi : {group gT} => 1 + #|(Ks_ Mi)^#|)%N).
     by move=> Mi _; rewrite (cardsD1 1) group1.
   rewrite big_split sum1_card cardsU1 notMNX0 (cardsD1 1 Z) group1 /=.
   have ->: Z^# = cover (T |: PZ).
@@ -1546,7 +1546,7 @@ have tiTscov: {in 'M, forall H, [disjoint T & H^~~]}.
   have ntt: t != 1 by have [/setD1P[]] := setDP Tt.
   have [x Hs_x xR_y] := bigcupP scovHt; have ell1x := Msigma_ell1 maxH Hs_x.
   have:= sigma_decomposition_dichotomy ntt.
-  rewrite (introT existsP) /=; last by exists x; rewrite ell1x -mem_lcoset.
+  rewrite (introT existsP) /=; first by exists x; rewrite ell1x -mem_lcoset.
   rewrite -defT in Tt; have [Mi MXi Zi_t] := bigcupP Tt.
   case/mulsgP: Zi_t => y y' /setD1P[nty Ks_y] /setD1P[nty' Ky'] ->.
   case/existsP; exists y; rewrite mulKg.
@@ -1595,11 +1595,11 @@ have nz_ks: #|Ks_ _|%:R != 0%R :> rat := natrG_neq0 _ _.
 pose TG := class_support T G.
 have oTG: (#|TG|%:R = (1 + n / z - \sum_(Mi in MX) (k_ Mi)^-1) * g)%R.
   rewrite /TG class_supportEr -cover_imset -(eqnP tiT).
-  rewrite (eq_bigr (fun _ => #|T|)) => [|_ /imsetP[x _ ->]]; last first.
+  rewrite (eq_bigr (fun _ => #|T|)) => [_ /imsetP[x _ ->]|].
     by rewrite cardJg.
   rewrite sum_nat_const card_conjugates setTI defNT.
   rewrite natrM natf_indexg ?subsetT //= -/z -mulrA mulrC; congr (_ * _)%R.
-  rewrite oT natrB; last by rewrite ltnW // -subn_gt0 lt0n -oT cards_eq0.
+  rewrite oT natrB; first by rewrite ltnW // -subn_gt0 lt0n -oT cards_eq0.
   rewrite mulrC natrD -/n -/z natr_sum /=.
   rewrite mulrBl mulrDl big_distrl divff //=; congr (_ - _)%R.
   apply: eq_bigr => Mi MXi; have defZi := defZX _ MXi.
@@ -1828,7 +1828,7 @@ rewrite defZhat {1}defKs; split; first 2 [by split].
     by rewrite -defZ setIA setIid.
   + case/setD1P; rewrite -cycle_eq1 -cycle_subG -cent_cycle => ntx sxK.
     apply/eqP; rewrite eqEsubset andbC subsetI -{1}defZ subsetIl.
-    rewrite sub_abelian_cent ?cyclic_abelian //=; last first.
+    rewrite sub_abelian_cent ?cyclic_abelian //=.
       by rewrite (subset_trans sxK) ?joing_subl.
     move: ntx; rewrite -rank_gt0 /= -{1}(setIidPr sxK) => /rank_geP[X].
     rewrite nElemI -setIdE -defZ => /setIdP[E1X sXx].
@@ -1837,7 +1837,7 @@ rewrite defZhat {1}defKs; split; first 2 [by split].
     have [_ [defNKs defNY] _ _ _] := Ptype_structure PmaxMstar hallKstar.
     rewrite defZstar -defKs in defNKs defNY.
     apply/eqP; rewrite eqEsubset andbC subsetI {1}defNKs subsetIl.
-    rewrite sub_abelian_cent ?cyclic_abelian //=; last first.
+    rewrite sub_abelian_cent ?cyclic_abelian //=.
       by rewrite (subset_trans syKs) ?joing_subr.
     move: nty; rewrite -rank_gt0 /= -{1}(setIidPr syKs) => /rank_geP[Y].
     rewrite nElemI -setIdE defNKs => /setIdP[E1Y sYy].
@@ -1857,7 +1857,7 @@ split=> // [||H PmaxH].
   have [[_ K_x] [nty Ks_y]] := (setD1P K1_x, setD1P Ks1_y); case/negP: nty.
   rewrite -in_set1 -set1gE -(tiKs a notMa) inE Ks_y.
   suffices ->: y = (x * y).`_\sigma(M) by rewrite groupX.
-  rewrite consttM; last by red; rewrite -(centsP cKKs).
+  rewrite consttM; first by red; rewrite -(centsP cKKs).
   have sM'K := sub_pgroup (@kappa_sigma' M) (pHall_pgroup hallK).
   rewrite (constt1P (mem_p_elt sM'K K_x)) mul1g constt_p_elt //.
   exact: mem_p_elt (pHall_pgroup hallKs) Ks_y.
@@ -2003,7 +2003,7 @@ have [|//|tiZPcover notPcovZ]: _ /\ ClZhat \notin _ := trivIsetU1 _ tiPcover _.
   rewrite 3!inE mem_lcoset negb_or -andbA; apply/and4P=> [[yRx notKx notKs_x]].
   rewrite /Z cent_joinEr ?subsetIr //; case/mulsgP=> z z' Kz Ks_z' defx.
   have:= sigma_decomposition_dichotomy (group1_contra notKx).
-  rewrite (introT exists_inP) /=; last first.
+  rewrite (introT exists_inP) /=.
     by exists y; rewrite // (Msigma_ell1 maxH).
   have [Ms_z' cKz'] := setIP Ks_z'; case/exists_inP; exists z'.
     rewrite (Msigma_ell1 maxM) ?inE // Ms_z' andbT.
@@ -2060,7 +2060,7 @@ rewrite -(mulKVg y x) -/y' 2!inE negb_or andbC.
 do [set Ks := 'C_(_)(K); set Z := K <*> _] in cycZ defZ *.
 have Ks_y: y \in Ks.
   have cKZ := sub_abelian_cent (cyclic_abelian cycZ) (joing_subl K Ks).
-  rewrite inE Ms_y (subsetP cKZ) // -(defZ y'); last by rewrite !inE nty'.
+  rewrite inE Ms_y (subsetP cKZ) // -(defZ y'); first by rewrite !inE nty'.
   by rewrite inE cent1C (subsetP sMsM).
 have [_ [defNK _] _ _ _] := Ptype_structure PmaxM hallK.
 have{defNK} [_ _ cKKs tiKKs] := dprodP defNK.
@@ -2327,7 +2327,7 @@ have sDMst: D \subset Mst.
   apply: snK_sMst (subnormal_trans _ (normal_subnormal (Fitting_normal D))).
   exact: nilpotent_subnormal (Fitting_nil D) sK_FD.
 have defUK: [~: U, K] = U.
-  rewrite -{2}(coprime_cent_prod nUK) ?abelian_sol //; last first.
+  rewrite -{2}(coprime_cent_prod nUK) ?abelian_sol //.
     by apply: p'nat_coprime (sub_pgroup _ sk'M_U) kK => ? /norP[].
   by rewrite (cent_semiregular regK) ?mulg1.
 have qK: q.-group K := pnat_id q_pr.
@@ -2353,7 +2353,7 @@ have sUHs: U \subset H`_\sigma.
 have defNMU: 'N_M(U) = E.
   have [_ mulHsE nHsE _] := sdprodP (sdprod_sigma maxM hallE).
   have [sUE nUE] := andP nsUE; rewrite -mulHsE -normC // -group_modl //=.
-  rewrite coprime_norm_cent ?(subset_trans sUE) //; last first.
+  rewrite coprime_norm_cent ?(subset_trans sUE) //.
     exact: coprimegS sUE (coprime_sigma_compl hallE).
   have sR1U: 'Ohm_1(R) \subset U := gFsub_trans _ (pHall_sub sylR).
   rewrite (trivgP (subset_trans (setIS _ (centS sR1U)) _)) ?mulg1 //.
@@ -2508,5 +2508,3 @@ by apply/eqP; rewrite (eq_subG_cyclic cycP) // !cardJg oA0 oA1.
 Qed.
 
 End Section14.
-
-

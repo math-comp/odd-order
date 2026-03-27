@@ -467,7 +467,7 @@ suffices: P \subset K.
 suffices sP_pAC: P \subset 'O_pi^'(A <*> 'C(A)).
   rewrite (subset_trans sP_pAC) ?pcore_max ?pcore_pgroup //.
   rewrite /normal gFnorm_trans ?normsG ?joing_subr // andbT.
-  rewrite -quotient_sub1; last first.
+  rewrite -quotient_sub1.
     by rewrite gFsub_trans // join_subG !(normG, norms_cent).
   rewrite /= -(setIidPr (pcore_sub _ _)) quotientGI ?joing_subr //=.
   rewrite {1}cent_joinEr // quotientMidr coprime_TIg // coprime_morph //.
@@ -546,8 +546,8 @@ rewrite -(setIidPr (subset_trans (pHall_sub sylR2) sLH)) setIA.
 rewrite (setIidPl sQR1) (setIidPl sQR2) {}defH //.
 have nilQ1 := pgroup_nil qQ1; have nilQ2 := pgroup_nil qQ2.
 rewrite !nilpotent_proper_norm /proper ?subsetIl ?subsetIr ?subsetI ?subxx //=.
-  by rewrite andbT; apply: contra neQ12 => sQ21; rewrite (maxQ2P Q1) ?qQ1.
-by apply: contra neQ12 => sQ12; rewrite (maxQ1P Q2) ?qQ2.
+  by apply: contra neQ12 => sQ12; rewrite (maxQ1P Q2) ?qQ2.
+by rewrite andbT; apply: contra neQ12 => sQ21; rewrite (maxQ2P Q1) ?qQ1.
 Qed.
 
 (* This is B & G, Theorem 7.2. *)
@@ -581,7 +581,7 @@ have{mB3} ncycC: ~~ cyclic C.
 have: [exists (z | 'C_Q2[z] != 1), z \in C^#].
   apply: contraR ntQ2 => trQ2; have:= subset_trans sCB (subset_trans sBA nQ2A).
   rewrite -[_ == _]subG1 /=.
-  move/coprime_abelian_gen_cent1 <-; rewrite ?(abelianS sCB) //; last first.
+  move/coprime_abelian_gen_cent1 <-; rewrite ?(abelianS sCB) //.
     by rewrite (coprimegS sCB) ?q'B.
   rewrite gen_subG; apply/bigcupsP=> z Cz.
   by apply: contraR trQ2 => ntCz; apply/existsP; exists z; rewrite -subG1 ntCz.
@@ -618,7 +618,7 @@ have ntRC: 'C_R(A) != 1.
   by rewrite !p_part_gt1 !mem_primes !cardG_gt0 qC => /and3P[->].
 have: [exists (z | 'C_Q[z] != 1), z \in B^#].
   apply: contraR ntQ => trQ; have:= subset_trans sBA nQA.
-  rewrite -[_ == _]subG1=> /coprime_abelian_gen_cent1 <- //; last first.
+  rewrite -[_ == _]subG1=> /coprime_abelian_gen_cent1 <- //.
     by rewrite coprime_sym (coprimeSg sBA) ?coprime_pi' /pgroup ?(pi_pnat qQ).
   rewrite gen_subG; apply/bigcupsP=> z Cz; rewrite subG1.
   by apply: contraR trQ => ntCz; apply/existsP; exists z; rewrite ntCz.
@@ -648,13 +648,13 @@ suffices: [transitive KP, on |/|*(P; q) | 'JG] /\ |/|*(P; q) \subset |/|*(A; q).
   have nsKPN: KP <| 'N(P) := gFnormal_trans _ (cent_normal _).
   case=> trKP smnPA; rewrite (defK _ (subnormal_sub snAP)); split=> // Q maxQ.
   have defNP: KP * 'N_('N(P))(Q) = 'N(P).
-    rewrite -(astab1JG Q) -normC; last by rewrite subIset 1?normal_norm.
+    rewrite -(astab1JG Q) -normC; first by rewrite subIset 1?normal_norm.
     apply/(subgroup_transitiveP maxQ); rewrite ?normal_sub //=.
     by rewrite (atrans_supgroup _ trKP) ?norm_acts_max_norm ?normal_sub.
   split=> //; move/pprod_focal_coprime: defNP => -> //.
-  - by rewrite subIset // orbC commgSS ?subsetIr.
   - by rewrite subsetI normG; case/mem_max_normed: maxQ.
-  by rewrite (p'nat_coprime (pcore_pgroup _ _)).
+  - by rewrite (p'nat_coprime (pcore_pgroup _ _)).
+  - by rewrite subIset // orbC commgSS ?subsetIr.
 elim: {P}_.+1 {-2}P (ltnSn #|P|) => // m IHm P lePm in KP piP snAP *.
 wlog{snAP} [B maxnB snAB]: / {B : grT | maxnormal B P P & A <|<| B}.
   case/subnormalEr: snAP => [|[D [snAD nDP prDP]]]; first by rewrite /KP => <-.
@@ -838,12 +838,12 @@ have solCB (b : gT): b != 1 -> solvable 'C[b].
   by move=> ntb; rewrite mFT_sol ?mFT_cent1_proper.
 wlog{sAX prX} [b B'b defX]: X Y p'Y nYA sYX / exists2 b, b \in B^# & 'C[b] = X.
   move=> IH; have nYB := subset_trans sBA nYA.
-  rewrite -(coprime_abelian_gen_cent1 cBB _ nYB); last first.
-  - by rewrite coprime_sym (pnat_coprime pB).
+  rewrite -(coprime_abelian_gen_cent1 cBB _ nYB).
   - apply: contraL dimB2 => /cyclicP[x defB].
     have Bx: x \in B by rewrite defB cycle_id.
     rewrite defB -orderE (abelem_order_p abelB Bx) ?(pfactorK 1) //.
     by rewrite -cycle_eq1 -defB.
+  - by rewrite coprime_sym (pnat_coprime pB).
   rewrite gen_subG; apply/bigcupsP=> b B'b.
   have [ntb Bb]:= setD1P B'b; have sYbY: 'C_Y[b] \subset Y := subsetIl _ _.
   have{IH} sYbKb: 'C_Y[b] \subset 'O_p^'('C[b]).
@@ -889,8 +889,8 @@ wlog Zb: b X Y defX B'b p'Y nYA sYX / b \in Z.
   have sZKp: Z \subset 'O_{p^', p}(X).
     suff: 'Z(P1) \subset 'O_{p^', p}(X).
       apply: subset_trans; rewrite subsetI {1}defP1 (subset_trans sZB).
-        by rewrite (subset_trans sZ_ZP) ?subIset // orbC centS.
-      by rewrite subsetI normal_sub.
+        by rewrite subsetI normal_sub.
+      by rewrite (subset_trans sZ_ZP) ?subIset // orbC centS.
     apply: odd_p_abelian_constrained sylP2 (center_abelian _) nsZP1_2 => //.
     exact: mFT_odd.
   have coYZ: coprime #|Y| #|Z|.
@@ -941,9 +941,9 @@ have cYKq: Y / K \subset 'C('O_p(X / K)).
   - exact: pgroup_nil (pcore_pgroup _ _).
   apply: subset_trans (cYAq); rewrite -defCA -['C_P(A) / K](morphim_restrm nKP).
   rewrite injm_cent ?ker_restrm ?ker_coset ?(morphim_restrm nKP) -?quotientE //.
-    rewrite setIid (setIidPr sAP) setISS ?centS //.
-    by rewrite pcore_sub_Hall ?morphim_pHall.
-  by rewrite coprime_TIg ?(pnat_coprime _ (pcore_pgroup _ _)).
+    by rewrite coprime_TIg ?(pnat_coprime _ (pcore_pgroup _ _)).
+  rewrite setIid (setIidPr sAP) setISS ?centS //.
+  by rewrite pcore_sub_Hall ?morphim_pHall.
 rewrite -quotient_sub1 //= -/K -(coprime_TIg coYZK) subsetI subxx /=.
 rewrite -Fitting_eq_pcore ?trivg_pcore_quotient // in cYKq *.
 apply: subset_trans (cent_sub_Fitting (quotient_sol _ solX)).

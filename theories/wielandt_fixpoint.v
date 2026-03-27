@@ -170,7 +170,7 @@ have defKP: K :&: P = U.
   by rewrite -quotient_sub1 ?subIset ?nUK // -tiKPu defPu quotientI.
 have tiUD: U :&: D = 1.
   apply/trivgP; rewrite -tiUK1 subsetI subsetIl.
-  rewrite -quotient_sub1; last by rewrite subIset ?(subset_trans sUK).
+  rewrite -quotient_sub1; first by rewrite subIset ?(subset_trans sUK).
   by rewrite -tiUDb defDb quotientI.
 have tiDP: D :&: P = 1 by rewrite -(setIidPl sDK) -setIA defKP setIC.
 have mulDP: D * P = A by rewrite -(mulSGid sUP) mulgA -(centC cDU) mulUD.
@@ -207,10 +207,10 @@ have [f [injf im_f act_f]]:
   have [nPhiDx nUx] := (subsetP nPhiDX x Xx, subsetP nUX x Xx).
   have Dyx: y ^ x \in D by rewrite memJ_norm // (subsetP nDX).
   rewrite quotmE // !qactE ?qact_domE ?subsetT ?astabsJ ?quotmE //=.
-  - by congr (coset _ _); rewrite /f /restrm morphJ // (subsetP nUD).
   - by rewrite (subsetP (morphim_norm _ _)) ?mem_morphim.
-  rewrite morphim_restrm  (setIidPr (Phi_sub _)).
-  by rewrite (subsetP (morphim_norm _ _)) ?mem_quotient.
+  - rewrite morphim_restrm  (setIidPr (Phi_sub _)).
+    by rewrite (subsetP (morphim_norm _ _)) ?mem_quotient.
+  - by congr (coset _ _); rewrite /f /restrm morphJ // (subsetP nUD).
 apply/mingroupP; split=> [|Y /andP[ntY actsXY] sYD].
   rewrite -subG1 quotient_sub1 ?gFnorm //.
   by rewrite proper_subn ?Phi_proper // actsQ.
@@ -321,16 +321,16 @@ have simS: forall U, U \in S -> mxsimple aG (gMx U).
     have:= cprod_modl (Phi_cprod pL defL) (Phi_sub U).
     rewrite -(setIidPl (Phi_sub U')) setIAC -setIA tiUU' setIg1 cprodg1 => ->.
     by rewrite subsetIidr.
-  rewrite -!rowgS stable_rowg_mxK /= => [sU2gU nzU2|]; last first.
+  rewrite -!rowgS stable_rowg_mxK /= => [|sU2gU nzU2].
     apply/subsetP=> z _; rewrite !inE /=; apply/subsetP=> u gUu.
     by rewrite inE /= /scale_act -[val z]natr_Zp scaler_nat groupX.
   rewrite sub_morphim_pre // -subsetIidl.
-  rewrite -(quotientSGK (normal_norm (Phi_normal U))) //=; last first.
+  rewrite -(quotientSGK (normal_norm (Phi_normal U))) //=.
     rewrite subsetI Phi_sub (subset_trans (PhiS pL sUL)) //.
     by rewrite -kerg ker_sub_pre.
   rewrite [(U :&: _) / _]irrU //; last by rewrite quotientS ?subsetIl.
-  rewrite (contra _ nzU2) /=; last first.
-    rewrite -subG1 quotient_sub1; last first.
+  rewrite (contra _ nzU2) /=.
+    rewrite -subG1 quotient_sub1.
       by rewrite subIset // normal_norm // Phi_normal.
     rewrite /= -(morphpre_restrm sUL).
     move/(morphimS (restrm_morphism sUL (Morphism gM))).
@@ -382,12 +382,12 @@ have atypeU: abelian_type U == nseq ('dim V) (p ^ m)%N.
     apply/eqP; rewrite -dimU -(eqn_exp2l _ _ (prime_gt1 p_pr)).
     rewrite (rank_abelian_pgroup (pgroupS sUL pL) cUU).
     rewrite -(card_pgroup (pgroupS (Ohm_sub 1 U) (pgroupS sUL pL))).
-    rewrite -{1}(card_Fp p_pr) -card_rowg stable_rowg_mxK; last first.
+    rewrite -{1}(card_Fp p_pr) -card_rowg stable_rowg_mxK.
       apply/subsetP=> z _; rewrite !inE; apply/subsetP=> v gUv.
       by rewrite inE /= /scale_act -(natr_Zp (val z)) scaler_nat groupX.
     rewrite card_morphim kerg (Phi_Mho pL cLL) (setIidPr sUL) -divgI setIC.
     rewrite -(dprod_modl (Mho_dprod 1 defL) (Mho_sub 1 U)).
-    rewrite [_ :&: _](trivgP _); last by rewrite -tiUU' setIC setSI ?Mho_sub.
+    rewrite [_ :&: _](trivgP _); first by rewrite -tiUU' setIC setSI ?Mho_sub.
     by rewrite dprodg1 -(mul_card_Ohm_Mho_abelian 1 cUU) mulnK ?cardG_gt0.
   have isoL: isog L [set: 'rV['Z_q]_#|G|] by rewrite -imfL isog_sym sub_isog.
   have homL: homocyclic L by rewrite (isog_homocyclic isoL) mx_group_homocyclic.
@@ -433,7 +433,7 @@ have f3J: {in U & X, morph_act 'J 'J (Morphism f3M) gX}.
   move=> u x Uu Xx; rewrite /f3 /= gJ ?(subsetP sUL) // in_submodJ ?Ugw //.
   by rewrite -mulmxA hJ ?GgX // mulmxA rVabelemJ ?GgX.
 have defUX: U ><| X = U <*> X.
-  rewrite norm_joinEr; last by case: (im_S _ S_U).
+  rewrite norm_joinEr; first by case: (im_S _ S_U).
   by rewrite sdprodE ?coprime_TIg ?(pnat_coprime pU).
 pose f := sdprodm defUX f3J.
 have{im_f3} fU_V: f @* U = V by rewrite morphim_sdprodml.
@@ -459,7 +459,7 @@ Theorem solvable_Wielandt_fixpoint (I : finType) gT (A : I -> {group gT})
 Proof.
 move: {2}_.+1 (ltnSn #|V|) => c leVc sA_G nVG coVG solV partG; move: leVc.
 pose nz_k i := (0 < m i + n i)%N; rewrite !(bigID nz_k xpredT) /= {2 4}/nz_k.
-rewrite !(big1 _ (predC _)) /= => [|i|i]; try by case: (m i) (n i) => [[]|].
+rewrite !(big1 _ (predC _)) /= => [i|i|]; [by case: (m i) (n i) => [[]|]..|].
 pose sum_k A_ a k := (\sum_(i | (a \in (A_ i : {set _})) && nz_k i) k i)%N.
 have{} partG: {in G, forall a, sum_k _ A a m = sum_k _ A a n}.
   move=> a /partG; rewrite !(bigID nz_k (fun i => a \in _)) -!/(sum_k _ A a _).
@@ -587,7 +587,7 @@ have{tiRCW} rCW : 'r('C_W(Ai1)) = rC i.
     by rewrite [_ :&: _](trivgP _) ?mul1g //= setIC -tiRCW setSI ?Mho_sub.
   suffices /card_isog ->: 'C_V(A i) \isog 'C_W(Ai1) / 'Mho^1(W).
     by rewrite card_quotient // subIset // normal_norm ?Mho_normal.
-  rewrite coprime_quotient_cent ?Mho_sub ?abelian_sol //= -/Ai1; last first.
+  rewrite coprime_quotient_cent ?Mho_sub ?abelian_sol //= -/Ai1.
     by rewrite (subset_trans sAiG1) // gFnorm_trans.
   have ->: A i :=: fG @* Ai1.
     by rewrite /Ai1 morphim_invmE morphpreK // im_restrm imfG1.
@@ -648,7 +648,7 @@ rewrite rowE -row1 mulmx_sumr raddf0 -/jR.
 have /subsetP nRA1: Ai1 \subset 'N([~: W, Ai1]) by rewrite commg_normr.
 transitivity (\sum_(a1 in Ai1) hR (jR ^ a1)).
   rewrite {1}[Ai1 in rhs in _ = rhs]morphimEsub /= ?im_restrm ?imfG1 //.
-  rewrite big_imset /=; last first.
+  rewrite big_imset /=.
     apply: sub_in2 (injmP (injm_invm injfG)); apply/subsetP.
     by rewrite /= im_restrm imfG1.
   apply: eq_bigr => a /AfG' A1a.

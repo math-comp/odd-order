@@ -170,8 +170,8 @@ have nsMsM: Ms <| M := pcore_normal _ _; have [_ nMsM] := andP nsMsM.
 have sHMs: H \subset Ms := subsetIl _ _.
 have sHMsg: H \subset Ms :^ g.
   rewrite -sub_conjgV (sub_Hall_pcore (Msigma_Hall _)) //.
-    by rewrite pgroupJ (pgroupS sHMs) ?pcore_pgroup.
-  by rewrite sub_conjgV subsetIr.
+    by rewrite sub_conjgV subsetIr.
+  by rewrite pgroupJ (pgroupS sHMs) ?pcore_pgroup.
 have nMsA := subset_trans sAM nMsM.
 have nHA: A \subset 'N(H) by rewrite normsI // normsG.
 have nMsgA: A \subset 'N(Ms :^ g) by rewrite normJ (subset_trans sAMg) ?conjSg.
@@ -344,7 +344,7 @@ have coKP: coprime #|K| #|P|.
 have hallKP: ptau.-Hall(E) KP.
   rewrite pHallE join_subG pcore_sub sPE /= norm_joinEr ?coprime_cardMg //.
   apply/eqP; rewrite -(partnC tau (part_gt0 _ _)) (card_Hall sylP).
-  rewrite (card_Hall hallK) partn_part => [|q]; last exact: leqW.
+  rewrite (card_Hall hallK) partn_part => [q|]; first exact: leqW.
   rewrite (card_Hall hallE) -!partnI; congr (_ * _)%N; apply: eq_partn => q.
   rewrite [\sigma(M)^']lock !inE -lock -leqNgt -eqn_leq eq_sym andb_idl //.
   by move/eqP <-.
@@ -355,7 +355,7 @@ have [cKA | not_cKA]:= boolP (A \subset 'C(K)).
     by rewrite dprodEY // coprime_TIg // (coprimegS sAP).
   have defA: 'Ohm_1(P) = A by case exceptional_structure.
   have{} defA: 'Ohm_1('O_p(KP)) = A.
-    apply/eqP; rewrite -defA eqEsubset OhmS /=; last first.
+    apply/eqP; rewrite -defA eqEsubset OhmS /=.
       rewrite pcore_sub_Hall ?(pHall_subl _ _ sylP) ?joing_subr //.
       exact: subset_trans (pHall_sub hallKP) sEM.
     rewrite -Ohm_id defA OhmS // pcore_max // /normal join_subG.
@@ -423,8 +423,8 @@ have sM'Q0: \sigma(M)^'.-group Q0 := pi_pnat qQ0 sM'q.
 have cQ0Q0: abelian Q0 := center_abelian Q.
 have defQ0: [~: A, Q0] = Q0.
   rewrite -{2}[Q0](coprime_abelian_cent_dprod nQ0A) //.
-    by rewrite setIAC regQ setI1g dprodg1 commGC.
-  by rewrite (coprimeSg (subset_trans sQ0Q sQK)).
+    by rewrite (coprimeSg (subset_trans sQ0Q sQK)).
+  by rewrite setIAC regQ setI1g dprodg1 commGC.
 have [_ _ [A1 EpA1 [A2 EpA2 [neqA12 regA1 regA2]]]] := exceptional_structure.
 have defA: A1 \x A2 = A by apply/(p2Elem_dprodP Ep2A EpA1 EpA2).
 have{} defQ0: [~: A1, Q0] * [~: A2, Q0] = Q0.

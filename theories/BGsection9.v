@@ -51,7 +51,7 @@ have sHp'M: 'O_p^'(H) \subset M.
 have{snbBp'_M} defMp': <<\bigcup_(K in |/|_G(P; p^')) K>> = 'O_p^'(M).
   have nMp'M: M \subset 'N('O_p^'(M)) by apply: gFnorm.
   have nMp'P := subset_trans sPM nMp'M.
-  apply/eqP; rewrite eqEsubset gen_subG sub_gen ?andbT; last first.
+  apply/eqP; rewrite eqEsubset gen_subG sub_gen ?andbT.
     by rewrite (bigcup_max 'O_p^'(M)%G) // inE -andbA subsetT pcore_pgroup.
   apply/bigcupsP=> K; rewrite inE -andbA => /and3P[_ p'K nKP].
   have sKM: K \subset M.
@@ -90,7 +90,7 @@ have{sNPM} [sNRM sylRH]: 'N(R) \subset M /\ p.-Sylow(H) R.
   have/implyP := maxHM D; rewrite inE {}maxD /= leqNgt.
   rewrite (subset_trans (subset_trans sBR (normG R))) //= implybNN.
   have ltRN := nilpotent_proper_norm (pgroup_nil pP) ltRP.
-  rewrite -(card_Hall sylR) (leq_trans (proper_card ltRN)) /=; last first.
+  rewrite -(card_Hall sylR) (leq_trans (proper_card ltRN)) /=.
     rewrite setIC -(part_pnat_id (pgroupS (subsetIr _ _) pP)) dvdn_leq //.
     by rewrite partn_dvd ?cardG_gt0 // cardSg // setISS.
   move/eqP=> defD; rewrite defD in sND; split; rewrite // -Sylow_subnorm.
@@ -123,7 +123,7 @@ move=> maxM EpB ncycB sCB_M.
 apply: (noncyclic_normed_sub_Uniqueness maxM EpB) => //.
 apply/bigcupsP=> K; rewrite inE -andbA => /and3P[_ p'K nKB].
 case/pElemP: EpB => _ /and3P[pB cBB _].
-rewrite -(coprime_abelian_gen_cent1 cBB ncycB nKB); last first.
+rewrite -(coprime_abelian_gen_cent1 cBB ncycB nKB).
   by rewrite coprime_sym (pnat_coprime pB).
 rewrite gen_subG (subset_trans _ sCB_M) //.
 by apply/bigcupsP=> b Bb; rewrite (bigcup_max b) // subsetIr.
@@ -278,7 +278,7 @@ have sNP_mCA M: M \in 'M('C(A)) -> 'N(P) \subset M.
     apply/subsetP=> x nRx; have maxQx: (Q :^ x)%G \in |/|*(R; q).
       by rewrite (actsP (norm_acts_max_norm _ _)).
     have [y cRy [defQx]] := atransP2 trCRq' maxQ maxQx.
-    rewrite -(mulgKV y x) groupMr.
+    rewrite -(mulgKV y x) groupMr; last first.
       by rewrite (subsetP sNQ_M) // inE conjsgM defQx conjsgK.
     apply: subsetP cRy; apply: gFsub_trans.
     exact: subset_trans (centS _) sCAM.
@@ -468,4 +468,3 @@ by rewrite properEneq; case: eqP maxE nmaxA => // => /group_inj-> ->.
 Qed.
 
 End Nine.
-

@@ -50,7 +50,7 @@ transitivity (t \in [set 0]); last by rewrite inE irr_eq1.
 suffices{t} /eqP->: [set 0] == 'Fix_Iact[1].
   by rewrite !inE sub1set inE -(inj_eq irr_inj) conjC_IirrE.
 rewrite eqEcard !(sub1set, inE) conjC_Iirr_eq0 eqxx /=.
-rewrite (card_afix_irr_classes (cycle_id _) n_cG_A) => [|i x xy Gx]; last first.
+rewrite (card_afix_irr_classes (cycle_id _) n_cG_A) => [i x xy Gx|].
   rewrite inE => {xy}/imsetP[y Gy /(canRL invgK)->].
   by rewrite -conjVg cfunJ {y Gy}//= conjC_IirrE cfunE/= -irr_inv invgK.
 have ->: #|[set 0 : Iirr G]| = #|[1 {set gT}]| by rewrite !cards1.
@@ -609,12 +609,12 @@ pose k1 := chinese a b k 1; have /Qn_aut_exists[nu Dnu]: coprime k1 (a * b).
 exists nu => [x | y].
   have /Fadjoin_polyP[p Qp ->]: x \in <<1; w_a>>%VS by rewrite genQa memvf.
   rewrite -!horner_map -!map_poly_comp !map_Qnum_poly // Dmu Dnu -rmorphXn /=.
-    by rewrite -[in LHS](prim_expr_mod pr_w_a) /k1 chinese_modl // prim_expr_mod.
-  by rewrite exprM (prim_expr_order pr_w_a) expr1n rmorph1.
+    by rewrite exprM (prim_expr_order pr_w_a) expr1n rmorph1.
+  by rewrite -[in LHS](prim_expr_mod pr_w_a) /k1 chinese_modl // prim_expr_mod.
 have /Fadjoin_polyP[p Qp ->]: y \in <<1; w_b>>%VS by rewrite genQb memvf.
 rewrite -!horner_map -!map_poly_comp !map_Qnum_poly // Dnu -rmorphXn /=.
-  by rewrite -(prim_expr_mod pr_w_b) chinese_modr // prim_expr_mod.
-by rewrite mulnC exprM (prim_expr_order pr_w_b) expr1n rmorph1.
+  by rewrite mulnC exprM (prim_expr_order pr_w_b) expr1n rmorph1.
+by rewrite -(prim_expr_mod pr_w_b) chinese_modr // prim_expr_mod.
 Qed.
 
 (* This intermediate result in the proof of Peterfalvi (1.9)(b) is used in    *)
@@ -745,7 +745,7 @@ have [r {1}->]: exists r, eps = eps ^+ k.+1 ^+ r.
   rewrite -exprM (eq_prim_root_expr pr_eps _ 1) mulnC -Dr addnC gcdnC.
   by rewrite -prime_coprime // in p'k; rewrite (eqnP p'k) modnMDl.
 rewrite -[1 - _]opprB subrX1 -mulNr opprB mulrC.
-rewrite mulKf; last by rewrite subr_eq0 eq_sym -(prim_order_dvd pr_eps).
+rewrite mulKf; first by rewrite subr_eq0 eq_sym -(prim_order_dvd pr_eps).
 by apply: rpred_sum => // i _; rewrite !rpredX ?(Aint_prim_root pr_eps).
 Qed.
 

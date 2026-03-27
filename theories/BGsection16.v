@@ -418,7 +418,7 @@ Proof. by rewrite conjD1g -FTcoreJ. Qed.
 
 Lemma FTsuppJ M x : 'A(M :^ x) = 'A(M) :^ x.
 Proof.
-rewrite -bigcupJ /'A(_) FTsupp1J big_imset /=; last exact: in2W (conjg_inj x).
+rewrite -bigcupJ /'A(_) FTsupp1J big_imset /=; first exact: in2W (conjg_inj x).
 by apply: eq_bigr => y _; rewrite FTtypeJ derJ cent1J -conjIg conjD1g.
 Qed.
 
@@ -509,7 +509,7 @@ have [z [ntz Hz czxy]]: exists z, [/\ z != 1%g, z \in M`_\F & x \in 'C[z]].
   have [-> | ntx] := eqVneq x 1%g; last by exists x; rewrite ?cent1id.
   by have /trivgPn[z ntz] := mmax_Fcore_neq1 maxM; exists z; rewrite ?group1.
 exists z; first by rewrite !inE ntz (subsetP (Fcore_sub_FTcore maxM)).
-rewrite 3!inE ntxy {2}Dxy groupMl //= andbC (subsetP _ y Vy) //=; last first.
+rewrite 3!inE ntxy {2}Dxy groupMl //= andbC (subsetP _ y Vy) //=.
   by rewrite sub_cent1 (subsetP _ _ Hz) // centsC; have [] := dprodP defF.
 rewrite -FTtype_Pmax // (subsetP _ xy Fxy) //.
 case MtypeP: (M \in _); last exact: gFsub.
@@ -563,10 +563,10 @@ have [hallU hallK _] := complU; split.
   have [nsKUK _ mulUK nUK _] := sdprod_context defUK.
   rewrite -mulUK mulG_subG mulgA => mulMsUK /andP[nMsU nMsK] _.
   rewrite (norm_joinEr nUK) mulUK; split=> //.
-    rewrite inE coprime_TIg /= norm_joinEr //=.
+    rewrite inE coprime_TIg /= norm_joinEr //=; last first.
       by rewrite -mulgA (normC nUK) mulgA mulMsUK !eqxx.
     rewrite (pnat_coprime _ (pHall_pgroup hallU)) // -pgroupE pgroupM.
-    rewrite (sub_pgroup _ (pHall_pgroup hallK)) => [|p k_p]; last first.
+    rewrite (sub_pgroup _ (pHall_pgroup hallK)) => [p k_p|].
       by apply/orP; right.
     by rewrite (sub_pgroup _ (pcore_pgroup _ _)) => // p s_p; apply/orP; left.
   have{defM} [[defM _ _] _ _ _ _] := kappa_structure maxM complU.
@@ -992,7 +992,7 @@ split=> // [|->]; first set Ms := M`_\sigma; last first.
 have [U1 | /= ntU] := altP eqP.
   rewrite inE PmaxM -{2}mulM'K /= -defM' U1 sdprodg1 pgroupM.
   have sH: \sigma(M).-group H := pgroupS sHMs (pcore_pgroup _ _).
-  rewrite (sub_pgroup _ sH) => [|p sMp]; last by rewrite inE /= sMp.
+  rewrite (sub_pgroup _ sH) => [p sMp|]; first by rewrite inE /= sMp.
   by rewrite (sub_pgroup _ kK) // => p kMp; rewrite inE /= kMp orbT.
 have [P1maxM | notP1maxM] := boolP (M \in _).
   have defMs: Ms = M^`(1).
@@ -1325,7 +1325,7 @@ have [FmaxM t2'M]: M \in 'M_'F /\ \tau2(M)^'.-group M.
   apply: (non_disjoint_signalizer_Frobenius ell1x MSx_gt1 SMxM).
   by apply: contra not_sNx'CMy; apply: pgroupS (subsetIl _ _).
 have defA0: 'A0(M) = Ms^#.
-  rewrite FTsupp0_type1; last by rewrite -FTtype_Fmax.
+  rewrite FTsupp0_type1; first by rewrite -FTtype_Fmax.
   rewrite /'A(M) /'A1(M) -FTtype_Fmax // FmaxM def_FTcore //= -/Ms.
   apply/setP => z; apply/bigcupP/idP=> [[t Ms1t] | Ms1z]; last first.
     have [ntz Ms_z] := setD1P Ms1z.
@@ -1360,5 +1360,3 @@ by apply: contraFN (sigma_partition maxM maxN notMGN p) => sNp; apply/andP.
 Qed.
 
 End Section16.
-
-

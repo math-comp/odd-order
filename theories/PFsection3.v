@@ -507,7 +507,7 @@ have{ZmL} Zbeta: beta \in 'Z[irr G] by apply: ZmL.
 have Z_X: X \in 'Z[irr G].
   rewrite defX big_seq rpred_sum // => xi /sAm/ZmR Zxi.
   by rewrite rpredZ_int ?Cint_cfdot_vchar.
-rewrite -ltrBlDl subrr cnorm_dconstt; last first.
+rewrite -ltrBlDl subrr cnorm_dconstt.
   by rewrite -[Y](addKr X) -defXY addrC rpredB.
 have [-> | [dk Ydk] _ /eqP sz_kvs] := set_0Vmem (dirr_constt Y).
   by rewrite big_set0 ltxx.
@@ -1404,7 +1404,7 @@ pose f := [ffun k => dirr_dIirr (uncurry xi_) (inv_dprod_Iirr defW k)].
 exists f; apply/and3P; case: linear_of_free => /= sigma Dsigma.
 have{f Dsigma} Deta i j: sigma (w_ i j) = xi_ i j.
   rewrite /w_ -tnth_map /= (tnth_nth 0) /=.
-  rewrite Dsigma ?irr_free //; last by rewrite !size_tuple card_ord.
+  rewrite Dsigma ?irr_free //; first by rewrite !size_tuple card_ord.
   rewrite nth_mktuple ffunE dprod_IirrK dirr_dIirrE // => {i j} [[i j]] /=.
   by rewrite dirrE Zxi o1xi !eqxx.
 have sigma1: sigma 1 = 1 by rewrite -w_00 Deta.

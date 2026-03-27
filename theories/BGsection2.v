@@ -64,7 +64,7 @@ have absM f: (M *m f <= M)%MS -> {a | (a \in E_H)%MS & M *m a = M *m f}.
   transitivity (in_submod M M *m gring_mx rM u).
     rewrite /gring_mx /= !mulmx_sum_row !linear_sum; apply: eq_bigr => i /= _.
     by rewrite !linearZ /= !rowK !mxvecK -in_submodJ.
-  rewrite /gring_mx /= mulmxKpV ?submx_full ?mxvecK //; last first.
+  rewrite /gring_mx /= mulmxKpV ?submx_full ?mxvecK //.
     by have/andP[]: mx_absolutely_irreducible rM by apply/closedF/submod_mx_irr.
   rewrite {1}[in_submod]lock in_submodE -mulmxA mulmxA -val_submodE -lock.
   by rewrite mulmxA -in_submodE in_submodK.
@@ -98,13 +98,13 @@ have cHtau_x: centgmx rH (tau *m rG x).
   move/eqmxP; case/andP=> _; case/submxP=> v ->; rewrite -!mulmxA.
   congr (_ *m (_ *m _)); rewrite {v} !(mulmxA M).
   rewrite -!(hom_envelop_mxC hom_f) ?envelop_mxM ?(envelop_mx_id rH) //.
-    congr (_ *m f); rewrite !mulmxA defMy -(mulmxA u) defMtau (mulmxA u) -defMy.
-    rewrite !mulmxA (hom_mxP hom_phi) // -!mulmxA; congr (M *m (_ *m _)).
-    by rewrite /= -!repr_mxM ?groupM ?groupV // -conjgC.
-  by rewrite -mem_conjg (normsP nHG).
+    by rewrite -mem_conjg (normsP nHG).
+  congr (_ *m f); rewrite !mulmxA defMy -(mulmxA u) defMtau (mulmxA u) -defMy.
+  rewrite !mulmxA (hom_mxP hom_phi) // -!mulmxA; congr (M *m (_ *m _)).
+  by rewrite /= -!repr_mxM ?groupM ?groupV // -conjgC.
 have{cHtau_x} cGtau_x: centgmx rG (tau *m rG x).
   rewrite /centgmx {1}defG join_subG cycle_subG !inE Gx /= andbC.
-  rewrite (subset_trans cHtau_x); last by rewrite rcent_subg subsetIr.
+  rewrite (subset_trans cHtau_x); first by rewrite rcent_subg subsetIr.
   apply/eqP; rewrite -{2 3}[rG x]mul1mx -tau'K !mulmxA; congr (_ *m _ *m _).
   case/envelop_mxP: Htau' => u ->.
   rewrite !(mulmx_suml, mulmx_sumr); apply: eq_bigr => y Hy.
@@ -174,7 +174,7 @@ have [|] := prime_subgroupVti ('C_G[W | 'Cl] / H)%G prGH.
   have ->: Wy = W by apply/set1P; rewrite -def_sH inE.
   by rewrite PackSocleK; apply: component_mx_iso.
 rewrite (setIidPl _) ?quotientS ?subsetIl // => /trivgP.
-rewrite quotient_sub1 //; last by rewrite subIset // normal_norm.
+rewrite quotient_sub1 //; first by rewrite subIset // normal_norm.
 move/setIidPl; rewrite (setIidPr sHcW) /= => defH.
 rewrite -(Lagrange sHG) -(Clifford_rank_components irrG W) card_sH -defH.
 rewrite mulnC dvdn_pmul2r // (_ : W :=: L)%MS //; apply/eqmxP.
@@ -284,7 +284,7 @@ have lin_rZ m (U : 'M_(m, q)) a:
 - move=> defUg i; rewrite repr_mxX //.
   elim: i => [|i IHi]; first by rewrite mulmx1 scale1r.
   by rewrite !exprS -scalerA mulmxA defUg -IHi scalemxAl.
-rewrite mxdirect_sum_eigenspace => [|j k _ _]; last exact: inj_eps.
+rewrite mxdirect_sum_eigenspace => [j k _ _|]; first exact: inj_eps.
 split=> //; apply/eqmxP; rewrite submx1.
 wlog [I M /= simM <- _]: / mxsemisimple rZ 1.
   exact: mx_reducible_semisimple (mxmodule1 _) (mx_Maschke rZ F'Zh) _.
@@ -337,9 +337,9 @@ apply/eqP; rewrite -submx0; apply/(@memmx_subP F _ _ q)=> A.
 rewrite sub_capmx submx0 mxvec_eq0 -submx0.
 case/andP=> /E2iP[ViA Vi'A] /memmx_sumsP[B /= defA sBE].
 rewrite -[A]mul1mx -(eqmxMr A def1V) sumsmxMr (bigD1 i) //=.
-rewrite big1 ?addsmx0 => [|j ne_ij]; last by rewrite Vi'A ?modn_small.
+rewrite big1 ?addsmx0 => [j ne_ij|]; first by rewrite Vi'A ?modn_small.
 rewrite -[_ *m A]mulmx1 def1p mulmx_sumr (bigD1 t) //=.
-rewrite big1 ?addr0 => [|u ne_ut]; last first.
+rewrite big1 ?addr0 => [u ne_ut|].
   by rewrite proj_mx_0 ?dxV ?(sumsmx_sup t) // eq_sym.
 rewrite {A ViA Vi'A}defA mulmx_sumr mulmx_suml summx_sub // => [[j u]].
 case/E2iP: (sBE (j, u)); rewrite eqE /=; case: eqP => [-> sBu _ ne_ut|].
@@ -372,7 +372,7 @@ have Bk : B *m B' = 1%:M.
   rewrite mulmx1 2!mulmxA proj_mx_id ?dxV ?eq_row_base //.
   by rewrite frVpK ?row_base_free // mul1mx vec_mxK.
 have <-: \rank B = ('n_i * 'n_t)%N by apply/eqP; apply/row_freeP; exists B'.
-apply/eqP; rewrite eqn_leq !mxrankS //.
+apply/eqP; rewrite eqn_leq !mxrankS //; last first.
   apply/row_subP=> k; rewrite rowE mul_rV_lin /=.
   apply/E2iP; split=> [|j ne_ji].
     rewrite 3!mulmxA mulmx_sub ?eq_row_base //.
@@ -381,7 +381,7 @@ apply/eqP; rewrite eqn_leq !mxrankS //.
   by rewrite (modn_small (valP i)) in ne_ji.
 apply/(@memmx_subP F _ _ q) => A /E2iP[ViA Vi'A].
 apply/submxP; exists (mxvec (Bi *m A *m pinvmx Bt)); rewrite mul_vec_lin /=.
-rewrite mulmxKpV; last by rewrite eq_row_base (eqmxMr _ (eq_row_base _)).
+rewrite mulmxKpV; first by rewrite eq_row_base (eqmxMr _ (eq_row_base _)).
 rewrite mulmxA -[p i]mul1mx mulmxKpV ?eq_row_base ?proj_mx_sub // mul1mx.
 rewrite -{1}[A]mul1mx def1p mulmx_suml (bigD1 i) //= big1 ?addr0 // => j neji.
 rewrite -[p j]mul1mx -(mulmxKpV (proj_mx_sub _ _ _)) -mulmxA Vi'A ?mulmx0 //.
@@ -453,10 +453,10 @@ Proposition rank_quasi_cent_cycle m :
 Proof.
 have [<- dx_diag] := diag_sum_proj_eigenspace_cycle m.
 rewrite (mxdirectP dx_diag) /= (reindex (fun i : 'I_h => (i, inh (i + m)))) /=.
-  apply: eq_big => [i | i _]; first by rewrite modn_mod eqxx.
-  by rewrite rank_proj_eigenspace_cycle /n_ Vi_mod.
-exists (@fst _ _) => // [] [i t] /=.
-by rewrite !inE /= (modn_small (valP t)) => def_t; apply/eqP/andP.
+  exists (@fst _ _) => // [] [i t] /=.
+  by rewrite !inE /= (modn_small (valP t)) => def_t; apply/eqP/andP.
+apply: eq_big => [i | i _]; first by rewrite modn_mod eqxx.
+by rewrite rank_proj_eigenspace_cycle /n_ Vi_mod.
 Qed.
 
 (* This is B & G, Proposition 2.4(h). *)
@@ -464,7 +464,7 @@ Proposition diff_rank_quasi_cent_cycle m :
   (2 * \rank 'E_0 = 2 * \rank 'E_m + \sum_(i < h) `|'n_i - 'n_(i + m)| ^ 2)%N.
 Proof.
 rewrite !rank_quasi_cent_cycle !{1}mul2n -addnn.
-rewrite {1}(reindex (fun i : 'I_h => inh (i + m))) /=; last first.
+rewrite {1}(reindex (fun i : 'I_h => inh (i + m))) /=.
   exists (fun i : 'I_h => inh (i + (h - m %% h))%N) => i _.
     apply: val_inj; rewrite /= modnDml -addnA addnCA -modnDml addnCA.
     by rewrite subnKC 1?ltnW ?ltn_mod // modnDr modn_small.
@@ -542,9 +542,9 @@ suffices: \sum_(i < h) `|'n_i - 'n_(i + 2)| ^ 2 > 2.
   rewrite -mulnSr -rankEm ?ltnn ?modn_small //.
   by rewrite -(prednK h_gt0) ltnS (leq_trans _ lt_kj_h1) // ltnS subn_gt0.
 have lt_k1h: k.-1 < h by rewrite ltnW // (ltn_predK lt_jk).
-rewrite (bigD1 (Ordinal lt_jh)) // (bigD1 (Ordinal lt_k1h)) /=; last first.
+rewrite (bigD1 (Ordinal lt_jh)) // (bigD1 (Ordinal lt_k1h)) /=.
   by rewrite -val_eqE neq_ltn /= orbC -subn1 ltn_subRL lt_j1_k.
-rewrite (bigD1 (Ordinal lt_kh)) /=; last first.
+rewrite (bigD1 (Ordinal lt_kh)) /=.
   by rewrite -!val_eqE !neq_ltn /= lt_jk (ltn_predK lt_jk) leqnn !orbT.
 rewrite !addnA ltn_addr // !addn2 (ltn_predK lt_jk) n_k1.
 rewrite (def_n j (ltnW lt_jh)) leqnn (def_n _ (ltn_trans lt_j1_k lt_kh)).
@@ -686,7 +686,7 @@ have Pb ZxH: ZxH \in clPqH -> b ZxH \in P.
 have{primeHP coPH} card_clPqH ZxH: ZxH \in clPqH^# -> #|ZxH| = #|H|.
   case/setD1P=> ntZxH P_ZxH.
   case/imsetP: P_ZxH ntZxH => Zx P_Zx ->{ZxH}; rewrite classG_eq1 => ntZx.
-  rewrite -index_cent1 ['C__[_]](trivgP _).
+  rewrite -index_cent1 ['C__[_]](trivgP _); last first.
     rewrite indexg1 card_quotient // -indexgI setICA setIA tiPH.
     by rewrite (setIidPl (sub1G _)) indexg1.
   apply/subsetP=> Zy => /setIP[/morphimP[y Ny]]; rewrite -(setD1K (group1 H)).
@@ -694,8 +694,8 @@ have{primeHP coPH} card_clPqH ZxH: ZxH \in clPqH^# -> #|ZxH| = #|H|.
   have: Zx \in 'C_(P / Z)(<[y]> / Z).
     by rewrite inE P_Zx quotient_cycle // cent_cycle cent1C.
   case/idPn; rewrite -coprime_quotient_cent ?cycle_subG ?(pgroup_sol pP) //.
-    by rewrite /= cent_cycle primeHP // trivg_quotient inE.
-  by apply: coprimegS coPH; rewrite cycle_subG; case/setD1P: Hy.
+    by apply: coprimegS coPH; rewrite cycle_subG; case/setD1P: Hy.
+  by rewrite /= cent_cycle primeHP // trivg_quotient inE.
 pose B x := \matrix_(i < #|H|) mxvec (rP (x ^ enum_val i)%g).
 have{E_P EPfull absP} sumB: (\sum_(ZxH in clPqH) <<B (b ZxH)>> :=: 1%:M)%MS.
   apply/eqmxP; rewrite submx1 (submx_trans EPfull) //.
@@ -766,11 +766,11 @@ have{yr Wi_yr Pb mulBg} sB1E i: (B1 i <= E_ i)%MS.
 have{bijWi sumB cl1 F'H} defSB: (SB :=: 1%:M)%MS.
   apply/eqmxP; rewrite submx1 -sumB (big_setD1 _ cl1) addsmxS //=.
   rewrite exchange_big sumsmxS // => ZxH _; rewrite genmxE /= -sumsmxMr_gen.
-  rewrite -((reindex Wi) xpredT val) /=; last by apply: onW_bij.
+  rewrite -((reindex Wi) xpredT val) /=; first by apply: onW_bij.
   by rewrite -/(Socle _) (reducible_Socle1 sH (mx_Maschke _ F'H)) mul1mx.
 rewrite mxdirect_addsE /= in dxB; case/and3P: dxB => _ dxB dxB1.
 have{linH Bfree dxB} rankB1 i: \rank (B1 i) = #|clPqH^#|.
-  rewrite -sum1_card (mxdirectP _) /=.
+  rewrite -sum1_card (mxdirectP _) /=; last first.
     by apply: eq_bigr => ZxH P_ZxH; rewrite genmxE mxrankMfree ?Bfree.
   apply/mxdirect_sumsP=> ZxH P_ZxH.
   apply/eqP; rewrite -submx0 -{2}(mxdirect_sumsP dxB _ P_ZxH) capmxS //.
@@ -788,15 +788,15 @@ have rankEi (i : 'I_h) : i != 0%N :> nat -> \rank (E_ i) = #|clPqH^#|.
 have{b B defB1 rP rH sH Wi rankB1 dxB1 defSB sB1E B1 B2 dxE SB} rankE0 i:
   (i : 'I_h) == 0%N :> nat -> \rank (E_ i) = #|clPqH^#|.+1.
 - move=> i_eq0; rewrite -[E_ i]cap1mx -(cap_eqmx defSB (eqmx_refl _)) /SB.
-  rewrite (bigD1 i) // addsmxA -matrix_modl; last first.
+  rewrite (bigD1 i) // addsmxA -matrix_modl.
     rewrite addsmx_sub // sB1E andbT defB1; apply/eigenspaceP.
     by rewrite mul_vec_lin (eqP i_eq0) scale1r /= mul1mx mulVmx ?repr_mx_unit.
   rewrite (((_ :&: _)%MS =P 0) _).
-    rewrite addsmx0 mxrank_disjoint_sum /=.
-      by rewrite defB1 rank_rV rankB1 mxvec_eq0 -mxrank_eq0 mxrank1 -lt0n q_gt0.
-    apply/eqP; rewrite -submx0 -(eqP dxB1) capmxS // sumsmxS // => ZxH _.
-    by rewrite !genmxE ?submxMl.
-  by rewrite -submx0 capmxC /= -{2}(mxdirect_sumsP dxE i) // capmxS ?sumsmxS.
+    by rewrite -submx0 capmxC /= -{2}(mxdirect_sumsP dxE i) // capmxS ?sumsmxS.
+  rewrite addsmx0 mxrank_disjoint_sum /=; last first.
+    by rewrite defB1 rank_rV rankB1 mxvec_eq0 -mxrank_eq0 mxrank1 -lt0n q_gt0.
+  apply/eqP; rewrite -submx0 -(eqP dxB1) capmxS // sumsmxS // => ZxH _.
+  by rewrite !genmxE ?submxMl.
 have{clPqH rankE0 rankEi} (m):
   m != 0 %[mod h] -> \rank (E_ 0%N) = (\rank (E_ m)).+1.
 - move=> nz_m; rewrite (rankE0 (Ordinal (cardG_gt0 H))) //.
@@ -919,7 +919,7 @@ have ab1: a * b = 1.
     rewrite inE !repr_mxM ?groupM ?groupV //= !detM (mulrCA _ (\det (rG y))).
     rewrite -!det_mulmx -!repr_mxM ?groupM ?groupV //.
     by rewrite mulKg mulVg repr_mx1 det1.
-  rewrite gen_set_id; last first.
+  rewrite gen_set_id.
     apply/group_setP; split=> [|y z /setIdP[Gy /eqP y1] /setIdP[Gz /eqP z1]].
       by rewrite inE group1 /= repr_mx1 det1.
     by rewrite inE groupM ?repr_mxM //= detM y1 z1 mulr1.
@@ -962,8 +962,8 @@ have{x Gx Qx oxp nx_uv} redG y (A := rG y):
   have [uAu | uAv] := nAx _ u_fix; have [vAu | vAv] := nAx _ v_fix; eauto.
   have [k ->]: exists k, A = A ^+ k.*2.
     exists #[y].+1./2; rewrite -mul2n -divn2 mulnC divnK.
-      by rewrite -repr_mxX // expgS expg_order mulg1.
-    by rewrite dvdn2 negbK; apply: oddSg oddG; rewrite cycle_subG.
+      by rewrite dvdn2 negbK; apply: oddSg oddG; rewrite cycle_subG.
+    by rewrite -repr_mxX // expgS expg_order mulg1.
   elim: k => [|k [IHu IHv]]; first by rewrite !mulmx1.
   case/sub_rVP: uAv => c uAc; case/sub_rVP: vAu => d vAd.
   rewrite doubleS !exprS !mulmxA; do 2!rewrite uAc vAd -!scalemxAl.

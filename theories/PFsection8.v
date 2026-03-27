@@ -181,7 +181,7 @@ suffices <-: 'Fix_ito[g] = [set 0 : Iirr H].
   by rewrite !inE sub1set inE -(inj_eq (@irr_inj _ _)) conjg_IirrE.
 apply/eqP; rewrite eq_sym eqEcard cards1 !(inE, sub1set) /=.
 rewrite -(inj_eq (@irr_inj _ _)) conjg_IirrE irr0 cfConjg_cfun1 eqxx.
-rewrite (card_afix_irr_classes Mg actsMcH) => [|j y z Hy /=]; last first.
+rewrite (card_afix_irr_classes Mg actsMcH) => [j y z Hy /=|].
   case/imsetP=> _ /imsetP[t Ht ->] -> {z}.
   by rewrite conjg_IirrE cfConjgE // conjgK cfunJ.
 rewrite -(cards1 [1 gT]) subset_leq_card //= -/H.
@@ -200,8 +200,8 @@ rewrite (subsetP (s_cUH_U1 _ Hay')) // inE Ug.
 have ->: g = z.`_(\pi(H)^').
   have [h /setIP[Hh /cent1P cgh] ->] := rcosetP cHgg_z.
   rewrite consttM // (constt1P _) ?mul1g ?constt_p_elt //.
-    by rewrite /p_elt -coprime_pi' ?cardG_gt0.
-  by rewrite (mem_p_elt _ Hh) // pgroupNK pgroup_pi.
+    by rewrite (mem_p_elt _ Hh) // pgroupNK pgroup_pi.
+  by rewrite /p_elt -coprime_pi' ?cardG_gt0.
 by rewrite groupX //= -conjg_set1 normJ mem_conjgV -defx !inE conjg_set1 -cax.
 Qed.
 
@@ -301,7 +301,7 @@ have hallH_M': \pi(H).-Hall(M') H := pHall_subl sHM' sM'M (Fcore_Hall M).
 have{} defF: (H * 'C_U(H))%g = 'F(M).
   rewrite -(setIidPl sFM') -defF -group_modl //= -/H.
   rewrite setIAC (setIidPr (der_sub 1 M)).
-  rewrite -(coprime_mulG_setI_norm mulHU) ?norms_cent //; last first.
+  rewrite -(coprime_mulG_setI_norm mulHU) ?norms_cent //.
     by rewrite (coprime_sdprod_Hall_l defM') (pHall_Hall hallH_M').
   by rewrite mulgA (mulGSid (subsetIl _ _)).
 have coW12: coprime #|W1| #|W2|.
@@ -681,21 +681,21 @@ Proof. exact: defA. Qed.
 
 Lemma FT_Dade0_supportJ x : 'A0~(M :^ x) = 'A0~(M).
 Proof.
-rewrite /'A0~(_) FTsupp0J big_imset /=; last exact: in2W (conjg_inj x).
+rewrite /'A0~(_) FTsupp0J big_imset /=; first exact: in2W (conjg_inj x).
 apply: eq_bigr => y _; rewrite FTsignalizerJ -conjg_set1 -conjsMg.
 by rewrite class_supportGidl ?inE.
 Qed.
 
 Lemma FT_Dade1_supportJ x : 'A1~(M :^ x) = 'A1~(M).
 Proof.
-rewrite /'A1~(_) FTsupp1J big_imset /=; last exact: in2W (conjg_inj x).
+rewrite /'A1~(_) FTsupp1J big_imset /=; first exact: in2W (conjg_inj x).
 apply: eq_bigr => y _; rewrite FTsignalizerJ -conjg_set1 -conjsMg.
 by rewrite class_supportGidl ?inE.
 Qed.
 
 Lemma FT_Dade_supportJ x : 'A~(M :^ x) = 'A~(M).
 Proof.
-rewrite /'A~(_) FTsuppJ big_imset /=; last exact: in2W (conjg_inj x).
+rewrite /'A~(_) FTsuppJ big_imset /=; first exact: in2W (conjg_inj x).
 apply: eq_bigr => y _; rewrite FTsignalizerJ -conjg_set1 -conjsMg.
 by rewrite class_supportGidl ?inE.
 Qed.
@@ -867,7 +867,7 @@ rewrite -/mu_ -/d in Dmu; pose mu_sum d1 k1 := (-1) ^+ d1 *: (\sum_i eta_ i k1).
 have mu_sumK (d1 d2 : bool) k1 k2:
   ('[mu_sum d1 k1, (-1) ^+ d2 *: eta_ 0 k2] > 0) = (d1 == d2) && (k1 == k2).
 - rewrite cfdotZl cfdotZr rmorph_sign mulrA -signr_addb cfdot_suml.
-  rewrite (bigD1 0) //= cfdot_cycTIiso !eqxx big1 => [|i nz_i]; last first.
+  rewrite (bigD1 0) //= cfdot_cycTIiso !eqxx big1 => [i nz_i|].
     by rewrite cfdot_cycTIiso (negPf nz_i).
   rewrite addr0 /= andbC; case: (k1 == k2); rewrite ?mulr0 ?ltrr //=.
   by rewrite mulr1 signr_gt0 negb_add.
@@ -1053,7 +1053,7 @@ have part_a1 S T (maxS : S \in 'M) (maxT : T \in 'M) (ncST : NC S T) :
 have part_b S T (maxS : S \in 'M) (maxT : T \in 'M) (ncST : NC S T) :
   [exists x, FTsupports S (T :^ x)] = ~~ [disjoint 'A1~(S) & 'A~(T)].
 - apply/existsP/pred0Pn=> [[x] | [y /andP[/= A1GSy AGTy]]].
-    rewrite part_a1 ?mmaxJ // => [/pred0Pn[y /andP/=[A1Sy ATyx]]|]; last first.
+    rewrite part_a1 ?mmaxJ // => [|/pred0Pn[y /andP/=[A1Sy ATyx]]].
       by rewrite /NC -(rcoset_id (in_setT x)) orbit_rcoset.
     rewrite FTsuppJ mem_conjg in ATyx; exists (y ^ x^-1); apply/andP; split.
       by apply/bigcupP; exists y => //; rewrite imset2_f ?rcoset_refl ?inE.
@@ -1078,7 +1078,7 @@ have part_b S T (maxS : S \in 'M) (maxT : T \in 'M) (ncST : NC S T) :
   have{A1GSy} [x1 A1Sx1] := bigcupP A1GSy; rewrite {y}def_y -mem_conjgV.
   rewrite class_supportGidr ?inE {z}//.
   case/imset2P=> _ z /rcosetP[y Hy ->] _ def_x2.
-  exists z^-1%g; rewrite part_a1 ?mmaxJ //; last first.
+  exists z^-1%g; rewrite part_a1 ?mmaxJ //.
     by rewrite /NC (orbit_transl _ (mem_orbit _ _ _)) ?inE.
   apply/pred0Pn; exists x1; rewrite /= A1Sx1 FTsuppJ mem_conjgV; apply/bigcupP.
   pose ddS := FT_Dade1_hyp maxS; have [/andP[sA1S _] _ notA1_1 _ _] := ddS.
@@ -1105,11 +1105,11 @@ have Dy: y \in [set z in 'A0(S) | ~~ ('C[z] \subset S)] by rewrite !inE ASy.
 have [_ [_ /(_ y Dy) uCy]  /(_ y Dy)[_ coTcS _ typeT]] := FTsupport_facts maxS.
 rewrite -mem_iota -(eq_uniq_mmax uCy maxT sCyT) !inE in coTcS typeT.
 apply/negbNE; rewrite -part_b /NC 1?orbit_sym // negb_exists.
-apply/forallP=> x; rewrite part_a1 ?mmaxJ ?negbK //; last first.
+apply/forallP=> x; rewrite part_a1 ?mmaxJ ?negbK //.
   by rewrite /NC (orbit_transl _ (mem_orbit _ _ _)) ?in_setT // orbit_sym.
 rewrite -setI_eq0 -subset0 FTsuppJ -bigcupJ big_distrr; apply/bigcupsP=> z Sxz.
 rewrite conjD1g /= -setDIl coprime_TIg ?setDv //= cardJg.
-rewrite -(Fcore_eq_FTcore maxT _) ?inE ?orbA; last by have [->] := typeT.
+rewrite -(Fcore_eq_FTcore maxT _) ?inE ?orbA; first by have [->] := typeT.
 by rewrite (coprimegS _ (coTcS z _)) ?(subsetP (FTsupp1_sub0 _)) ?setSI ?gFsub.
 Qed.
 
@@ -1130,4 +1130,3 @@ Notation FT_Dade0 maxM := (Dade (FT_Dade0_hyp maxM)).
 Notation FT_Dade maxM := (Dade (FT_Dade_hyp maxM)).
 Notation FT_Dade1 maxM := (Dade (FT_Dade1_hyp maxM)).
 Notation FT_DadeF maxM := (Dade (FT_DadeF_hyp maxM)).
-

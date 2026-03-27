@@ -226,7 +226,7 @@ have [[sEM s'M_E _] [sUM sk'U _]] := (and3P hallE, and3P hallU).
 have defMsU: Ms ><| U = Ms <*> U.
   by apply: sdprodEY nMsU (trivgP _); rewrite -tiMsE -mulUK setIS ?mulG_subl.
 have{} defM: Ms <*> U ><| K = M.
-  rewrite sdprodE ?normsY  ?coprime_TIg //=; first by rewrite norm_joinEr.
+  rewrite sdprodE ?normsY  ?coprime_TIg //=; last by rewrite norm_joinEr.
   rewrite -(sdprod_card defMsU) coprimeMl andbC regular_norm_coprime //=.
   by rewrite (coprimegS sKE) ?(pnat_coprime (pcore_pgroup _ _)).
 rewrite defMsU quotient_der //= -/Ms -{2}defMl -mulgA mulUK.
@@ -256,7 +256,7 @@ set part_c := forall U, _; have c_holds: part_c.
     rewrite (pnat_coprime t2X (sub_pgroup _ kX)) // => p kp.
     by rewrite inE /= negb_and rank_kappa ?orbT.
   have [E2 hallE2 sXE2] := Hall_superset (sigma_compl_sol hallE) sXE t2X.
-  rewrite abelian_rank1_cyclic; last first.
+  rewrite abelian_rank1_cyclic.
     exact: abelianS sXE2 (tau2_compl_abelian maxM hallE hallE2).
   have [p _ ->] := rank_witness X; rewrite leqNgt; apply: contra nregMsX => rpX.
   have t2p: p \in \tau2(M) by  rewrite (pnatPpi t2X) // -p_rank_gt0 ltnW.
@@ -384,7 +384,7 @@ have sK1M := subset_trans sK1K sKM; have nQK1 := subset_trans sK1M nQM.
 have{sMsM'} sKsQ: Ks \subset Q.
   have defMsK: [~: Ms, K] = Ms by case/coprime_der1_sdprod: defM.
   have hallQ := nilpotent_pcore_Hall q (Fitting_nil M).
-  rewrite -[Q]p_core_Fitting (sub_Hall_pcore hallQ) //; first exact: pnat_id.
+  rewrite -[Q]p_core_Fitting (sub_Hall_pcore hallQ) //; last exact: pnat_id.
   apply: prime_meetG => //; apply: contraNneq not_nilMs => tiKsFM.
   suffices <-: 'F(Ms) = Ms by apply: Fitting_nil.
   apply/eqP; rewrite eqEsubset Fitting_sub /= -{1}defMsK.
@@ -470,7 +470,7 @@ have{K1 sK1M sK1K coMsK1 coQK1 prK1 defCMsK1 nQK1 solMs} Qi_rec Qi:
   by rewrite -(card_isog (quotient_isog _ _)) ?coprime_TIg // (coprimeSg sQiQ).
 have ltQ0Q: Q0 \proper Q.
   rewrite properEneq subsetIl andbT; apply: contraNneq not_nilMs => defQ0.
-  rewrite -dprodEsd // in defQD; last by rewrite centsC -defQ0 subsetIr.
+  rewrite -dprodEsd // in defQD; first by rewrite centsC -defQ0 subsetIr.
   by rewrite (dprod_nil defQD) (pgroup_nil qQ).
 have [nQK coQK] := (subset_trans sKM nQM, pnat_coprime qQ q'K).
 have solQ := pgroup_sol qQ. (* must come late: Coq diverges on solQ <> solMs *)
@@ -580,7 +580,7 @@ have ->: 'C_Ms(Ks / Q0 | 'Q) = 'F(M).
   have sFMcKsb: 'F(M) \subset 'C_Ms(Ks / Q0 | 'Q).
     by rewrite -defFM setIS ?astabS ?quotientS.
   have nCMsKsbM: M \subset 'N('C_Ms(Ks / Q0 | 'Q)).
-    rewrite -{1}mulMsK mulG_subG sub_der1_norm ?subsetIl //= -/Ms; last first.
+    rewrite -{1}mulMsK mulG_subG sub_der1_norm ?subsetIl //= -/Ms.
       by rewrite {1}defMs (subset_trans sM''FM sFMcKsb).
     rewrite normsI // (subset_trans _ (astab_norm _ _)) ?actsQ //.
     by rewrite cents_norm // centsC subsetIr.
@@ -595,7 +595,7 @@ have ->: 'C_M(Qb | 'Q) = 'F(M).
   apply/eqP; rewrite eqEsubset -{2}defFM setSI //= andbT.
   rewrite -(coprime_mulG_setI_norm mulMsK) //= -defFM mulG_subG subxx /=.
   rewrite subsetI subsetIr -(quotientSGK _ sQ0Ms) 1?subIset ?nQ0K //= -/Q0.
-  rewrite quotientIG; last by rewrite sub_astabQ normG trivg_quotient sub1G.
+  rewrite quotientIG; first by rewrite sub_astabQ normG trivg_quotient sub1G.
   rewrite quotient_astabQ /= -/Q0 prime_TIg ?sub1G ?oKb //.
   rewrite centsC -subsetIidl defKsb; apply: contra (@subset_leq_card _ _ _)  _.
   by rewrite -ltnNge oQb oKsb (ltn_exp2l 1) prime_gt1.
@@ -610,7 +610,7 @@ have nQDK := subset_trans sDKM nQM; have nCQDK := norms_cent nQDK.
 rewrite der1_min // -(isog_abelian (second_isog nCQDK)) setIC /=.
 rewrite -ker_conj_aut (isog_abelian (first_isog_loc _ _)) //=; set A := _ @* _.
 have norm_q := normal_norm (pcore_normal q _).
-rewrite {norm_q}(isog_abelian (quotient_isog (norm_q _ _) _)) /=; last first.
+rewrite {norm_q}(isog_abelian (quotient_isog (norm_q _ _) _)) /=.
   by rewrite coprime_TIg ?coprime_morphr //= (pnat_coprime (pcore_pgroup q _)).
 have AutA: A \subset [Aut Q] := Aut_conj_aut _ _.
 have [|//] := Aut_narrow qQ (mFT_odd _) nnQ _ AutA (morphim_odd _ (mFT_odd _)).
@@ -728,7 +728,7 @@ have defM: Q * 'N_M(H) = M.
 rewrite -defM in Mb; case/mulsgP: Mb => z n Qz Nn defb; exists n => //.
 rewrite def_xa defb conjgM [x ^ z](conjg_fixP _) // -in_set1 -set1gE -tiQH.
 rewrite inE {1}commgEr groupMr // -mem_conjgV groupV /=.
-rewrite (normsP (normal_norm nsQM)) ?Qz; last first.
+rewrite (normsP (normal_norm nsQM)) ?Qz.
   by rewrite groupV (subsetP sMsM) // (subsetP sHMs).
 rewrite commgEl groupMl ?groupV //= -(conjsgK n H) mem_conjgV -conjgM -defb.
 by have [_ nHn] := setIP Nn; rewrite (normP nHn) -def_xa.
@@ -805,10 +805,10 @@ have sYF: Y \subset 'F(M) := pcore_sub _ _; have sYM := subset_trans sYF sFM.
 have defF: 'F(M`_\sigma) \x Y = 'F(M).
   rewrite -(nilpotent_pcoreC \sigma(M) nilF); congr (_ \x _).
   apply/eqP; rewrite eqEsubset pcore_max ?(pgroupS (Fitting_sub _)) //=.
-    rewrite Fitting_max ?(nilpotentS (pcore_sub _ _)) //=.
-    by rewrite -(pcore_setI_normal _ nsFM) norm_normalI ?(subset_trans sMsM).
-  rewrite /normal (char_norm_trans (Fitting_char _)) ?(subset_trans sFM) //.
-  by rewrite Fitting_max ?Fitting_nil ?gFnormal_trans.
+    rewrite /normal (char_norm_trans (Fitting_char _)) ?(subset_trans sFM) //.
+    by rewrite Fitting_max ?Fitting_nil ?gFnormal_trans.
+  rewrite Fitting_max ?(nilpotentS (pcore_sub _ _)) //=.
+  by rewrite -(pcore_setI_normal _ nsFM) norm_normalI ?(subset_trans sMsM).
 have [[ntH sHMs sMsM' _] nnil_struct] := Fcore_structure maxM.
 have hallH: \pi(H).-Hall(M`_\sigma) H := pHall_subl sHMs sMsM (Fcore_Hall M).
 have [X [_ cycX t2X defCH]] := cent_Hall_sigma_sdprod maxM hallH ntH.
@@ -847,9 +847,9 @@ have [eqHMs | neqHMs] := eqVneq H M`_\sigma.
     by rewrite (subset_trans _ sHF) //= eqHMs der1_min ?comm_subG.
   rewrite defF_H // -(sdprodW defCH) -eqHMs mulG_subG subIset ?sHF //=.
   rewrite Fitting_max ?abelian_nil ?cyclic_abelian //.
-  rewrite -(normal_Hall_pcore hallX) ?gFnormal_trans //.
+  rewrite -(normal_Hall_pcore hallX) ?gFnormal_trans //; last first.
     by rewrite norm_normalI // eqHMs norms_cent.
-  move: defCH; rewrite -dprodEsd; first by case/dprod_normal2.
+  move: defCH; rewrite -dprodEsd; last by case/dprod_normal2.
   by rewrite -eqHMs (centsS (subsetIl _ _)); case/subsetIP: (pHall_sub hallX).
 pose q := #|'C_(M`_\sigma)(K)|; pose Q := 'O_q(M).
 have [D hallD] := Hall_exists q^' (solvableS sMsM (mmax_sol maxM)).
@@ -1064,7 +1064,7 @@ have [cHH | {not_cycMp} not_cHH] := boolP (abelian H); [left | right].
     have [ntKs _ sKsM'' _ _] := Ptype_cyclics PmaxM hallK.
     case/eqP: (subG1_contra sKsM'' ntKs); apply/derG1P.
     by rewrite /= -derg1; have [_ ->] := defM_P1 P1maxM.
-  split=> //; apply/eqP; rewrite eqn_leq (leq_trans _ rC1) //=; last first.
+  split=> //; apply/eqP; rewrite eqn_leq (leq_trans _ rC1) //=.
     by rewrite rankS // subsetIidl (centsS sX1X) // (sub_abelian_cent cHH).
   apply: leq_trans (rankS (pcore_sub p _)).
   rewrite ltnNge -abelian_rank1_cyclic ?(abelianS sPH) //=.
