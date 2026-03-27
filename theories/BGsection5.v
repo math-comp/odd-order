@@ -7,7 +7,7 @@ From mathcomp Require Import action gproduct.
 From mathcomp Require Import cyclic center gfunctor commutator gseries pgroup.
 From mathcomp Require Import nilpotent sylow abelian maximal hall.
 From odd_order Require Import BGsection1 BGsection4.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (*   This file covers Section 5 of B & G, except for some technical results   *)
@@ -216,7 +216,7 @@ have defZ: 'C_W(E) = Z.
     rewrite ltnNge -rank_Ohm1 -dimE -rank_abelem ?rankS // in dimB.
     by rewrite -scBR -defCRE1 OhmS // setIS ?centS.
   apply/eqP; rewrite eq_sym eqEcard oZ (card_pgroup (pgroupS sCE pE)) /= -/W.
-  rewrite subsetI sZW (centsS sER); last by rewrite centsC -subsetIidl defCRZ.
+  rewrite subsetI sZW (centsS sER); first by rewrite centsC -subsetIidl defCRZ.
   by rewrite (leq_exp2l _ 1) // -ltnS -dimE properG_ltn_log.
 have dimW: logn p #|W| = 2.
   apply/eqP; rewrite -(Lagrange sZW) lognM ?cardG_gt0 // oZ (pfactorK 1) //=.
@@ -278,7 +278,7 @@ have sR'T: R^`(1) \subset T by rewrite der1_min ?char_norm.
 have TI_SR': S :&: R^`(1) :=: 1.
   by rewrite prime_TIg ?oS // (contra _ not_sST) // => /subset_trans->.
 have defCRS : S \x 'C_T(S) = 'C_R(S).
-  rewrite (dprodE _ _) ?subsetIr //= -/T; last by rewrite setIA tiST setI1g.
+  rewrite (dprodE _ _) ?subsetIr //= -/T; first by rewrite setIA tiST setI1g.
   rewrite -{1}(center_idP cSS) subcent_TImulg ?defST //.
   by rewrite subsetI normG (subset_trans sSR) ?char_norm.
 have sCTSR: 'C_T(S) \subset R by rewrite subIset ?subsetIl.
@@ -314,9 +314,9 @@ have abelSZ: p.-abelem (S <*> Z) by rewrite (dprod_abelem p defSZ) abelS.
 have [pSZ cSZSZ _] := and3P abelSZ.
 have dimSZ: logn p #|S <*> Z| = 2.
   apply/eqP; rewrite -p_rank_abelem // eqn_leq (leq_trans (p_rankS _ _) rCRS).
-    rewrite -(p_rank_dprod p defSZ) p_rank_abelem // oS (pfactorK 1) // ltnS.
-    by rewrite -rank_pgroup // rank_gt0.
-  by rewrite subsetI sSZR sub_abelian_cent ?joing_subl.
+    by rewrite subsetI sSZR sub_abelian_cent ?joing_subl.
+  rewrite -(p_rank_dprod p defSZ) p_rank_abelem // oS (pfactorK 1) // ltnS.
+  by rewrite -rank_pgroup // rank_gt0.
 exists [group of S <*> Z]; rewrite 3!inE sSZR abelSZ dimSZ /=.
 apply/pmaxElemP; rewrite inE sSZR; split=> // E; case/pElemP=> sER abelE sSZE.
 apply: contraTeq rCRS; rewrite eq_sym -ltnNge -dimSZ => neqSZE.
@@ -465,9 +465,9 @@ suffices cLbX: X \subset 'C(L / K | <[actsAL]> / _).
   have [u Nu Lu ->] := morphimP LbKu.
   by rewrite !{1}qactE // ?actbyE // qact_domE ?(subsetP actsXK).
 rewrite (subset_trans sXB) // astab_range -ker_actperm gen_subG.
-rewrite -sub_morphim_pre; last by rewrite -gen_subG ?(subset_trans sBA).
+rewrite -sub_morphim_pre; first by rewrite -gen_subG ?(subset_trans sBA).
 rewrite morphimU subUset morphim_der // (sameP trivgP derG1P).
-rewrite (abelianS _ (Aut_cyclic_abelian cycLb)); last first.
+rewrite (abelianS _ (Aut_cyclic_abelian cycLb)).
   exact: subset_trans (morphim_sub _ _) (im_actperm_Aut _).
 apply/subsetP=> _ /morphimP[_ _ /imsetP[x Ax ->] ->].
 have Dx := subsetP sAD x Ax; rewrite inE morphX //= -order_dvdn.

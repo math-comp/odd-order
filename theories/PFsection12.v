@@ -17,7 +17,7 @@ From odd_order Require Import BGsection7 BGsection14 BGsection15 BGsection16.
 From odd_order Require Import PFsection1 PFsection2 PFsection3 PFsection4.
 From odd_order Require Import PFsection5 PFsection6 PFsection7 PFsection8.
 From odd_order Require Import PFsection9 PFsection10 PFsection11.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 Set Implicit Arguments.
 Unset Strict Implicit.
@@ -387,7 +387,7 @@ have {supp12B} oResD xi i1 i2 : xi \in calS -> i1 \in S_ xi -> i2 \in S_ xi ->
   have [Ii1 Ii2]: 'chi_i1 \in calI /\ 'chi_i2 \in calI.
     by split; apply/image_f/FTtype1_irrP; exists xi.
   have [calI2 [I2i1 I2i2 sI2I] []] := pair_degree_coherence scohI Ii1 Ii2 i12_1.
-  move=> tau2 cohI2; have [_ <-] := cohI2; last first.
+  move=> tau2 cohI2; have [_ <-] := cohI2.
     by rewrite zcharD1E rpredB ?mem_zchar // 2!cfunE subr_eq0.
   suffices R_I2 j: j \in S_ xi -> 'chi_j \in calI2 -> tau2 'chi_j \in 'Z[rR xi].
     by rewrite raddfB rpredB ?R_I2.
@@ -435,7 +435,7 @@ have{rR scohS opsiR} o_rpsi_S xi1 xi2:
     by rewrite (@zchar_on _ _ calS) ?zcharD1 ?rpredB ?seqInd_zchar.
   rewrite cfdotC -invDade_reciprocity // -cfdotC.
   rewrite FT_DadeF_E -?FT_DadeE ?(cfun_onS (Fcore_sub_FTsupp maxL)) //.
-  rewrite -Dtau2; last by rewrite zcharD1E rpredB ?mem_zchar.
+  rewrite -Dtau2; first by rewrite zcharD1E rpredB ?mem_zchar.
   by rewrite !raddfB /= !o_psi_tau2 ?subrr.
 pose P_ i : {set Iirr H} := [set j in irr_constt ('Ind[H, H'] 'chi_i)].
 pose P : {set {set Iirr H}} := [set P_ i | i : Iirr H'].
@@ -901,7 +901,7 @@ split; first by rewrite -(injm_cyclic inj_g) ?field_unit_group_cyclic.
 have: e %| #|[set: {unit Fp2}]|.
   by rewrite /e -(card_injm inj_g) ?cardSg ?subsetT.
 rewrite card_finField_unit oFp2 -!subn1 (subn_sqr p 1) addn1.
-rewrite orbC Gauss_dvdr; first by move->.
+rewrite orbC Gauss_dvdr; last by move->.
 rewrite coprime_sym coprime_has_primes ?subn_gt0 ?prime_gt1 ?cardG_gt0 //.
 apply/hasPn=> r; rewrite /= !mem_primes subn_gt0 prime_gt1 ?cardG_gt0 //=.
 case/andP=> pr_r /Cauchy[//|z Ez oz]; rewrite pr_r /= subn1.
@@ -966,7 +966,7 @@ have rhoL_psi_x: rhoL psi x = psi x.
   have Dx: x \in [set y in 'A0(L) | ~~ ('C[y] \subset L)].
     by rewrite inE (subsetP (Fcore_sub_FTsupp0 _)).
   have [_ [_ /(_ x Dx)defNx] _] := FTsupport_facts maxL.
-  rewrite (cent1P cxz) -(eq_uniq_mmax defNx maxM) => [/psi_xK//|].
+  rewrite (cent1P cxz) -(eq_uniq_mmax defNx maxM) => [|/psi_xK//].
   by rewrite /= -cent_cycle (subset_trans (cent_sub _)).
 suffices <-: rhoL psi x = chi x by split=> // g /psi_xK->.
 have irrS: {subset calS <= irr L} by have [] := FT_Frobenius_coherence maxL.
@@ -981,14 +981,14 @@ have o1calS: orthonormal calS.
   by rewrite (sub_orthonormal irrS) ?seqInd_uniq ?irr_orthonormal.
 have norm_alpha: '[tauL_H alpha] = e%:R + 1.
   rewrite Dade_isometry ?(cfInd1_sub_lin_on _ Schi) ?De //.
-  rewrite cfnormBd; last by rewrite cfdotC (seqInd_ortho_Ind1 _ _ Schi) ?conjC0.
+  rewrite cfnormBd; first by rewrite cfdotC (seqInd_ortho_Ind1 _ _ Schi) ?conjC0.
   by rewrite cfnorm_Ind_cfun1 // De irrWnorm.
 pose h := #|H|; have ub_a: a ^+ 2 * ((h%:R - 1) / e%:R) - 2 * a <= e%:R - 1.
   rewrite -[h%:R - 1](mulKf (neq0CiG L H)) -sum_seqIndC1_square // De -/calS.
   rewrite -[lhs in lhs - 1](addrK 1) -norm_alpha -[tauL_H _](subrK 1).
-  rewrite cfnormDd; last by rewrite cfdotBl tau_alpha_1 cfnorm1 subrr.
+  rewrite cfnormDd; first by rewrite cfdotBl tau_alpha_1 cfnorm1 subrr.
   rewrite cfnorm1 addrK [in '[_]]addrC {}tau_alpha -!addrA addKr addrCA addrA.
-  rewrite lerBrDr cfnormDd ?ler_wpDr ?cfnorm_ge0 //; last first.
+  rewrite lerBrDr cfnormDd ?ler_wpDr ?cfnorm_ge0 //.
     rewrite cfdotBl cfdotZl cfdot_suml (orthoPr o_tau1_Ga) ?map_f // subr0.
     rewrite big1_seq ?mulr0 // => xi Sxi; rewrite cfdotZl.
     by rewrite (orthoPr o_tau1_Ga) ?map_f ?mulr0.
@@ -1047,7 +1047,7 @@ have psi_alpha_1: '[psi, tauL_H alpha] = -1.
   rewrite tau_alpha a0 scale0r addr0 addrC addrA cfdotBr cfdotDr.
   rewrite (orthoPr o_tau_1) ?(orthoPr o_tau1_Ga) ?map_f // !add0r.
   by rewrite Itau1 ?mem_zchar ?map_f // irrWnorm ?irrS.
-rewrite (bigD1_seq chi) ?seqInd_uniq //= big1_seq => [|xi /andP[chi'xi Sxi]].
+rewrite (bigD1_seq chi) ?seqInd_uniq //= big1_seq => [xi /andP[chi'xi Sxi]|]; last first.
   rewrite addr0 -cfdotC chi1 cfInd1 ?gFsub // cfun11 mulr1 De divff ?neq0CG //.
   rewrite scale1r -opprB linearN cfdotNr psi_alpha_1 opprK.
   by rewrite irrWnorm ?irrS // divr1 mul1r.
@@ -1205,7 +1205,7 @@ have{tiA1_LM} ub_rhoML: '[rhoM psi] + '[rhoL psi] < 1.
   rewrite (big_setID 'A1~(L)) mulrDr ler_wpDr //=.
     rewrite mulr_ge0 ?invr_ge0 ?ler0n ?sumr_ge0 // => z _.
     by rewrite exprn_ge0 ?normr_ge0.
-  rewrite (setIidPr _); last first.
+  rewrite (setIidPr _).
     by rewrite subsetD tiA1_LM -FT_Dade1_supportE Dade_support_subD1.
   by rewrite FTsupp1_type1 // -FT_DadeF_supportE leC_cfnorm_invDade_support.
 have ubM: (#|M| <= #|K| * #|H|)%N.

@@ -12,7 +12,7 @@ From mathcomp Require Import frobenius.
 From mathcomp Require Import falgebra fieldext galois algC finfield.
 From mathcomp Require Import mxabelem classfun character integral_char inertia.
 From odd_order Require Import BGsection1.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 Set Implicit Arguments.
 Unset Strict Implicit.
@@ -162,7 +162,7 @@ have /cyclicP[u0 defFU]: cyclic [set: {unit F}] by apply: cycFU.
 have o_u0: #[u0] = (p ^ q).-1 by rewrite orderE -defFU card_finField_unit oF.
 have ->: psi @: U = uval @: (sigmaU @* U) by rewrite morphimEdom -imset_comp.
 have /set1P[->]: (sigmaU @* U)%G \in [set <[u0 ^+ (#[u0] %/ nU)]>%G].
-  rewrite -cycle_sub_group ?inE; last first.
+  rewrite -cycle_sub_group ?inE.
     by rewrite o_u0 -(divnK (dvdn_pred_predX p q)) dvdn_mulr.
   by rewrite -defFU subsetT card_injm //= oU.
 rewrite divnA ?dvdn_pred_predX // -o_u0 mulKn //.
@@ -198,7 +198,7 @@ have oFpU: #|galFpU| = p.-1.
   rewrite card_injm ?card_finField_unit ?oF_p //.
   by apply/injmP=> v1 v2 _ _ []/(fmorph_inj (in_alg F))/val_inj.
 have oUU: #|sigmaU @* U| = nU by rewrite card_injm.
-rewrite dprodE ?coprime_TIg ?oUU ?oFpU //; last first.
+rewrite dprodE ?coprime_TIg ?oUU ?oFpU //.
   by rewrite (sub_abelian_cent2 (cyclic_abelian (cycFU [set: _]))) ?subsetT.
 apply/eqP; rewrite eqEcard subsetT coprime_cardMg oUU oFpU //=.
 by rewrite card_finField_unit oF divnK ?dvdn_pred_predX.
@@ -274,8 +274,8 @@ have sizePa: size Pa = q.+1.
   have sizePaX (beta : {rmorphism F -> F}) : size (beta (1 - a) *: 'X + 1) = 2%N.
     rewrite -mul_polyC size_MXaddC oner_eq0 andbF size_polyC fmorph_eq0.
     by rewrite subr_eq0 eq_sym (negbTE not_a1).
-  rewrite size_prod => [|i _]; last by rewrite -size_poly_eq0 sizePaX.
-  rewrite (eq_bigr (fun _ => 2%N)) => [|beta _]; last by rewrite sizePaX.
+  rewrite size_prod => [i _|]; first by rewrite -size_poly_eq0 sizePaX.
+  rewrite (eq_bigr (fun _ => 2%N)) => [beta _|]; first by rewrite sizePaX.
   rewrite sum_nat_const muln2 -addnn -addSn addnK.
   by rewrite -galois_dim ?finField_galois ?subvf // dimv1 divn1 dimFpq.
 have sizePa1: size (Pa - 1) = q.+1.
@@ -302,7 +302,7 @@ have [q_gt4 | q_le4] := ltnP 4 q.
   have ->: #|E| = e.
     rewrite /e /gring_classM_coef !inK_E ?groupX //.
     transitivity #|[set u in U | s^-1 ^ u * s ^+ 2 \in s ^: U]%g|.
-      rewrite -(card_in_imset (sub_in2 _ inj_psi)) => [|u /setIdP[] //].
+      rewrite -(card_in_imset (sub_in2 _ inj_psi)) => [u /setIdP[] //|].
       apply: eq_card => x; rewrite inE -!im_psi.
       apply/andP/imsetP=> [[/imsetP[u Uu ->] /imsetP[v Uv Dv]]{x} | ].
         exists u; rewrite // inE Uu /=; apply/imsetP; exists v => //.
@@ -312,7 +312,7 @@ have [q_gt4 | q_le4] := ltnP 4 q.
       by rewrite Dv !imset_f.
     rewrite DsH (DsH 1%N) expg1; have [w Uw ->] := repr_class U (s ^+ 2).
     pose f u := (s ^ (u * w), (s^-1 ^ u * s ^+ 2) ^ w).
-    rewrite -(@card_in_imset _ _ f) => [|u v]; last first.
+    rewrite -(@card_in_imset _ _ f) => [u v|].
       by move=> /setIdP[Uu _] /setIdP[Uv _] [/injJU/mulIg-> //]; apply: groupM.
     apply: eq_card => [[x1 x2]]; rewrite inE -andbA.
     apply/imsetP/and3P=> [[u /setIdP[Uu sUs2u'] [-> ->]{x1 x2}] | []].
@@ -598,7 +598,7 @@ have sUs_modP m a j n u s1 v: is_sUs m a j n u s1 v -> a ^ t ^+ j = u * v.
   have [nUP /isom_inj/injmP/=quoUP_inj] := sdprod_isom defH.
   case=> Ua Uu Uv P0s1 /(congr1 (coset P)); rewrite (conjgCV u) -(mulgA _ u).
   rewrite coset_kerr ?groupV ?groupX //.
-  rewrite coset_kerl ?groupX // [RHS]coset_kerl; last first.
+  rewrite coset_kerl ?groupX // [RHS]coset_kerl.
     by rewrite -mem_conjg (normsP nUP) // (subsetP sP0P).
   by move/quoUP_inj->; rewrite ?nUtn ?groupM.
 have expUMp u v Uu Uv := expgMn p (centsP cUU u v Uu Uv).

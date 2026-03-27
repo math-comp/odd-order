@@ -9,7 +9,7 @@ From mathcomp Require Import nilpotent sylow abelian maximal hall frobenius.
 From odd_order Require Import BGsection1 BGsection3 BGsection4 BGsection5.
 From odd_order Require Import BGsection6 BGsection7 BGsection9 BGsection10.
 From odd_order Require Import BGsection12.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (*   This file covers B & G, section 13; the title subject of the section,    *)
@@ -254,7 +254,7 @@ have coCR: coprime #|C| #|R| := coprimeSg sCMs (coprimegS sRE coMsE).
 have ntP: P :!=: 1 by apply: nt_pnElem EpP _.
 pose ST := [set S | Sylow C (gval S) & R \subset 'N(S)].
 have sST_CP S: S \in ST -> S \subset C by case/setIdP=> /SylowP[q _ /andP[]].
-rewrite -{sST_CP}[C](Sylow_transversal_gen sST_CP)  => [|q _]; last first.
+rewrite -{sST_CP}[C](Sylow_transversal_gen sST_CP)  => [q _|].
   have nMzR: R \subset 'N(Mz) by rewrite (subset_trans sRM) // gFnorm.
   have{nMzR} nCR: R \subset 'N(C) by rewrite normsI // norms_cent // cents_norm.
   have solC := solvableS (subset_trans sCMs sMsM) (mmax_sol maxM).
@@ -324,10 +324,10 @@ rewrite -subG1 -{}tiCMaPQ centY setICA subsetIidr /= -/Ma -/Q centsC.
 apply/commG1P/three_subgroup; apply/commG1P.
   by rewrite commGC (commG1P _) ?sub1G ?subsetIr.
 apply: subset_trans (subsetIr Ma _); rewrite /= -symPR //.
-  rewrite commg_subl normsI //; last by rewrite norms_cent // cents_norm.
-  by rewrite (subset_trans sSM) ?gFnorm.
-apply: contraR aM'q => not_cRCaP; apply: pnatPpi (pgroupS sSMz _) piSq.
-by rewrite (negPf not_cRCaP) pcore_pgroup.
+  apply: contraR aM'q => not_cRCaP; apply: pnatPpi (pgroupS sSMz _) piSq.
+  by rewrite (negPf not_cRCaP) pcore_pgroup.
+rewrite commg_subl normsI //; last by rewrite norms_cent // cents_norm.
+by rewrite (subset_trans sSM) ?gFnorm.
 Qed.
 
 (* This is B & G, Theorem 13.5. *)
@@ -554,7 +554,7 @@ have{sHr} sRHs: R \subset H`_\sigma.
 have cRE1: E1 \subset 'C(R).
   rewrite centsC (centsS sE1F1) // -subsetIidl subsetI subxx -sRHs -subsetI.
   have prF1 := tau1_primact_Msigma maxH hallF hallF1.
-  rewrite -(cent_semiprime prF1 (subset_trans sPE1 sE1F1)); last first.
+  rewrite -(cent_semiprime prF1 (subset_trans sPE1 sE1F1)).
     exact: nt_pnElem EpP _.
   by rewrite subsetI sRHs.
 case/negP: ntR; rewrite -subG1 -tiE3cE subsetI sRE3 centsC -(sdprodW defE).
@@ -669,7 +669,7 @@ have [sQL [sQM qQ _]] := (subset_trans (normG Q) sNQL, and3P sylQ).
 have nsLbL : L`_\beta <| L := pcore_normal _ L; have [sLbL nLbL] := andP nsLbL.
 have nLbQ := subset_trans sQL nLbL.
 have [<- ti_aLsM _] := sigma_disjoint maxL maxM notLGM.
-rewrite subsetI (subset_trans _ (Mbeta_sub_Msigma maxM)) ?andbT; last first.
+rewrite subsetI (subset_trans _ (Mbeta_sub_Msigma maxM)) ?andbT.
   by rewrite (subset_trans (commgSS sXMb sQM)) // commg_subl nMbM.
 have defQ: [~: Q, P] = Q.
   rewrite -{2}(coprime_cent_prod nQP) ?(pgroup_sol qQ) ?regPQ ?mulg1 //.
@@ -681,12 +681,12 @@ suffices sXL: X \subset L.
     rewrite coprime_TIg // coprime_morphl // (coprimeSg (subsetIl _ _)) //.
     exact: pnat_coprime (pcore_pgroup _ _) (pi_pnat (pcore_pgroup _ _) _).
   rewrite commg_subI // subsetI.
-    rewrite quotientS /=; last by rewrite subsetI sXMb.
+    rewrite quotientS /=; first by rewrite subsetI sXMb.
     by rewrite quotient_der ?gFnorm_trans ?normsG ?quotientS.
   rewrite (sub_Hall_pcore (nilpotent_pcore_Hall _ (Mbeta_quo_nil _))) //.
-    rewrite quotient_pgroup ?quotient_norms //.
-    by rewrite normsI ?(subset_trans sQM nMbM) ?normsG.
-  by rewrite quotientS // -defQ commgSS // (subset_trans nQP).
+    by rewrite quotientS // -defQ commgSS // (subset_trans nQP).
+  rewrite quotient_pgroup ?quotient_norms //.
+  by rewrite normsI ?(subset_trans sQM nMbM) ?normsG.
 have{hypU} [r bLr piHr]: exists2 r, r \in \beta(L) & r \in \pi(H).
   have [_ _ _] := and5P hypU; rewrite -rank_gt0.
   have [r _ ->] := rank_witness 'C_(L`_\beta)(P); rewrite p_rank_gt0 => piCr _.
@@ -716,9 +716,9 @@ have{not_pM'} [R ErR nQR]: exists2 R, R \in 'E_r^1('C_M(P)) & R \subset 'N(Q).
   pose K := 'O_p^'(M); have [sKM nKM] := andP (pcore_normal _ M : K <| M).
   have hallK: p^'.-Hall(M) K.
     rewrite -(pquotient_pHall _ (der_normal 1 M)) ?quotient_pgroup //.
-      rewrite -pquotient_pcore ?der_normal // nilpotent_pcore_Hall //.
-      by rewrite abelian_nil ?der_abelian.
-    by rewrite (normalS _ sKM) ?pcore_max ?der_normal.
+      by rewrite (normalS _ sKM) ?pcore_max ?der_normal.
+    rewrite -pquotient_pcore ?der_normal // nilpotent_pcore_Hall //.
+    by rewrite abelian_nil ?der_abelian.
   have sMbK: M`_\beta \subset K.
     by rewrite (subset_trans (Mbeta_der1 maxM)) // pcore_max ?der_normal.
   have coKP: coprime #|K| #|P| := p'nat_coprime (pcore_pgroup _ M) pP.
@@ -875,8 +875,8 @@ split=> [x E1x | x E3x |]; last exact: subG1_contra (setSI _ sMaMs) ntCMaP.
     by rewrite regE13 ?eqxx in ntCE3X.
   rewrite -subG1 -tiCMaQP /= -(setIidPl sMaMs) -!setIA setIS //.
   rewrite (cent_semiprime prE31 _ ntP) ?setIS ?centS //=.
-    by rewrite -!genM_join genS ?mulgSS.
-  by rewrite sub_gen // subsetU // sPE1 orbT.
+    by rewrite sub_gen // subsetU // sPE1 orbT.
+  by rewrite -!genM_join genS ?mulgSS.
 have prE3 := tau3_primact_Msigma maxM hallE hallE3.
 apply/eqP; apply/idPn; rewrite prE3 {x E3x}// -rank_gt0.
 have [u _ -> ruC] := rank_witness 'C_(M`_\sigma)(E3).
@@ -911,7 +911,7 @@ have [sNUM regPU]: 'N(U) \subset M /\ 'C_U(P) = 1.
     have [H hallH cHE'] := der_compl_cent_beta' maxM hallE.
     rewrite pHallE sUMs (card_Hall sylU) eqn_dvd.
     rewrite partn_dvd ?cardG_gt0 ?cardSg ?subsetIl //=.
-    rewrite -(@partn_part u \beta(M)^') => [|v /eqnP-> //].
+    rewrite -(@partn_part u \beta(M)^') => [v /eqnP-> //|].
     rewrite -(card_Hall hallH) partn_dvd ?cardG_gt0 ?cardSg //.
     by rewrite subsetI (pHall_sub hallH) centsC (subset_trans sQE').
   split; first exact: norm_sigma_Sylow (subHall_Sylow hallMs sMu sylU_Ms).
@@ -974,7 +974,7 @@ have [p Ep1X] := nElemP EpX; have [sXE abelX oX] := pnElemPcard Ep1X.
 have [p_pr ntX] := (pnElem_prime Ep1X, nt_pnElem Ep1X isT).
 have tau31p: p \in [predU \tau3(M) & \tau1(M)].
   rewrite (pgroupP (pgroupS sXE _)) ?oX // -mulE31 pgroupM.
-  rewrite (sub_pgroup _ t3E3) => [|q t3q]; last by rewrite inE /= t3q.
+  rewrite (sub_pgroup _ t3E3) => [q t3q|]; first by rewrite inE /= t3q.
   by rewrite (sub_pgroup _ t1E1) // => q t1q; rewrite inE /= t1q orbT.
 have [/= t3p | t1p] := orP tau31p.
   rewrite (char_normal_trans _ nsE3E) ?sub_cyclic_char //.
@@ -1117,4 +1117,3 @@ by case/negP; rewrite /= defP (subset_trans (cent_sub P)).
 Qed.
 
 End Section13.
-

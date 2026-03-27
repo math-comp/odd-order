@@ -8,7 +8,7 @@ From mathcomp Require Import center gfunctor commutator gseries pgroup.
 From mathcomp Require Import nilpotent sylow abelian maximal.
 From mathcomp Require Import mxrepresentation mxabelem.
 From odd_order Require Import BGsection1 BGsection2.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file contains the useful material in B & G, appendices A and B, i.e., *)
@@ -56,7 +56,7 @@ suffices IH gT (E : {group gT}) x y (G := <<[set x; y]>>) :
   apply/subsetP=> _ /morphimP[x Nx Ax ->]; have NGx := subsetP sANG x Ax.
   apply: Baer_Suzuki => [|_ /morphimP[y Ny NGy ->]]; first exact: mem_quotient.
   rewrite -morphJ // -!morphim_set1 -?[<<_>>]morphimY ?sub1set ?groupJ //.
-  set G1 := _ <*> _; rewrite /pgroup -(card_isog (second_isog _)); last first.
+  set G1 := _ <*> _; rewrite /pgroup -(card_isog (second_isog _)).
     by rewrite join_subG !sub1set Nx groupJ.
   have{Nx NGx Ny NGy} [[Gx Nx] [Gy Ny]] := (setIP NGx, setIP NGy).
   have sG1G: G1 \subset G by rewrite join_subG !sub1set groupJ ?andbT.
@@ -505,8 +505,3 @@ by rewrite TI_cardMg ?mulnK //; apply/trivgP; rewrite /= setIC -tiSD setSI.
 Qed.
 
 End Puig_factorization.
-
-
-
-
-

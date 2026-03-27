@@ -6,7 +6,7 @@ From mathcomp Require Import fingroup automorphism action gproduct.
 From mathcomp Require Import center gfunctor commutator gseries pgroup.
 From mathcomp Require Import nilpotent sylow abelian maximal.
 From odd_order Require Import BGsection1 BGsection5 BGsection6 BGsection7.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (*   This file covers B & G, section 8, i.e., the proof of two special cases  *)
@@ -38,7 +38,7 @@ Theorem non_pcore_Fitting_Uniqueness p M A0 :
 Proof.
 set F := 'F(M) => maxM p'F /pmaxElemP[/=/setIdP[sA0F abelA0] maxA0].
 have [pA0 cA0A0 _] := and3P abelA0; rewrite (p_rank_abelem abelA0) => dimA0_3.
-rewrite (uniq_mmax_subset1 maxM) //= -/F; last by rewrite subIset ?Fitting_sub.
+rewrite (uniq_mmax_subset1 maxM) //= -/F; first by rewrite subIset ?Fitting_sub.
 set A := 'C_F(A0); pose pi := \pi(A).
 have [sZA sAF]: 'Z(F) \subset A /\ A \subset F by rewrite subsetIl setIS ?centS.
 have nilF: nilpotent F := Fitting_nil _.
@@ -205,8 +205,8 @@ have ntDp: D`p != 1 by rewrite -cardG_gt1 card_pcore_nil // p_part_gt1 piD.
 have sHp'_NMDp': 'O_p^'(H) \subset 'O_p^'('N_M(D`p)).
   apply: subset_trans (pcoreS _ (subsetIr _ _)).
   rewrite -setIA (setIidPr (pcore_sub _ _)) /= (mmax_normal maxH) //.
-    by rewrite subsetI sHp'M subxx.
-  by rewrite /= p_core_Fitting pcore_normal.
+    by rewrite /= p_core_Fitting pcore_normal.
+  by rewrite subsetI sHp'M subxx.
 have{sHp'_NMDp'} sHp'Mp': 'O_p^'(H) \subset 'O_p^'(M).
   have pM_D: p.-subgroup(M) D`p.
     by rewrite /psubgroup pcore_pgroup gFsub_trans.
@@ -279,9 +279,9 @@ have sZA: 'Z(F) \subset A.
 have sCAM: 'C(A) \subset M.
   have nsZM: 'Z(F) <| M by rewrite !gFnormal_trans.
   rewrite -(mmax_normal maxM nsZM); last first.
-    rewrite /= -(setIidPr (center_sub _)) meet_center_nil ?Fitting_nil //.
-    by rewrite -proper1G (proper_sub_trans _ sAF) ?proper1G.
-  by rewrite (subset_trans _ (cent_sub _)) ?centS.
+    by rewrite (subset_trans _ (cent_sub _)) ?centS.
+  rewrite /= -(setIidPr (center_sub _)) meet_center_nil ?Fitting_nil //.
+  by rewrite -proper1G (proper_sub_trans _ sAF) ?proper1G.
 have nsZL_M: 'Z('L(P)) <| M.
   by rewrite (Puig_center_normal (mFT_odd _) solM sylP).
 have sNPM: 'N(P) \subset M.
@@ -396,4 +396,3 @@ exact: uniq_mmaxS (subsetIl _ _) prF.
 Qed.
 
 End Eight.
-

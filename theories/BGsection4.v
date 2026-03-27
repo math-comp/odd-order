@@ -8,7 +8,7 @@ From mathcomp Require Import cyclic center gfunctor commutator.
 From mathcomp Require Import gseries pgroup nilpotent sylow abelian maximal.
 From mathcomp Require Import hall extremal mxrepresentation mxabelem.
 From odd_order Require Import BGsection1 BGsection2.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (*   This file covers B & G, Section 4, i.e., the proof of structure theorems *)
@@ -75,14 +75,14 @@ have{fS gS} expMR_fg: {in R &, forall u v n (r := [~ v, u]),
   congr (_ * (_ * _)); rewrite (mulgA _ v).
   have ->: [~ v ^+ n, u] = r ^+ n * [~ r, v] ^+ 'C(n, 2).
     elim: n => [|n IHn]; first by rewrite comm1g mulg1.
-    rewrite !expgS commMgR -/r {}IHn commgX; last exact: cRr.
+    rewrite !expgS commMgR -/r {}IHn commgX; first exact: cRr.
     rewrite binS bin1 addnC expgD -mulgA -[RHS]mulgA; congr (_ * _); rewrite 2!mulgA.
     by rewrite commuteX2 // /commute cRr.
   rewrite commXg 1?commuteX2 -?[_ * v]commuteX; try exact: cRr.
   rewrite mulgA {1}[mulg]lock [in LHS]mulgA -(mulgA _ (r ^+ n)) -(mulgA v).
   rewrite -!expgD -fS -lock.
   rewrite -{2}(bin1 n) addnC -binS -2!mulgA (mulgA _ v) (commgC _ v).
-  rewrite -commuteX; last by red; rewrite cRr ?(Rr, groupR, groupX, groupM).
+  rewrite -commuteX; first by red; rewrite cRr ?(Rr, groupR, groupX, groupM).
   rewrite -3!mulgA; congr (_ * (_ * _)); rewrite 2!mulgA.
   rewrite commXg 1?commuteX2; try by red; rewrite cRr 1?groupR.
   by rewrite -!mulgA -!expgD addnCA binS addnAC addnn addnC -gS.
@@ -94,7 +94,7 @@ have expR1p: exponent 'Ohm_1(R) %| p.
   split=> // x y /LdivP[Qx xp1] /LdivP[Qy yp1]; rewrite !inE groupM //=.
   have sxQ: <[x]> \subset Q by rewrite cycle_subG.
   have [{sxQ}defQ|[S maxS /= sxS]] := maximal_exists sxQ.
-    rewrite expgMn; first by rewrite xp1 yp1 mulg1.
+    rewrite expgMn; last by rewrite xp1 yp1 mulg1.
     by apply: (centsP (cycle_abelian x)); rewrite ?defQ.
   have:= maxgroupp maxS; rewrite properEcard => /andP[sSQ ltSQ].
   have pQ := pgroupS sQR pR; have pS := pgroupS sSQ pQ.
@@ -132,7 +132,7 @@ have CiP_eq : C :&: R = A by rewrite -CRA_A setIC setIA (setIidPl sRG).
 have sylA: p.-Sylow(C) A.
   rewrite -CiP_eq; apply: (Sylow_setI_normal (subcent_normal _ _)).
   by apply: pHall_subl sylR; rewrite ?subsetIl // subsetI sRG normal_norm.
-rewrite dprodEsd; last by rewrite centsC gFsub_trans ?subsetIr.
+rewrite dprodEsd; first by rewrite centsC gFsub_trans ?subsetIr.
 by apply: Burnside_normal_complement; rewrite // subIset ?subsetIr.
 Qed.
 
@@ -431,7 +431,7 @@ have pR1: p.-group 'Ohm_1(R) := pgroupS sR1R pR.
 have p_odd: odd p by case/even_prime: p_pr p_gt3 => ->.
 have{p_odd} oddR: odd #|R| := odd_pgroup_odd p_odd pR.
 have{} dimR1: logn p #|'Ohm_1(R)| = 2.
-  apply/eqP; rewrite eqn_leq dimR1 -p_rank_abelem; last first.
+  apply/eqP; rewrite eqn_leq dimR1 -p_rank_abelem.
     by rewrite abelem_Ohm1 // (p2group_abelian pR1).
   rewrite ltnNge p_rank_Ohm1 -odd_pgroup_rank1_cyclic //.
   apply: contra dimRb1 => cycR; have cycRb := quotient_cyclic T cycR.
@@ -495,7 +495,7 @@ have [cRR | not_cRR] := boolP (abelian R).
 pose R' := R^`(1); pose e := 'Mho^1(R') != 1.
 have nsR'R: R' <| R := der_normal 1 R; have [sR'R nR'R] := andP nsR'R.
 have [T EpT]: exists T, T \in 'E_p^1('Mho^e(R') :&: 'Z(R)).
-  apply/p_rank_geP; rewrite -rank_pgroup; last first.
+  apply/p_rank_geP; rewrite -rank_pgroup.
     by rewrite (pgroupS _ pR) //= setIC subIset ?center_sub.
   rewrite rank_gt0 (meet_center_nil (pgroup_nil pR)) ?gFnormal_trans //.
   by case ntR'1: e; rewrite //= Mho0 (sameP eqP derG1P).
@@ -652,7 +652,7 @@ suffices{C T} cTT: abelian [~: R, A].
   rewrite -(geq_leqif (leqif_add (leqif_geq _) (leqif_geq _))) ?rank_gt0 //.
   have le_rTC_dimTC1: 'r(T) + 'r(C) <= logn p #|'Ohm_1(T) * 'Ohm_1(C)|.
     rewrite (rank_pgroup pC) -p_rank_Ohm1 (rank_abelian_pgroup pT cTT).
-    rewrite TI_cardMg; last by apply/trivgP; rewrite -tiTC setISS ?Ohm_sub.
+    rewrite TI_cardMg; first by apply/trivgP; rewrite -tiTC setISS ?Ohm_sub.
     by rewrite lognM ?cardG_gt0 // leq_add2l p_rank_le_logn.
   apply: leq_trans le_rTC_dimTC1 _; rewrite add1n.
   have ncycR: ~~ cyclic R by apply: contra not_cRR; apply: cyclic_abelian.
@@ -705,7 +705,7 @@ have{tiR1bX} cycX: cyclic X.
   by rewrite quotientGI // setIC -defXb tiR1bX.
 rewrite (cyclic_factor_abelian sSZ) // abelian_rank1_cyclic //.
 rewrite (rank_abelian_pgroup pRb cRbRb) -defRb1 defXb.
-rewrite (maxS X) ?trivg_quotient ?mulg1 //; last exact/and3P.
+rewrite (maxS X) ?trivg_quotient ?mulg1 //; first exact/and3P.
 have EpR1: 'Ohm_1(R)%G \in 'E_p^2(R) by apply: Ohm1_metacyclic_p2Elem.
 have [sR1R _ dimR1] := pnElemP EpR1; have pR1 := pgroupS sR1R pR.
 rewrite -(card_isog (second_isog _)) ?(subset_trans sR1R) // -ltnS -dimR1.
@@ -772,7 +772,7 @@ have [cRR | not_cRR] := boolP (abelian R).
   pose rAR := reprGLm (abelem_repr abelR ntR nRA).
   have:= cardSg (subsetT (rAR @* A)); rewrite card_GL ?card_Fp //.
   rewrite card_injm ?ker_reprGLm ?rker_abelem ?prime_TIg ?oA // unlock.
-  rewrite Gauss_dvdr; last by rewrite coprimeXr ?prime_coprime ?dvdn_prime2.
+  rewrite Gauss_dvdr; first by rewrite coprimeXr ?prime_coprime ?dvdn_prime2.
   move: rR; rewrite -ltnS -[_ < _](mem_iota 0) !inE eqn0Ngt rank_gt0 ntR.
   rewrite (dim_abelemE abelR ntR) (rank_abelem abelR).
   do [case/pred2P=> ->; rewrite /= muln1] => [-> // | ].
@@ -944,7 +944,7 @@ have{TbS'z} [z nS'z Tz defS'z] := morphimP TbS'z.
 have [Ta AbTa not_cSbTa]: exists2 Ta, Ta \in A / T & Ta \notin 'C(S / T).
   apply: subsetPn; rewrite quotient_cents2 ?commg_norml //= -/T commGC.
   apply: contra not_sSB => sSA_T; rewrite (subset_trans sSR) // -defRA -defR.
-  rewrite -(normC (subset_trans sSR nBR)) commMG /= -/S -/B; last first.
+  rewrite -(normC (subset_trans sSR nBR)) commMG /= -/S -/B.
     by rewrite cents_norm ?subIset ?centS ?orbT.
   by rewrite mul_subG ?commg_subl ?normsI ?norms_cent // (subset_trans sSA_T).
 have [a nTa Aa defTa] := morphimP AbTa.
@@ -995,7 +995,7 @@ have{not_sXS_S'} not_S'xy: [~ x, y] \notin S'.
   apply: contra not_sXS_S' => S'xy.
   rewrite -quotient_cents2 ?(subset_trans _ nS'R) //= -/S'.
   rewrite -defS quotientMl ?(subset_trans _ nS'R) // centM /= -/S' -/T.
-  rewrite subsetI quotient_cents; last by rewrite (subset_trans sXB) ?subsetIr.
+  rewrite subsetI quotient_cents; first by rewrite (subset_trans sXB) ?subsetIr.
   rewrite defX !quotient_cycle // cent_cycle cycle_subG /= -/S'.
   by rewrite (sameP cent1P commgP) -morphR /= ?coset_id.
 have jk_eq_i: j * k = i %[mod p].
@@ -1309,12 +1309,12 @@ have defG: G :=: F * 'N_G(S).
   rewrite -{1}(Frattini_arg nsFS_G sylSF) /= norm_joinEr // -mulgA.
   by congr (_ * _); rewrite mulSGid // subsetI sSG normG.
 rewrite /normal (subset_trans (char_sub charT)) //= defG mulG_subG /= -/F.
-rewrite setIC andbC subIset /=; last by rewrite (char_norm_trans charT).
+rewrite setIC andbC subIset /=; first by rewrite (char_norm_trans charT).
 case/dprodP: (nilpotent_pcoreC p nilF); rewrite /= -/F => _ defF cFpFp' _.
 have defFp: 'O_p(F) = F :&: S.
   rewrite -{2}defF -group_modl ?coprime_TIg ?mulg1 //.
-    by rewrite coprime_sym (pnat_coprime pS (pcore_pgroup _ _)).
-  by rewrite p_core_Fitting pcore_sub_Hall.
+    by rewrite p_core_Fitting pcore_sub_Hall.
+  by rewrite coprime_sym (pnat_coprime pS (pcore_pgroup _ _)).
 rewrite -defF mulG_subG /= -/F defFp setIC subIset ?(char_norm charT) //=.
 rewrite cents_norm // (subset_trans cFpFp') // defFp centS // subsetI.
 rewrite (char_sub charT) (subset_trans (subset_trans sTS' (dergS 1 sSG))) //.
@@ -1355,7 +1355,7 @@ have hallHp': p^'.-Hall(H) 'O_p^'(H).
   rewrite def_p rank2_min_p_complement ?(oddSg sHG) ?(solvableS sHG) -?def_p //.
   rewrite -(p_rank_Sylow sylP) (leq_trans (p_rank_le_rank _ _)) //.
   exact: leq_trans (rankS sPF) Fle2.
-rewrite -(card_Hall hallHp') part_p'nat ?pnatNK ?muln1 // subset_leqif_card.
+rewrite -(card_Hall hallHp') part_p'nat ?pnatNK ?muln1 // subset_leqif_card; last first.
   by rewrite pcore_max ?pcore_pgroup ?gFnormal_trans.
 rewrite pcore_max ?pcore_pgroup // (normalS _ _ (pcore_normal _ _)) //.
 rewrite -quotient_sub1 ?gFsub_trans //.
@@ -1400,7 +1400,7 @@ Proof.
 move=> oddG solG Fle2; pose pi := [pred q | p <= q].
 rewrite pHallE pcore_sub eqn_leq -{1}(part_pnat_id (pcore_pgroup _ _)).
 rewrite dvdn_leq ?partn_dvd ?cardSg ?pcore_sub // /=.
-rewrite (@eq_in_partn _ pi) => [|q piGq]; last first.
+rewrite (@eq_in_partn _ pi) => [q piGq|].
   by rewrite !inE eqn_leq; apply: andb_idl => le_q_p; apply: max_pdiv_max.
 rewrite -(card_Hall (rank2_ge_pcore_Hall p oddG solG Fle2)) -/pi.
 rewrite subset_leq_card // pcore_max ?pcore_normal //.

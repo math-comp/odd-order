@@ -6,7 +6,7 @@ From mathcomp Require Import fingroup morphism automorphism quotient gproduct.
 From mathcomp Require Import cyclic center gfunctor commutator.
 From mathcomp Require Import pgroup nilpotent sylow abelian maximal hall.
 From odd_order Require Import BGsection1 BGappendixAB.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (*   This file covers most of B & G section 6.                                *)
@@ -117,7 +117,7 @@ have hallG': Hall G G'.
   rewrite /Hall sG'G -?card_quotient // defG' //= -/p.
   by rewrite (p'nat_coprime (pcore_pgroup _ _)) ?pnat_id.
 split=> // H defG; have [_ mulG'H nG'H tiG'H] := sdprodP defG.
-rewrite -mulG'H commMG ?commg_normr // -derg1 (derG1P _) ?mulg1 //.
+rewrite -mulG'H commMG ?commg_normr // -derg1 (derG1P _) ?mulg1 //; last first.
   by case/coprime_der1_sdprod: (defG); rewrite ?(coprime_sdprod_Hall_l defG).
 rewrite (isog_abelian (quotient_isog nG'H tiG'H)) /= -/G'.
 by rewrite -quotientMidl mulG'H der_abelian.
@@ -315,4 +315,3 @@ by rewrite (coprime_odd_faithful_cent_abelem EpE) ?(pmaxElem_LdivP p_pr maxES).
 Qed.
 
 End Six.
-

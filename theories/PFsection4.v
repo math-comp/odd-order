@@ -12,7 +12,7 @@ From mathcomp Require Import hall frobenius algC.
 From mathcomp Require Import mxrepresentation classfun character inertia.
 From mathcomp Require Import vcharacter.
 From odd_order Require Import PFsection1 PFsection2 PFsection3.
-Set SsrOldRewriteGoalsOrder.  (* change Set to Unset when porting the file, then remove the line when requiring MathComp >= 2.6 *)
+Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.6 *)
 
 (******************************************************************************)
 (* This file covers Peterfalvi, Section 4: The Dade isometry of a certain     *)
@@ -211,7 +211,7 @@ exists defWbar; split; rewrite ?quotient_odd ?quotient_cyclic ?quotientS //.
   by rewrite -(isog_eq1 isoW1) ?morphim_Hall // (quotient_coprime_sdprod nML).
 move=> Kx /setD1P[ntKx /morphimP[x nKx W1x defKx]] /=.
 rewrite -cent_cycle -cycle_eq1 {Kx}defKx -quotient_cycle // in ntKx *.
-rewrite -strongest_coprime_quotient_cent ?cycle_subG //; first 1 last.
+rewrite -strongest_coprime_quotient_cent ?cycle_subG //.
 - by rewrite subIset ?sMK.
 - by rewrite (coprimeSg (subsetIl M _)) // (coprimegS _ coMW1) ?cycle_subG.
 - by rewrite orbC abelian_sol ?cycle_abelian.
@@ -361,7 +361,7 @@ have [k|muV2 mu'V2] := equiv_restrict_compl_ortho sWL nsV2W V2basis ImuW.
   rewrite nth_image; case: (enum_val k) (enum_valP k) => /= i j /andP[/= nzi _].
   pose inWj i1 := dprod_Iirr defW (i1, j); rewrite (bigD1 (inWj 0)) //=.
   rewrite (bigD1 (inWj i)) ?(can_eq (dprod_IirrK _)) ?xpair_eqE ?(negPf nzi) //.
-  rewrite /= big1 ?addr0 => [|k1 /andP[]]; last first.
+  rewrite /= big1 ?addr0 => [k1 /andP[]|].
     rewrite !(eq_sym k1); have [[i1 j1] -> {k1}] := inW k1.
     rewrite !(can_eq (dprod_IirrK _)) => ij1'i ij1'0.
     by rewrite cfdotBl !cfdot_w !mulrb !ifN // subrr scale0r.
@@ -510,9 +510,9 @@ suff{k}: [set k | K \subset cfker 'chi_k] == [set Imu2 (i, 0) | i : Iirr W1].
   by apply: (iffP imsetP) => [[i _]|[i /irr_inj]] ->; exists i.
 have [isoW1 abW1] := (sdprod_isog defL, cyclic_abelian cycW1).
 have abLbar: abelian (L / K) by rewrite -(isog_abelian isoW1).
-rewrite eqEcard andbC card_imset ?nirrW1 => [| i1 i2 /prTIirr_inj[] //].
+rewrite eqEcard andbC card_imset ?nirrW1 => [i1 i2 /prTIirr_inj[] // |].
 rewrite [w1](card_isog isoW1) -card_Iirr_abelian //.
-rewrite -(card_image (can_inj (mod_IirrK nsKL))) subset_leq_card; last first.
+rewrite -(card_image (can_inj (mod_IirrK nsKL))) subset_leq_card.
   by apply/subsetP=> _ /imageP[k1 _ ->]; rewrite inE mod_IirrE ?cfker_mod.
 apply/subsetP=> k; rewrite inE => kerKk.
 have /irrP[ij DkW]: 'Res 'chi_k \in irr W.
@@ -651,7 +651,7 @@ have actsL_KK: [acts L, on classes K | 'Js \ subsetT L].
   rewrite astabs_ract subsetIidl; apply/subsetP=> y Ly; rewrite !inE /=.
   apply/subsetP=> _ /imsetP[x Kx ->]; rewrite !inE /= -class_rcoset.
   by rewrite norm_rlcoset ?class_lcoset ?mem_classes ?memJ_norm ?(subsetP nKL).
-rewrite (card_afix_irr_classes Lz actsL_KK) => [|k x y Kx /=]; last first.
+rewrite (card_afix_irr_classes Lz actsL_KK) => [k x y Kx /= |].
   by case/imsetP=> _ /imsetP[t Kt ->] ->; rewrite conjg_IirrE cfConjgEJ ?cfunJ.
 apply: leq_trans (subset_leq_card _) (leq_imset_card (class^~ K) _).
 apply/subsetP=> _ /setIP[/imsetP[x Kx ->] /afix1P/normP nxKz].
@@ -882,7 +882,7 @@ apply: eq_signed_sub_cTIiso => // [||x Vx].
 - rewrite Itau // cfnormBd ?cfnorm_irr // (cfdot_prTIirr ptiWL).
   by rewrite (negPf k'j) andbF.
 have V2x: x \in W :\: W2 by rewrite (subsetP _ x Vx) // setDS ?subsetUr.
-rewrite !(cfunE, Dade_id) ?(cycTIiso_restrict _ _ Vx) //; last first.
+rewrite !(cfunE, Dade_id) ?(cycTIiso_restrict _ _ Vx) //.
   by rewrite defA0 inE orbC mem_class_support.
 by rewrite !Dmu2 // (prDade_TIsign_eq eq_mu2jk_1) !cfunE -mulrBr.
 Qed.
