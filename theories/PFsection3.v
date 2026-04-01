@@ -203,10 +203,10 @@ Definition AndLit kvs kv := kv :: kvs.
 Definition AddLit := AndLit.
 Declare Scope defclause_scope.
 Notation "(*dummy*)" := (Prop Prop) : defclause_scope.
-Arguments AddLit _%defclause_scope _.
+Arguments AddLit _%_defclause_scope _.
 Infix "+" := AddLit : defclause_scope.
 Definition SubLit kvs kv := AddLit kvs (kv.1, - kv.2).
-Arguments SubLit _%defclause_scope _.
+Arguments SubLit _%_defclause_scope _.
 Infix "-" := SubLit : defclause_scope.
 Coercion LastLit kv := [:: kv].
 
@@ -223,7 +223,7 @@ Notation "& kv1 , .. , kvn 'in' ij" :=
 Notation "& ? 'in' ij" := (Clause ij nil)
   (at level 200, ij at level 0, format "&  ?  'in'  ij").
 Definition DefClause := Clause.
-Arguments DefClause _ _%defclause_scope.
+Arguments DefClause _ _%_defclause_scope.
 Notation "& ij = kvs" := (DefClause ij kvs)
   (at level 200, ij at level 0, format "&  ij  =  kvs").
 

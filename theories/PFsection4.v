@@ -148,7 +148,7 @@ Definition primeTI_hypothesis (L K W W1 W2 : {set gT}) & W1 \x W2 = W :=
 
 End Four_1_to_2.
 
-Arguments primeTI_hypothesis _ _%g _%g _%g _ _%g _%g.
+Arguments primeTI_hypothesis _ _%_g _%_g _%_g _ _%_g _%_g.
 
 Section Four_3_to_5.
 
