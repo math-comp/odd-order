@@ -540,7 +540,6 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
   have E_F a: outF a \in E_U by rewrite !inE vec_mxK mulmx_sub ?eq_row_base.
   have inK: {in E_U, cancel inF outF}.
     by move=> A E_A; rewrite /= mulmxKpV ?mxvecK ?eq_row_base.
-  set HACK2 := (quotient_coset_of__canonical__fingroup_FinGroup _) in @outF inF E_F inK *.
   have outI: injective outF := inj_comp (can_inj vec_mxK) (row_free_inj freeB).
   have outK: cancel outF inF by move=> a; apply: outI; rewrite inK ?E_F.
   pose one := inF 1%R; pose mul a b := inF (outF a * outF b)%R.
