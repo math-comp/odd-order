@@ -31,7 +31,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope.
+Local Open Scope group_scope.
 
 Reserved Notation "\alpha ( M )" (format "\alpha ( M )").
 Reserved Notation "\beta ( M )" (format "\beta ( M )").

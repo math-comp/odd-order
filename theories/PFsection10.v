@@ -44,7 +44,8 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory Num.Theory.
+Import Order.TTheory GRing.Theory Num.Theory.
+Local Open Scope group_scope.
 
 Section Ten.
 
@@ -186,7 +187,7 @@ by have [[]] := compl_of_typeII maxS StypeP Stype2.
 Qed.
 Let w2_pr := FTtype345_core_prime.
 
-Definition FTtype345_TIirr_degree := Num.trunc (mu2_ 0 #1 1%g).
+Definition FTtype345_TIirr_degree := Num.truncn (mu2_ 0 #1 1%g).
 Definition FTtype345_TIsign := delta_ #1.
 Local Notation d := FTtype345_TIirr_degree.
 Local Notation delta := FTtype345_TIsign.
@@ -206,18 +207,18 @@ have invj j: j != 0 -> mu2_ 0 j 1%g = d%:R /\ delta_ j = delta.
   rewrite -(cforder_dprodr defW) -dprod_IirrEr in co_k_j1.
   have{co_k_j1} [[u Dj1u] _] := cycTIiso_aut_exists ctiWM co_k_j1.
   rewrite dprod_IirrEr -rmorphXn -Dj /= -!dprod_IirrEr -!/(w_ _ _) in Dj1u.
-  rewrite truncK ?Cnat_irr1 //.
+  rewrite truncnK ?Cnat_irr1 //.
   have: delta_ j *: mu2_ 0 j == cfAut u (delta_ #1 *: mu2_ 0 #1).
     by rewrite -!(cycTIiso_prTIirr pddM) -/ctiWM -Dj1u.
   rewrite raddfZsign /= -prTIirr_aut eq_scaled_irr signr_eq0 /= /mu2_.
   by case/andP=> /eqP-> /eqP->; rewrite prTIirr_aut cfunE/= aut_natr ?Cnat_irr1.
 have d_gt1: (d > 1)%N.
-  rewrite ltn_neqAle andbC -eqC_nat -ltC_nat truncK ?Cnat_irr1 //.
+  rewrite ltn_neqAle andbC -eqC_nat -ltC_nat truncnK ?Cnat_irr1 //.
   rewrite irr1_gt0 /= eq_sym; apply: contraNneq nz_j1 => mu2_lin.
   have: mu2_ 0 #1 \is a linear_char by rewrite qualifE/= irr_char /= mu2_lin.
   by rewrite lin_irr_der1 => /(prTIirr0P ptiWM)[i /irr_inj/prTIirr_inj[_ ->]].
 split=> // [i j /invj[<- _] | _ /invj[//] | ]; first by rewrite prTIirr_1.
-have: (d%:R == delta %[mod w1])%C by rewrite truncK ?Cnat_irr1 ?prTIirr1_mod.
+have: (d%:R == delta %[mod w1])%C by rewrite truncnK ?Cnat_irr1 ?prTIirr1_mod.
 rewrite /eqCmod unfold_in -/n (negPf (neq0CG W1)) natrEint => ->.
 rewrite divr_ge0 ?ler0n // [delta]signrE opprB addrA -natrD subr_ge0 ler1n.
 by rewrite -(subnKC d_gt1).
@@ -445,8 +446,8 @@ suffices: n ^+ 2 < n + 1.
   have: (2%N %| n * w1%:R)%C.
     rewrite divfK ?neq0CG // -signrN signrE addrA -(natrD _ d 1).
     by rewrite rpredB // dvdC_nat dvdn2 ?odd_double // oddD d_odd.
-  rewrite -(truncK Nn) -mulrSr -natrM -natrX ltC_nat (dvdC_nat 2) pnatr_eq0.
-  rewrite dvdn2 oddM mFT_odd; case: (Num.trunc n) => [|[|n1]] // _ /idPn[].
+  rewrite -(truncnK Nn) -mulrSr -natrM -natrX ltC_nat (dvdC_nat 2) pnatr_eq0.
+  rewrite dvdn2 oddM mFT_odd; case: (Num.truncn n) => [|[|n1]] // _ /idPn[].
   by rewrite -leqNgt (ltn_exp2l 1).
 apply: lt_le_trans (_ : n * - delta + 1 <= _); last first.
   have ->: n + 1 = n * `|- delta| + 1 by rewrite normrN normr_sign mulr1.

@@ -23,7 +23,8 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory.
+Import Order.TTheory GRing.Theory FinRing.Theory Num.Theory.
+Local Open Scope group_scope.
 Local Open Scope ring_scope.
 
 Section PFTwelve.
@@ -847,8 +848,8 @@ have defV: V :=: 'Ohm_1(P0).
   by rewrite p_rank_abelian // -card_pgroup ?(pgroupS (Ohm_sub 1 _)).
 pose rE := abelem_repr abelV ntV nVE.
 have ffulE: mx_faithful rE by apply: abelem_mx_faithful.
-have p'E: [char 'F_p]^'.-group E.
-  rewrite (eq_p'group _ (charf_eq (char_Fp pr_p))) (coprime_p'group _ pV) //.
+have p'E: [pchar 'F_p]^'.-group E.
+  rewrite (eq_p'group _ (pcharf_eq (pchar_Fp pr_p))) (coprime_p'group _ pV) //.
   by rewrite coprime_sym (coprimeSg sVH) ?(Frobenius_coprime frobHE).
 have dimV: 'dim V = 2%N by rewrite (dim_abelemE abelV) // oV pfactorK.
 have cEE: abelian E.
@@ -866,10 +867,10 @@ have /trivgPn[y nty Ey]: E != 1%G by have [] := Frobenius_context frobHE.
 have cErEy: centgmx rE (rE y).
   by apply/centgmxP=> z Ez; rewrite -!repr_mxM // (centsP cEE).
 have irrE: mx_irreducible rE by apply/abelem_mx_irrP.
-have charFp2: p \in [char MatrixGenField.gen_of irrE cErEy].
-  apply: (rmorph_char (MatrixGenField.gen irrE cErEy)).
-  exact: char_Fp.
-pose Fp2 : finFieldType := PrimeCharType charFp2.
+have charFp2: p \in [pchar MatrixGenField.gen_of irrE cErEy].
+  apply: (rmorph_pchar (MatrixGenField.gen irrE cErEy)).
+  exact: pchar_Fp.
+pose Fp2 : finFieldType := pPrimeCharType charFp2.
 pose n1 := MatrixGenField.gen_dim (rE y).
 pose rEp2 : mx_representation Fp2 E n1 := MatrixGenField.gen_repr irrE cErEy.
 have n1_gt0: (0 < n1)%N := MatrixGenField.gen_dim_gt0 irrE cErEy.

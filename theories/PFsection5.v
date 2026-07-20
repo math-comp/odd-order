@@ -50,7 +50,8 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory Num.Theory Num.Def.
+Import Order.TTheory GRing.Theory Num.Theory.
+Local Open Scope group_scope.
 Local Open Scope ring_scope.
 
 (* Results about the set of induced irreducible characters *)
@@ -494,7 +495,7 @@ Definition subcoherent S tau R :=
               orthogonal phi (xi :: xi^*%CF) -> orthogonal (R phi) (R xi)}].
 
 Definition dual_iso (nu : {additive 'CF(L) -> 'CF(G)}) : {additive _ -> _} :=
-  -%R \o nu \o cfAut conjC.
+  -%R \o nu \o cfAut Num.conj.
 
 End Defs.
 
@@ -596,7 +597,7 @@ Proof.
 case=> -[N_S _ _] [Itau Ztau] oSS _ _ Seta1 Zzeta1 isoS Izeta1.
 have freeS := orthogonal_free oSS; have uniqS := free_uniq freeS.
 have{oSS} [/andP[S'0 _] oSS] := pairwise_orthogonalP oSS.
-pose d := eta1 1%g; pose a (eta : 'CF(L)) := Num.trunc (eta 1%g / d).
+pose d := eta1 1%g; pose a (eta : 'CF(L)) := Num.truncn (eta 1%g / d).
 have{S'0} nzd: d != 0 by rewrite char1_eq0 ?N_S ?(memPn S'0).
 pose S1 := eta1 :: [seq eta - eta1 *+ a eta | eta <- rem eta1 S].
 have sS_ZS1: {subset S <= 'Z[S1]}; last apply: (subgen_coherent sS_ZS1).
@@ -613,7 +614,7 @@ have{} isoS: {in behead S1, forall zeta, iso_eta1 zeta}.
   rewrite /iso_eta1 => _ /mapP[eta Seta ->]; rewrite mem_rem_uniq // in Seta.
   have{Seta} [/isoS[q [Nq Dq] Itau_eta1] [eta1'eta Seta]] := (Seta, andP Seta).
   rewrite zcharD1E rpredB ?rpredMn ?mem_zchar //= -scaler_nat /a Dq mulfK //.
-  by rewrite truncK // !cfunE Dq subrr cfdotBl cfdotZl -mulNr oSS ?add0r.
+  by rewrite truncnK // !cfunE Dq subrr cfdotBl cfdotZl -mulNr oSS ?add0r.
 have isoS1: {in S1, isometry [eta tau with eta1 |-> zeta1], to 'Z[irr G]}.
   split=> [xi eta | eta]; rewrite !in_cons /=; last first.
     by case: eqP => [-> | _  /isoS[/Ztau/zcharW]].

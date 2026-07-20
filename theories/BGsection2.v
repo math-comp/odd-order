@@ -24,7 +24,8 @@ Unset Printing Implicit Defensive.
 
 Section BGsection2.
 
-Import GroupScope GRing.Theory FinRing.Theory poly.UnityRootTheory ssrint.IntDist.
+Import GRing.Theory.
+Local Open Scope group_scope.
 Local Open Scope ring_scope.
 
 Implicit Types (F : fieldType) (gT : finGroupType) (p : nat).
@@ -260,13 +261,13 @@ Proof.
 have splitF: group_splitting_field F (Zp_group h).
   move: prim_eps (abelianS (subsetT (Zp h)) (Zp_abelian _)).
   by rewrite -{1}(card_Zp h_gt0); apply: primitive_root_splitting_abelian.
-have F'Zh: [char F]^'.-group (Zp h).
+have F'Zh: [pchar F]^'.-group (Zp h).
   apply/pgroupP=> p p_pr; rewrite card_Zp // => /dvdnP[d def_h].
   apply/negP=> /= charFp.
   have d_gt0: d > 0 by move: h_gt0; rewrite def_h; case d.
   have: eps ^+ d == 1.
-    rewrite -(inj_eq (fmorph_inj (Frobenius_aut charFp))).
-    by rewrite rmorph1 /= Frobenius_autE -exprM -def_h eps_h.
+    rewrite -(inj_eq (fmorph_inj (pFrobenius_aut charFp))).
+    by rewrite rmorph1 /= pFrobenius_autE -exprM -def_h eps_h.
   by rewrite -(prim_order_dvd prim_eps) gtnNdvd // def_h ltn_Pmulr // prime_gt1.
 case: (ltngtP h 1) => [|h_gt1|h1]; last first; last by rewrite ltnNge h_gt0.
   rewrite /sumV mxdirectE /= h1 !big_ord1; split=> //.
@@ -287,7 +288,7 @@ have lin_rZ m (U : 'M_(m, q)) a:
 rewrite mxdirect_sum_eigenspace => [j k _ _|]; first exact: inj_eps.
 split=> //; apply/eqmxP; rewrite submx1.
 wlog [I M /= simM <- _]: / mxsemisimple rZ 1.
-  exact: mx_reducible_semisimple (mxmodule1 _) (mx_Maschke rZ F'Zh) _.
+  exact: mx_reducible_semisimple (mxmodule1 _) (mx_Maschke_pchar rZ F'Zh) _.
 apply/sumsmx_subP=> i _; have simMi := simM i; have [modMi _ _] := simMi.
 set v := nz_row (M i); have nz_v: v != 0 by apply: nz_row_mxsimple simMi.
 have rankMi: \rank (M i) = 1%N.
@@ -299,7 +300,7 @@ have [a defvg]: exists a, v *m rZ 1%R = a *: v.
   by apply/sub_rVP; rewrite -defMi mxmodule_trans ?socle_module ?defMi.
 have: a ^+ h - 1 == 0.
   apply: contraR nz_v => nz_pZa; rewrite -(eqmx_eq0 (eqmx_scale _ nz_pZa)).
-  by rewrite scalerBl scale1r -lin_rZ // subr_eq0 char_Zp ?mulmx1.
+  by rewrite scalerBl scale1r -lin_rZ // subr_eq0 pchar_Zp ?mulmx1.
 rewrite subr_eq0; move/eqP; case/(prim_rootP prim_eps) => k def_a.
 by rewrite defMi (sumsmx_sup k) // /V_ -def_a; apply/eigenspaceP.
 Qed.
@@ -583,19 +584,19 @@ Theorem repr_extraspecial_prime_sdprod_cycle p n gT (G P H : {group gT}) :
     {in H^#, forall x, 'C_P[x] = 'Z(P)} ->
   (h %| p ^ n + 1) || (h %| p ^ n - 1)
   /\ ((h != p ^ n + 1)%N -> forall F q (rG : mx_representation F G q),
-      [char F]^'.-group G -> mx_faithful rG -> rfix_mx rG H != 0).
+      [pchar F]^'.-group G -> mx_faithful rG -> rfix_mx rG H != 0).
 Proof.
 move=> pP esP sdPH_G cycH h oPpn co_p_h primeHP.
 set dvd_h_pn := _ || _; set neq_h_pn := h != _.
 suffices IH F q (rG : mx_representation F G q):
-    [char F]^'.-group G -> mx_faithful rG ->
+    [pchar F]^'.-group G -> mx_faithful rG ->
   dvd_h_pn && (neq_h_pn ==> (rfix_mx rG H != 0)).
 - split=> [|ne_h F q rG F'G ffulG]; last first.
     by case/andP: (IH F q rG F'G ffulG) => _; rewrite ne_h.
   pose r := pdiv #|G|.+1.
   have r_pr: prime r by rewrite pdiv_prime // ltnS cardG_gt0.
-  have F'G: [char 'F_r]^'.-group G.
-    rewrite /pgroup (eq_pnat _ (eq_negn (charf_eq (char_Fp r_pr)))).
+  have F'G: [pchar 'F_r]^'.-group G.
+    rewrite /pgroup (eq_pnat _ (eq_negn (pcharf_eq (pchar_Fp r_pr)))).
     rewrite p'natE // -prime_coprime // (coprime_dvdl (pdiv_dvd _)) //.
     by rewrite /coprime -addn1 gcdnC gcdnDl gcdn1.
   by case/andP: (IH _ _ _ F'G (regular_mx_faithful _ _)).
@@ -603,7 +604,7 @@ move=> F'G ffulG.
 without loss closF: F rG F'G ffulG / group_closure_field F gT.
   move=> IH; apply: (@group_closure_field_exists gT F) => [[Fs f clFs]].
   rewrite -(map_mx_eq0 f) map_rfix_mx {}IH ?map_mx_faithful //.
-  by rewrite (eq_p'group _ (fmorph_char f)).
+  by rewrite (eq_p'group _ (fmorph_pchar f)).
 have p_pr := extraspecial_prime pP esP; have p_gt1 := prime_gt1 p_pr.
 have oZp := card_center_extraspecial pP esP; have[_ prZ] := esP.
 have{sdPH_G} [nsPG sHG defG nPH tiPH] := sdprod_context sdPH_G.
@@ -617,11 +618,11 @@ have defCP: 'C_G(P) = 'Z(P).
   apply/subsetP=> x; case/setIP; case/setU1P=> [-> // | H'x].
   rewrite -sub_cent1; move/setIidPl; rewrite primeHP // => defP.
   by have:= min_card_extraspecial pP esP; rewrite -defP oZp (leq_exp2l 3 1).
-have F'P: [char F]^'.-group P by apply: pgroupS sPG F'G.
-have F'H: [char F]^'.-group H by apply: pgroupS sHG F'G.
+have F'P: [pchar F]^'.-group P by apply: pgroupS sPG F'G.
+have F'H: [pchar F]^'.-group H by apply: pgroupS sHG F'G.
 wlog{ffulG F'G} [irrG regZ]: q rG / mx_irreducible rG /\ rfix_mx rG 'Z(P) = 0.
   move=> IH; wlog [I W /= simW defV _]: / mxsemisimple rG 1%:M.
-    exact: (mx_reducible_semisimple (mxmodule1 _) (mx_Maschke rG F'G)).
+    exact: (mx_reducible_semisimple (mxmodule1 _) (mx_Maschke_pchar rG F'G)).
   have [z Zz ntz]: exists2 z, z \in 'Z(P) & z != 1%g.
     by apply/trivgPn; rewrite -cardG_gt1 oZp prime_gt1.
   have Gz := subsetP sPG z (subsetP (center_sub P) z Zz).
@@ -653,7 +654,7 @@ wlog [M simM _]: / exists2 M, mxsimple rP M & (M <= 1%:M)%MS.
   by apply: (mxsimple_exists (mxmodule1 _)); last case irrG.
 have{M simM irrG regZ F'P} [irrP def_q]: mx_irreducible rP /\ q = (p ^ n)%N.
   have [modM nzM _]:= simM.
-  have [] := faithful_repr_extraspecial _ _ oPpn _ _ simM => // [|<- isoM].
+  have [|||||<- isoM]// := faithful_repr_extraspecial_pchar _ _ oPpn _ _ simM.
     apply/eqP; apply: (TI_center_nil (pgroup_nil pP)).
       rewrite /= -(eqmx_rstab _ (val_submod1 M)) -(rstab_submod modM).
       exact: rker_normal.
@@ -744,9 +745,9 @@ have mulBg x: x \in P -> B x *m gE = yr *m B x.
 wlog sH: / irrType F H by apply: socle_exists.
 have{cycH} linH: irr_degree (_ : sH) = 1%N.
   exact: irr_degree_abelian (cyclic_abelian cycH).
-have baseH := linear_irr_comp F'H (closF H) (linH _).
+have baseH := linear_irr_comp_pchar F'H (closF H) (linH _).
 have{} linH (W : sH): \rank W = 1%N by rewrite baseH; apply: linH.
-have [w] := cycle_repr_structure sH defH F'H (closF H).
+have [w] := cycle_repr_structure_pchar sH defH F'H (closF H).
 rewrite -/h => prim_w [Wi [bijWi _ _ Wi_yg]].
 have{Wi_yg baseH} Wi_yr i: Wi i *m yr = w ^+ i *: (Wi i : 'M_h).
   have /submxP[u ->]: (Wi i <= val_submod (irr_repr (Wi i) 1%g))%MS.
@@ -767,7 +768,7 @@ have{bijWi sumB cl1 F'H} defSB: (SB :=: 1%:M)%MS.
   apply/eqmxP; rewrite submx1 -sumB (big_setD1 _ cl1) addsmxS //=.
   rewrite exchange_big sumsmxS // => ZxH _; rewrite genmxE /= -sumsmxMr_gen.
   rewrite -((reindex Wi) xpredT val) /=; first by apply: onW_bij.
-  by rewrite -/(Socle _) (reducible_Socle1 sH (mx_Maschke _ F'H)) mul1mx.
+  by rewrite -/(Socle _) (reducible_Socle1 sH (mx_Maschke_pchar _ F'H)) mul1mx.
 rewrite mxdirect_addsE /= in dxB; case/and3P: dxB => _ dxB dxB1.
 have{linH Bfree dxB} rankB1 i: \rank (B1 i) = #|clPqH^#|.
   rewrite -sum1_card (mxdirectP _) /=; last first.
@@ -826,19 +827,19 @@ Qed.
 (* 2.6(b).                                                                    *)
 Theorem der1_odd_GL2_charf F gT (G : {group gT})
                            (rG : mx_representation F G 2) :
- odd #|G| -> mx_faithful rG -> [char F].-group G^`(1)%g.
+ odd #|G| -> mx_faithful rG -> [pchar F].-group G^`(1)%g.
 Proof.
 move=> oddG ffulG.
 without loss closF: F rG ffulG / group_closure_field F gT.
   move=> IH; apply: (@group_closure_field_exists gT F) => [[Fc f closFc]].
-  rewrite -(eq_pgroup _ (fmorph_char f)).
+  rewrite -(eq_pgroup _ (fmorph_pchar f)).
   by rewrite -(map_mx_faithful f) in ffulG; apply: IH ffulG closFc.
 elim: {G}_.+1 {-2}G (ltnSn #|G|) => // m IHm G le_g_m in rG oddG ffulG *.
 apply/pgroupP=> p p_pr pG'; rewrite !inE p_pr /=; apply: wlog_neg => p_nz.
 have [P sylP] := Sylow_exists p G.
 have nPG: G \subset 'N(P).
   apply/idPn=> ltNG; pose N := 'N_G(P); have sNG: N \subset G := subsetIl _ _.
-  have{IHm ltNG} p'N': [char F].-group N^`(1)%g.
+  have{IHm ltNG} p'N': [pchar F].-group N^`(1)%g.
     apply: IHm (subg_mx_faithful sNG ffulG); last exact: oddSg oddG.
     rewrite -ltnS (leq_trans _ le_g_m) // ltnS proper_card //.
     by rewrite /proper sNG subsetI subxx.
@@ -864,7 +865,7 @@ have pQ: (p %| #|Q|)%N.
   by rewrite part_pnat_id ?part_pnat.
 have{IHm} abelQ: abelian Q.
   apply/commG1P/eqP/idPn => ntQ'.
-  have{IHm} p'Q': [char F].-group Q^`(1)%g.
+  have{IHm} p'Q': [pchar F].-group Q^`(1)%g.
     apply: IHm (subg_mx_faithful sQG ffulG); last exact: oddSg oddG.
     rewrite -ltnS (leq_trans _ le_g_m) // ltnS proper_card //.
     rewrite /proper sQG subsetI //= andbC subEproper.
@@ -882,7 +883,7 @@ wlog [U simU sU1]: / exists2 U, mxsimple rQ U & (U <= 1%:M)%MS.
   by apply: mxsimple_exists; rewrite ?mxmodule1 ?oner_eq0.
 have Uscal: \rank U = 1%N by apply: (mxsimple_abelian_linear (closF _)) simU.
 have{simU} [Umod _ _] := simU.
-have{sU1} [|V Vmod sumUV dxUV] := mx_Maschke _ _ Umod sU1.
+have{sU1} [|V Vmod sumUV dxUV] := mx_Maschke_pchar _ _ Umod sU1.
   have: p.-group Q by apply: pgroupS (pHall_pgroup sylP); rewrite subsetIr.
   by apply: sub_in_pnat=> q _; move/eqnP->; rewrite !inE p_pr.
 have [u defU]: exists u : 'rV_2, (u :=: U)%MS.
@@ -983,7 +984,7 @@ Qed.
 (* This is B & G, Theorem 2.6(a) *)
 Theorem charf'_GL2_abelian F gT (G : {group gT})
                            (rG : mx_representation F G 2) :
-  odd #|G| -> mx_faithful rG -> [char F]^'.-group G -> abelian G.
+  odd #|G| -> mx_faithful rG -> [pchar F]^'.-group G -> abelian G.
 Proof.
 move=> oddG ffG char'G; apply/commG1P/eqP.
 rewrite trivg_card1 (pnat_1 _ (pgroupS _ char'G)) ?comm_subG //=.
@@ -993,12 +994,12 @@ Qed.
 (* This is B & G, Theorem 2.6(b) *)
 Theorem charf_GL2_der_subS_abelian_Sylow p F gT (G : {group gT})
                                          (rG : mx_representation F G 2) :
-    odd #|G| -> mx_faithful rG -> p \in [char F] ->
+    odd #|G| -> mx_faithful rG -> p \in [pchar F] ->
   exists P : {group gT}, [/\ p.-Sylow(G) P, abelian P & G^`(1)%g \subset P].
 Proof.
 move=> oddG ffG charFp.
 have{oddG} pG': p.-group G^`(1)%g.
-  rewrite /pgroup -(eq_pnat _ (charf_eq charFp)).
+  rewrite /pgroup -(eq_pnat _ (pcharf_eq charFp)).
   exact: der1_odd_GL2_charf ffG.
 have{pG'} [P SylP sG'P]:= Sylow_superset (der_sub _ _) pG'.
 exists P; split=> {sG'P}//; case/and3P: SylP => sPG pP _.
@@ -1007,7 +1008,7 @@ apply/subsetP=> _ /imset2P[y z Py Pz ->]; rewrite inE (subsetP sPG) ?groupR //=.
 pose rP := subg_repr rG sPG; pose U := rfix_mx rP P.
 rewrite -(inj_eq (can_inj (mulKmx (repr_mx_unit rP (groupM Pz Py))))).
 rewrite mul1mx mulmx1 -repr_mxM ?(groupR, groupM) // -commgC !repr_mxM //.
-have: U != 0 by apply: (rfix_pgroup_char charFp).
+have: U != 0 by apply: (rfix_pgroup_pchar charFp).
 rewrite -mxrank_eq0 -lt0n 2!leq_eqVlt ltnNge rank_leq_row orbF orbC eq_sym.
 case/orP=> [Ufull | Uscal].
   suffices{y z Py Pz} rP1 y: y \in P -> rP y = 1%:M by rewrite !rP1 ?mulmx1.
@@ -1026,7 +1027,7 @@ pose B := col_mx u v; have uB: B \in unitmx.
 have Umod: mxmodule rP U by apply: rfix_mx_module.
 pose W := rfix_mx (factmod_repr Umod) P.
 have ntW: W != 0.
-  apply: (rfix_pgroup_char charFp) => //.
+  apply: (rfix_pgroup_pchar charFp) => //.
   rewrite eqmxMfull ?row_full_unit ?unitmx_inv ?row_ebase_unit //.
   by rewrite rank_copid_mx -(eqP Uscal).
 have{ntW} Wfull: row_full W.
@@ -1075,8 +1076,8 @@ have ne_qp: q != p.
   move/implyP: (logn_quotient_cent_abelem nPQ abelP).
   by rewrite logP regQ indexg1 /=; case: eqP => // <-; rewrite logQ.
 have redQ: mx_completely_reducible rQ 1%:M.
-  apply: mx_Maschke; apply: pi_pnat (abelem_pgroup abelQ) _.
-  by rewrite inE /= (charf_eq (char_Fp p_pr)).
+  apply: mx_Maschke_pchar; apply: pi_pnat (abelem_pgroup abelQ) _.
+  by rewrite inE /= (pcharf_eq (pchar_Fp p_pr)).
 have [P2 modP2 sumP12 dxP12] := redQ _ modP1 (submx1 _).
 have{dxP12} linP2: \rank P2 = 1%N.
   apply: (@addnI 1%N); rewrite -{1}linP1 -(mxdirectP dxP12) /= sumP12.

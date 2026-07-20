@@ -27,7 +27,8 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory Num.Def.
+Import Order.TTheory GRing.Theory Num.Theory.
+Local Open Scope group_scope.
 
 Section Eleven.
 
@@ -822,7 +823,7 @@ pose j := j1. (* The remainder of the proof only uses j = 1. *)
 have Rbeta: cfReal beta.
   rewrite /cfReal eq_sym -subr_eq0 rmorphD/= !rmorphB/= opprB 2!opprD opprB -/j.
   rewrite 2![(eta_ 0 _)^*%CF]cfAut_cycTIiso -!cycTIirr_aut !aut_Iirr0 -Dade_aut.
-  set k := aut_Iirr conjC j; rewrite -(betaE 0 k) ?aut_Iirr_eq0 // addrACA.
+  set k := aut_Iirr Num.conj j; rewrite -(betaE 0 k) ?aut_Iirr_eq0 // addrACA.
   rewrite addrC addr_eq0 addrCA subrK opprD opprK Dn raddfZnat -!raddfB /= -Dn.
   apply/eqP; rewrite (cfConjC_Dade_coherent coh_tau1) ?mFT_odd // -raddfB.
   rewrite Dtau1 ?Zzeta_S1 ?cfAut_seqInd //= -linearZ scalerBr; congr (tau _).

@@ -48,7 +48,8 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory.
+Import Order.TTheory GRing.Theory Num.Theory.
+Local Open Scope group_scope.
 
 Section Thirteen.
 
@@ -1436,8 +1437,6 @@ move=> gal'S; have: has irrIndH calS.
 by case/hasP=> lambda Slam /FTtypeP_Ind_Fitting_nonGalois_facts; apply.
 Qed.
 
-Import FinRing.Theory.
-
 (* This is Peterfalvi (13.14). *)
 Lemma FTtypeP_primes_mod_cases :
   [/\ odd ustar,
@@ -1479,7 +1478,7 @@ have pq_r: p%:R ^+ q == 1 :> 'F_r.
 have Up_r: (p%:R : 'F_r) \is a GRing.unit.
   by rewrite -(unitrX_pos _ (prime_gt0 pr_q)) (eqP pq_r) unitr1.
 congr (_ %| _): (order_dvdG (in_setT (FinRing.unit 'F_r Up_r))).
-apply/prime_nt_dvdP=> //; last by rewrite order_dvdn -val_eqE val_unitX.
+apply/prime_nt_dvdP=> //; last by rewrite order_dvdn -val_eqE FinRing.val_unitX.
 rewrite -dvdn1 order_dvdn -val_eqE /= -subr_eq0 -val_eqE -(@natrB _ p 1) //=.
 rewrite subn1 val_Fp_nat //; apply: contraFN (esym (mem_primes r 1)).
 by rewrite pr_r /= -(eqnP co_ustar_p1) dvdn_gcd r_dv_ustar.
@@ -2111,9 +2110,9 @@ have{Gamma_even} odd_bSphi_bLeta: (bSphi + bLeta == 1 %[mod 2])%C.
   rewrite 2?(orthogonalP otau1eta _ _ (map_f _ _) (mem_eta _)) // oppr0 !add0r.
   by rewrite addr0 addrA addrC addr_eq0 !opprB addrA /eqCmod => /eqP <-.
 have abs_mod2 a: a \in Num.int -> {b : bool | a == b%:R %[mod 2%N]}%C.
-  move=> Za; pose n := Num.trunc `|a|; exists (odd n).
+  move=> Za; pose n := Num.truncn `|a|; exists (odd n).
   apply: eqCmod_trans (eqCmod_addl_mul _ (rpred_nat _ n./2) _).
-  rewrite addrC -natrM -natrD muln2 odd_double_half truncK ?natr_norm_int //.
+  rewrite addrC -natrM -natrD muln2 odd_double_half truncnK ?natr_norm_int //.
   rewrite -{1}[a]mul1r -(canLR (signrMK _) (intrEsign Za)) eqCmodMr // signrE.
   by rewrite /eqCmod opprB addrC subrK dvdC_nat dvdn2 odd_double.
 have [[bL DbL] [bS DbS]] := (abs_mod2 _ ZbLeta, abs_mod2 _ ZbSphi).

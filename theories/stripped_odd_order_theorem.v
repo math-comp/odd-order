@@ -111,7 +111,7 @@ Local Notation Asol := solvable_group.
 Import HB.structures.
 Import Prelude ssreflect ssrbool ssrfun eqtype ssrnat choice fintype finset fingroup.
 Import morphism quotient action gfunctor gproduct commutator gseries nilpotent.
-Import GroupScope.
+Local Open Scope group_scope.
 
 Lemma main T mul one inv G nn :
     group_axioms T mul one inv -> Agroup T mul one inv G ->

@@ -28,7 +28,8 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory Num.Def.
+Import Order.TTheory GRing.Theory Num.Theory.
+Local Open Scope group_scope.
 
 Section Fourteen.
 
@@ -272,7 +273,7 @@ suffices /cfdot_add_dirr_eq1: '[tau1L phi - tau1L phi^*%CF, chi] = 1.
   by apply; rewrite // dirrE Ztau1 ?Itau1 ?mem_zchar ?irrWnorm /=.
 rewrite cfdotBr (span_orthogonal o_tauLeta) ?add0r //.
   by rewrite rpredB ?memv_span ?map_f ?cfAut_seqInd.
-have Zdphi := seqInd_sub_aut_zchar nsHL conjC Lphi.
+have Zdphi := seqInd_sub_aut_zchar nsHL Num.conj Lphi.
 rewrite -raddfB Dtau1 ?zcharD1_seqInd // Dade_isometry ?(zchar_on Zdphi) //.
 rewrite cfdotBr !cfdotBl cfdot_conjCl cfAutInd rmorph1 irrWnorm //.
 rewrite (seqInd_ortho_Ind1 _ _ Lphi) // conjC0 subrr add0r opprK.

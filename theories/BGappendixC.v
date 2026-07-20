@@ -18,7 +18,8 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory.
+Import Order.TTheory GRing.Theory FinRing.Theory Num.Theory.
+Local Open Scope group_scope.
 Local Open Scope ring_scope.
 
 Section AppendixC.
@@ -48,8 +49,8 @@ Section ExpandHypotheses.
 Hypothesis ltqp : (q < p)%N.
 
 (* From the fieldH assumption. *)
-Variables (fT : finFieldType) (charFp : p \in [char fT]).
-Local Notation F := (PrimeCharType charFp).
+Variables (fT : finFieldType) (charFp : p \in [pchar fT]).
+Local Notation F := (pPrimeCharType charFp).
 Local Notation galF := [the splittingFieldType 'F_p of F].
 Let Fpq : {vspace F} := fullv.
 Let Fp : {vspace F} := 1%VS.
@@ -58,10 +59,10 @@ Hypothesis oF : #|F| = (p ^ q)%N.
 Let oF_p : #|'F_p| = p. Proof. exact: card_Fp. Qed.
 Let oFp : #|Fp| = p.
 Proof.
-by rewrite (@card_vspace1 _ _ (Falgebra.class (PrimeCharType _))).
+by rewrite (@card_vspace1 _ _ (Falgebra.class (pPrimeCharType _))).
 Qed.
 Let oFpq : #|Fpq| = (p ^ q)%N. Proof. by rewrite card_vspacef. Qed.
-Let dimFpq : \dim Fpq = q. Proof. by rewrite primeChar_dimf oF pfactorK. Qed.
+Let dimFpq : \dim Fpq = q. Proof. by rewrite pprimeChar_dimf oF pfactorK. Qed.
 
 Variables (sigma : {morphism P >-> F}) (sigmaU : {morphism U >-> {unit F}}).
 Hypotheses (inj_sigma : 'injm sigma) (inj_sigmaU : 'injm sigmaU).
@@ -208,7 +209,7 @@ Qed.
 Let frobH : [Frobenius H = P ><| U].
 Proof.
 apply/Frobenius_semiregularP=> // [||u /setD1P[ntu Uu]].
-- by rewrite -(morphim_injm_eq1 inj_sigma) // im_sigma finRing_nontrivial.
+- by rewrite -(morphim_injm_eq1 inj_sigma) // im_sigma finNzRing_nontrivial.
 - rewrite -cardG_gt1 oU ltn_divRL ?dvdn_pred_predX // mul1n -!subn1.
   by rewrite ltn_sub2r ?(ltn_exp2l 0) ?(ltn_exp2l 1) ?prime_gt1.
 apply/trivgP/subsetP=> x /setIP[Px /cent1P/commgP].
@@ -279,7 +280,7 @@ have sizePa: size Pa = q.+1.
   rewrite sum_nat_const muln2 -addnn -addSn addnK.
   by rewrite -galois_dim ?finField_galois ?subvf // dimv1 divn1 dimFpq.
 have sizePa1: size (Pa - 1) = q.+1.
-  by rewrite size_addl // size_opp size_poly1 sizePa.
+  by rewrite size_polyDl // size_polyN size_poly1 sizePa.
 have nz_Pa1 : Pa - 1 != 0 by rewrite -size_poly_eq0 sizePa1.
 by rewrite -ltnS -oFp -sizePa1 cardE max_poly_roots ?enum_uniq.
 Qed.
@@ -350,7 +351,7 @@ have [q_gt4 | q_le4] := ltnP 4 q.
     (0 < m < 5)%N -> \sum_(i in predC linH) `|'chi_i s_m| ^+ 2 <= #|P|%:R.
   - case/andP=> m_gt0 m_lt5; have{m_gt0 m_lt5} P1sm: s_m \in P^#.
       rewrite !inE groupX // -order_dvdn -(order_injm inj_sigma) // sigmaE.
-      by rewrite andbT order_primeChar ?oner_neq0 ?gtnNdvd ?(leq_trans m_lt5).
+      by rewrite andbT order_pprimeChar ?oner_neq0 ?gtnNdvd ?(leq_trans m_lt5).
     have ->: #|P| = (#|P| * (s_m \in s_m ^: H))%N by rewrite class_refl ?muln1.
     have{P1sm} /eqP <-: 'C_H[s ^+ m] == P.
       rewrite eqEsubset (Frobenius_cent1_ker frobH) // subsetI normal_sub //=.
@@ -407,7 +408,7 @@ have /existsP[c nz_fc]: [exists c, ~~ [exists d, root (f c) d]].
 have{nz_fc} /= nz_fc: ~~ root (f c) _ by apply/forallP; rewrite -negb_exists.
 have sz_fc_lhs: size ('X * ('X - 2%:P) * ('X - c%:P)) = 4%N.
   by rewrite !(size_mul, =^~ size_poly_eq0) ?size_polyX ?size_XsubC.
-have sz_fc: size (f c) = 4%N by rewrite size_addl ?size_XsubC sz_fc_lhs.
+have sz_fc: size (f c) = 4%N by rewrite size_polyDl ?size_XsubC sz_fc_lhs.
 have irr_fc: irreducible_poly (f c) by apply: cubic_irreducible; rewrite ?sz_fc.
 have fc_monic : f c \is monic.
   rewrite monicE lead_coefDl ?size_XsubC ?sz_fc_lhs // -monicE.
@@ -460,7 +461,7 @@ Qed.
 
 Section AppendixC3.
 
-Import GroupScope.
+Local Open Scope group_scope.
 
 Variables y : gT.
 Hypotheses (QP0y : y \in [~: Q, P0]) (nUP0y : P0 :^ y \subset 'N(U)).
@@ -609,7 +610,7 @@ have sUsXp m a j n u s1 v:
   rewrite conjXg -!(mulgA _ (s ^+ k)) ![s ^+ k * _]conjgC [RHS]mulgA.
   rewrite (mulgA (u ^+ p)) -expUMp //.
   rewrite {}Duv ![s ^+ m * _]conjgC !conjXg -![_ * _ * s ^- n]mulgA.
-  move/mulgI/(congr1 (Frobenius_aut charFp \o sigma))=> /= Duv_p.
+  move/mulgI/(congr1 (pFrobenius_aut charFp \o sigma))=> /= Duv_p.
   congr (_ * _); apply/(injmP inj_sigma); rewrite ?in_PU //.
   by rewrite !{1}sigmaE ?in_PU // rmorphB !rmorphMn rmorph1 in Duv_p *.
 have odd_P: odd #|P| by rewrite oP oddX odd_p orbT.
@@ -668,7 +669,7 @@ have{sUsXp} Ds2p: s2def (w1 ^+ p) (w2 ^+ p) (w3 ^+ p).
   rewrite expUMp ?groupV // !expgVn in usv1pP usv2pP.
   rewrite !(=^~ conjXg _ _ p, expUMp) ?groupV -1?[t]expg1 ?nUtn ?nUtVn //.
   apply: Ds2 usv1pP usv2pP usv3pP => //.
-  by rewrite !psiX // -!Frobenius_autE -rmorphD Dab rmorph_nat.
+  by rewrite !psiX // -!pFrobenius_autE -rmorphD Dab rmorph_nat.
 have{} Ds2: s2def w1 w2 w3 by apply: Ds2 usv1P usv2P usv3P.
 wlog [Uw1 Uw2 Uw3]: w1 w2 w3 Ds2p Ds2 / [/\ w1 \in U, w2 \in U & w3 \in U].
   by move/(_ w1 w2 w3)->; rewrite ?(nUtVn, nUtVn 1%N, nUtn 1%N, in_group).
@@ -765,7 +766,7 @@ apply: wlog_neg; rewrite -ltnNge => ltqp.
 have [F sigma /isomP[inj_sigma im_sigma] defP0] := fieldH.
 case=> sigmaU inj_sigmaU sigmaJ.
 have oF: #|F| = (p ^ q)%N by rewrite -cardsT -im_sigma card_injm.
-have charFp: p \in [char F] := card_finCharP oF pr_p.
+have charFp: p \in [pchar F] := card_finPcharP oF pr_p.
 have sP0P: P0 \subset P by rewrite -defP0 subsetIl.
 pose s := invm inj_sigma 1%R.
 have sigma_s: sigma s = 1%R by rewrite invmK ?im_sigma ?inE.

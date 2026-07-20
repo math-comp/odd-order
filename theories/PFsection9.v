@@ -39,7 +39,8 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory FinRing.Theory Num.Theory Num.Def.
+Import Order.TTheory GRing.Theory FinRing.Theory Num.Theory.
+Local Open Scope group_scope.
 
 Section Nine.
 
@@ -555,8 +556,8 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
   have mul1F: left_id one mul by move=> a; apply: outI; rewrite outM out1 mul1r.
   have mulD: left_distributive mul +%R%R.
     by move=> a1 a2 b; apply: canLR outK _; rewrite !raddfD mulrDl -!{1}outM.
-  pose rV_isComRing := GRing.Zmodule_isComRing.Build 'rV__ mulA mulC mul1F mulD nzFone.
-  Time pose Fring : comRingType := HB.pack 'rV__ rV_isComRing.
+  pose rV_isComRing := GRing.Zmodule_isComNzRing.Build 'rV__ mulA mulC mul1F mulD nzFone.
+  Time pose Fring : comNzRingType := HB.pack 'rV__ rV_isComRing.
   have outRM: multiplicative (outF : Fring -> _) by [].
   have mulI (nza : {a | a != 0%R :> Fring}): GRing.rreg (val nza).
     case: nza => a /=; rewrite -(inj_eq outI) out0 => nzA b1 b2 /(congr1 outF).
@@ -564,10 +565,10 @@ have{cEE} [F [outF [inF outFK inFK] E_F]]:
     by rewrite row_free_unit (mx_Schur irrU) ?cEE ?E_F.
   pose inv (a : Fring) := oapp (fun nza => invF (mulI nza) one) a (insub a).
   have inv0: (inv 0 = 0)%R by rewrite /inv insubF ?eqxx.
-  pose field_axiom (R : ringType) inv := (forall x : R, x != 0 :>R -> inv x * x = 1 :> R)%R.
+  pose field_axiom (R : nzRingType) inv := (forall x : R, x != 0 :>R -> inv x * x = 1 :> R)%R.
   have mulV: field_axiom _ inv.
     by move=> a nz_a; rewrite /inv insubT /= (f_invF (mulI (exist _ _ _))).
-  pose IsField := GRing.ComRing_isField.Build Fring mulV inv0.
+  pose IsField := GRing.ComNzRing_isField.Build Fring mulV inv0.
   Time pose F : finFieldType := HB.pack Fring IsField.
   pose outaM := GRing.isAdditive.Build Fring _ _ (raddfB outF).
   pose outmM := GRing.isMultiplicative.Build _ _ _ outRM.
@@ -716,8 +717,8 @@ exists F.
       by apply/allP=> r'; rewrite mem_enum.
     apply: contraNneq nz_v => /polyP P0; apply/eqP/rowP=> i; apply/eqP.
     have /eqP := P0 i; rewrite mxE coef0 coef_poly ltn_ord inord_val.
-    have charF: p \in [char F]%R by rewrite !inE p_pr -order_dvdn -o_nF /=.
-    by rewrite -(dvdn_charf charF) (dvdn_charf (char_Fp p_pr)) natr_Zp.
+    have charF: p \in [pchar F]%R by rewrite !inE p_pr -order_dvdn -o_nF /=.
+    by rewrite -(dvdn_pcharf charF) (dvdn_pcharf (pchar_Fp p_pr)) natr_Zp.
   have{Pr0 nP} fPr0 f: autF f -> root P (f r).
     move=> fRM.
     pose faM := GRing.isAdditive.Build _ _ _ fRM.1.
@@ -2060,7 +2061,8 @@ have [S1'lam1 Slam1]: lam1 \notin S1 /\ lam1 \in S_ H0C'.
 have S3lam1s: lam1^*%CF \in S3 by have [[_ _ ->]] := scohS3.
 have ZS3dlam1: lam1 - lam1^*%CF \in 'Z[S3, M^#].
   rewrite zcharD1E rpredB ?mem_zchar //.
-  by have:= seqInd_sub_aut_zchar nsHUM conjC Slam1; rewrite zcharD1 => /andP[].
+  have:= seqInd_sub_aut_zchar nsHUM Num.conj Slam1.
+  by rewrite zcharD1 => /andP[].
 have ZAdlam1: lam1 - lam1^*%CF \in 'Z[irr M, 'A(M)].
   rewrite sS0A // zchar_split rpredB ?mem_zchar ?cfAut_seqInd //.
   by rewrite (zchar_on ZS3dlam1).
@@ -2127,7 +2129,7 @@ have [Gamma [S4_Gamma normGamma [b Dbeta]]]:
     have N_G: '[G] \in Num.nat.
       apply: Cnat_cfnorm_vchar; apply: zchar_sub_irr Z_G => _ /mapP[nu S4nu ->].
       by rewrite Ztau34 ?mem_zchar.
-    rewrite -(truncK N_G) ler1n lt0n -eqC_nat truncK {N_G}// cfnorm_eq0.
+    rewrite -(truncnK N_G) ler1n lt0n -eqC_nat truncnK {N_G}// cfnorm_eq0.
     have: '[beta^\tau, (lam1 - lam1^*%CF)^\tau] != 0.
       rewrite Itau // cfdotBl cfdotZl !cfdotBr n1lam1.
       rewrite (seqInd_conjC_ortho _ _ _ Slam1) ?mFT_odd // subr0.
@@ -2147,7 +2149,7 @@ have [Gamma [S4_Gamma normGamma [b Dbeta]]]:
       congr (_ + _); rewrite dB scaleNr [- _ + _]addrC cfnormB !cfnormZ.
       rewrite normr_nat intr_normK // scaler_sumr cfdotZr rmorph_nat.
       rewrite cfnorm_map_orthonormal // cfproj_sum_orthonormal //.
-      rewrite Itau1 ?mem_zchar// n1psi1 mulr1 [conjC _]rmorphM/= rmorph_nat.
+      rewrite Itau1 ?mem_zchar// n1psi1 mulr1 [Num.conj _]rmorphM/= rmorph_nat.
       rewrite conj_intr // -mulr2n oS1ua -muln_divA // -addrA addrCA mulrBl.
       by rewrite -mulrnAl -mulrnA mul2n muln2 -natrX [b * _]mulrC.
     rewrite Itau // cfnormBd.

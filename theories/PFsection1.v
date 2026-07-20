@@ -22,7 +22,8 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory Num.Theory.
+Import Order.TTheory GRing.Theory Num.Theory.
+Local Open Scope group_scope.
 Local Open Scope ring_scope.
 
 Section Main.
@@ -538,7 +539,7 @@ have ITtheta: T \subset 'I[theta] := subsetIr _ _.
 have solT: solvable (T / H) := abelian_sol abTbar.
 have [|t []] := extend_solvable_coprime_irr nsHT solT ITtheta; last by exists t.
 rewrite coprime_sym coprimeMl !(coprime_dvdl _ hallH) ?cfDet_order_dvdG //.
-by rewrite -dvdC_nat !CdivE truncK ?Cnat_irr1 // dvd_irr1_cardG.
+by rewrite -dvdC_nat !CdivE truncnK ?Cnat_irr1 // dvd_irr1_cardG.
 Qed.
   
 End IndSumInertia.
