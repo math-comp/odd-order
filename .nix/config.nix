@@ -48,6 +48,7 @@
     rocq-core.override.version = "master";
     rocq-elpi.override.version = "master";
     hierarchy-builder.override.version = "master";
+    micromega-plugin.override.version = "master";
     mathcomp.override.version = "master";
     stdlib.override.version = "master";
   }; coqPackages = {
