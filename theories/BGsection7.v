@@ -43,7 +43,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope.
+Local Open Scope group_scope.
 
 Reserved Notation "''M'" (format "''M'").
 Reserved Notation "''M' ( H )" (format "''M' ( H )").

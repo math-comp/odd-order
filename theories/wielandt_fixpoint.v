@@ -22,8 +22,8 @@ Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
 Local Open Scope ring_scope.
-Import GroupScope GRing.Theory.
-Import FinRing.Theory.
+Local Open Scope group_scope.
+Import GRing.Theory FinRing.Theory.
 
 Implicit Types (gT wT : finGroupType) (m n p q : nat).
 
@@ -359,9 +359,9 @@ have sumS: (\sum_(U in S) gMx U :=: 1%:M)%MS.
   have sUL: U \subset L by rewrite -(bigdprodWY defL) sub_gen // (bigcup_max U).
   rewrite inE (subsetP sUL) ?Uc // inE mem_rowg (sumsmx_sup U) // -mem_rowg.
   by rewrite (subsetP (sub_rowg_mx _)) // mem_morphim ?(subsetP sUL) ?Uc.
-have Fp'G: [char 'F_p]^'.-group G.
-  by rewrite (eq_p'group _ (charf_eq (char_Fp p_pr))).
-have [VK [modVK defVK]] := rsim_regular_submod mx_irrV Fp'G.
+have Fp'G: [pchar 'F_p]^'.-group G.
+  by rewrite (eq_p'group _ (pcharf_eq (pchar_Fp p_pr))).
+have [VK [modVK defVK]] := rsim_regular_submod_pchar mx_irrV Fp'G.
 have [U S_U isoUV]: {U | U \in S & mx_iso (regular_repr _ G) (gMx U) VK}.
   apply: hom_mxsemisimple_iso (scalar_mx_hom _ 1 _) _ => [|U S_U _|]; auto.
     by apply/(submod_mx_irr modVK); apply: (mx_rsim_irr defVK).

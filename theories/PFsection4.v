@@ -64,7 +64,8 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory Num.Theory.
+Import Order.TTheory GRing.Theory Num.Theory.
+Local Open Scope group_scope.
 Local Open Scope ring_scope.
 
 Section Four_1_to_2.
@@ -275,7 +276,7 @@ Definition primeTI_Iirr ij := (primeTIdIirr ij).2.
 Definition primeTI_Isign j := (primeTIdIirr (0, j)).1.
 Local Notation Imu2 := primeTI_Iirr.
 Local Notation mu2_ i j := 'chi_(primeTI_Iirr (i, j)).
-Local Notation delta_ j := (GRing.sign algCring (primeTI_Isign j)).
+Local Notation delta_ j := (GRing.sign algCnzRing (primeTI_Isign j)).
 
 Let ew_ i j := w_ i j - w_ 0 j.
 Let V2ew i j : ew_ i j \in 'CF(W, W :\: W2).
@@ -687,7 +688,7 @@ Qed.
 End Four_3_to_5.
 
 Notation primeTIsign ptiW j :=
-  (GRing.sign algCring (primeTI_Isign ptiW j)) (only parsing).
+  (GRing.sign algCnzRing (primeTI_Isign ptiW j)) (only parsing).
 Notation primeTIirr ptiW i j := 'chi_(primeTI_Iirr ptiW (i, j)) (only parsing).
 Notation primeTIres ptiW j := 'chi_(primeTI_Ires ptiW j) (only parsing).
 

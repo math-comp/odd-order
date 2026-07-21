@@ -36,7 +36,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope.
+Local Open Scope group_scope.
 
 Reserved Notation "p .-narrow" (format "p .-narrow").
 

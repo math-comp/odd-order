@@ -26,7 +26,8 @@ Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
 Local Open Scope ring_scope.
-Import GroupScope GRing.Theory.
+Local Open Scope group_scope.
+Import GRing.Theory.
 
 Section BGsection3.
 
@@ -106,10 +107,10 @@ End FrobeniusQuotient.
 (* This is B & G, Lemma 3.3. *)
 Lemma Frobenius_rfix_compl F gT (G K R : {group gT}) n
                           (rG : mx_representation F G n) :
-    [Frobenius G = K ><| R] -> [char F]^'.-group K ->
+    [Frobenius G = K ><| R] -> [pchar F]^'.-group K ->
   ~~ (K \subset rker rG) -> rfix_mx rG R != 0.
 Proof.
-rewrite /pgroup charf'_nat => frobG nzK.
+rewrite /pgroup pcharf'_nat => frobG nzK.
 have [defG _ _ ltKG ltRG]:= Frobenius_context frobG.
 have{ltKG ltRG} [sKG sRG]: K \subset G /\ R \subset G by rewrite !proper_sub.
 apply: contraNneq => fixR0; rewrite rfix_mx_rstabC // -(eqmx_scale _ nzK).
@@ -184,7 +185,7 @@ have: rfix_mx (abelem_repr abelH ntH nHR) P == 0.
 apply: contraLR => not_cQP; have{not_cQP} frobR: [Frobenius R = Q ><| P].
   by apply/prime_FrobeniusP; rewrite ?prime_TIg ?oP ?oQ // centsC.
 apply: (Frobenius_rfix_compl frobR).
-  rewrite (eq_p'group _ (charf_eq (char_Fp pr_r))).
+  rewrite (eq_p'group _ (pcharf_eq (pchar_Fp pr_r))).
   rewrite (coprime_p'group _ (abelem_pgroup abelH)) //.
   by rewrite coprime_sym (coprimegS sQR) ?regular_norm_coprime.
 rewrite rker_abelem subsetI sQR centsC.
@@ -195,7 +196,7 @@ Qed.
 Theorem odd_prime_sdprod_rfix0 F gT (G K R : {group gT}) n 
                                (rG : mx_representation F G n) :
     K ><| R = G -> solvable G -> odd #|G| -> coprime #|K| #|R| -> prime #|R| ->
-    [char F]^'.-group G -> rfix_mx rG R = 0 ->
+    [pchar F]^'.-group G -> rfix_mx rG R = 0 ->
   [~: R, K] \subset rker rG.
 Proof.
 move: {2}_.+1 (ltnSn #|G|) => m; elim: m => // m IHm in gT G K R n rG *.
@@ -234,7 +235,7 @@ without loss [q q_pr qK]: / exists2 q, prime q & q.-group K.
   by rewrite !quotient_cents2r ?ker_ltK.
 without loss{m IHm leGm} [ffulG cycZ]: / rker rG = 1 /\ cyclic 'Z(G).
   move=> IH; wlog [I M /= simM sumM _]: / mxsemisimple rG 1%:M.
-    exact: (mx_reducible_semisimple (mxmodule1 _) (mx_Maschke _ F'G)).
+    exact: (mx_reducible_semisimple (mxmodule1 _) (mx_Maschke_pchar _ F'G)).
   pose not_cRK_M i := ~~ ([~: R, K] \subset rstab rG (M i)).
   case: (pickP not_cRK_M) => [i | cRK_M]; last first.
     rewrite rfix_mx_rstabC ?comm_subG // -sumM.
@@ -322,7 +323,7 @@ apply: subset_trans (_ : rker rV \subset _); last first.
   by rewrite rker_abelem subsetIr.
 apply: odd_prime_sdprod_rfix0 => //.
   have k_pr: prime k by case/pgroup_pdiv: (abelem_pgroup abelV).
-  by rewrite (eq_pgroup G (eq_negn (charf_eq (char_Fp k_pr)))).
+  by rewrite (eq_pgroup G (eq_negn (pcharf_eq (pchar_Fp k_pr)))).
 by apply/eqP; rewrite -submx0 rfix_abelem //= regR morphim1 rowg_mx1.
 Qed.
 
@@ -330,14 +331,14 @@ Qed.
 Theorem Frobenius_prime_rfix1 F gT (G K R : {group gT}) n
                               (rG : mx_representation F G n) :
     K ><| R = G -> solvable G -> prime #|R| -> 'C_K(R) = 1 ->
-    [char F]^'.-group G -> \rank (rfix_mx rG R) = 1%N ->
+    [pchar F]^'.-group G -> \rank (rfix_mx rG R) = 1%N ->
   K^`(1) \subset rker rG.
 Proof.
 move=> defG solG p_pr regR F'G fixRlin.
 wlog closF: F rG F'G fixRlin / group_closure_field F gT.
   move=> IH; apply: (@group_closure_field_exists gT F) => [[Fc f closFc]].
   rewrite -(rker_map f) IH //; last by rewrite -map_rfix_mx mxrank_map.
-  by rewrite (eq_p'group _ (fmorph_char f)).
+  by rewrite (eq_p'group _ (fmorph_pchar f)).
 move: {2}_.+1 (ltnSn #|K|) => m.
 elim: m => // m IHm in gT G K R rG solG p_pr regR F'G closF fixRlin defG *.
 rewrite ltnS => leKm.
@@ -407,7 +408,7 @@ have dx_modK_rfix (N : {group gT}) U V:
   have: fixG R != 0 by rewrite -mxrank_eq0 fixRlin.
   apply: contraR; case/norP=> not_fixU not_fixW.
   by rewrite -submx0 -(mxdirect_addsP dxUV) sub_capmx !nfixU.
-have redG := mx_Maschke rG F'G.
+have redG := mx_Maschke_pchar rG F'G.
 wlog [U simU nfixU]: / exists2 U, mxsimple rG U & ~~ (U <= fixG K)%MS.
   move=> IH; wlog [I U /= simU sumU _]: / mxsemisimple rG 1%:M.
     exact: (mx_reducible_semisimple (mxmodule1 _) redG).
@@ -496,7 +497,7 @@ wlog irrG': / mx_irreducible rG'.
   move=> IH; wlog [M simM sM1]: / exists2 M, mxsimple rG' M & (M <= 1%:M)%MS.
     by apply: mxsimple_exists; rewrite ?mxmodule1; case: irrK.
   have [modM ntM _] := simM.
-  have [M' modM' sumM dxM] := mx_Maschke rG' (pgroupS sG'G F'G) modM sM1.
+  have [M' modM' sumM dxM] := mx_Maschke_pchar rG' (pgroupS sG'G F'G) modM sM1.
   wlog{IH} ntM': / M' != 0.
     case: eqP sumM => [-> M1 _ | _ _ -> //]; apply: IH.
     by apply: mx_iso_simple simM; apply: eqmx_iso; rewrite addsmx0_id in M1.
@@ -574,7 +575,7 @@ apply: subset_trans (_ : rker rV \subset _); last first.
   by rewrite rker_abelem subsetIr.
 have k_pr: prime k by case/pgroup_pdiv: (abelem_pgroup abelV).
 apply: (Frobenius_prime_rfix1 defG) => //.
-  by rewrite (eq_pgroup G (eq_negn (charf_eq (char_Fp k_pr)))).
+  by rewrite (eq_pgroup G (eq_negn (pcharf_eq (pchar_Fp k_pr)))).
 apply/eqP; rewrite rfix_abelem // -(eqn_exp2l _ _ (prime_gt1 k_pr)).
 rewrite -{1}(card_Fp k_pr) -card_rowg rowg_mxK.
 by rewrite card_injm ?abelem_rV_injm ?subsetIl ?primeRV.
@@ -943,7 +944,7 @@ have iK'K: 'C_(P <*> R / K')(K / K') = 1 -> #|K / K'| > q ^ 2.
   move: rPR; rewrite (dim_abelemE abelKb ntKb) oKb pfactorK // => rPR ffPR.
   apply: charf'_GL2_abelian ffPR _.
     by rewrite quotient_odd ?(oddSg _ oddG) // join_subG (subset_trans sPH).
-  rewrite (eq_pgroup _ (eq_negn (charf_eq (char_Fp q_pr)))).
+  rewrite (eq_pgroup _ (eq_negn (pcharf_eq (pchar_Fp q_pr)))).
   rewrite quotient_pgroup //= norm_joinEr // pgroupM.
   by rewrite /pgroup (pi_pnat rR) // (pi_pnat pP) // !inE eq_sym.
 case cKK: (abelian K); last first.
@@ -1346,12 +1347,12 @@ case (eqVneq q p) => [def_q | neq_qp].
   have sKGq: K / L \subset G / L by apply: quotientS.
   rewrite rfix_mx_rstabC //; have [_ _]:= irrVq; apply; rewrite ?submx1 //.
     by rewrite normal_rfix_mx_module ?quotient_normal.
-  rewrite -(rfix_subg _ sKGq) (@rfix_pgroup_char _ p) ?char_Fp -?def_q //.
+  rewrite -(rfix_subg _ sKGq) (@rfix_pgroup_pchar _ p) ?pchar_Fp -?def_q //.
   exact: (abelem_pgroup abelKq).
 suffices: rfix_mx rVq (R / L) == 0.
   apply: contraLR; apply: (Frobenius_rfix_compl frobGq).
   apply: pi_pnat (abelem_pgroup abelKq) _.
-  by rewrite inE /= (charf_eq (char_Fp p_pr)).
+  by rewrite inE /= (pcharf_eq (pchar_Fp p_pr)).
 rewrite -mxrank_eq0 (rfix_quo _ _ sRG) (rfix_morphim _ _ sRG).
 rewrite (rfix_abelem _ _ _ (morphimS _ sRG)) mxrank_eq0 rowg_mx_eq0 -subG1.
 rewrite (sub_abelem_rV_im _ _ _ (subsetIl _ _)) -(morphpreSK _ (subsetIl _ _)).

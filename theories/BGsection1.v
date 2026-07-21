@@ -56,7 +56,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope.
+Local Open Scope group_scope.
 
 Section Definitions.
 
@@ -95,12 +95,11 @@ Definition p_norm_abelian p (D : {set gT}) : pred {group gT} :=
 Definition Puig_succ (D E : {set gT}) :=
   <<\bigcup_(A in subgroups D | norm_abelian E A) A>>.
 
-Definition Puig_rec D := iter n (Puig_succ D) 1.
+Definition Puig_at D := iter n (Puig_succ D) 1.
 
 End Definitions.
 
-(* This must be defined outside a Section to avoid spurrious delta-reduction *)
-Definition Puig_at := nosimpl Puig_rec.
+Arguments Puig_at : simpl never.
 
 Definition Puig_inf (gT : finGroupType) (G : {set gT}) := Puig_at #|G|.*2 G.
 
@@ -1259,7 +1258,7 @@ Implicit Types (D E : {set gT}) (G H : {group gT}).
 
 Lemma Puig0 D : 'L_{0}(D) = 1. Proof. by []. Qed.
 Lemma PuigS n D : 'L_{n.+1}(D) = 'L_[D]('L_{n}(D)). Proof. by []. Qed.
-Lemma Puig_recE n D : Puig_rec n D = 'L_{n}(D). Proof. by []. Qed.
+Lemma Puig_atE n D : Puig_at n D = 'L_{n}(D). Proof. by []. Qed.
 Lemma Puig_def D : 'L(D) = 'L_[D]('L_*(D)). Proof. by []. Qed.
 
 Local Notation "D --> E" := (generated_by (norm_abelian D) E)

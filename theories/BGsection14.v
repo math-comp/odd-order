@@ -70,7 +70,8 @@ Unset Printing Implicit Defensive.
 
 Local Open Scope ring_scope.
 Local Open Scope nat_scope.
-Import GRing.Theory Order.TTheory Num.Theory GroupScope.
+Local Open Scope group_scope.
+Import GRing.Theory Order.TTheory Num.Theory.
 
 Section Definitons.
 

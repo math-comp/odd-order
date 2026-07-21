@@ -31,7 +31,8 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope Order.TTheory GRing.Theory Num.Theory.
+Import Order.TTheory GRing.Theory Num.Theory.
+Local Open Scope group_scope.
 Local Open Scope ring_scope.
 
 (* The main section *)
@@ -288,7 +289,7 @@ rewrite -(isog_pgroup p (quotient1_isog K)) => pK ab'K.
 set e := #|L : K| => not_e_dv_p1; have e_gt0: (e > 0)%N by apply: indexg_gt0.
 have ntK: K != 1%G by apply: contraNneq ab'K => ->; rewrite quotient1 abelian1.
 have{ab'K ntK} [p_pr p_dv_K _] := pgroup_pdiv pK ntK.
-set Y := calX; pose d (xi : 'CF(L)) := logn p (Num.trunc (xi 1%g) %/ e).
+set Y := calX; pose d (xi : 'CF(L)) := logn p (Num.truncn (xi 1%g) %/ e).
 have: cfConjC_closed Y by apply: cfAut_seqInd.
 have: perm_eq (Y ++ [::]) calX by rewrite cats0.
 have: {in Y & [::], forall xi1 xi2, d xi1 <= d xi2}%N by [].
@@ -765,11 +766,11 @@ have{odd_frobL1} caseA_cohXY: caseA -> coherent (X ++ Y) L^# tau.
     rewrite !cfInd1 // !De -!natrM dvdC_nat dvdn_pmul2l //.
     by rewrite dvdn_Pexp2l ?min_i1 ?prime_gt1.
   have nz_xi1_1: xi1 1%g != 0 by apply: seqInd1_neq0 Xxi1.
-  pose d (xi : 'CF(L)) : algC := (Num.trunc (xi 1%g / xi1 1%g))%:R.
+  pose d (xi : 'CF(L)) : algC := (Num.truncn (xi 1%g / xi1 1%g))%:R.
   have{dvd_xi1_1} def_d xi: xi \in X -> xi 1%g = d xi * xi1 1%g.
     rewrite /d => Xxi; have Xge0 := natr_ge0 (Cnat_seqInd1 (_ : _ \in X)).
     by have /dvdCP_nat[||q ->] := dvd_xi1_1 xi Xxi; rewrite ?Xge0 ?mulfK ?natrK.
-  have d_xi1: d xi1 = 1 by rewrite /d divff ?trunc1.
+  have d_xi1: d xi1 = 1 by rewrite /d divff ?truncn1.
   have [_ [Itau /(_ _ _)/zcharW-Ztau] _ _ _] := scohS.
   have o_tauXY: orthogonal (map tau2 X) (map tau1 Y).
     exact: (coherent_ortho scohS).

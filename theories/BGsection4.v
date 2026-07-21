@@ -19,7 +19,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-Import GroupScope.
+Local Open Scope group_scope.
 
 Section Section4.
 
@@ -1109,7 +1109,7 @@ have{defC} <-: rker rV = C; last move: rV.
   rewrite rker_morphim rker_abelem morphpreI morphimK //=.
   by rewrite (trivgP injA) mul1g -astabEsd // defC astab_ract 2!setIA !setIid.
 have ->: 'dim Vb = 2 by rewrite (dim_abelemE abelVb) // card_injm -?rank_abelem.
-move=> rV; rewrite -(eq_pgroup _ (GRing.charf_eq (char_Fp p_pr))).
+move=> rV; rewrite -(eq_pgroup _ (GRing.pcharf_eq (pchar_Fp p_pr))).
 by apply: der1_odd_GL2_charf (kquo_mx_faithful rV); rewrite !morphim_odd.
 Qed.
 
