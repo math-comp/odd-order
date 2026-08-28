@@ -20,6 +20,7 @@ Unset SsrOldRewriteGoalsOrder.  (* remove the line when requiring MathComp >= 2.
 Inductive equivalent P Q := Equivalent (P_to_Q : P -> Q) (Q_to_P : Q -> P).
 
 Inductive equal T (x : T) : T -> Type := Equal : equal T x x.
+Scheme Rewriting for equal.
 
 (* Arithmetic *)
 
