@@ -11,7 +11,7 @@ build: [
 ]
 install: [ make "install" ]
 depends: [
-  "rocq-core" { >= "9.1" }
+  "rocq-core" { >= "9.2" }
   "rocq-mathcomp-character" { (>= "2.4.0") | (= "dev") }
 ]
 tags: [ "keyword:finite groups" "keyword:Feit Thompson theorem" "keyword:small scale reflection" "keyword:mathematical components" "keyword:odd order theorem" ]

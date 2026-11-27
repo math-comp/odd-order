@@ -30,15 +30,11 @@
 
   ## select an entry to build in the following `bundles` set
   ## defaults to "default"
-  default-bundle = "9.2";
+  default-bundle = "9.3";
 
   ## write one `bundles.name` attribute set per
   ## alternative configuration, the can be used to
   ## compute several ci jobs as well
-  bundles."9.1".rocqPackages = {
-    rocq-core.override.version = "9.1";
-    coq.override.version = "9.1";
-  };
   bundles."9.2".rocqPackages = {
     rocq-core.override.version = "9.2";
     coq.override.version = "9.2";
